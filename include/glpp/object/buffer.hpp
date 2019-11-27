@@ -4,8 +4,6 @@
 
 namespace glpp::object {
 
-class vertex_array_t;
-
 enum class buffer_target_t : GLenum {
 	array_buffer = GL_ARRAY_BUFFER,
 	atomic_counter_buffer = GL_ATOMIC_COUNTER_BUFFER,
@@ -40,11 +38,9 @@ class buffer_t : public object_t<> {
 public:
 
 	buffer_t(buffer_target_t target, const T* data, size_t size, buffer_usage_t usage);
+	void bind() const;
 
 private:
-	friend vertex_array_t;
-
-	void bind() const;
 	GLuint create();
 	static void destroy(GLuint id);
 
