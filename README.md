@@ -68,6 +68,39 @@ int main(int argc,	char **argv) {
 }
 ```
 
+The ```window_t``` class comes with an ```input_handler_t``` attribute, which can be used to register callbacks to mouse and keyboard events. A reference to this attribute can be aquired with the ```input_handler()``` method. The input_handler can be set as a whole or single callbacks can be registered. Multithreading is not supported by the window class. Changes to the input_handler shall only be done from the main thread (thread that holds the window object) or from the inside of input callback functions.
+
+```c++
+#include <glpp/system/window.hpp>
+#include <iostream>
+
+int main(int argc, char **argv) {
+	glpp::system::window_t window(800, 600, "example", glpp::system::window_t::vsync_t::off);
+	window.input_handler().set_keyboard_action(key_t::escape, action_t::press, [&](int) {
+		std::cout << "The escape key has been pressed." << std::endl;
+		// Close App on Esc key press
+		window.close();
+	});
+
+	window.input_handler().set_mouse_action(
+		mouse_button_t::left, action_t::press,
+		[&](double x, double y, int) {
+			std::cout << "The left mouse button was clicked on pixel "
+					  << x ", " << y << "." << std::endl;
+		}
+	);
+
+	window.input_handler().set_mouse_action(
+		mouse_button_t::left,
+		action_t::release, [&](double x, double y, int) {
+			std::cout << "The cursor moved to " << x ", " << y << "." << std::endl;
+		}
+	);
+
+	return 0;
+}
+```
+
 ## Buffer
 The ```glpp::object::buffer_t``` is a wrapper for OpenGl buffers. The class constructor allocates video memory and copys transfers the data. The initialisation of a static buffer for vertex data is shown in the example.
 ```c++
