@@ -64,6 +64,10 @@ shader_program_t::uniform_setter_t::uniform_setter_t(GLint location) :
 	location(location)
 {}
 
+void shader_program_t::set_texture(const char* name, const texture_slot_t& slot) {
+	set_uniform(name, slot.id());
+}
+
 template <>
 void shader_program_t::uniform_setter_t::set_value(const float& f) {
 	glpp::call(glUniform1f, location, f);
