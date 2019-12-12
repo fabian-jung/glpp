@@ -32,6 +32,8 @@ public:
 	template <class T>
 	void set_uniform(T uniform_description_t::* uniform, const T& value);
 
+	void set_texture(const char* name, const object::texture_slot_t& texture_slot);
+
 private:
 	glpp::object::shader_program_t m_shader;
 	std::unordered_map<size_t, std::string> m_uniform_map;
@@ -69,6 +71,11 @@ template <class T>
 void renderer_t<uniform_description_t>::set_uniform(T uniform_description_t::* uniform, const T& value) {
 	const auto& name = m_uniform_map[detail::get_offset(uniform)];
 	m_shader.set_uniform(name.c_str(), value);
+}
+
+template <class uniform_description_t>
+void renderer_t<uniform_description_t>::set_texture(const char* name, const object::texture_slot_t& texture_slot) {
+	m_shader.set_texture(name, texture_slot);
 }
 
 }

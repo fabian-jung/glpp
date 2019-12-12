@@ -2,6 +2,7 @@
 
 #include "glpp/glpp.hpp"
 #include "glpp/object.hpp"
+#include "glpp/object/texture.hpp"
 #include <glm/glm.hpp>
 #include <glm/gtc/type_ptr.hpp>
 #include <istream>
@@ -36,6 +37,7 @@ public:
 
 	template <class... Args>
 	void set_uniform(const char* name, const Args&... args);
+	void set_texture(const char* name, const texture_slot_t& texture);
 
 	void use();
 private:
