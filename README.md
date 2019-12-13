@@ -292,19 +292,12 @@ int main(
 
 ## Textures
 
-Nearly all types of 2D textures are supported by glpp at the moment. Support for 1D and 3D textures, is planned but not yet implemented. Support for direct loading of images from the filesystem is planned for the near future, but I have not decided for a library yet.
+Nearly all types of 2D textures are supported by glpp at the moment. Support for 1D and 3D textures, is planned but not yet implemented. Images can be loaded from files if the glpp::image is linked to the binary.
 
 The initialisation and use of textures happens in four steps. The first step is to load the image data into memory. The datatype to hold the pixeldata in memory is ```glpp::object::image_t``` and is templated with one type. This type encodes the layout of the pixeldata. Currently ```float```, ```double```, ```char```, ```int``` and the vector types of the glm library are supported. There are C++17 template deduction guides implemented for most constructors of ```image_t```.
 
 ```C++
-// Create a object to hold a 2x2 pixel image in memory
-glpp::object::image_t pixel_data(
-	2, 2, // width, height
-	{ // initializer list for the pixel data
-		glm::vec3(1.0, 0.0, 0.0), glm::vec3(0.0, 1.0, 0.0),
-		glm::vec3(0.0, 0.0, 1.0), glm::vec3(0.0, 1.0, 1.0)
-	}
-);
+glpp::object::image_t<glm::vec3> pixel_data("smiley.png");
 ```
 
 The second step is the set up of the texture object on the GPU. This is done by the constructor of  ```glpp::object::texture_t```. ```texture_t``` takes a const-reference to a ```image_t``` and a couple of optional parameters to describe the layout on the GPU, behaviour of the filters and mipmaps.
