@@ -8,6 +8,7 @@
 #include <type_traits>
 #include <iterator>
 #include <initializer_list>
+#include <algorithm>
 
 namespace glpp::object {
 
@@ -117,6 +118,26 @@ enum class image_format_t : GLenum {
 // 	                  GL_DEPTH_STENCIL
 };
 
+namespace detail {
+	class stbi_image_t {
+	public:
+		using value_type = unsigned char;
+
+		stbi_image_t(const char* filename, int channels);
+		~stbi_image_t();
+		int width() const;
+		int height() const;
+		const value_type* begin() const;
+		const value_type* end() const;
+
+	private:
+		int               m_width;
+		int               m_height;
+		int               m_channels;
+		value_type*       m_storage;
+	};
+}
+
 template <class T>
 class image_t {
 public:
@@ -156,16 +177,10 @@ public:
 		assert(width*height == m_storage.size());
 	}
 
+	// The implementation of this constructor is in the image module. If you want to use it, you need to link
+	// against glpp::image
+	image_t(const char* filename);
 
-	template <
-		std::enable_if_t<
-			attribute_properties<value_type>::elements_per_vertex == 3,
-			int
-		> = 0
-	>
-	image_t(const char* filename) {
-		throw std::runtime_error("not implemented");
-	}
 
 	size_t width() const;
 	size_t height() const;
@@ -180,6 +195,7 @@ public:
 	constexpr GLenum type() const;
 
 private:
+	image_t(const detail::stbi_image_t& storage);
 
 	static constexpr int channels_impl();
 
@@ -264,6 +280,27 @@ image_t<T>::image_t(size_t width, size_t height) :
 	m_width(width),
 	m_height(height),
 	m_storage(width*height)
+{
+}
+
+template<class T>
+image_t<T>::image_t(const detail::stbi_image_t& storage) :
+	m_width(storage.width()),
+	m_height(storage.height()),
+	m_storage(m_width*m_height)
+{
+	using internal_type = typename attribute_properties<T>::value_type;
+	std::transform(
+		storage.begin(),
+		storage.end(),
+		reinterpret_cast<internal_type*>(m_storage.data()),
+		[](detail::stbi_image_t::value_type v) -> internal_type { return v; }
+	);
+}
+
+template <class T>
+image_t<T>::image_t(const char* filename) :
+	image_t(detail::stbi_image_t(filename, channels_impl()))
 {
 }
 

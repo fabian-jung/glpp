@@ -34,7 +34,7 @@ public:
 };
 
 int main(__attribute__((unused)) int argc, __attribute__((unused)) char* argv[]) {
-	glpp::system::window_t window(800, 600, "input");
+	glpp::system::window_t window(800, 600, "texture");
 	window.set_input_mode(glpp::system::input_mode_t::wait);
 
 	glpp::render::renderer_t<uniform_description_t> renderer{
@@ -53,12 +53,13 @@ int main(__attribute__((unused)) int argc, __attribute__((unused)) char* argv[])
 
 
 	glpp::object::texture_t texture_one(
-		glpp::object::image_t(
-			2, 2, // width, height
-			{ // initializer list for the pixel data
-				glm::vec3(1.0, 0.0, 0.0), glm::vec3(0.0, 1.0, 0.0),
-				glm::vec3(0.0, 0.0, 1.0), glm::vec3(0.0, 1.0, 1.0)
-			}
+		glpp::object::image_t<glm::vec3>(
+			"smiley.png"
+// 			2, 2, // width, height
+// 			{ // initializer list for the pixel data
+// 				glm::vec3(1.0, 0.0, 0.0), glm::vec3(0.0, 1.0, 0.0),
+// 				glm::vec3(0.0, 0.0, 1.0), glm::vec3(0.0, 1.0, 1.0)
+// 			}
 		),
 		glpp::object::image_format_t::prefered,
 		glpp::object::clamp_mode_t::clamp_to_edge,
