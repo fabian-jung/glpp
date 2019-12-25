@@ -294,7 +294,38 @@ image_t<T>::image_t(const detail::stbi_image_t& storage) :
 		storage.begin(),
 		storage.end(),
 		reinterpret_cast<internal_type*>(m_storage.data()),
-		[](detail::stbi_image_t::value_type v) -> internal_type { return v; }
+		[](detail::stbi_image_t::value_type v) {
+			using from_t = detail::stbi_image_t::value_type;
+			using to_t = internal_type;
+
+			if constexpr(
+				std::is_integral_v<from_t> &&
+				std::is_floating_point_v<to_t>
+			) {
+				return static_cast<to_t>(v)/std::numeric_limits<from_t>::max();
+			} else
+			if constexpr(
+				std::is_floating_point_v<from_t> &&
+				std::is_floating_point_v<to_t>
+			) {
+				return static_cast<to_t>(v);
+			} else
+			if constexpr(
+				std::is_floating_point_v<from_t> &&
+				std::is_integral_v<to_t>
+			) {
+				return static_cast<to_t>(v*std::numeric_limits<to_t>::max());
+			} else
+			if constexpr(std::is_same_v<from_t, to_t>) {
+				return v;
+			} else {
+				// from integral to integral
+				const auto normalized = static_cast<double>(v)/std::numeric_limits<from_t>::max();
+				return static_cast<to_t>(
+					normalized*std::numeric_limits<to_t>::max()
+				);
+			}
+		}
 	);
 }
 
@@ -345,28 +376,40 @@ const typename image_t<T>::value_type& image_t<T>::at(size_t x, size_t y) const 
 }
 
 template <class T>
+typename image_t<T>::iterator image_t<T>::begin() {
+	return m_storage.begin();
+}
+
+template <class T>
+typename image_t<T>::const_iterator image_t<T>::begin() const {
+	return m_storage.begin();
+}
+
+template <class T>
+typename image_t<T>::iterator image_t<T>::end() {
+	return m_storage.end();
+}
+
+template <class T>
+typename image_t<T>::const_iterator image_t<T>::end() const {
+	return m_storage.end();
+}
+
+template <class T>
 constexpr int image_t<T>::channels() const {
 	return channels_impl();
 }
 
 template <class T>
 constexpr image_format_t image_t<T>::format() const {
-		if constexpr(channels_impl() == 1 && std::is_floating_point_v<typename attribute_properties<value_type>::value_type> ) {
+	if constexpr(channels_impl() == 1) {
 		return image_format_t::red;
-	} if constexpr(channels_impl() == 1 && std::is_integral_v<typename attribute_properties<value_type>::value_type> ) {
-		return image_format_t::red_i;
-	} if constexpr(channels_impl() == 2 && std::is_floating_point_v<typename attribute_properties<value_type>::value_type> ) {
+	} if constexpr(channels_impl() == 2) {
 		return image_format_t::rg;
-	} if constexpr(channels_impl() == 2 && std::is_integral_v<typename attribute_properties<value_type>::value_type> ) {
-		return image_format_t::rg_i;
-	} if constexpr(channels_impl() == 3 && std::is_floating_point_v<typename attribute_properties<value_type>::value_type> ) {
+	} if constexpr(channels_impl() == 3) {
 		return image_format_t::rgb;
-	} if constexpr(channels_impl() == 3 && std::is_integral_v<typename attribute_properties<value_type>::value_type> ) {
-		return image_format_t::rgb_i;
-	} if constexpr(channels_impl() == 4 && std::is_floating_point_v<typename attribute_properties<value_type>::value_type> ) {
+	} if constexpr(channels_impl() == 4) {
 		return image_format_t::rgba;
-	} if constexpr(channels_impl() == 4 && std::is_integral_v<typename attribute_properties<value_type>::value_type> ) {
-		return image_format_t::rgba_i;
 	}
 }
 
