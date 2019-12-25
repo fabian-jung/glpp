@@ -26,6 +26,9 @@ public:
 	template <class view_t>
 	void render(const view_t& view);
 
+	template <class view_t>
+	void render_instanced(const view_t& view, size_t count);
+
 	template <class T>
 	void set_uniform_name(T uniform_description_t::* uniform, std::string name);
 
@@ -59,6 +62,14 @@ void renderer_t<uniform_description_t>::render(const view_t& view) {
 	m_shader.use();
 	view.draw();
 }
+
+template <class uniform_description_t>
+template <class view_t>
+void renderer_t<uniform_description_t>::render_instanced(const view_t& view, size_t count) {
+	m_shader.use();
+	view.draw_instanced(count);
+}
+
 
 template <class uniform_description_t>
 template <class T>
