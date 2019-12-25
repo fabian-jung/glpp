@@ -60,6 +60,7 @@ private:
 	friend class renderer_t;
 
 	void draw() const;
+	void draw_instanced(size_t count) const;
 
 	template <class T>
 	static constexpr void* offset(T attribute_description_t::* attr);
@@ -77,6 +78,12 @@ template <class Attribute_Description, view_primitives_t primitive>
 void view_t<Attribute_Description, primitive>::draw() const {
 	m_vao.bind();
 	glpp::call(glDrawArrays, static_cast<GLenum>(primitive), 0, m_size);
+}
+
+template <class Attribute_Description, view_primitives_t primitive>
+void view_t<Attribute_Description, primitive>::draw_instanced(size_t count) const {
+	m_vao.bind();
+	glpp::call(glDrawArraysInstanced, static_cast<GLenum>(primitive), 0, m_size, count);
 }
 
 template <class Attribute_Description, view_primitives_t primitive>

@@ -9,6 +9,7 @@
 #include <iterator>
 #include <initializer_list>
 #include <algorithm>
+#include <limits>
 
 namespace glpp::object {
 
@@ -71,7 +72,7 @@ enum class image_format_t : GLenum {
 	rg_16f          = GL_RG16F,
 	rgb_16f         = GL_RGB16F,
 	rgba_16f        = GL_RGBA16F,
-	r_32f           = GL_R32F,
+	red_32f           = GL_R32F,
 	rg_32f          = GL_RG32F,
 	rgb_32f         = GL_RGB32F,
 	rgba_32f        = GL_RGBA32F,
@@ -142,8 +143,12 @@ template <class T>
 class image_t {
 public:
 	using value_type = T;
+	using iterator = typename std::vector<value_type>::iterator;
+	using const_iterator = typename std::vector<value_type>::const_iterator;
 
 	image_t(size_t width, size_t height);
+	image_t(size_t width, size_t height, const value_type value);
+
 	image_t(size_t width, size_t height, const value_type* begin);
 	image_t(size_t width, size_t height, std::initializer_list<T> init_list);
 
@@ -190,6 +195,12 @@ public:
 	const value_type& get(size_t x, size_t y) const;
 	value_type& at(size_t x, size_t y);
 	const value_type& at(size_t x, size_t y) const;
+
+	iterator begin();
+	const_iterator begin() const;
+	iterator end();
+	const_iterator end() const;
+
 	constexpr int channels() const;
 	constexpr image_format_t format() const;
 	constexpr GLenum type() const;
@@ -231,6 +242,18 @@ public:
 	);
 
 	texture_slot_t bind_to_texture_slot() const;
+
+	template <class T>
+	void update(const image_t<T>& image);
+
+	template <class T>
+	void update(
+		const image_t<T>& image,
+		size_t xoffset,
+		size_t yoffset,
+		size_t width,
+		size_t height
+	);
 
 private:
 	static GLuint init();
@@ -280,6 +303,14 @@ image_t<T>::image_t(size_t width, size_t height) :
 	m_width(width),
 	m_height(height),
 	m_storage(width*height)
+{
+}
+
+template <class T>
+image_t<T>::image_t(size_t width, size_t height, const value_type value) :
+	m_width(width),
+	m_height(height),
+	m_storage(width*height, value)
 {
 }
 
@@ -483,21 +514,41 @@ texture_t::texture_t(
 		image.height()
 	);
 
-	constexpr int level_of_detail = 0;
-	glpp::call(glTextureSubImage2D,
-		id(),
-		level_of_detail,
-		0,
-		0,
-		image.width(),
-		image.height(),
-		static_cast<GLenum>(image.format()), image.type(), // loading
-		image.data()
-	);
+	update(image);
 
 	if(mipmap_mode != mipmap_mode_t::none) {
 		glGenerateTextureMipmap(id());
 	}
+
+}
+
+template <class T>
+void texture_t::update(
+	const image_t<T>& image,
+	size_t xoffset,
+	size_t yoffset,
+	size_t width,
+	size_t height
+) {
+	constexpr int level_of_detail = 0;
+	glpp::call(glTextureSubImage2D,
+		id(),
+		level_of_detail,
+		xoffset,
+		yoffset,
+		width,
+		height,
+		static_cast<GLenum>(image.format()),
+		image.type(), // loading
+		image.data()
+	);
+}
+
+template <class T>
+void texture_t::update(
+	const image_t<T>& image
+) {
+	update(image, 0, 0, image.width(), image.height());
 }
 
 } // End of namespace glpp::object
