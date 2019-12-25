@@ -4,7 +4,6 @@
 
 namespace glpp::object::detail {
 
-
 stbi_image_t::stbi_image_t(const char* filename, int channels)
 {
 // 	stbi_set_flip_vertically_on_load(true);
