@@ -130,14 +130,6 @@ glm::vec2 ball_motion_handler_t::position() const {
 	return m_position;
 }
 
-constexpr float ball_motion_handler_t::size() const {
-	return m_size;
-}
-
-constexpr float ball_motion_handler_t::radius() {
-	return m_size/2;
-}
-
 void ball_motion_handler_t::start() {
 	if(!m_running) {
 		m_running = true;

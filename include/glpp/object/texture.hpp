@@ -255,9 +255,14 @@ public:
 		size_t height
 	);
 
+	size_t width() const;
+	size_t height() const;
+
 private:
 	static GLuint init();
 	static void destroy(GLuint id);
+	size_t m_widht;
+	size_t m_height;
 };
 
 class texture_slot_t {
@@ -462,7 +467,9 @@ texture_t::texture_t(
 	const filter_mode_t& filter,
 	const mipmap_mode_t& mipmap_mode
 ) :
-	object_t<>(init(), destroy)
+	object_t<>(init(), destroy),
+	m_widht(image.width()),
+	m_height(image.height())
 {
 	if(format == image_format_t::prefered) {
 		switch(image.channels()) {

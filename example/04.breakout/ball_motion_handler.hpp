@@ -57,3 +57,11 @@ private:
 	hit_t check_tile_hit(size_t x, size_t y, float time);
 	bool is_active(size_t x, size_t y);
 };
+
+constexpr float ball_motion_handler_t::size() const {
+	return m_size;
+}
+
+constexpr float ball_motion_handler_t::radius() {
+	return m_size/2;
+}

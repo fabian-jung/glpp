@@ -17,6 +17,14 @@ void texture_t::destroy(GLuint id) {
 	glpp::call(glDeleteTextures, 1, &id);
 }
 
+size_t texture_t::width() const {
+	return m_widht;
+}
+
+size_t texture_t::height() const {
+	return m_height;
+}
+
 texture_slot_t::texture_slot_t(const texture_t& texture) :
 	m_id(next_free_id())
 {
