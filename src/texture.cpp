@@ -3,6 +3,53 @@
 
 namespace glpp::object {
 
+texture_t::texture_t(
+	const size_t& width,
+	const size_t& height,
+	image_format_t format,
+	const clamp_mode_t& clamp_mode,
+	const filter_mode_t& filter,
+	const mipmap_mode_t& mipmap_mode
+) :
+	object_t<>(init(), destroy),
+	m_width(width),
+	m_height(height),
+	m_format(static_cast<GLenum>(format))
+{
+	glpp::call(glTextureParameteri, id(), GL_TEXTURE_WRAP_S, static_cast<GLenum>(clamp_mode));
+	glpp::call(glTextureParameteri, id(), GL_TEXTURE_WRAP_T, static_cast<GLenum>(clamp_mode));
+
+	switch(mipmap_mode) {
+		case mipmap_mode_t::none:
+			glpp::call(glTextureParameteri, id(), GL_TEXTURE_MIN_FILTER, static_cast<GLenum>(filter));
+			glpp::call(glTextureParameteri, id(), GL_TEXTURE_MAG_FILTER, static_cast<GLenum>(filter));
+			break;
+		case mipmap_mode_t::nearest:
+		{
+			const GLenum mode = filter==filter_mode_t::nearest ? GL_NEAREST_MIPMAP_NEAREST : GL_NEAREST_MIPMAP_LINEAR;
+			glpp::call(glTextureParameteri, id(), GL_TEXTURE_MIN_FILTER, static_cast<GLenum>(mode));
+			glpp::call(glTextureParameteri, id(), GL_TEXTURE_MAG_FILTER, static_cast<GLenum>(mode));
+			break;
+		}
+		case mipmap_mode_t::linear:
+		{
+			const GLenum mode = filter==filter_mode_t::nearest ? GL_LINEAR_MIPMAP_NEAREST : GL_LINEAR_MIPMAP_LINEAR;
+			glpp::call(glTextureParameteri, id(), GL_TEXTURE_MIN_FILTER, static_cast<GLenum>(mode));
+			glpp::call(glTextureParameteri, id(), GL_TEXTURE_MAG_FILTER, static_cast<GLenum>(mode));
+			break;
+		}
+	}
+
+	constexpr int total_level_of_detail = 1;
+	glpp::call(glTextureStorage2D,
+		id(),
+		total_level_of_detail,
+		static_cast<GLenum>(format),
+		width,
+		height
+	);
+}
+
 texture_slot_t texture_t::bind_to_texture_slot() const {
 	return texture_slot_t(*this);
 }
@@ -18,7 +65,7 @@ void texture_t::destroy(GLuint id) {
 }
 
 size_t texture_t::width() const {
-	return m_widht;
+	return m_width;
 }
 
 size_t texture_t::height() const {
@@ -36,6 +83,7 @@ texture_slot_t::texture_slot_t(const texture_t& texture) :
 }
 
 texture_slot_t::texture_slot_t(texture_slot_t&& mov) = default;
+texture_slot_t& texture_slot_t::operator=(texture_slot_t&& mov) = default;
 
 texture_slot_t::~texture_slot_t() {
 	units[id()] = -1;

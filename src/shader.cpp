@@ -69,6 +69,30 @@ void shader_program_t::set_texture(const char* name, const texture_slot_t& slot)
 }
 
 template <>
+void shader_program_t::uniform_setter_t::set_value(const bool& b) {
+	GLint v = b;
+	glpp::call(glUniform1i, location, v);
+}
+
+template <>
+void shader_program_t::uniform_setter_t::set_value(const glm::bvec2& vec) {
+	const glm::ivec2 values = vec;
+	glpp::call(glUniform2iv, location, 1, glm::value_ptr(values));
+}
+
+template <>
+void shader_program_t::uniform_setter_t::set_value(const glm::bvec3& vec) {
+	const glm::ivec2 values = vec;
+	glpp::call(glUniform3iv, location, 1, glm::value_ptr(values));
+}
+
+template <>
+void shader_program_t::uniform_setter_t::set_value(const glm::bvec4& vec) {
+	const glm::ivec2 values = vec;
+	glpp::call(glUniform4iv, location, 1, glm::value_ptr(values));
+}
+
+template <>
 void shader_program_t::uniform_setter_t::set_value(const float& f) {
 	glpp::call(glUniform1f, location, f);
 }

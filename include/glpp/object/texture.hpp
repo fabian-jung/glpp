@@ -116,7 +116,12 @@ enum class image_format_t : GLenum {
 // 	                = GL_COMPRESSED_SRGB_ALPHA_BPTC_UNORM,
 // 	                = GL_COMPRESSED_RGB_BPTC_SIGNED_FLOAT,
 // 	                = GL_COMPRESSED_RGB_BPTC_UNSIGNED_FLOAT,
-// 	                  GL_DEPTH_STENCIL
+	d_32f           = GL_DEPTH_COMPONENT32F,
+	d_24i           = GL_DEPTH_COMPONENT24,
+	d_16i           = GL_DEPTH_COMPONENT16,
+	d_32f_s_8i      = GL_DEPTH32F_STENCIL8,
+	d_24i_s_8i      = GL_DEPTH24_STENCIL8,
+	s_8i            = GL_STENCIL_INDEX8,
 };
 
 namespace detail {
@@ -232,6 +237,15 @@ class texture_slot_t;
 class texture_t : public object_t<> {
 public:
 
+	texture_t(
+		const size_t& width,
+		const size_t& height,
+		image_format_t format,
+		const clamp_mode_t& clamp_mode = clamp_mode_t::repeat,
+		const filter_mode_t& filter = filter_mode_t::linear,
+		const mipmap_mode_t& mipmap_mode = mipmap_mode_t::none
+	);
+
 	template <class T>
 	texture_t(
 		const image_t<T>& image,
@@ -242,6 +256,22 @@ public:
 	);
 
 	texture_slot_t bind_to_texture_slot() const;
+
+	template <class T>
+	void update(
+		const T* pixels,
+		image_format_t format = image_format_t::prefered
+	);
+
+	template <class T>
+	void update(
+		size_t xoffset,
+		size_t yoffset,
+		size_t width,
+		size_t height,
+		const T* pixels,
+		image_format_t format = image_format_t::prefered
+	);
 
 	template <class T>
 	void update(const image_t<T>& image);
@@ -261,15 +291,16 @@ public:
 private:
 	static GLuint init();
 	static void destroy(GLuint id);
-	size_t m_widht;
+	size_t m_width;
 	size_t m_height;
+	GLenum m_format;
 };
 
 class texture_slot_t {
 public:
 	texture_slot_t(const texture_t& texture);
 	texture_slot_t(texture_slot_t&& mov);
-	texture_slot_t& operator=(texture_slot_t&& mov) = delete;
+	texture_slot_t& operator=(texture_slot_t&& mov);
 
 	texture_slot_t(const texture_slot_t& mov) = delete;
 	texture_slot_t& operator=(const texture_slot_t& mov) = delete;
@@ -283,7 +314,7 @@ private:
 	int max_texture_units() const;
 
 	static std::vector<int> units;
-	const GLuint m_id;
+	GLuint m_id;
 };
 
 template <class T>
@@ -459,6 +490,25 @@ constexpr int image_t<T>::channels_impl() {
 	return attribute_properties<value_type>::elements_per_vertex;
 }
 
+namespace detail {
+template <class T>
+constexpr auto resolve_format(image_format_t format, const image_t<T>& image) {
+	if(format == image_format_t::prefered) {
+		switch(image.channels()) {
+			case 1:
+				return image_format_t::red_8;
+			case 2:
+				return image_format_t::rg_8;
+			case 3:
+				return image_format_t::rgb_8;
+			case 4:
+				return image_format_t::rgba_8;
+		}
+	}
+	return format;
+}
+}
+
 template <class T>
 texture_t::texture_t(
 	const image_t<T>& image,
@@ -467,66 +517,118 @@ texture_t::texture_t(
 	const filter_mode_t& filter,
 	const mipmap_mode_t& mipmap_mode
 ) :
-	object_t<>(init(), destroy),
-	m_widht(image.width()),
-	m_height(image.height())
+	texture_t(image.width(), image.height(), detail::resolve_format(format, image), clamp_mode, filter, mipmap_mode)
 {
-	if(format == image_format_t::prefered) {
-		switch(image.channels()) {
-			case 1:
-				format = image_format_t::red_8;
-				break;
-			case 2:
-				format = image_format_t::rg_8;
-				break;
-			case 3:
-				format = image_format_t::rgb_8;
-				break;
-			case 4:
-				format = image_format_t::rgba_8;
-				break;
-		}
-	}
-
-	glpp::call(glTextureParameteri, id(), GL_TEXTURE_WRAP_S, static_cast<GLenum>(clamp_mode));
-	glpp::call(glTextureParameteri, id(), GL_TEXTURE_WRAP_T, static_cast<GLenum>(clamp_mode));
-
-	switch(mipmap_mode) {
-		case mipmap_mode_t::none:
-			glpp::call(glTextureParameteri, id(), GL_TEXTURE_MIN_FILTER, static_cast<GLenum>(filter));
-			glpp::call(glTextureParameteri, id(), GL_TEXTURE_MAG_FILTER, static_cast<GLenum>(filter));
-			break;
-		case mipmap_mode_t::nearest:
-		{
-			const GLenum mode = filter==filter_mode_t::nearest ? GL_NEAREST_MIPMAP_NEAREST : GL_NEAREST_MIPMAP_LINEAR;
-			glpp::call(glTextureParameteri, id(), GL_TEXTURE_MIN_FILTER, static_cast<GLenum>(mode));
-			glpp::call(glTextureParameteri, id(), GL_TEXTURE_MAG_FILTER, static_cast<GLenum>(mode));
-			break;
-		}
-		case mipmap_mode_t::linear:
-		{
-			const GLenum mode = filter==filter_mode_t::nearest ? GL_LINEAR_MIPMAP_NEAREST : GL_LINEAR_MIPMAP_LINEAR;
-			glpp::call(glTextureParameteri, id(), GL_TEXTURE_MIN_FILTER, static_cast<GLenum>(mode));
-			glpp::call(glTextureParameteri, id(), GL_TEXTURE_MAG_FILTER, static_cast<GLenum>(mode));
-			break;
-		}
-	}
-
-	constexpr int total_level_of_detail = 1;
-	glpp::call(glTextureStorage2D,
-		id(),
-		total_level_of_detail,
-		static_cast<GLenum>(format),
-		image.width(),
-		image.height()
-	);
-
 	update(image);
 
 	if(mipmap_mode != mipmap_mode_t::none) {
 		glGenerateTextureMipmap(id());
 	}
+}
 
+template <class T>
+void texture_t::update(
+	const T* pixels,
+	image_format_t format
+) {
+	update(0,0, m_width, m_height, pixels, format);
+}
+
+template<class T>
+void texture_t::update(
+	size_t xoffset,
+	size_t yoffset,
+	size_t width,
+	size_t height,
+	const T* pixels,
+	image_format_t format
+) {
+	auto base_internal_format = [](GLenum format) {
+		switch(format) {
+			case GL_R8                 : return GL_RED;
+			case GL_R8_SNORM           : return GL_RED;
+			case GL_R16                : return GL_RED;
+			case GL_R16_SNORM          : return GL_RED;
+			case GL_RG8                : return GL_RG;
+			case GL_RG8_SNORM          : return GL_RG;
+			case GL_RG16               : return GL_RG;
+			case GL_RG16_SNORM         : return GL_RG;
+			case GL_R3_G3_B2           : return GL_RGB;
+			case GL_RGB4               : return GL_RGB;
+			case GL_RGB5               : return GL_RGB;
+			case GL_RGB8               : return GL_RGB;
+			case GL_RGB8_SNORM         : return GL_RGB;
+			case GL_RGB10              : return GL_RGB;
+			case GL_RGB12              : return GL_RGB;
+			case GL_RGB16_SNORM        : return GL_RGB;
+			case GL_RGBA2              : return GL_RGB;
+			case GL_RGBA4              : return GL_RGB;
+			case GL_RGB5_A1            : return GL_RGBA;
+			case GL_RGBA8              : return GL_RGBA;
+			case GL_RGBA8_SNORM        : return GL_RGBA;
+			case GL_RGB10_A2           : return GL_RGBA;
+			case GL_RGB10_A2UI         : return GL_RGBA;
+			case GL_RGBA12             : return GL_RGBA;
+			case GL_RGBA16             : return GL_RGBA;
+			case GL_SRGB8              : return GL_RGB;
+			case GL_SRGB8_ALPHA8       : return GL_RGBA;
+			case GL_R16F               : return GL_RED;
+			case GL_RG16F              : return GL_RG;
+			case GL_RGB16F             : return GL_RGB;
+			case GL_RGBA16F            : return GL_RGBA;
+			case GL_R32F               : return GL_RED;
+			case GL_RG32F              : return GL_RG;
+			case GL_RGB32F             : return GL_RGB;
+			case GL_RGBA32F            : return GL_RGBA;
+			case GL_R11F_G11F_B10F     : return GL_RGB;
+			case GL_RGB9_E5            : return GL_RGB;
+			case GL_R8I                : return GL_RED;
+			case GL_R8UI               : return GL_RED;
+			case GL_R16I               : return GL_RED;
+			case GL_R16UI              : return GL_RED;
+			case GL_R32I               : return GL_RED;
+			case GL_R32UI              : return GL_RED;
+			case GL_RG8I               : return GL_RG;
+			case GL_RG8UI              : return GL_RG;
+			case GL_RG16I              : return GL_RG;
+			case GL_RG16UI             : return GL_RG;
+			case GL_RG32I              : return GL_RG;
+			case GL_RG32UI             : return GL_RG;
+			case GL_RGB8I              : return GL_RGB;
+			case GL_RGB8UI             : return GL_RGB;
+			case GL_RGB16I             : return GL_RGB;
+			case GL_RGB16UI            : return GL_RGB;
+			case GL_RGB32I             : return GL_RGB;
+			case GL_RGB32UI            : return GL_RGB;
+			case GL_RGBA8I             : return GL_RGBA;
+			case GL_RGBA8UI            : return GL_RGBA;
+			case GL_RGBA16I            : return GL_RGBA;
+			case GL_RGBA16UI           : return GL_RGBA;
+			case GL_RGBA32I            : return GL_RGBA;
+			case GL_RGBA32UI           : return GL_RGBA;
+			case GL_DEPTH_COMPONENT24  : return GL_DEPTH_COMPONENT;
+			case GL_DEPTH_COMPONENT16  : return GL_DEPTH_COMPONENT;
+			case GL_DEPTH_COMPONENT32F : return GL_DEPTH_COMPONENT;
+			case GL_DEPTH32F_STENCIL8  : return GL_DEPTH_STENCIL;
+			case GL_DEPTH24_STENCIL8   : return GL_DEPTH_STENCIL;
+			case GL_STENCIL_INDEX8	   : return GL_STENCIL_INDEX;
+		}
+		throw std::runtime_error("Unable to convert sized internal format to base internal format.");
+	};
+
+	if(format == image_format_t::prefered) format = static_cast<image_format_t>(base_internal_format(m_format));
+	constexpr int level_of_detail = 0;
+	glpp::call(glTextureSubImage2D,
+		id(),
+		level_of_detail,
+		xoffset,
+		yoffset,
+		width,
+		height,
+		static_cast<GLenum>(format),
+		attribute_properties<T>::type,
+		pixels
+	);
 }
 
 template <class T>
@@ -537,16 +639,11 @@ void texture_t::update(
 	size_t width,
 	size_t height
 ) {
-	constexpr int level_of_detail = 0;
-	glpp::call(glTextureSubImage2D,
-		id(),
-		level_of_detail,
+	update(
 		xoffset,
 		yoffset,
 		width,
 		height,
-		static_cast<GLenum>(image.format()),
-		image.type(), // loading
 		image.data()
 	);
 }
@@ -555,7 +652,7 @@ template <class T>
 void texture_t::update(
 	const image_t<T>& image
 ) {
-	update(image, 0, 0, image.width(), image.height());
+	update(0, 0, image.width(), image.height(), image.data());
 }
 
 } // End of namespace glpp::object
