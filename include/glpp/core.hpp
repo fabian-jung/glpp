@@ -6,6 +6,7 @@
 #include "object/shader.hpp"
 #include "object/texture.hpp"
 #include "object/vertex_array.hpp"
+#include "object/framebuffer.hpp"
 #include "render/model.hpp"
 #include "render/renderer.hpp"
 #include "render/view.hpp"
