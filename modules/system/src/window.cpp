@@ -205,6 +205,10 @@ void window_t::glfw_resize_window_callback(GLFWwindow* window, int width, int he
 	window_t* win = reinterpret_cast<window_t*>(glfwGetWindowUserPointer(window));
 	win->m_height = height;
 	win->m_width = width;
+	auto& window_resize_action = win->m_input_handler.m_window_resize_action;
+	if(window_resize_action) {
+		window_resize_action(width, height);
+	}
 }
 
 void window_t::glfw_cursor_position_callback(GLFWwindow* window, double xpos, double ypos) {
