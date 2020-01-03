@@ -7,7 +7,7 @@ using namespace glpp::system;
 using namespace glpp::object;
 using namespace glpp::render;
 
-struct uniform_description_t {
+struct scene_uniform_description_t {
 	glm::mat4 mvp;
 };
 
@@ -81,11 +81,11 @@ int main(
 		}
 	);
 
-	renderer_t<uniform_description_t> renderer {
+	renderer_t<scene_uniform_description_t> renderer {
 		shader_t(shader_type_t::vertex, std::ifstream("vertex.glsl")),
 		shader_t(shader_type_t::fragment, std::ifstream("fragment.glsl"))
 	};
-	renderer.set_uniform_name(&uniform_description_t::mvp, "mvp");
+	renderer.set_uniform_name(&scene_uniform_description_t::mvp, "mvp");
 
 	view_t<vertex_description_t> view(
 		cube_model_t{{{0,0,0}, {2, 2, 2}}},
@@ -113,7 +113,7 @@ int main(
 	window.enter_main_loop([&]() {
 		m = glm::rotate(m, glm::radians(0.01f), glm::vec3(0,1,0));
 		const auto mvp = p*v*m;
-		renderer.set_uniform(&uniform_description_t::mvp, mvp);
+		renderer.set_uniform(&scene_uniform_description_t::mvp, mvp);
 
 		glpp::call(glClear, GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		renderer.render(view);

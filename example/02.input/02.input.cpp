@@ -5,7 +5,7 @@
 
 #include <fstream>
 
-struct uniform_description_t{
+struct scene_uniform_description_t{
 	glm::vec3 color;
 	glm::vec2 offset;
 };
@@ -51,18 +51,18 @@ int main(__attribute__((unused)) int argc, __attribute__((unused)) char* argv[])
 	});
 
 
-	glpp::render::renderer_t<uniform_description_t> renderer{
+	glpp::render::renderer_t<scene_uniform_description_t> renderer{
 		glpp::object::shader_t(glpp::object::shader_type_t::vertex, std::ifstream("vertex.glsl")),
 		glpp::object::shader_t(glpp::object::shader_type_t::fragment, std::ifstream("fragment.glsl"))
 	};
 
-	renderer.set_uniform_name( &uniform_description_t::color, "color");
-	renderer.set_uniform_name( &uniform_description_t::offset, "offset");
+	renderer.set_uniform_name( &scene_uniform_description_t::color, "color");
+	renderer.set_uniform_name( &scene_uniform_description_t::offset, "offset");
 
 	glm::vec2 offset(0, 0);
 	glm::vec3 color(1.0f, 1.0f, 1.0f);
-	renderer.set_uniform( &uniform_description_t::offset, offset);
-	renderer.set_uniform( &uniform_description_t::color, color);
+	renderer.set_uniform( &scene_uniform_description_t::offset, offset);
+	renderer.set_uniform( &scene_uniform_description_t::color, color);
 
 	model_t model;
 	model.add_quad(
@@ -79,37 +79,37 @@ int main(__attribute__((unused)) int argc, __attribute__((unused)) char* argv[])
 
 	window.input_handler().set_keyboard_action(key_t::r, action_t::press, [&](int) {
 		color.x = 1-color.x;
-		renderer.set_uniform( &uniform_description_t::color, color);
+		renderer.set_uniform( &scene_uniform_description_t::color, color);
 	});
 
 	window.input_handler().set_keyboard_action(key_t::g, action_t::press, [&](int) {
 		color.y = 1-color.y;
-		renderer.set_uniform( &uniform_description_t::color, color);
+		renderer.set_uniform( &scene_uniform_description_t::color, color);
 	});
 
 	window.input_handler().set_keyboard_action(key_t::b, action_t::press, [&](int) {
 		color.z = 1-color.z;
-		renderer.set_uniform( &uniform_description_t::color, color);
+		renderer.set_uniform( &scene_uniform_description_t::color, color);
 	});
 
 	window.input_handler().set_keyboard_action(key_t::up, action_t::press, [&](int) {
 		offset.y += 0.1f;
-		renderer.set_uniform(&uniform_description_t::offset, offset);
+		renderer.set_uniform(&scene_uniform_description_t::offset, offset);
 	});
 
 	window.input_handler().set_keyboard_action(key_t::down, action_t::press, [&](int) {
 		offset.y -= 0.1f;
-		renderer.set_uniform(&uniform_description_t::offset, offset);
+		renderer.set_uniform(&scene_uniform_description_t::offset, offset);
 	});
 
 	window.input_handler().set_keyboard_action(key_t::left, action_t::press, [&](int) {
 		offset.x -= 0.1f;
-		renderer.set_uniform(&uniform_description_t::offset, offset);
+		renderer.set_uniform(&scene_uniform_description_t::offset, offset);
 	});
 
 	window.input_handler().set_keyboard_action(key_t::right, action_t::press, [&](int) {
 		offset.x += 0.1f;
-		renderer.set_uniform(&uniform_description_t::offset, offset);
+		renderer.set_uniform(&scene_uniform_description_t::offset, offset);
 	});
 
 	glm::vec2 mouse_drag_start;
@@ -140,7 +140,7 @@ int main(__attribute__((unused)) int argc, __attribute__((unused)) char* argv[])
 				(-y/window.get_height())*2+1
 			);
 			offset = offset_drag_start + mouse - mouse_drag_start;
-			renderer.set_uniform(&uniform_description_t::offset, offset);
+			renderer.set_uniform(&scene_uniform_description_t::offset, offset);
 		}
 	});
 

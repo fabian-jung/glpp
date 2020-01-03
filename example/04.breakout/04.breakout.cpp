@@ -6,7 +6,7 @@
 #include "ball_motion_handler.hpp"
 #include <fstream>
 
-struct empty_t {
+struct second_stage_uniform_description_t {
 };
 
 struct position_t {
