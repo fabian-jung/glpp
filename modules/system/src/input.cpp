@@ -14,4 +14,8 @@ void input_handler_t::set_mouse_move_action(mouse_move_action_t callback) {
 	m_mouse_move_action = std::move(callback);
 }
 
+void input_handler_t::set_resize_action(glpp::system::input_handler_t::window_resize_action_t callback) {
+	m_window_resize_action = std::move(callback);
+}
+
 } // End of namespace glpp::system
