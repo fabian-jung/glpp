@@ -1,7 +1,11 @@
 # glpp
 
 This is a thin wrapper library for modern OpenGL in C++. All of its functions and classes can be used in conjunction with native
-OpenGL calls.
+OpenGL calls. For a quick dive into the library you can check out the examples or read the documentation provided below.
+
+[![The first triangle](doc/01.first_triangle.png)](example/01.first_triangle)  | [![Key and Mouse Actions](doc/02.input.png)](example/02.input)   | [![Loading Textures](doc/03.texture.png)](example/03.texture)
+:---:|:---:|:---:
+[![A simple version of the breakout game](doc/04.breakout.png)](example/04.breakout) | [![The first 3D Object](doc/05.cube.png )](example/05.cube) | [![Using framebuffers to implement a depth of field effect](doc/06.framebuffer.png)](example/06.framebuffer)
 
 # Dependencies
 
@@ -327,3 +331,7 @@ The final result of this example will look like this if projected to a quad:
 ![screenshot of the rendered triangle from the example](doc/03.texture.png)
 
 Because bindeless state-access is used to set up the texture, newly created textures are not bound to any texture unit. Therefore you have to bind every ```texture_t``` to a texture unit and the shader in use. Ommiting one of the steps will cause undefined behaviour, which will crash the programm in the best case.
+
+## Framebuffer
+
+Custom framebuffers can be created and bound with the ```framebuffer_t``` type. The use is straight forward. Create a instance of the class with either the dimensions or a list of textures, that shall be attatched to the framebuffer. Once the instance is created, additional textures can be attatched. To render to this frambuffer, simply bind it via the ```bind()``` method. To use the default framebuffer again a static method ```bind_default_framebuffer()``` is provided.
