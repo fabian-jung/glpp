@@ -6,7 +6,7 @@
 
 #include <glm/glm.hpp>
 
-struct uniform_description_t {
+struct scene_uniform_description_t {
 	glm::vec4 color;
 };
 
@@ -71,12 +71,12 @@ int main(
 ) {
 
 	glpp::system::window_t window(800, 600, "example", glpp::system::vsync_t::off);
-	glpp::render::renderer_t<uniform_description_t> renderer {
+	glpp::render::renderer_t<scene_uniform_description_t> renderer {
 		vertex_shader_t(),
 		fragment_shader_t()
 	};
-	renderer.set_uniform_name( &uniform_description_t::color, "color");
-	renderer.set_uniform( &uniform_description_t::color, glm::vec4(1.0f, 1.0f, 1.0f, 1.0f));
+	renderer.set_uniform_name( &scene_uniform_description_t::color, "color");
+	renderer.set_uniform( &scene_uniform_description_t::color, glm::vec4(1.0f, 1.0f, 1.0f, 1.0f));
 
 	model_t model;
 	model.add_triangle(

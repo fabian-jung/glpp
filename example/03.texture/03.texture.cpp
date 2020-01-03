@@ -6,7 +6,7 @@
 
 #include <fstream>
 
-struct uniform_description_t{
+struct scene_uniform_description_t{
 };
 
 struct vertex_description_t {
@@ -37,7 +37,7 @@ int main(__attribute__((unused)) int argc, __attribute__((unused)) char* argv[])
 	glpp::system::window_t window(800, 600, "texture");
 	window.set_input_mode(glpp::system::input_mode_t::wait);
 
-	glpp::render::renderer_t<uniform_description_t> renderer{
+	glpp::render::renderer_t<scene_uniform_description_t> renderer{
 		glpp::object::shader_t(glpp::object::shader_type_t::vertex, std::ifstream("vertex.glsl")),
 		glpp::object::shader_t(glpp::object::shader_type_t::fragment, std::ifstream("fragment.glsl"))
 	};
