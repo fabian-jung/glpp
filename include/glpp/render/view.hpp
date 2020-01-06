@@ -31,7 +31,7 @@ public:
 
 	template <
 		class model_t,
-		std::enable_if_t<std::is_same_v<typename model_t::attribute_description_t, attribute_description_t> ,int> = 0,
+		std::enable_if_t<std::is_same_v<typename model_t::value_type, attribute_description_t> ,int> = 0,
 		class... T
 	>
 	explicit view_t(const model_t& model, T attribute_description_t::* ...attributes) :

@@ -40,7 +40,6 @@ public:
 			{{1,0,0}, {0,0,1}, {0,1,0}},
 			{{1,0,0}, {0,0,1}, {0,-1,0}}
 		}};
-		m_verticies.reserve(m_verticies.size()+2*base.size());
 		for(const auto& b : base) {
 			add_quad(
 				{center+offset*(-b.base_one-b.base_two+b.normal), b.normal},
@@ -58,13 +57,13 @@ private:
 		const vertex_description_t& third,
 		const vertex_description_t& fourth
 	) {
-		m_verticies.emplace_back(first);
-		m_verticies.emplace_back(second);
-		m_verticies.emplace_back(third);
+		emplace_back(first);
+		emplace_back(second);
+		emplace_back(third);
 
-		m_verticies.emplace_back(first);
-		m_verticies.emplace_back(third);
-		m_verticies.emplace_back(fourth);
+		emplace_back(first);
+		emplace_back(third);
+		emplace_back(fourth);
 	}
 };
 
@@ -88,7 +87,7 @@ int main(
 	renderer.set_uniform_name(&scene_uniform_description_t::mvp, "mvp");
 
 	view_t<vertex_description_t> view(
-		cube_model_t{{{0,0,0}, {2, 2, 2}}},
+		cube_model_t{{std::make_pair(glm::vec3{0,0,0}, glm::vec3{2, 2, 2})}},
 		&vertex_description_t::position,
 		&vertex_description_t::norm
 	);
