@@ -54,6 +54,10 @@ public:
 
 	unsigned int get_width() const;
 	unsigned int get_height() const;
+
+	double get_dpi_x() const;
+	double get_dpi_y() const;
+
 	float get_aspect_ratio();
 	const opengl_version_t& get_opengl_version();
 
