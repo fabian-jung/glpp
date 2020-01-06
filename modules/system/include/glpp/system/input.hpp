@@ -26,11 +26,13 @@ public:
 	using mouse_action_callback_t = std::function<void(double mx, double my, int key_mod)>;
 	using mouse_move_action_t = std::function<void(double mx, double my)>;
 	using window_resize_action_t = std::function<void(double width, double height)>;
+	using mouse_scroll_action_t = std::function<void(double, double)>;
 
 	void set_keyboard_action(key_t key, action_t event, key_action_callback_t callback);
 	void set_mouse_action(mouse_button_t key, action_t event, mouse_action_callback_t callback);
 	void set_mouse_move_action(mouse_move_action_t callback);
 	void set_resize_action(window_resize_action_t callback);
+	void set_mouse_scroll_action(mouse_scroll_action_t callback);
 
 	friend window_t;
 
@@ -41,6 +43,7 @@ private:
 	std::map<mouse_action_t, mouse_action_callback_t> m_mouse_button;
 	mouse_move_action_t m_mouse_move_action;
 	window_resize_action_t m_window_resize_action;
+	mouse_scroll_action_t m_mouse_scroll_action;
 };
 
 enum class key_t : int {

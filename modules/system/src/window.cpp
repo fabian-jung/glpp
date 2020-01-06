@@ -244,10 +244,11 @@ void window_t::glfw_mouse_button_callback(GLFWwindow* window, int button, int ac
 }
 
 void window_t::glfw_scroll_callback(GLFWwindow* window, double xoffset, double yoffset) {
-	(void) (window);
-	(void) (xoffset);
-	(void) (yoffset);
-// 	window_t* win = reinterpret_cast<window_t*>(glfwGetWindowUserPointer(window));
+	window_t* win = reinterpret_cast<window_t*>(glfwGetWindowUserPointer(window));
+	auto& mouse_scroll_action = win->m_input_handler.m_mouse_scroll_action;
+	if(mouse_scroll_action) {
+		mouse_scroll_action(xoffset, yoffset);
+	}
 }
 
 void window_t::close() {
@@ -260,6 +261,22 @@ void window_t::set_input_mode(const input_mode_t& input_mode) {
 
 input_mode_t window_t::get_input_mode() const {
 	return m_input_mode;
+}
+
+double window_t::get_dpi_x() const {
+	int width, height;
+	auto monitor = glfwGetPrimaryMonitor();
+	glfwGetMonitorPhysicalSize(monitor, &width, &height);
+	constexpr double mm_to_inch = 0.0393701;
+	return static_cast<double>(get_width()) / (static_cast<double>(width)*mm_to_inch);
+}
+
+double window_t::get_dpi_y() const {
+	int width, height;
+	auto monitor = glfwGetPrimaryMonitor();
+	glfwGetMonitorPhysicalSize(monitor, &width, &height);
+	constexpr double mm_to_inch = 0.0393701;
+	return static_cast<double>(get_width()) / (static_cast<double>(width)*mm_to_inch);
 }
 
 
