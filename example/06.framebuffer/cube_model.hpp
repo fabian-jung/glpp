@@ -35,7 +35,6 @@ public:
 			{{1,0,0}, {0,0,1}, {0,1,0}},
 			{{1,0,0}, {0,0,1}, {0,-1,0}}
 		}};
-		m_verticies.reserve(m_verticies.size()+2*base.size());
 		for(const auto& b : base) {
 			add_quad(
 				{center+offset*(-b.base_one-b.base_two+b.normal), b.normal},
@@ -53,12 +52,12 @@ private:
 		const cube_vertex_description_t& third,
 		const cube_vertex_description_t& fourth
 	) {
-		m_verticies.emplace_back(first);
-		m_verticies.emplace_back(second);
-		m_verticies.emplace_back(third);
+		emplace_back(first);
+		emplace_back(second);
+		emplace_back(third);
 
-		m_verticies.emplace_back(first);
-		m_verticies.emplace_back(third);
-		m_verticies.emplace_back(fourth);
+		emplace_back(first);
+		emplace_back(third);
+		emplace_back(fourth);
 	}
 };

@@ -36,14 +36,13 @@ public:
 		const vertex_description_t& third,
 		const vertex_description_t& fourth
 	) {
-		m_verticies.reserve(m_verticies.size()+6);
-		m_verticies.emplace_back(first);
-		m_verticies.emplace_back(second);
-		m_verticies.emplace_back(third);
+		emplace_back(first);
+		emplace_back(second);
+		emplace_back(third);
 
-		m_verticies.emplace_back(first);
-		m_verticies.emplace_back(third);
-		m_verticies.emplace_back(fourth);
+		emplace_back(first);
+		emplace_back(third);
+		emplace_back(fourth);
 	}
 
 	void add_quad(const glm::vec2& position, const glm::vec2& dimension) {

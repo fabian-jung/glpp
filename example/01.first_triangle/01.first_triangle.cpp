@@ -57,10 +57,9 @@ public:
 		const glm::vec3& second,
 		const glm::vec3& third
 	) {
-		m_verticies.reserve(m_verticies.size()+3);
-		m_verticies.emplace_back(vertex_description_t{first, glm::vec3(1.0,0.0,0.0)});
-		m_verticies.emplace_back(vertex_description_t{second, glm::vec3(0.0, 1.0,0.0)});
-		m_verticies.emplace_back(vertex_description_t{third, glm::vec3(0.0,0.0,1.0)});
+		emplace_back(vertex_description_t{first, glm::vec3(1.0,0.0,0.0)});
+		emplace_back(vertex_description_t{second, glm::vec3(0.0, 1.0,0.0)});
+		emplace_back(vertex_description_t{third, glm::vec3(0.0,0.0,1.0)});
 	}
 };
 

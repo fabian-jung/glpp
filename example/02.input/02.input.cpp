@@ -22,14 +22,13 @@ public:
 		const glm::vec2& third,
 		const glm::vec2& fourth
 	) {
-		m_verticies.reserve(m_verticies.size()+6);
-		m_verticies.emplace_back(vertex_description_t{first});
-		m_verticies.emplace_back(vertex_description_t{second});
-		m_verticies.emplace_back(vertex_description_t{third});
+		emplace_back(vertex_description_t{first});
+		emplace_back(vertex_description_t{second});
+		emplace_back(vertex_description_t{third});
 
-		m_verticies.emplace_back(vertex_description_t{first});
-		m_verticies.emplace_back(vertex_description_t{third});
-		m_verticies.emplace_back(vertex_description_t{fourth});
+		emplace_back(vertex_description_t{first});
+		emplace_back(vertex_description_t{third});
+		emplace_back(vertex_description_t{fourth});
 	}
 };
 
