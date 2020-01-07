@@ -29,15 +29,8 @@ add_subdirectory(modules)
 add_subdirectory(example)
 
 include(GNUInstallDirs)
-install(TARGETS core system EXPORT glppConfig LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR} )
+install(TARGETS core system stb image EXPORT glppConfig LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR} )
 install(EXPORT glppConfig FILE glppTargets.cmake NAMESPACE glpp:: DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/glpp EXPORT_LINK_INTERFACE_LIBRARIES)
 install(FILES glppConfig.cmake DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/glpp)
 install(DIRECTORY include/glpp DESTINATION include FILES_MATCHING PATTERN "*.h*")
 install(DIRECTORY modules/system/include/glpp DESTINATION include FILES_MATCHING PATTERN "*.h*")
-# export(PACKAGE OpenGL)
-# export(TARGETS core system NAMESPACE glpp:: FILE glppConfig.cmake EXPORT_LINK_INTERFACE_LIBRARIES)
-# configure_file(glppTargets.cmake.in glppConfig.cmake @ONLY)
-# install(
-# 	FILES "${CMAKE_CURRENT_BINARY_DIR}/glppConfig.cmake"
-# 	DESTINATION lib/cmake/glpp
-# )
