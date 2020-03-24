@@ -1,3 +1,6 @@
+find_package(PkgConfig REQUIRED)
+pkg_search_module(GLFW REQUIRED glfw3)
+
 add_library(system STATIC)
 add_library(glpp::system ALIAS system)
 target_include_directories(system PUBLIC
