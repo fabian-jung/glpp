@@ -43,16 +43,18 @@ window_t::window_t(unsigned int width, unsigned int height, const std::string& n
 	std::cout << "Renderer: " << renderer << std::endl;
 	std::cout << "OpenGL version supported " << version << std::endl;
 
-	// Set up Gl Stuff
+	// start GLEW extension handler
+	glewExperimental = GL_TRUE;
+	if(glewInit() != GLEW_OK) {
+		throw std::runtime_error("OpenGL functions could not be loaded.");
+	};
 
+	// Set up Gl Stuff
 	call(glClearColor, .0f,.0f,.0f,1.000f);
 	call(glClear, GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glfwSwapBuffers(m_window);
 
 
-	// start GLEW extension handler
-	glewExperimental = GL_TRUE;
-	glewInit();
 	//supress first error after init. it seems to have no reason.
 	glGetError();
 
@@ -91,7 +93,7 @@ GLFWwindow* window_t::init_window(fullscreen_t fullScreen, vsync_t vsync) {
 	glfwWindowHint (GLFW_CONTEXT_VERSION_MAJOR, m_version.first);
 	glfwWindowHint (GLFW_CONTEXT_VERSION_MINOR, m_version.second);
 	glfwWindowHint (GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
-	//glfwWindowHint (GLFW_OPENGL_PROFILE, GLFW_OPENGL_ANY_PROFILE); //Default value
+//	glfwWindowHint (GLFW_OPENGL_PROFILE, GLFW_OPENGL_ANY_PROFILE); //Default value
 	glfwWindowHint (GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE); //Better compatability
 // 	glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, GL_TRUE);
 

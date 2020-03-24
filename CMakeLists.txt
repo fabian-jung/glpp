@@ -6,12 +6,10 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -pedantic -Wextra")
 set(CMAKE_CXX_EXTENSIONS OFF)
 set(CMAKE_CXX_IMPLICIT_LINK_DIRECTORIES /usr/local/lib ${CMAKE_CXX_IMPLICIT_LINK_DIRECTORIES})
 
+option(enable_examples "Build with example applications" ON)
 
 find_package(OpenGL REQUIRED COMPONENTS OpenGL)
 find_package(GLEW REQUIRED)
-
-find_package(PkgConfig REQUIRED)
-pkg_search_module(GLFW REQUIRED glfw3)
 
 add_library(core STATIC)
 add_library(glpp::core ALIAS core)
@@ -26,7 +24,11 @@ set_target_properties(core PROPERTIES PUBLIC_HEADER "${glpp-header}")
 target_compile_features(core PUBLIC cxx_std_17)
 
 add_subdirectory(modules)
+
+if(${enable_examples})
 add_subdirectory(example)
+endif()
+
 
 include(GNUInstallDirs)
 install(TARGETS core system stb image EXPORT glppConfig LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR} )

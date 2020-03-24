@@ -36,6 +36,7 @@ namespace detail {
 			throw std::runtime_error(error_description(err));
 		}
 	}
+
 }
 
 }
