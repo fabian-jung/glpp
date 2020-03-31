@@ -237,6 +237,12 @@ class texture_slot_t;
 class texture_t : public object_t<> {
 public:
 
+	texture_t(texture_t&& mov) = default;
+	texture_t& operator=(texture_t&& mov) = default;
+
+	texture_t(const texture_t& mov) = delete;
+	texture_t& operator=(const texture_t& mov) = delete;
+
 	texture_t(
 		const size_t& width,
 		const size_t& height,
