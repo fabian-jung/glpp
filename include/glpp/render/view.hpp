@@ -70,6 +70,9 @@ private:
 	glpp::object::buffer_t<attribute_description_t> m_buffer;
 };
 
+template <class Model, class... T>
+view_t(const Model& model, T Model::value_type::* ...attributes) -> view_t<typename Model::value_type>;
+
 /*
  * Implementation
  */
