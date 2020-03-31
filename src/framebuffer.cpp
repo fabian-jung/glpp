@@ -45,11 +45,11 @@ void framebuffer_t::bind(framebuffer_target_t target) {
 	if(call(glCheckNamedFramebufferStatus, id(), GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE) {
 		throw std::runtime_error("Framebuffer is not complete and can not be bound. Attach at least one buffer before binding.");
 	}
-	call(glBindFramebuffer, GL_FRAMEBUFFER, id());
+	call(glBindFramebuffer, static_cast<GLenum>(target), id());
 }
 
 void framebuffer_t::bind_default_framebuffer(framebuffer_target_t target) {
-	call(glBindFramebuffer, GL_FRAMEBUFFER, 0);
+	call(glBindFramebuffer, static_cast<GLenum>(target), 0);
 }
 
 size_t framebuffer_t::width() const {
