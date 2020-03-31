@@ -10,4 +10,3 @@ target_link_libraries(text PUBLIC glpp::core Freetype::Freetype)
 file(GLOB_RECURSE glpp-text-files ${CMAKE_CURRENT_LIST_DIR}/src/*.cpp)
 target_sources(text PRIVATE ${glpp-text-files})
 target_compile_features(text PUBLIC cxx_std_17)
-
