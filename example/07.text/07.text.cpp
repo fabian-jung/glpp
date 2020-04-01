@@ -9,9 +9,8 @@ int main() {
 	glpp::system::window_t window(600, 600, "example", glpp::system::vsync_t::off);
 	window.set_input_mode(glpp::system::input_mode_t::wait);
 
-	glpp::text::writer_t writer{
-		{"/usr/share/fonts/TTF/Hack-Regular.ttf", 64}
-	};
+	glpp::text::font_t font {"Hack-Regular.ttf", 64};
+	glpp::text::writer_t writer{ font };
 
 	auto renderer = writer.renderer();
 
