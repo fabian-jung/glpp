@@ -2,7 +2,7 @@ add_executable(07.text 07.text.cpp)
 target_link_libraries(07.text PRIVATE glpp::core glpp::system glpp::text)
 target_compile_features(07.text PUBLIC cxx_std_20)
 
-file(GLOB TEXT_DEPENDENCIES ${CMAKE_CURRENT_LIST_DIR}/*.glsl)
+file(GLOB_RECURSE TEXT_DEPENDENCIES ${CMAKE_CURRENT_LIST_DIR}/*.glsl ${CMAKE_CURRENT_LIST_DIR}/*.ttf)
 
 add_custom_target(07.text.copy
 	DEPENDS ${TEXT_DEPENDENCIES}
@@ -14,7 +14,7 @@ foreach(res ${TEXT_DEPENDENCIES})
 	add_custom_command(
 		TARGET 07.text.copy POST_BUILD
 		COMMAND ${CMAKE_COMMAND} -E copy
-				${CMAKE_CURRENT_LIST_DIR}/${name}
+				${res}
 				${CMAKE_CURRENT_BINARY_DIR}/${name}
 		DEPENDS ${CMAKE_CURRENT_LIST_DIR}/${name}
 	)
