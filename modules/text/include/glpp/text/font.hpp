@@ -18,7 +18,7 @@ class font_loader_t;
 
 class font_t {
 public:
-	using value_type = charset_t::value_type;
+	using char_t = charset_t::char_t;
 
 	font_t(const std::string& path_to_ttf, unsigned int vertical_resolution, charset_t charset = charset_t::ascii());
 	~font_t();
@@ -29,7 +29,7 @@ public:
 	font_t(const font_t& cpy) = delete;
 	font_t& operator=(const font_t& cpy) = delete;
 
-	const glyph_t& operator[](value_type c) const;
+	const glyph_t& operator[](char_t c) const;
 	const glpp::object::texture_slot_t& texture_slot() const;
 
 private:
@@ -38,7 +38,7 @@ private:
 
 	std::unique_ptr<font_loader_t> m_loader;
 	glm::vec2 m_atlas_size;
-	/*const*/ std::unordered_map<charset_t::value_type, glyph_t> m_glyphs;
+	/*const*/ std::unordered_map<char_t, glyph_t> m_glyphs;
 	/*const*/ glpp::object::texture_t m_texture_atlas;
 	glpp::object::texture_slot_t m_texture_slot;
 };

@@ -6,9 +6,34 @@
 
 namespace glpp::text {
 
+enum class horizontal_alignment_t {
+	origin,
+	left,
+	center,
+	right
+};
+
+enum class vertical_alignment_t {
+	bottom,
+	baseline,
+	middleline,
+	center,
+	top
+};
+
+struct label_t {
+	glm::vec2 size;
+	glm::vec2 origin = glm::vec2(0.0);
+	horizontal_alignment_t halign = horizontal_alignment_t::origin;
+	vertical_alignment_t valign = vertical_alignment_t::baseline;
+};
+
+struct text_box_t {
+
+};
+
 class writer_t {
 public:
-
 	using vertex_description_t = struct vertex_description_t {
 		glm::vec2 position;
 		glm::vec2 tex;
@@ -21,39 +46,22 @@ public:
 
 	glpp::render::renderer_t<> renderer();
 
-	enum class horizontal_alignment_t {
-		origin,
-		left,
-		center,
-		right
-	};
+	writer_t(const font_t& atlas);
 
-	enum class vertical_alignment_t {
-		bottom,
-		baseline,
-		middleline,
-		center,
-		top
-	};
+	writer_t(writer_t&& mov) = default;
+	writer_t& operator=(writer_t&& mov) = delete;
 
-	enum class scale_t {
-		y_axis,
-		x_axis
-	};
-
-	writer_t(font_t&& atlas);
+	writer_t(const writer_t& mov) = default;
+	writer_t& operator=(const writer_t& mov) = delete;
 
 	template <class CharT>
 	model_t write(
-		const std::basic_string<CharT>& string,
-		float size,
-		horizontal_alignment_t halign = horizontal_alignment_t::origin,
-		vertical_alignment_t valign = vertical_alignment_t::baseline,
-		scale_t scale = scale_t::y_axis
+		const label_t& description,
+		const std::basic_string<CharT>& string
 	);
 
 private:
-	const font_t m_font;
+	const font_t& m_font;
 };
 
 }

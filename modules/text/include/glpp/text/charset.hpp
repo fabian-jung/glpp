@@ -7,7 +7,7 @@ namespace glpp::text {
 
 class charset_t {
 public:
-	using value_type = std::wstring::value_type;
+	using char_t = char32_t;
 
 	charset_t() = default;
 
@@ -18,14 +18,14 @@ public:
 
 	void populate();
 
-	std::vector<value_type>::const_iterator begin() const;
-	std::vector<value_type>::const_iterator end() const;
+	std::vector<char_t>::const_iterator begin() const;
+	std::vector<char_t>::const_iterator end() const;
 
 	static charset_t ascii();
 	static charset_t all();
 
 private:
-	std::vector<value_type> m_chars;
+	std::vector<char_t> m_chars;
 };
 
 }

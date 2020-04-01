@@ -11,11 +11,11 @@ void charset_t::populate() {
 	}
 }
 
-std::vector<charset_t::value_type>::const_iterator charset_t::begin() const {
+std::vector<charset_t::char_t>::const_iterator charset_t::begin() const {
 	return m_chars.begin();
 }
 
-std::vector<charset_t::value_type>::const_iterator charset_t::end() const {
+std::vector<charset_t::char_t>::const_iterator charset_t::end() const {
 	return m_chars.end();
 }
 
