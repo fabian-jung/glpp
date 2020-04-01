@@ -1,5 +1,3 @@
-
-
 #include <iostream>
 #include <fstream>
 
@@ -19,11 +17,12 @@ int main() {
 
 	glpp::render::view_t view {
 		writer.write(
-			std::string("Hello World!"),
-			1.8,
-			glpp::text::writer_t::horizontal_alignment_t::center,
-			glpp::text::writer_t::vertical_alignment_t::center,
-			glpp::text::writer_t::scale_t::x_axis
+			glpp::text::label_t{
+				.size = {1.8, 0.0},
+				.halign = glpp::text::horizontal_alignment_t::center,
+				.valign = glpp::text::vertical_alignment_t::center,
+			},
+			std::string("Hello World!")
 		),
 		&glpp::text::writer_t::vertex_description_t::position,
 		&glpp::text::writer_t::vertex_description_t::tex

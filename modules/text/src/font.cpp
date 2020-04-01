@@ -13,7 +13,7 @@ public:
 	font_loader_t(const std::string& path_to_ttf, unsigned int vertical_resolution);
 	~font_loader_t();
 
-	auto get_char(charset_t::value_type c);
+	auto get_char(font_t::char_t c);
 
 private:
 	FT_Library m_ft;
@@ -32,7 +32,7 @@ font_loader_t::font_loader_t(const std::string& path_to_ttf, unsigned int vertic
 	FT_Set_Pixel_Sizes(m_face, 0, vertical_resolution);
 }
 
-auto font_loader_t::get_char(charset_t::value_type c) {
+auto font_loader_t::get_char(font_t::char_t c) {
 	if(FT_Load_Char(m_face, c, FT_LOAD_RENDER)) {
 		throw std::runtime_error("Failed to load Glyph");
 	}
@@ -177,7 +177,7 @@ font_t::font_t(const std::string& path_to_ttf, unsigned int vertical_resolution,
 	m_loader.reset();
 }
 
-const glyph_t& font_t::operator[](value_type c) const {
+const glyph_t& font_t::operator[](char_t c) const {
 	return m_glyphs.at(c);
 }
 
