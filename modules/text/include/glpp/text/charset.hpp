@@ -13,7 +13,7 @@ public:
 
 	template <class... Args>
 	charset_t(Args... args) :
-	m_chars(std::forward<Args>(args)...)
+		m_chars(std::forward<Args>(args)...)
 	{}
 
 	void populate();
@@ -21,6 +21,7 @@ public:
 	std::vector<char_t>::const_iterator begin() const;
 	std::vector<char_t>::const_iterator end() const;
 
+	static charset_t digits();
 	static charset_t ascii();
 	static charset_t all();
 

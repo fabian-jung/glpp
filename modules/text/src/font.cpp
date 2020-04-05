@@ -15,12 +15,20 @@ public:
 
 	auto get_char(font_t::char_t c);
 
+#warning move impl;
+	auto vertical_resolution() const {
+		return m_vertical_resolution;
+	}
+
 private:
 	FT_Library m_ft;
 	FT_Face m_face;
+	float m_vertical_resolution;
 };
 
-font_loader_t::font_loader_t(const std::string& path_to_ttf, unsigned int vertical_resolution) {
+font_loader_t::font_loader_t(const std::string& path_to_ttf, unsigned int vertical_resolution) :
+	m_vertical_resolution(vertical_resolution)
+{
 	if(FT_Init_FreeType(&m_ft)) {
 		throw std::runtime_error("Could not initialise freetype library.");
 	}
@@ -41,12 +49,12 @@ auto font_loader_t::get_char(font_t::char_t c) {
 
 	std::pair<glyph_t, std::uint8_t*> result;
 	auto& [glyph, pixbuf] = result;
-	glyph.advance.x = static_cast<float>(g->advance.x)/64.0f;
-	glyph.advance.y = static_cast<float>(g->advance.y)/64.0f;
-	glyph.size.x = g->bitmap.width;
-	glyph.size.y = g->bitmap.rows;
-	glyph.bottom_left.x = g->bitmap_left;
-	glyph.bottom_left.y = g->bitmap_top-glyph.size.y;
+	glyph.advance.x =     static_cast<float>(g->advance.x)/64.0f/m_vertical_resolution;
+	glyph.advance.y =     static_cast<float>(g->advance.y)/64.0f/m_vertical_resolution;
+	glyph.size.x =        static_cast<float>(g->bitmap.width)/m_vertical_resolution;
+	glyph.size.y =        static_cast<float>(g->bitmap.rows)/m_vertical_resolution;
+	glyph.bottom_left.x = static_cast<float>(g->bitmap_left)/m_vertical_resolution;
+	glyph.bottom_left.y = static_cast<float>(g->bitmap_top)/m_vertical_resolution-glyph.size.y;
 	pixbuf = g->bitmap.buffer;
 
 	return result;
@@ -71,12 +79,16 @@ auto font_t::init_glyphs(charset_t& charset) {
 	}
 
 	float begin = 0;
+	const auto one_pixel = 1.0/(m_atlas_size.x*m_loader->vertical_resolution());
+
 	for(auto& [c, glyph] : result) {
 		const auto step = glyph.size.x/m_atlas_size.x;
 		glyph.tex_range[0] = begin;
 		glyph.tex_range[1] = begin+step;
-		begin = glyph.tex_range[1] + 1.0/m_atlas_size.x;
+		begin = glyph.tex_range[1] + one_pixel;
 	}
+
+	m_atlas_size*=m_loader->vertical_resolution();
 
 	return result;
 }
@@ -143,6 +155,7 @@ glpp::object::texture_t font_t::init_texture() const {
 	glpp::call(glClearColor, 0.0, 0.0, 0.0, 0.0);
 	glpp::call(glClear, GL_COLOR_BUFFER_BIT);
 	glpp::call(glViewport, 0, 0, m_atlas_size.x, m_atlas_size.y);
+	const auto vertical_resolution = m_loader->vertical_resolution();
 	for(const auto& [c, glyph] : m_glyphs) {
 		if(glyph.size.x > 0) {
 			renderer.set_uniform(&uniform_description_t::left, glyph.tex_range[0]);
@@ -150,8 +163,8 @@ glpp::object::texture_t font_t::init_texture() const {
 			const auto& [_, pixbuf] = m_loader->get_char(c);
 			glpp::object::texture_t glyph_texture {
 				glpp::object::image_t<std::uint8_t>{
-					static_cast<size_t>(glyph.size.x),
-					static_cast<size_t>(glyph.size.y),
+					static_cast<size_t>(glyph.size.x*vertical_resolution),
+					static_cast<size_t>(glyph.size.y*vertical_resolution),
 					pixbuf
 				},
 				object::image_format_t::prefered,

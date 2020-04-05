@@ -7,10 +7,18 @@
 namespace glpp::text {
 
 enum class horizontal_alignment_t {
+	left,
 	origin,
+	center,
+	origin_right,
+	right
+};
+
+enum class paragraph_alignment_t {
 	left,
 	center,
-	right
+	right,
+	justified
 };
 
 enum class vertical_alignment_t {
@@ -29,7 +37,12 @@ struct label_t {
 };
 
 struct text_box_t {
-
+	glm::vec2 size;
+	float text_size = 1;
+	glm::vec2 origin = glm::vec2(0,0);
+	horizontal_alignment_t halign = horizontal_alignment_t::origin;
+	vertical_alignment_t valign = vertical_alignment_t::baseline;
+	paragraph_alignment_t palign = paragraph_alignment_t::left;
 };
 
 class writer_t {
@@ -57,6 +70,12 @@ public:
 	template <class CharT>
 	model_t write(
 		const label_t& description,
+		const std::basic_string<CharT>& string
+	);
+
+	template <class CharT>
+	model_t write(
+		const text_box_t& description,
 		const std::basic_string<CharT>& string
 	);
 

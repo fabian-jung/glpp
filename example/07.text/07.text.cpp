@@ -10,6 +10,7 @@ int main() {
 	window.set_input_mode(glpp::system::input_mode_t::wait);
 
 	glpp::text::font_t font {"Hack-Regular.ttf", 64};
+
 	glpp::text::writer_t writer{ font };
 
 	auto renderer = writer.renderer();
@@ -17,9 +18,9 @@ int main() {
 	glpp::render::view_t view {
 		writer.write(
 			glpp::text::label_t{
-				.size = {1.8, 0.0},
+				.size = {2.0, 2.0},
 				.halign = glpp::text::horizontal_alignment_t::center,
-				.valign = glpp::text::vertical_alignment_t::center,
+				.valign = glpp::text::vertical_alignment_t::center
 			},
 			std::string("Hello World!")
 		),
