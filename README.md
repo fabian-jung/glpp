@@ -6,7 +6,7 @@ OpenGL calls. For a quick dive into the library you can check out the examples o
 [![The first triangle](doc/01.first_triangle.png)](example/01.first_triangle)  | [![Key and Mouse Actions](doc/02.input.png)](example/02.input)   | [![Loading Textures](doc/03.texture.png)](example/03.texture)
 :---:|:---:|:---:
 [![A simple version of the breakout game](doc/04.breakout.png)](example/04.breakout) | [![The first 3D Object](doc/05.cube.png )](example/05.cube) | [![Using framebuffers to implement a depth of field effect](doc/06.framebuffer.png)](example/06.framebuffer)
-[![Displaying a label with text](doc/07.text.png)](example/07.text) | [![Filling and rendering a box of text](doc/08.text_box.png )](example/08.text_box) |
+[![Displaying a label with text](doc/07.text.png)](example/07.text) | [![Filling and rendering a box of text](doc/08.text_box.png )](example/08.text_box) | [![A little racing game using only ASCII characters.](doc/09.ascii_race.png )](example/09.ascii_race)
 
 # Dependencies
 
