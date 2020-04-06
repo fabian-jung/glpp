@@ -59,6 +59,7 @@ public:
 	double get_dpi_y() const;
 
 	float get_aspect_ratio();
+	void  set_aspect_ratio(float aspect);
 	const opengl_version_t& get_opengl_version();
 
 	int get_key_state(int key);
