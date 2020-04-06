@@ -146,6 +146,11 @@ float window_t::get_aspect_ratio()
 	return static_cast<float>(m_width)/static_cast<float>(m_height);
 }
 
+void window_t::set_aspect_ratio(float aspect)
+{
+	glfwSetWindowAspectRatio(m_window, aspect*1000, 1000);
+}
+
 const opengl_version_t& window_t::get_opengl_version() {
 	return m_version;
 }
