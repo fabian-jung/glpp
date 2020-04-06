@@ -47,9 +47,13 @@ struct text_box_t {
 
 class writer_t {
 public:
-	using vertex_description_t = struct vertex_description_t {
+	struct vertex_description_t {
 		glm::vec2 position;
 		glm::vec2 tex;
+	};
+
+	struct uniform_description_t {
+		glm::vec4 color;
 	};
 
 	using model_t = glpp::render::model_t<vertex_description_t>;
@@ -57,7 +61,7 @@ public:
 	static glpp::object::shader_t vertex_shader();
 	static glpp::object::shader_t fragment_shader();
 
-	glpp::render::renderer_t<> renderer();
+	glpp::render::renderer_t<uniform_description_t> renderer();
 
 	writer_t(const font_t& atlas);
 

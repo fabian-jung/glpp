@@ -41,12 +41,13 @@ glpp::object::shader_t writer_t::fragment_shader() {
 	};
 }
 
-glpp::render::renderer_t<> writer_t::renderer() {
-	glpp::render::renderer_t result {
+glpp::render::renderer_t<writer_t::uniform_description_t> writer_t::renderer() {
+	glpp::render::renderer_t<uniform_description_t> result {
 		vertex_shader(),
 		fragment_shader()
 	};
 	result.set_texture("glyphs", m_font.texture_slot());
+	result.set_uniform_name(&uniform_description_t::color, "color");
 	return result;
 }
 
