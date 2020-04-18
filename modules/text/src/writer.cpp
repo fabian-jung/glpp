@@ -214,7 +214,7 @@ void align(
 	const forward_it& begin,
 	const forward_it& end,
 	const paragraph_alignment_t& palign,
-	const float& left,
+	const float& /*left*/,
 	const float& right,
 	const float& fill
 ) {
