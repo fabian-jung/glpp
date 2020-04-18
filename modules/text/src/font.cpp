@@ -14,11 +14,7 @@ public:
 	~font_loader_t();
 
 	auto get_char(font_t::char_t c);
-
-#warning move impl;
-	auto vertical_resolution() const {
-		return m_vertical_resolution;
-	}
+	auto vertical_resolution() const;
 
 private:
 	FT_Library m_ft;
@@ -58,6 +54,10 @@ auto font_loader_t::get_char(font_t::char_t c) {
 	pixbuf = g->bitmap.buffer;
 
 	return result;
+}
+
+auto font_loader_t::vertical_resolution() const {
+	return m_vertical_resolution;
 }
 
 font_loader_t::~font_loader_t() {
