@@ -35,8 +35,14 @@ public:
 	template <class T>
 	void set_uniform(T uniform_description_t::* uniform, const T& value);
 
+	template <class T>
+	void set_uniform_array(T uniform_description_t::* uniform, const T* value, const size_t size);
+
 	void set_texture(const char* name, const object::texture_slot_t& texture_slot);
 	void set_texture(const char* name, object::texture_slot_t&& texture_slot);
+
+	template <class texture_slot_iterator>
+	void set_texture_array(const char* name, texture_slot_iterator begin, texture_slot_iterator end);
 
 private:
 	glpp::object::shader_program_t m_shader;
@@ -87,6 +93,13 @@ void renderer_t<uniform_description_t>::set_uniform(T uniform_description_t::* u
 }
 
 template <class uniform_description_t>
+template <class T>
+void renderer_t<uniform_description_t>::set_uniform_array(T uniform_description_t::* uniform, const T* value, const size_t size) {
+	const auto& name = m_uniform_map[detail::get_offset(uniform)];
+	m_shader.set_uniform(name.c_str(), value, size);
+}
+
+template <class uniform_description_t>
 void renderer_t<uniform_description_t>::set_texture(const char* name, const object::texture_slot_t& texture_slot) {
 	m_shader.set_texture(name, texture_slot);
 }
@@ -94,7 +107,13 @@ void renderer_t<uniform_description_t>::set_texture(const char* name, const obje
 template <class uniform_description_t>
 void renderer_t<uniform_description_t>::set_texture(const char* name, object::texture_slot_t&& texture_slot) {
 	m_shader.set_texture(name, texture_slot);
-	m_texture_slots[name]= std::move(texture_slot);
+	m_texture_slots[name]=std::move(texture_slot);
+}
+
+template <class uniform_description_t>
+template <class texture_slot_iterator>
+void renderer_t<uniform_description_t>::set_texture_array(const char* name, texture_slot_iterator begin, texture_slot_iterator end) {
+	m_shader.set_texture_array(name, begin, end);
 }
 
 }

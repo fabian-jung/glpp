@@ -35,9 +35,16 @@ public:
 	template <class... shader_t>
 	explicit shader_program_t(const shader_t&... shader);
 
-	template <class... Args>
-	void set_uniform(const char* name, const Args&... args);
+	template <class Value>
+	void set_uniform(const char* name, const Value& value);
+
+	template <class Value>
+	void set_uniform_array(const char* name, const Value* begin, const size_t size);
+
 	void set_texture(const char* name, const texture_slot_t& texture);
+
+	template <class texture_slot_iterator>
+	void set_texture_array(const char* name, const texture_slot_iterator begin, const texture_slot_iterator end);
 
 	void use();
 private:
@@ -48,6 +55,9 @@ private:
 
 		template <class T>
 		void set_value(const T& value);
+
+		template <class T>
+		void set_value(const T* begin, const size_t size);
 
 	private:
 		GLint location;
@@ -83,12 +93,54 @@ shader_program_t::shader_program_t(const shader_t&... shader) :
 }
 
 
-template <class... Args>
-void shader_program_t::set_uniform(const char* name, const Args&... args) {
+template <class Value>
+void shader_program_t::set_uniform(const char* name, const Value& value) {
 	use();
 	auto location = glpp::call(glGetUniformLocation, id(), name);
 	uniform_setter_t setter(location);
-	setter.set_value(args...);
+	setter.set_value(value);
+}
+
+template <class Value>
+void shader_program_t::set_uniform_array(const char* name, const Value* value, const size_t size) {
+	use();
+	auto location = glpp::call(glGetUniformLocation, id(), name);
+	uniform_setter_t setter(location);
+	setter.set_value(value, size);
+}
+
+
+template <class texture_slot_iterator>
+void shader_program_t::set_texture_array(const char* name, const texture_slot_iterator begin, const texture_slot_iterator end) {
+	const auto size = std::distance(begin, end);
+#warning refactor to make it look more nice
+	if(size <= 80) {
+		GLint buffer[80];
+		std::transform(begin, end, buffer, [](const auto& slot){
+			if constexpr(std::is_same_v<decltype(slot), object::texture_slot_t>) {
+				return slot.id();
+			} else {
+				return static_cast<GLint>(slot);
+			}
+		});
+		use();
+		auto location = glpp::call(glGetUniformLocation, id(), name);
+		uniform_setter_t setter(location);
+		setter.set_value(buffer, size);
+	} else {
+		std::vector<GLint> buffer(size);
+		std::transform(begin, begin+size, buffer.begin(), [](const auto& slot){
+			if constexpr(std::is_same_v<decltype(slot), object::texture_slot_t>) {
+				return slot.id();
+			} else {
+				return static_cast<GLint>(slot);
+			}
+		});
+		use();
+		auto location = glpp::call(glGetUniformLocation, id(), name);
+		uniform_setter_t setter(location);
+		setter.set_value(buffer.data(), size);
+	}
 }
 
 }

@@ -93,6 +93,11 @@ void shader_program_t::uniform_setter_t::set_value(const glm::bvec4& vec) {
 }
 
 template <>
+void shader_program_t::uniform_setter_t::set_value(const float* begin, const size_t size) {
+	glpp::call(glUniform1fv, location, size, begin);
+}
+
+template <>
 void shader_program_t::uniform_setter_t::set_value(const float& f) {
 	glpp::call(glUniform1f, location, f);
 }
@@ -118,6 +123,11 @@ void shader_program_t::uniform_setter_t::set_value(const double& d) {
 }
 
 template <>
+void shader_program_t::uniform_setter_t::set_value(const double* begin, const size_t size) {
+	glpp::call(glUniform1dv, location, size, begin);
+}
+
+template <>
 void shader_program_t::uniform_setter_t::set_value(const glm::dvec2& vec) {
 	glpp::call(glUniform2dv, location, 1, glm::value_ptr(vec));
 }
@@ -133,7 +143,12 @@ void shader_program_t::uniform_setter_t::set_value(const glm::dvec4& vec) {
 }
 
 template <>
-void shader_program_t::uniform_setter_t::set_value(const int& i) {
+void shader_program_t::uniform_setter_t::set_value(const GLint* begin, const size_t size) {
+	glpp::call(glUniform1iv, location, size, begin);
+}
+
+template <>
+void shader_program_t::uniform_setter_t::set_value(const GLint& i) {
 	glpp::call(glUniform1i, location, i);
 }
 
@@ -150,6 +165,26 @@ void shader_program_t::uniform_setter_t::set_value(const glm::ivec3& vec) {
 template <>
 void shader_program_t::uniform_setter_t::set_value(const glm::ivec4& vec) {
 	glpp::call(glUniform4iv, location, 1, glm::value_ptr(vec));
+}
+
+template <>
+void shader_program_t::uniform_setter_t::set_value(const GLuint& i) {
+	glpp::call(glUniform1ui, location, i);
+}
+
+template <>
+void shader_program_t::uniform_setter_t::set_value(const glm::uvec2& vec) {
+	glpp::call(glUniform2uiv, location, 1, glm::value_ptr(vec));
+}
+
+template <>
+void shader_program_t::uniform_setter_t::set_value(const glm::uvec3& vec) {
+	glpp::call(glUniform3uiv, location, 1, glm::value_ptr(vec));
+}
+
+template <>
+void shader_program_t::uniform_setter_t::set_value(const glm::uvec4& vec) {
+	glpp::call(glUniform4uiv, location, 1, glm::value_ptr(vec));
 }
 
 template <>
