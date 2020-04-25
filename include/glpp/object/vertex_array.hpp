@@ -3,6 +3,7 @@
 #include "glpp/glpp.hpp"
 #include "buffer.hpp"
 #include "attribute_properties.hpp"
+#include <algorithm>
 
 namespace glpp::object {
 
@@ -47,7 +48,14 @@ void vertex_array_t::attach(
 	bind();
 	buffer.bind();
 	call(glEnableVertexAttribArray, index);
-	call(glVertexAttribPointer, index, elements_per_vertex, type, normalized, stride, offset);
+	constexpr std::array integral_types = {GL_BYTE, GL_UNSIGNED_BYTE, GL_SHORT, GL_UNSIGNED_SHORT, GL_INT, GL_UNSIGNED_INT};
+	if(type == GL_DOUBLE) {
+		call(glVertexAttribLPointer, index, elements_per_vertex, type, stride, offset);
+	} else if(std::any_of(integral_types.begin(), integral_types.end(), [type](GLenum v){ return type == v; })){
+		call(glVertexAttribIPointer, index, elements_per_vertex, type, stride, offset);
+	} else {
+		call(glVertexAttribPointer, index, elements_per_vertex, type, normalized, stride, offset);
+	}
 }
 
 }
