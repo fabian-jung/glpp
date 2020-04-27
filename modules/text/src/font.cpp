@@ -8,7 +8,7 @@
 
 namespace glpp::text {
 
-class font_loader_t {
+class font_t::font_loader_t {
 public:
 	font_loader_t(const std::string& path_to_ttf, unsigned int vertical_resolution);
 	~font_loader_t();
@@ -22,7 +22,7 @@ private:
 	float m_vertical_resolution;
 };
 
-font_loader_t::font_loader_t(const std::string& path_to_ttf, unsigned int vertical_resolution) :
+font_t::font_loader_t::font_loader_t(const std::string& path_to_ttf, unsigned int vertical_resolution) :
 	m_vertical_resolution(vertical_resolution)
 {
 	if(FT_Init_FreeType(&m_ft)) {
@@ -36,7 +36,7 @@ font_loader_t::font_loader_t(const std::string& path_to_ttf, unsigned int vertic
 	FT_Set_Pixel_Sizes(m_face, 0, vertical_resolution);
 }
 
-auto font_loader_t::get_char(font_t::char_t c) {
+auto font_t::font_loader_t::get_char(font_t::char_t c) {
 	if(FT_Load_Char(m_face, c, FT_LOAD_RENDER)) {
 		throw std::runtime_error("Failed to load Glyph");
 	}
@@ -56,11 +56,11 @@ auto font_loader_t::get_char(font_t::char_t c) {
 	return result;
 }
 
-auto font_loader_t::vertical_resolution() const {
+auto font_t::font_loader_t::vertical_resolution() const {
 	return m_vertical_resolution;
 }
 
-font_loader_t::~font_loader_t() {
+font_t::font_loader_t::~font_loader_t() {
 	FT_Done_Face(m_face);
 	FT_Done_FreeType(m_ft);
 }
@@ -98,7 +98,10 @@ glpp::object::texture_t font_t::init_texture() const {
 	glpp::object::texture_t result {
 		glpp::object::image_t<std::uint8_t>(m_atlas_size.x, m_atlas_size.y),
 		object::image_format_t::prefered,
-		object::clamp_mode_t::clamp_to_edge
+		object::clamp_mode_t::clamp_to_edge,
+		object::filter_mode_t::linear,
+		object::mipmap_mode_t::none,
+		{ object::texture_channel_t::one, object::texture_channel_t::one, object::texture_channel_t::one, object::texture_channel_t::red }
 	};
 	glpp::object::framebuffer_t fb({{result, glpp::object::attachment_t::color}});
 	fb.bind(glpp::object::framebuffer_target_t::write);

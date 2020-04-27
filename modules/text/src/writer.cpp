@@ -36,7 +36,7 @@ glpp::object::shader_t writer_t::fragment_shader() {
 		\n\
 		void main()\n\
 		{\n\
-		FragColor = vec4(color.rgb, texture(glyphs, v_tex).x);\n\
+		FragColor = color*texture(glyphs, v_tex);\n\
 	}"
 	};
 }
