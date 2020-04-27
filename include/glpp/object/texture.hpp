@@ -234,6 +234,15 @@ image_t(size_t, size_t, const T*) -> image_t<std::iterator_traits<T>>;
 
 class texture_slot_t;
 
+enum class texture_channel_t : GLenum {
+	red = GL_RED,
+	green = GL_GREEN,
+	blue = GL_BLUE,
+	alpha = GL_ALPHA,
+	zero = GL_ZERO,
+	one = GL_ONE
+};
+
 class texture_t : public object_t<> {
 public:
 
@@ -249,7 +258,8 @@ public:
 		image_format_t format,
 		const clamp_mode_t& clamp_mode = clamp_mode_t::repeat,
 		const filter_mode_t& filter = filter_mode_t::linear,
-		const mipmap_mode_t& mipmap_mode = mipmap_mode_t::none
+		const mipmap_mode_t& mipmap_mode = mipmap_mode_t::none,
+		std::array<texture_channel_t, 4> swizzle_mask = {texture_channel_t::red, texture_channel_t::green, texture_channel_t::blue, texture_channel_t::alpha}
 	);
 
 	template <class T>
@@ -258,7 +268,8 @@ public:
 		image_format_t format = image_format_t::prefered,
 		const clamp_mode_t& clamp_mode = clamp_mode_t::repeat,
 		const filter_mode_t& filter = filter_mode_t::linear,
-		const mipmap_mode_t& mipmap_mode = mipmap_mode_t::none
+		const mipmap_mode_t& mipmap_mode = mipmap_mode_t::none,
+		std::array<texture_channel_t, 4> swizzle_mask = {texture_channel_t::red, texture_channel_t::green, texture_channel_t::blue, texture_channel_t::alpha}
 	);
 
 	texture_slot_t bind_to_texture_slot() const;
@@ -521,9 +532,10 @@ texture_t::texture_t(
 	image_format_t format,
 	const clamp_mode_t& clamp_mode,
 	const filter_mode_t& filter,
-	const mipmap_mode_t& mipmap_mode
+	const mipmap_mode_t& mipmap_mode,
+	std::array<texture_channel_t, 4> swizzle_mask
 ) :
-	texture_t(image.width(), image.height(), detail::resolve_format(format, image), clamp_mode, filter, mipmap_mode)
+	texture_t(image.width(), image.height(), detail::resolve_format(format, image), clamp_mode, filter, mipmap_mode, swizzle_mask)
 {
 	update(image);
 

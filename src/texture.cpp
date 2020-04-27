@@ -9,7 +9,8 @@ texture_t::texture_t(
 	image_format_t format,
 	const clamp_mode_t& clamp_mode,
 	const filter_mode_t& filter,
-	const mipmap_mode_t& mipmap_mode
+	const mipmap_mode_t& mipmap_mode,
+	std::array<texture_channel_t, 4> swizzle_mask
 ) :
 	object_t<>(init(), destroy),
 	m_width(width),
@@ -38,6 +39,17 @@ texture_t::texture_t(
 			glpp::call(glTextureParameteri, id(), GL_TEXTURE_MAG_FILTER, static_cast<GLenum>(mode));
 			break;
 		}
+	}
+
+	constexpr std::array<texture_channel_t, 4> default_swizzle {
+		texture_channel_t::red,
+		texture_channel_t::green,
+		texture_channel_t::blue,
+		texture_channel_t::alpha
+	};
+
+	if(swizzle_mask != default_swizzle) {
+		glpp::call(glTextureParameteriv, id(), GL_TEXTURE_SWIZZLE_RGBA, reinterpret_cast<const GLint*>(swizzle_mask.data()));
 	}
 
 	constexpr int total_level_of_detail = 1;
