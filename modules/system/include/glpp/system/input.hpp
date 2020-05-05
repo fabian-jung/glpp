@@ -20,30 +20,62 @@ enum class action_t : int {
 
 class window_t;
 
+class joystick_t {
+public:
+
+	joystick_t(int id);
+	int id() const;
+	const char* name() const;
+	bool is_gamepad() const;
+	int axes_count() const;
+	int button_count() const;
+
+	float axes(int axis) const;
+	unsigned char buttons(int btn) const;
+
+private:
+	int m_id;
+	int m_axis_count;
+	int m_button_count;
+};
+
 class input_handler_t {
 public:
+
 	using key_action_callback_t = std::function<void(int key_mod)>;
 	using mouse_action_callback_t = std::function<void(double mx, double my, int key_mod)>;
 	using mouse_move_action_t = std::function<void(double mx, double my)>;
 	using window_resize_action_t = std::function<void(double width, double height)>;
 	using mouse_scroll_action_t = std::function<void(double, double)>;
+	input_handler_t(window_t& window);
 
 	void set_keyboard_action(key_t key, action_t event, key_action_callback_t callback);
 	void set_mouse_action(mouse_button_t key, action_t event, mouse_action_callback_t callback);
 	void set_mouse_move_action(mouse_move_action_t callback);
 	void set_resize_action(window_resize_action_t callback);
 	void set_mouse_scroll_action(mouse_scroll_action_t callback);
+	const std::vector<joystick_t>& joysticks() const;
 
 	friend window_t;
 
 private:
 	using key_action_t = std::tuple<key_t, action_t>;
 	using mouse_action_t = std::tuple<mouse_button_t, action_t>;
+
+	static void glfw_error_callback(int error, const char* description);
+	static void glfw_resize_window_callback(GLFWwindow* window, int width, int height);
+	static void glfw_key_callback(GLFWwindow* window, int key, int scancode, int action, int mods);
+	static void glfw_cursor_position_callback(GLFWwindow* window, double xpos, double ypos);
+	static void glfw_mouse_button_callback(GLFWwindow* window, int button, int action, int mods);
+	static void glfw_scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
+	static void glfw_joystick_function(int id, int event);
+
 	std::map<key_action_t, key_action_callback_t> m_keyboard_actions;
 	std::map<mouse_action_t, mouse_action_callback_t> m_mouse_button;
 	mouse_move_action_t m_mouse_move_action;
 	window_resize_action_t m_window_resize_action;
 	mouse_scroll_action_t m_mouse_scroll_action;
+	static std::vector<joystick_t> m_joysticks;
 };
 
 enum class key_t : int {

@@ -73,10 +73,10 @@ public:
 	template <class FN>
 	void enter_main_loop(FN fn) {
 		while(!should_close()) {
+			poll_events();
 			glpp::call(glViewport, 0, 0, m_width, m_height);
 			fn();
 			swap_buffer();
-			poll_events();
 		}
 	}
 
@@ -89,27 +89,21 @@ public:
 		return m_input_handler;
 	}
 
+	bool should_close();
+	void poll_events();
+
 private:
+
+	GLFWwindow* init_window(fullscreen_t fullscreen, vsync_t vsyncOn);
 
 	unsigned int m_width, m_height;
 	opengl_version_t m_version;
 	std::string m_name;
 	GLFWwindow* m_window;
 	input_mode_t m_input_mode = input_mode_t::contigious;
-	input_handler_t m_input_handler;
-
-	static void glfw_error_callback(int error, const char* description);
-	static void glfw_resize_window_callback(GLFWwindow* window, int width, int height);
-	static void glfw_key_callback(GLFWwindow* window, int key, int scancode, int action, int mods);
-	static void glfw_cursor_position_callback(GLFWwindow* window, double xpos, double ypos);
-	static void glfw_mouse_button_callback(GLFWwindow* window, int button, int action, int mods);
-	static void glfw_scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
-
-	GLFWwindow* init_window(fullscreen_t fullscreen, vsync_t vsyncOn);
-	bool should_close();
-	void poll_events();
-
+	friend class input_handler_t;
 	cursor_mode_t cursor_mode;
+	input_handler_t m_input_handler;
 };
 
 } // End of namespace mapify::system

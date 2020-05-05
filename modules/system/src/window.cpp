@@ -5,11 +5,7 @@
 #include <bitset>
 #include <iostream>
 
-// #include "opengl/call.hpp"
-
 namespace glpp::system {
-
-// std::map<window_t*, input_handler_t> window_t::input_handler_map;
 
 template <class FN, class... ARGS>
 auto call(FN fn, ARGS&& ...args) {
@@ -22,7 +18,8 @@ window_t::window_t(unsigned int width, unsigned int height, const std::string& n
 	m_version(opengl_version_t(4,5)),
 	m_name(name),
 	m_window(init_window(fullScreen, vsyncOn)),
-	cursor_mode(cursor_mode_t::normal)
+	cursor_mode(cursor_mode_t::normal),
+	m_input_handler(*this)
 {
 	if (m_window == nullptr) {
 		glfwTerminate();
@@ -86,7 +83,7 @@ GLFWwindow* window_t::init_window(fullscreen_t fullScreen, vsync_t vsync) {
 		throw std::runtime_error("Could not initialise GLFW");
 	}
 
-	glfwSetErrorCallback(&window_t::glfw_error_callback);
+	glfwSetErrorCallback(&input_handler_t::glfw_error_callback);
 
 	//glfwWindowHint (GLFW_CLIENT_API, GLFW_OPENGL_API);
 	//glfwWindowHint (GLFW_CONTEXT_CREATION_API, GLFW_NATIVE_CONTEXT_API);
@@ -113,12 +110,6 @@ GLFWwindow* window_t::init_window(fullscreen_t fullScreen, vsync_t vsync) {
 
 	glfwSetWindowUserPointer(w, this);
 	glfwSwapInterval(static_cast<int>(vsync));
-
-	glfwSetFramebufferSizeCallback(w, &window_t::glfw_resize_window_callback);
-	glfwSetKeyCallback(w, &window_t::glfw_key_callback);
-	glfwSetCursorPosCallback(w, &window_t::glfw_cursor_position_callback);
-	glfwSetMouseButtonCallback(w, &window_t::glfw_mouse_button_callback);
-	glfwSetScrollCallback(w, &window_t::glfw_scroll_callback);
 
 	return w;
 }
@@ -200,61 +191,6 @@ void window_t::poll_events() {
 		case input_mode_t::wait:
 			glfwWaitEvents();
 			break;
-	}
-}
-
-void window_t::glfw_error_callback(int error, const char* description) {
-	std::cerr << "ERROR: GLFW returned error code " << std::bitset<sizeof(int)*4>(error) << std::endl;
-	std::cerr << description << std::endl;
-}
-
-void window_t::glfw_resize_window_callback(GLFWwindow* window, int width, int height) {
-	window_t* win = reinterpret_cast<window_t*>(glfwGetWindowUserPointer(window));
-	win->m_height = height;
-	win->m_width = width;
-	auto& window_resize_action = win->m_input_handler.m_window_resize_action;
-	if(window_resize_action) {
-		window_resize_action(width, height);
-	}
-}
-
-void window_t::glfw_cursor_position_callback(GLFWwindow* window, double xpos, double ypos) {
- 	window_t* win = reinterpret_cast<window_t*>(glfwGetWindowUserPointer(window));
-	auto& mouse_move_action = win->m_input_handler.m_mouse_move_action;
-	if(mouse_move_action) {
-		mouse_move_action(xpos, ypos);
-	}
-}
-
-void window_t::glfw_key_callback(GLFWwindow* window, int key, int, int action, int mods) {
- 	window_t* win = reinterpret_cast<window_t*>(glfwGetWindowUserPointer(window));
-	auto& keyboard_actions = win->m_input_handler.m_keyboard_actions;
-	auto key_action_it = keyboard_actions.find({static_cast<key_t>(key), static_cast<action_t>(action)});
-	if(key_action_it != keyboard_actions.end()) {
-		if(key_action_it->second) {
-			key_action_it->second.operator()(mods);
-		}
-	}
-}
-
-void window_t::glfw_mouse_button_callback(GLFWwindow* window, int button, int action, int mods) {
- 	window_t* win = reinterpret_cast<window_t*>(glfwGetWindowUserPointer(window));
-	auto& mouse_actions = win->m_input_handler.m_mouse_button;
-	auto mouse_action_it = mouse_actions.find({static_cast<mouse_button_t>(button), static_cast<action_t>(action)});
-	if(mouse_action_it != mouse_actions.end()) {
-		if(mouse_action_it->second) {
-			double xpos, ypos;
-			glfwGetCursorPos(window, &xpos, &ypos);
-			mouse_action_it->second.operator()(xpos, ypos, mods);
-		}
-	}
-}
-
-void window_t::glfw_scroll_callback(GLFWwindow* window, double xoffset, double yoffset) {
-	window_t* win = reinterpret_cast<window_t*>(glfwGetWindowUserPointer(window));
-	auto& mouse_scroll_action = win->m_input_handler.m_mouse_scroll_action;
-	if(mouse_scroll_action) {
-		mouse_scroll_action(xoffset, yoffset);
 	}
 }
 
