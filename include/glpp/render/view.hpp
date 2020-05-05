@@ -55,6 +55,12 @@ public:
 		), ...);
 	}
 
+	view_t(view_t&& mov) = default;
+	view_t& operator=(view_t&&) = default;
+
+	view_t(const view_t& mov) = delete;
+	view_t& operator=(const view_t&) = delete;
+
 private:
 	template <class uniform_description_t>
 	friend class renderer_t;

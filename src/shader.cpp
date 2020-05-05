@@ -189,17 +189,17 @@ void shader_program_t::uniform_setter_t::set_value(const glm::uvec4& vec) {
 
 template <>
 void shader_program_t::uniform_setter_t::set_value(const glm::mat2& mat) {
-	glpp::call(glUniformMatrix2fv, location, 1, false, glm::value_ptr(mat));
+	glpp::call(glUniformMatrix2fv, location, 1, true, glm::value_ptr(mat));
 }
 
 template <>
 void shader_program_t::uniform_setter_t::set_value(const glm::mat3& mat) {
-	glpp::call(glUniformMatrix3fv, location, 1, false, glm::value_ptr(mat));
+	glpp::call(glUniformMatrix3fv, location, 1, true, glm::value_ptr(mat));
 }
 
 template <>
 void shader_program_t::uniform_setter_t::set_value(const glm::mat4& mat) {
-	glpp::call(glUniformMatrix4fv, location, 1, false, glm::value_ptr(mat));
+	glpp::call(glUniformMatrix4fv, location, 1, true, glm::value_ptr(mat));
 }
 
 void shader_program_t::use() {

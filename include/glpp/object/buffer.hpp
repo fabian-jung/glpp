@@ -37,14 +37,16 @@ template <class T = float>
 class buffer_t : public object_t<> {
 public:
 
+	buffer_t();
 	buffer_t(buffer_target_t target, const T* data, size_t size, buffer_usage_t usage);
+
 	void bind() const;
 
 private:
 	GLuint create();
 	static void destroy(GLuint id);
 
-	const buffer_target_t m_target;
+	buffer_target_t m_target;
 };
 
 /*
@@ -53,6 +55,14 @@ private:
 
 template <class T>
 buffer_t(buffer_target_t, const T*, size_t, buffer_usage_t) -> buffer_t<T>;
+
+template <class T>
+buffer_t<T>::buffer_t() :
+	object_t(
+		create(),
+		destroy
+	)
+{}
 
 template <class T>
 buffer_t<T>::buffer_t(buffer_target_t target, const T* data, size_t size, buffer_usage_t usage) :
