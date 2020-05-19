@@ -18,9 +18,10 @@ int main() {
 	glpp::render::view_t view {
 		writer.write(
 			glpp::text::label_t{
-				.size = {2.0, 2.0},
-				.halign = glpp::text::horizontal_alignment_t::center,
-				.valign = glpp::text::vertical_alignment_t::center
+				{2.0, 2.0},
+				{0.0, 0.0},
+				glpp::text::horizontal_alignment_t::center,
+				glpp::text::vertical_alignment_t::center
 			},
 			std::string("Hello World!")
 		),

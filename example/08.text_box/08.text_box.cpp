@@ -22,12 +22,12 @@ int main() {
 
 	const auto model = writer.write(
 		glpp::text::text_box_t{
-			.size = {1.8, 1.8},
-			.text_size = 0.08,
-// 			.origin = { 1, 1 },
-			.halign = glpp::text::horizontal_alignment_t::center,
-			.valign = glpp::text::vertical_alignment_t::center,
-			.palign = glpp::text::paragraph_alignment_t::center
+			{1.8, 1.8},
+			0.08,
+			{ 0, 0 },
+			glpp::text::horizontal_alignment_t::center,
+			glpp::text::vertical_alignment_t::center,
+			glpp::text::paragraph_alignment_t::center
 		},
 		std::string("Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.")
 	);

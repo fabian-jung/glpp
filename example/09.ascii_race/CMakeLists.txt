@@ -1,6 +1,5 @@
 add_executable(09.ascii_race 09.ascii_race.cpp)
 target_link_libraries(09.ascii_race PRIVATE glpp::core glpp::system glpp::text)
-target_compile_features(09.ascii_race PUBLIC cxx_std_20)
 
 file(GLOB_RECURSE TEXT_DEPENDENCIES ${CMAKE_CURRENT_LIST_DIR}/*.glsl ${CMAKE_CURRENT_LIST_DIR}/*.ttf)
 

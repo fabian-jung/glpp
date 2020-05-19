@@ -1,6 +1,5 @@
 add_executable(07.text 07.text.cpp)
 target_link_libraries(07.text PRIVATE glpp::core glpp::system glpp::text)
-target_compile_features(07.text PUBLIC cxx_std_20)
 
 file(GLOB_RECURSE TEXT_DEPENDENCIES ${CMAKE_CURRENT_LIST_DIR}/*.glsl ${CMAKE_CURRENT_LIST_DIR}/*.ttf)
 

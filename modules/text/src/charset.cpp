@@ -2,6 +2,7 @@
 
 #include <numeric>
 #include <stdexcept>
+#include <limits>
 
 namespace glpp::text {
 
