@@ -94,7 +94,7 @@ int main(
 
 	glpp::call(glClearColor, 0.2,0.2,0.2,1.0);
 	constexpr float fov = 45;
-	constexpr float z_near = 0.1;
+	constexpr float z_near = 1.0;
 	constexpr float z_far = 10.0;
 
 	glm::mat4 m(1.0f);
@@ -112,7 +112,7 @@ int main(
 	window.enter_main_loop([&]() {
 		m = glm::rotate(m, glm::radians(0.01f), glm::vec3(0,1,0));
 		const auto mvp = p*v*m;
-		renderer.set_uniform(&scene_uniform_description_t::mvp, mvp);
+		renderer.set_uniform(&scene_uniform_description_t::mvp, glm::transpose(mvp));
 
 		glpp::call(glClear, GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		renderer.render(view);

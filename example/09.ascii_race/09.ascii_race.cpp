@@ -120,10 +120,10 @@ private:
 		glpp::render::view_t view {
 			m_writer.write(
 				glpp::text::label_t{
-					.size = {0,font_size},
-					.origin = {x,1-1.1*y*font_size},
-					.halign = halign,
-					.valign = glpp::text::vertical_alignment_t::top
+					{0,font_size},
+					{x,1-1.1*y*font_size},
+					halign,
+					glpp::text::vertical_alignment_t::top
 				},
 				s
 			),
