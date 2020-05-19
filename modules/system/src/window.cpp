@@ -69,8 +69,6 @@ window_t::window_t(unsigned int width, unsigned int height, const std::string& n
 }
 window_t::~window_t()
 {
-	std::cout << "window_t destroy" << std::endl;
-
 	glfwDestroyWindow(m_window);
 	glfwTerminate();
 }
