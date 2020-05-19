@@ -71,10 +71,7 @@ int main(__attribute__((unused)) int argc, __attribute__((unused)) char* argv[])
 
 	static ball_motion_handler_t mh;
 
-	window.input_handler().set_mouse_move_action([&](double mx, double my){
-		const glm::vec2 resolution( window.get_width(), window.get_height() );
-		const glm::vec2 raw_mouse( mx, resolution.y - my );
-		const glm::vec2 mouse = 2.0f*(raw_mouse / resolution) - glm::vec2(1, 1);
+	window.input_handler().set_mouse_move_action([&](glm::vec2 mouse, glm::vec2){
 		mh.set_slider(mouse.x);
 // 		ball_renderer.set_uniform(&position_t::position, mouse);
 	});

@@ -6,6 +6,8 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 
+#include <glm/glm.hpp>
+
 namespace glpp::system {
 
 
@@ -43,15 +45,19 @@ class input_handler_t {
 public:
 
 	using key_action_callback_t = std::function<void(int key_mod)>;
-	using mouse_action_callback_t = std::function<void(double mx, double my, int key_mod)>;
-	using mouse_move_action_t = std::function<void(double mx, double my)>;
+	using mouse_action_callback_t = std::function<void(glm::vec2, int key_mod)>;
+	using mouse_move_action_t = std::function<void(glm::vec2 dst, glm::vec2 src)>;
+	using mouse_enter_action_t = std::function<void(glm::vec2)>;
+	using mouse_leave_action_t = std::function<void(glm::vec2)>;
 	using window_resize_action_t = std::function<void(double width, double height)>;
-	using mouse_scroll_action_t = std::function<void(double, double)>;
+	using mouse_scroll_action_t = std::function<void(glm::vec2)>;
 	input_handler_t(window_t& window);
 
 	void set_keyboard_action(key_t key, action_t event, key_action_callback_t callback);
 	void set_mouse_action(mouse_button_t key, action_t event, mouse_action_callback_t callback);
 	void set_mouse_move_action(mouse_move_action_t callback);
+	void set_mouse_enter_action(mouse_enter_action_t callback);
+	void set_mouse_leave_action(mouse_leave_action_t callback);
 	void set_resize_action(window_resize_action_t callback);
 	void set_mouse_scroll_action(mouse_scroll_action_t callback);
 	const std::vector<joystick_t>& joysticks() const;
@@ -66,13 +72,18 @@ private:
 	static void glfw_resize_window_callback(GLFWwindow* window, int width, int height);
 	static void glfw_key_callback(GLFWwindow* window, int key, int scancode, int action, int mods);
 	static void glfw_cursor_position_callback(GLFWwindow* window, double xpos, double ypos);
+	static void glfw_enter_callback(GLFWwindow* window, int entered);
 	static void glfw_mouse_button_callback(GLFWwindow* window, int button, int action, int mods);
 	static void glfw_scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
 	static void glfw_joystick_function(int id, int event);
 
+	glm::vec2 m_mouse_pos {};
+
 	std::map<key_action_t, key_action_callback_t> m_keyboard_actions;
 	std::map<mouse_action_t, mouse_action_callback_t> m_mouse_button;
 	mouse_move_action_t m_mouse_move_action;
+	mouse_enter_action_t m_mouse_enter_action;
+	mouse_leave_action_t m_mouse_leave_action;
 	window_resize_action_t m_window_resize_action;
 	mouse_scroll_action_t m_mouse_scroll_action;
 	static std::vector<joystick_t> m_joysticks;

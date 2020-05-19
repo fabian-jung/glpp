@@ -137,9 +137,8 @@ int main(
 	constexpr bool y_direction = false;
 
 	glm::vec2 mouse;
-	window.input_handler().set_mouse_move_action([&](double x, double y){
-		mouse.x = x;
-		mouse.y = y;
+	window.input_handler().set_mouse_move_action([&](glm::vec2 dst, glm::vec2){
+		mouse = dst;
 	});
 
 	window.enter_main_loop([&]() {

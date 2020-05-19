@@ -115,11 +115,7 @@ int main(__attribute__((unused)) int argc, __attribute__((unused)) char* argv[])
 	glm::vec2 offset_drag_start;
 
 	bool dragging = false;
-	window.input_handler().set_mouse_action(mouse_button_t::left, action_t::press, [&](double x, double y, int) {
-		glm::vec2 mouse(
-			(x/window.get_width())*2-1,
-			(-y/window.get_height())*2+1
-		);
+	window.input_handler().set_mouse_action(mouse_button_t::left, action_t::press, [&](glm::vec2 mouse, int) {
 		if(hit_check(offset, mouse)) {
 			mouse_drag_start = mouse;
 			offset_drag_start = offset;
@@ -128,17 +124,13 @@ int main(__attribute__((unused)) int argc, __attribute__((unused)) char* argv[])
 // 		renderer.set_uniform(&uniform_description_t::offset, offset);
 	});
 
-	window.input_handler().set_mouse_action(mouse_button_t::left, action_t::release, [&](double, double, int) {
+	window.input_handler().set_mouse_action(mouse_button_t::left, action_t::release, [&](glm::vec2, int) {
 		dragging = false;
 	});
 
-	window.input_handler().set_mouse_move_action([&](double x, double y){
+	window.input_handler().set_mouse_move_action([&](glm::vec2 dst, glm::vec2){
 		if(dragging) {
-			glm::vec2 mouse(
-				(x/window.get_width())*2-1,
-				(-y/window.get_height())*2+1
-			);
-			offset = offset_drag_start + mouse - mouse_drag_start;
+			offset = offset_drag_start + dst - mouse_drag_start;
 			renderer.set_uniform(&scene_uniform_description_t::offset, offset);
 		}
 	});

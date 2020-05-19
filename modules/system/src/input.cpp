@@ -49,6 +49,7 @@ input_handler_t::input_handler_t(window_t& window) {
 	glfwSetFramebufferSizeCallback(window.m_window, &input_handler_t::glfw_resize_window_callback);
 	glfwSetKeyCallback(window.m_window, &input_handler_t::glfw_key_callback);
 	glfwSetCursorPosCallback(window.m_window, &input_handler_t::glfw_cursor_position_callback);
+	glfwSetCursorEnterCallback(window.m_window, &input_handler_t::glfw_enter_callback);
 	glfwSetMouseButtonCallback(window.m_window, &input_handler_t::glfw_mouse_button_callback);
 	glfwSetScrollCallback(window.m_window, &input_handler_t::glfw_scroll_callback);
 
@@ -75,11 +76,31 @@ void input_handler_t::glfw_resize_window_callback(GLFWwindow* window, int width,
 	}
 }
 
-void input_handler_t::glfw_cursor_position_callback(GLFWwindow* window, double xpos, double ypos) {
+void input_handler_t::glfw_cursor_position_callback(GLFWwindow* window, double x, double y) {
 	window_t* win = reinterpret_cast<window_t*>(glfwGetWindowUserPointer(window));
 	auto& mouse_move_action = win->input_handler().m_mouse_move_action;
 	if(mouse_move_action) {
-		mouse_move_action(xpos, ypos);
+		glm::vec2 mouse(
+			(x/win->get_width())*2-1,
+			(-y/win->get_height())*2+1
+		);
+		mouse_move_action(mouse, win->input_handler().m_mouse_pos);
+		win->input_handler().m_mouse_pos = mouse;
+	}
+}
+
+void input_handler_t::glfw_enter_callback(GLFWwindow* window, int entered) {
+	window_t* win = reinterpret_cast<window_t*>(glfwGetWindowUserPointer(window));
+	if(entered) {
+		auto& mouse_enter_action = win->input_handler().m_mouse_enter_action;
+		if(mouse_enter_action) {
+			mouse_enter_action(win->get_mouse_pos());
+		}
+	} else {
+		auto& mouse_leave_action = win->input_handler().m_mouse_leave_action;
+		if(mouse_leave_action) {
+			mouse_leave_action(win->input_handler().m_mouse_pos);
+		}
 	}
 }
 
@@ -100,9 +121,13 @@ void input_handler_t::glfw_mouse_button_callback(GLFWwindow* window, int button,
 	auto mouse_action_it = mouse_actions.find({static_cast<mouse_button_t>(button), static_cast<action_t>(action)});
 	if(mouse_action_it != mouse_actions.end()) {
 		if(mouse_action_it->second) {
-			double xpos, ypos;
-			glfwGetCursorPos(window, &xpos, &ypos);
-			mouse_action_it->second.operator()(xpos, ypos, mods);
+			double x, y;
+			glfwGetCursorPos(window, &x, &y);
+			glm::vec2 mouse(
+				(x/win->get_width())*2-1,
+				(-y/win->get_height())*2+1
+			);
+			mouse_action_it->second.operator()(mouse, mods);
 		}
 	}
 }
@@ -111,7 +136,7 @@ void input_handler_t::glfw_scroll_callback(GLFWwindow* window, double xoffset, d
 	window_t* win = reinterpret_cast<window_t*>(glfwGetWindowUserPointer(window));
 	auto& mouse_scroll_action = win->input_handler().m_mouse_scroll_action;
 	if(mouse_scroll_action) {
-		mouse_scroll_action(xoffset, yoffset);
+		mouse_scroll_action(glm::vec2(xoffset, yoffset));
 	}
 }
 
@@ -137,6 +162,14 @@ void input_handler_t::set_mouse_action(mouse_button_t key, action_t event, mouse
 
 void input_handler_t::set_mouse_move_action(mouse_move_action_t callback) {
 	m_mouse_move_action = std::move(callback);
+}
+
+void input_handler_t::set_mouse_enter_action(mouse_enter_action_t callback) {
+	m_mouse_enter_action = std::move(callback);
+}
+
+void input_handler_t::set_mouse_leave_action(mouse_leave_action_t callback) {
+	m_mouse_leave_action = std::move(callback);
 }
 
 void input_handler_t::set_resize_action(glpp::system::input_handler_t::window_resize_action_t callback) {

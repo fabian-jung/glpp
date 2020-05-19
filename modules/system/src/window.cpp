@@ -132,6 +132,10 @@ unsigned int window_t::get_height() const {
 	return m_height;
 }
 
+glm::vec2 window_t::get_size() const {
+	return {m_width, m_height};
+}
+
 float window_t::get_aspect_ratio()
 {
 	return static_cast<float>(m_width)/static_cast<float>(m_height);
@@ -156,17 +160,20 @@ int window_t::get_key_state(int key)
 	return glfwGetKey(m_window, key);
 }
 
-mouse_position_t window_t::get_mouse_pos()
+glm::vec2 window_t::get_mouse_pos()
 {
-	mouse_position_t result;
-	glfwGetCursorPos(m_window, &result.first, &result.second);
-	result.first /=  m_width;
-	result.second /= m_height;
-	return result;
+	double x, y;
+	glfwGetCursorPos(m_window, &x, &y);
+	glm::vec2 mouse(
+		(x/get_width())*2-1,
+		(-y/get_height())*2+1
+	);
+	return mouse;
 }
 
-void window_t::set_mouse_pos(mouse_position_t pos) {
-	glfwSetCursorPos(m_window, pos.first, pos.second);
+void window_t::set_mouse_pos(glm::vec2 pos) {
+	pos = 0.5f*glm::vec2(get_width(), -get_height())*(pos+glm::vec2(1.0f,-1.0f));
+	glfwSetCursorPos(m_window, pos.x, pos.y);
 }
 
 void window_t::clear(float r, float g, float b)

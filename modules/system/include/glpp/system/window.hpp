@@ -8,12 +8,12 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 #include <map>
+#include <glm/glm.hpp>
 #include "input.hpp"
 
 namespace glpp::system {
 
 using opengl_version_t = std::pair<unsigned int, unsigned int>;
-using mouse_position_t = std::pair<double, double>;
 
 enum struct vsync_t : int {
 	off = 0,
@@ -54,6 +54,7 @@ public:
 
 	unsigned int get_width() const;
 	unsigned int get_height() const;
+	glm::vec2 get_size() const;
 
 	double get_dpi_x() const;
 	double get_dpi_y() const;
@@ -64,8 +65,8 @@ public:
 
 	int get_key_state(int key);
 	int get_mouse_button_state(int mouseButton);
-	mouse_position_t get_mouse_pos();
-	void set_mouse_pos(mouse_position_t pos);
+	glm::vec2 get_mouse_pos();
+	void set_mouse_pos(glm::vec2 pos);
 
 	void clear(float r, float g, float b);
 	void swap_buffer();
