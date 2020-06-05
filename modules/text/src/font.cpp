@@ -15,6 +15,7 @@ public:
 
 	auto get_char(font_t::char_t c);
 	auto vertical_resolution() const;
+	auto one_pixel_padding();
 
 private:
 	FT_Library m_ft;
@@ -60,6 +61,10 @@ auto font_t::font_loader_t::vertical_resolution() const {
 	return m_vertical_resolution;
 }
 
+auto font_t::font_loader_t::one_pixel_padding() {
+	return 1.0f/m_vertical_resolution;
+}
+
 font_t::font_loader_t::~font_loader_t() {
 	FT_Done_Face(m_face);
 	FT_Done_FreeType(m_ft);
@@ -73,9 +78,10 @@ auto font_t::init_glyphs(charset_t& charset) {
 	std::remove_const_t<decltype(m_glyphs)> result;
 	charset.populate();
 
+	const auto padding = m_loader->one_pixel_padding();
 	for(auto c : charset) {
 		result[c] = m_loader->get_char(c).first;
-		m_atlas_size.x += result[c].size.x;
+		m_atlas_size.x += result[c].size.x + padding;
 	}
 
 	float begin = 0;
