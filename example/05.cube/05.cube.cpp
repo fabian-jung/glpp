@@ -112,7 +112,7 @@ int main(
 	window.enter_main_loop([&]() {
 		m = glm::rotate(m, glm::radians(0.01f), glm::vec3(0,1,0));
 		const auto mvp = p*v*m;
-		renderer.set_uniform(&scene_uniform_description_t::mvp, glm::transpose(mvp));
+		renderer.set_uniform(&scene_uniform_description_t::mvp, mvp);
 
 		glpp::call(glClear, GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		renderer.render(view);
