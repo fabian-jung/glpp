@@ -29,6 +29,7 @@ if(${enable_examples})
 add_subdirectory(example)
 endif()
 
+add_subdirectory(bin)
 
 include(GNUInstallDirs)
 install(TARGETS core system stb image EXPORT glppConfig LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR} )

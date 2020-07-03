@@ -44,6 +44,7 @@ public:
 			glpp::object::buffer_usage_t::static_draw
 		)
 	{
+		static_assert(sizeof...(T) > 0, "Trying to initialise view without attributes");
 		size_t index = 0;
 		(m_vao.attach(
 			m_buffer,
