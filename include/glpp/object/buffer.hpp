@@ -72,8 +72,7 @@ buffer_t<T>::buffer_t(buffer_target_t target, const T* data, size_t size, buffer
 	),
 	m_target(target)
 {
-	call(
-		glNamedBufferData,
+	glNamedBufferData(
 		id(),
 		size,
 		data,
@@ -83,19 +82,19 @@ buffer_t<T>::buffer_t(buffer_target_t target, const T* data, size_t size, buffer
 
 template <class T>
 void buffer_t<T>::bind() const {
-	call(glBindBuffer, static_cast<GLenum>(m_target), id());
+	glBindBuffer(static_cast<GLenum>(m_target), id());
 }
 
 template <class T>
 GLuint buffer_t<T>::create() {
 	GLuint id;
-	call(glCreateBuffers,1, &id);
+	glCreateBuffers(1, &id);
 	return id;
 }
 
 template <class T>
 void buffer_t<T>::destroy(GLuint id) {
-	call(glDeleteBuffers, 1, &id);
+	glDeleteBuffers(1, &id);
 }
 
 }

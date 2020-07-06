@@ -160,7 +160,9 @@ int main(int argc, char* argv[]) {
 	glpp::system::window_t window(600, 600, "ASCII Race", glpp::system::vsync_t::off);
 	std::string config = argc>1? argv[1] : "config.txt";
 	window.set_aspect_ratio(1.0);
-// 	window.set_input_mode(glpp::system::input_mode_t::wait);
+	glDisable(GL_DEPTH_TEST);
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	glpp::text::font_t hack {"Hack-Regular.ttf", 64};
 	acii_race_t race { hack };
@@ -168,9 +170,7 @@ int main(int argc, char* argv[]) {
 		std::ifstream config_file(config);
 		config_file >> race.highscore();
 	}
-	glpp::call(glClearColor, 0.2, 0.2, 0.2, 1.0);
-	glpp::call(glEnable, GL_BLEND);
-	glpp::call(glBlendFunc, GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	glClearColor(0.2, 0.2, 0.2, 1.0);
 
 	window.input_handler().set_keyboard_action(glpp::system::key_t::left, glpp::system::action_t::press, [&](int) {
 		race.press_left();
@@ -190,10 +190,9 @@ int main(int argc, char* argv[]) {
 		race.press_space();
 	});
 
-	glpp::call(glDisable, GL_DEPTH_TEST);
 	window.enter_main_loop([&]() {
 		std::this_thread::sleep_for(std::chrono::milliseconds(150));
-		glpp::call(glClear, GL_COLOR_BUFFER_BIT);
+		glClear(GL_COLOR_BUFFER_BIT);
 		race.advance();
 		race.render();
 	});

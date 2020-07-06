@@ -161,9 +161,9 @@ glpp::object::texture_t font_t::init_texture() const {
 	};
 	renderer.set_uniform_name( &uniform_description_t::left, "left");
 	renderer.set_uniform_name( &uniform_description_t::right, "right");
-	glpp::call(glClearColor, 0.0, 0.0, 0.0, 0.0);
-	glpp::call(glClear, GL_COLOR_BUFFER_BIT);
-	glpp::call(glViewport, 0, 0, m_atlas_size.x, m_atlas_size.y);
+	glClearColor(0.0, 0.0, 0.0, 0.0);
+	glClear(GL_COLOR_BUFFER_BIT);
+	glViewport(0, 0, m_atlas_size.x, m_atlas_size.y);
 	const auto vertical_resolution = m_loader->vertical_resolution();
 	for(const auto& [c, glyph] : m_glyphs) {
 		if(glyph.size.x > 0) {

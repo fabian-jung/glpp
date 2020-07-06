@@ -92,7 +92,7 @@ int main(
 		&vertex_description_t::norm
 	);
 
-	glpp::call(glClearColor, 0.2,0.2,0.2,1.0);
+	glClearColor(0.2,0.2,0.2,1.0);
 	constexpr float fov = 45;
 	constexpr float z_near = 1.0;
 	constexpr float z_far = 10.0;
@@ -114,7 +114,7 @@ int main(
 		const auto mvp = p*v*m;
 		renderer.set_uniform(&scene_uniform_description_t::mvp, mvp);
 
-		glpp::call(glClear, GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		renderer.render(view);
 	});
 

@@ -15,9 +15,9 @@ int main() {
 
 	auto renderer = writer.renderer();
 
-	glpp::call(glClearColor, 0.2, 0.2, 0.2, 1.0);
-	glpp::call(glEnable, GL_BLEND);
-	glpp::call(glBlendFunc, GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	glClearColor(0.2, 0.2, 0.2, 1.0);
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	std::string text;
 
 	const auto model = writer.write(
@@ -39,7 +39,7 @@ int main() {
 	};
 
 	window.enter_main_loop([&]() {
-		glpp::call(glClear, GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 
 

@@ -636,7 +636,7 @@ void texture_t::update(
 
 	if(format == image_format_t::prefered) format = static_cast<image_format_t>(base_internal_format(m_format));
 	constexpr int level_of_detail = 0;
-	glpp::call(glTextureSubImage2D,
+	glTextureSubImage2D(
 		id(),
 		level_of_detail,
 		xoffset,

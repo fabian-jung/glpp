@@ -52,6 +52,8 @@ public:
 	void set_cursor_mode(cursor_mode_t mode);
 	cursor_mode_t get_cursor_mode();
 
+	const std::string& get_name() const;
+
 	unsigned int get_width() const;
 	unsigned int get_height() const;
 	glm::vec2 get_size() const;
@@ -75,7 +77,7 @@ public:
 	void enter_main_loop(FN fn) {
 		while(!should_close()) {
 			poll_events();
-			glpp::call(glViewport, 0, 0, m_width, m_height);
+			glViewport(0, 0, m_width, m_height);
 			fn();
 			swap_buffer();
 		}

@@ -63,8 +63,8 @@ using namespace glpp::render;
 int main(__attribute__((unused)) int argc, __attribute__((unused)) char* argv[]) {
 	window_t window(800, 600, "breakout");
 // 	window.set_cursor_mode(glpp::system::cursor_mode_t::hidden);
-	glpp::call(glDisable, GL_DEPTH_TEST);
-	glpp::call(glClearColor, 0.2,0.2,0.2,1.0);
+	glDisable(GL_DEPTH_TEST);
+	glClearColor(0.2,0.2,0.2,1.0);
 	window.input_handler().set_keyboard_action(glpp::system::key_t::escape, glpp::system::action_t::press, [&](int){
 		window.close();
 	});
@@ -138,7 +138,7 @@ int main(__attribute__((unused)) int argc, __attribute__((unused)) char* argv[])
 		ball.renderer.set_uniform(&position_t::position, mh.position());
 		slider.renderer.set_uniform(&position_t::position, glm::vec2(mh.get_slider(), -0.95));
 
-		glpp::call(glClear, GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		tile.renderer.render_instanced(tile.view, mh.level().width()*mh.level().height());
 		slider.renderer.render(slider.view);

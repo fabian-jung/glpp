@@ -72,7 +72,7 @@ int main(
 		&quad_vertex_description_t::tex
 	};
 
-	glpp::call(glClearColor, 0.2,0.2,0.2,1.0);
+	glClearColor(0.2,0.2,0.2,1.0);
 	constexpr float fov = 45;
 	constexpr float z_near = 0.1;
 	constexpr float z_far = 10.0;
@@ -149,8 +149,8 @@ int main(
 		// Render first pass
 		// 3D Scene with color and depth buffer
 		first_pass.framebuffer.bind(framebuffer_target_t::read_and_write);
-		glpp::call(glViewport, 0, 0, window.get_width(), window.get_height());
-		glpp::call(glClear, GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		glViewport(0, 0, window.get_width(), window.get_height());
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		scene_renderer.render(scene);
 
 
@@ -160,16 +160,16 @@ int main(
 		first_stage_postprocessing.set_uniform(&postprocessing_uniform_description_t::direction, x_direction);
 		second_pass.framebuffer.bind(framebuffer_target_t::write);
 		first_stage_postprocessing.set_texture("slot", first_pass_slot);
-		glpp::call(glViewport, 0, 0, window.get_width(), window.get_height());
-		glpp::call(glClear, GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		glViewport(0, 0, window.get_width(), window.get_height());
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		first_stage_postprocessing.render(screen_quad);
 
 		// Render third pass -- box filter in y-direction
 		first_stage_postprocessing.set_uniform(&postprocessing_uniform_description_t::direction, y_direction);
 		third_pass.framebuffer.bind(framebuffer_target_t::write);
 		first_stage_postprocessing.set_texture("slot", second_pass_slot);
-		glpp::call(glViewport, 0, 0, window.get_width(), window.get_height());
-		glpp::call(glClear, GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		glViewport(0, 0, window.get_width(), window.get_height());
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		first_stage_postprocessing.render(screen_quad);
 
 		// The final pass does the dof calculation
@@ -177,10 +177,10 @@ int main(
 		// to the depth under the mouse
 		framebuffer_t::bind_default_framebuffer(framebuffer_target_t::write);
 		float f;
-		glpp::call(glReadPixels, mouse.x, window.get_height()-mouse.y, 1, 1, GL_DEPTH_COMPONENT, GL_FLOAT, &f);
+		glReadPixels(mouse.x, window.get_height()-mouse.y, 1, 1, GL_DEPTH_COMPONENT, GL_FLOAT, &f);
 		second_stage_postprocessing.set_uniform(&second_stage_uniform_description_t::depth_in_focus, f);
 
-		glpp::call(glClear, GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		second_stage_postprocessing.render(screen_quad);
 	});
 

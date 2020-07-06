@@ -20,7 +20,7 @@ glpp::object::shader_t writer_t::vertex_shader() {
 		void main()\n\
 		{\n\
 		v_tex = tex;\n\
-		gl_Position = vec4(pos, 0.0, 1.0);\n\
+		gl_Position.xy = pos;\n\
 	}"
 	};
 }
@@ -31,7 +31,7 @@ glpp::object::shader_t writer_t::fragment_shader() {
 		"#version 330 core\n\
 		in vec2 v_tex;\n\
 		uniform sampler2D glyphs;\n\
-		uniform vec4 color = vec4(1, 0.75, 0.3, 1.0);\n\
+		uniform vec4 color;\n\
 		out vec4 FragColor;\n\
 		\n\
 		void main()\n\

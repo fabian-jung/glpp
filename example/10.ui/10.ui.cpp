@@ -73,13 +73,13 @@ int main(int, char*[]) {
 			list.elements.pop_back();
 		}
 	};
- 	glpp::call(glClearColor, 0.2, 0.2, 0.2, 1.0);
- 	glpp::call(glDisable, GL_DEPTH_TEST);
- 	glpp::call(glEnable, GL_BLEND);
- 	glpp::call(glBlendFunc, GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+ 	glClearColor(0.2, 0.2, 0.2, 1.0);
+ 	glDisable(GL_DEPTH_TEST);
+ 	glEnable(GL_BLEND);
+ 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
  	window.enter_main_loop([&](){
- 		glpp::call(glClear, GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+ 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		ui.update();
 		ui.render();
 	});

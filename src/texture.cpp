@@ -17,26 +17,26 @@ texture_t::texture_t(
 	m_height(height),
 	m_format(static_cast<GLenum>(format))
 {
-	glpp::call(glTextureParameteri, id(), GL_TEXTURE_WRAP_S, static_cast<GLenum>(clamp_mode));
-	glpp::call(glTextureParameteri, id(), GL_TEXTURE_WRAP_T, static_cast<GLenum>(clamp_mode));
+	glTextureParameteri(id(), GL_TEXTURE_WRAP_S, static_cast<GLenum>(clamp_mode));
+	glTextureParameteri(id(), GL_TEXTURE_WRAP_T, static_cast<GLenum>(clamp_mode));
 
 	switch(mipmap_mode) {
 		case mipmap_mode_t::none:
-			glpp::call(glTextureParameteri, id(), GL_TEXTURE_MIN_FILTER, static_cast<GLenum>(filter));
-			glpp::call(glTextureParameteri, id(), GL_TEXTURE_MAG_FILTER, static_cast<GLenum>(filter));
+			glTextureParameteri(id(), GL_TEXTURE_MIN_FILTER, static_cast<GLenum>(filter));
+			glTextureParameteri(id(), GL_TEXTURE_MAG_FILTER, static_cast<GLenum>(filter));
 			break;
 		case mipmap_mode_t::nearest:
 		{
 			const GLenum mode = filter==filter_mode_t::nearest ? GL_NEAREST_MIPMAP_NEAREST : GL_NEAREST_MIPMAP_LINEAR;
-			glpp::call(glTextureParameteri, id(), GL_TEXTURE_MIN_FILTER, static_cast<GLenum>(mode));
-			glpp::call(glTextureParameteri, id(), GL_TEXTURE_MAG_FILTER, static_cast<GLenum>(mode));
+			glTextureParameteri(id(), GL_TEXTURE_MIN_FILTER, static_cast<GLenum>(mode));
+			glTextureParameteri(id(), GL_TEXTURE_MAG_FILTER, static_cast<GLenum>(mode));
 			break;
 		}
 		case mipmap_mode_t::linear:
 		{
 			const GLenum mode = filter==filter_mode_t::nearest ? GL_LINEAR_MIPMAP_NEAREST : GL_LINEAR_MIPMAP_LINEAR;
-			glpp::call(glTextureParameteri, id(), GL_TEXTURE_MIN_FILTER, static_cast<GLenum>(mode));
-			glpp::call(glTextureParameteri, id(), GL_TEXTURE_MAG_FILTER, static_cast<GLenum>(mode));
+			glTextureParameteri(id(), GL_TEXTURE_MIN_FILTER, static_cast<GLenum>(mode));
+			glTextureParameteri(id(), GL_TEXTURE_MAG_FILTER, static_cast<GLenum>(mode));
 			break;
 		}
 	}
@@ -49,11 +49,11 @@ texture_t::texture_t(
 	};
 
 	if(swizzle_mask != default_swizzle) {
-		glpp::call(glTextureParameteriv, id(), GL_TEXTURE_SWIZZLE_RGBA, reinterpret_cast<const GLint*>(swizzle_mask.data()));
+		glTextureParameteriv(id(), GL_TEXTURE_SWIZZLE_RGBA, reinterpret_cast<const GLint*>(swizzle_mask.data()));
 	}
 
 	constexpr int total_level_of_detail = 1;
-	glpp::call(glTextureStorage2D,
+	glTextureStorage2D(
 		id(),
 		total_level_of_detail,
 		static_cast<GLenum>(format),
@@ -68,12 +68,12 @@ texture_slot_t texture_t::bind_to_texture_slot() const {
 
 GLuint texture_t::init() {
 	GLuint tex;
-	glpp::call(glCreateTextures, GL_TEXTURE_2D, 1, &tex);
+	glCreateTextures(GL_TEXTURE_2D, 1, &tex);
 	return tex;
 }
 
 void texture_t::destroy(GLuint id) {
-	glpp::call(glDeleteTextures, 1, &id);
+	glDeleteTextures(1, &id);
 }
 
 size_t texture_t::width() const {
@@ -91,7 +91,7 @@ texture_slot_t::texture_slot_t(const texture_t& texture) :
 		throw std::runtime_error("Trying to bind texture unit to an invalid offset.");
 	}
 	units[id()] = texture.id();
-	glpp::call(glBindTextureUnit, id(), texture.id());
+	glBindTextureUnit(id(), texture.id());
 }
 
 texture_slot_t::texture_slot_t(texture_slot_t&& mov) = default;
@@ -116,7 +116,7 @@ int texture_slot_t::next_free_id() {
 
 int max_texture_units_impl() {
 	int i;
-	glpp::call(glGetIntegerv, GL_MAX_COMBINED_TEXTURE_IMAGE_UNITS, &i);
+	glGetIntegerv(GL_MAX_COMBINED_TEXTURE_IMAGE_UNITS, &i);
 	return i;
 }
 

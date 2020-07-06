@@ -8,20 +8,20 @@ namespace glpp::object {
 void shader_t::init(const std::string& code) {
 	if(code.size() == 0) throw std::runtime_error("Trying to compile shader with no code.");
 	auto* c_str = code.c_str();
-	call(glShaderSource, id(), 1, &c_str, nullptr);
-	call(glCompileShader, id());
+	glShaderSource(id(), 1, &c_str, nullptr);
+	glCompileShader(id());
 	int  success;
 	char infoLog[512];
-	call(glGetShaderiv,id(), GL_COMPILE_STATUS, &success);
+	glGetShaderiv(id(), GL_COMPILE_STATUS, &success);
 	if(!success)
 	{
-		call(glGetShaderInfoLog,id(), sizeof(infoLog), nullptr, infoLog);
+		glGetShaderInfoLog(id(), sizeof(infoLog), nullptr, infoLog);
 		throw std::runtime_error(infoLog);
 	}
 }
 shader_t::shader_t(shader_type_t type, const std::string& code) :
 	object_t(
-		call(glCreateShader, static_cast<GLenum>(type)),
+		glCreateShader(static_cast<GLenum>(type)),
 		destroy
 	)
 {
@@ -30,7 +30,7 @@ shader_t::shader_t(shader_type_t type, const std::string& code) :
 
 shader_t::shader_t(shader_type_t type, std::istream& code) :
 	object_t(
-		call(glCreateShader, static_cast<GLenum>(type)),
+		glCreateShader(static_cast<GLenum>(type)),
 		destroy
 	)
 {
@@ -44,7 +44,7 @@ shader_t::shader_t(shader_type_t type, std::istream& code) :
 
 shader_t::shader_t(shader_type_t type, std::istream&& code) :
 	object_t(
-		call(glCreateShader, static_cast<GLenum>(type)),
+		glCreateShader(static_cast<GLenum>(type)),
 		destroy
 	)
 {
@@ -57,7 +57,7 @@ shader_t::shader_t(shader_type_t type, std::istream&& code) :
 }
 
 void shader_t::destroy(GLuint id) {
-	call(glDeleteShader, id);
+	glDeleteShader(id);
 }
 
 shader_program_t::uniform_setter_t::uniform_setter_t(GLint location) :
@@ -71,151 +71,151 @@ void shader_program_t::set_texture(const char* name, const texture_slot_t& slot)
 template <>
 void shader_program_t::uniform_setter_t::set_value(const bool& b) {
 	GLint v = b;
-	glpp::call(glUniform1i, location, v);
+	glUniform1i(location, v);
 }
 
 template <>
 void shader_program_t::uniform_setter_t::set_value(const glm::bvec2& vec) {
 	const glm::ivec2 values = vec;
-	glpp::call(glUniform2iv, location, 1, glm::value_ptr(values));
+	glUniform2iv(location, 1, glm::value_ptr(values));
 }
 
 template <>
 void shader_program_t::uniform_setter_t::set_value(const glm::bvec3& vec) {
 	const glm::ivec2 values = vec;
-	glpp::call(glUniform3iv, location, 1, glm::value_ptr(values));
+	glUniform3iv(location, 1, glm::value_ptr(values));
 }
 
 template <>
 void shader_program_t::uniform_setter_t::set_value(const glm::bvec4& vec) {
 	const glm::ivec2 values = vec;
-	glpp::call(glUniform4iv, location, 1, glm::value_ptr(values));
+	glUniform4iv(location, 1, glm::value_ptr(values));
 }
 
 template <>
 void shader_program_t::uniform_setter_t::set_value(const float* begin, const size_t size) {
-	glpp::call(glUniform1fv, location, size, begin);
+	glUniform1fv(location, size, begin);
 }
 
 template <>
 void shader_program_t::uniform_setter_t::set_value(const float& f) {
-	glpp::call(glUniform1f, location, f);
+	glUniform1f(location, f);
 }
 
 template <>
 void shader_program_t::uniform_setter_t::set_value(const glm::vec2& vec) {
-	glpp::call(glUniform2fv, location, 1, glm::value_ptr(vec));
+	glUniform2fv(location, 1, glm::value_ptr(vec));
 }
 
 template <>
 void shader_program_t::uniform_setter_t::set_value(const glm::vec3& vec) {
-	glpp::call(glUniform3fv, location, 1, glm::value_ptr(vec));
+	glUniform3fv(location, 1, glm::value_ptr(vec));
 }
 
 template <>
 void shader_program_t::uniform_setter_t::set_value(const glm::vec4& vec) {
-	glpp::call(glUniform4fv, location, 1, glm::value_ptr(vec));
+	glUniform4fv(location, 1, glm::value_ptr(vec));
 }
 
 template <>
 void shader_program_t::uniform_setter_t::set_value(const double& d) {
-	glpp::call(glUniform1d, location, d);
+	glUniform1d(location, d);
 }
 
 template <>
 void shader_program_t::uniform_setter_t::set_value(const double* begin, const size_t size) {
-	glpp::call(glUniform1dv, location, size, begin);
+	glUniform1dv(location, size, begin);
 }
 
 template <>
 void shader_program_t::uniform_setter_t::set_value(const glm::dvec2& vec) {
-	glpp::call(glUniform2dv, location, 1, glm::value_ptr(vec));
+	glUniform2dv(location, 1, glm::value_ptr(vec));
 }
 
 template <>
 void shader_program_t::uniform_setter_t::set_value(const glm::dvec3& vec) {
-	glpp::call(glUniform3dv, location, 1, glm::value_ptr(vec));
+	glUniform3dv(location, 1, glm::value_ptr(vec));
 }
 
 template <>
 void shader_program_t::uniform_setter_t::set_value(const glm::dvec4& vec) {
-	glpp::call(glUniform4dv, location, 1, glm::value_ptr(vec));
+	glUniform4dv(location, 1, glm::value_ptr(vec));
 }
 
 template <>
 void shader_program_t::uniform_setter_t::set_value(const GLint* begin, const size_t size) {
-	glpp::call(glUniform1iv, location, size, begin);
+	glUniform1iv(location, size, begin);
 }
 
 template <>
 void shader_program_t::uniform_setter_t::set_value(const GLint& i) {
-	glpp::call(glUniform1i, location, i);
+	glUniform1i(location, i);
 }
 
 template <>
 void shader_program_t::uniform_setter_t::set_value(const glm::ivec2& vec) {
-	glpp::call(glUniform2iv, location, 1, glm::value_ptr(vec));
+	glUniform2iv(location, 1, glm::value_ptr(vec));
 }
 
 template <>
 void shader_program_t::uniform_setter_t::set_value(const glm::ivec3& vec) {
-	glpp::call(glUniform3iv, location, 1, glm::value_ptr(vec));
+	glUniform3iv(location, 1, glm::value_ptr(vec));
 }
 
 template <>
 void shader_program_t::uniform_setter_t::set_value(const glm::ivec4& vec) {
-	glpp::call(glUniform4iv, location, 1, glm::value_ptr(vec));
+	glUniform4iv(location, 1, glm::value_ptr(vec));
 }
 
 template <>
 void shader_program_t::uniform_setter_t::set_value(const GLuint& i) {
-	glpp::call(glUniform1ui, location, i);
+	glUniform1ui(location, i);
 }
 
 template <>
 void shader_program_t::uniform_setter_t::set_value(const glm::uvec2& vec) {
-	glpp::call(glUniform2uiv, location, 1, glm::value_ptr(vec));
+	glUniform2uiv(location, 1, glm::value_ptr(vec));
 }
 
 template <>
 void shader_program_t::uniform_setter_t::set_value(const glm::uvec3& vec) {
-	glpp::call(glUniform3uiv, location, 1, glm::value_ptr(vec));
+	glUniform3uiv(location, 1, glm::value_ptr(vec));
 }
 
 template <>
 void shader_program_t::uniform_setter_t::set_value(const glm::uvec4& vec) {
-	glpp::call(glUniform4uiv, location, 1, glm::value_ptr(vec));
+	glUniform4uiv(location, 1, glm::value_ptr(vec));
 }
 
 template <>
 void shader_program_t::uniform_setter_t::set_value(const glm::mat2& mat) {
-	glpp::call(glUniformMatrix2fv, location, 1, false, glm::value_ptr(mat));
+	glUniformMatrix2fv(location, 1, false, glm::value_ptr(mat));
 }
 
 template <>
 void shader_program_t::uniform_setter_t::set_value(const glm::mat3& mat) {
-	glpp::call(glUniformMatrix3fv, location, 1, false, glm::value_ptr(mat));
+	glUniformMatrix3fv(location, 1, false, glm::value_ptr(mat));
 }
 
 template <>
 void shader_program_t::uniform_setter_t::set_value(const glm::mat4& mat) {
-	glpp::call(glUniformMatrix4fv, location, 1, false, glm::value_ptr(mat));
+	glUniformMatrix4fv(location, 1, false, glm::value_ptr(mat));
 }
 
 void shader_program_t::use() {
-	call(glUseProgram,id());
+	glUseProgram(id());
 }
 
 void shader_program_t::attatch(const shader_t& shader) {
-	glpp::call(glAttachShader,id(), shader.id());
+	glAttachShader(id(), shader.id());
 }
 
 void shader_program_t::link() {
-	glpp::call(glLinkProgram,id());
+	glLinkProgram(id());
 }
 
 void shader_program_t::destroy(GLuint id) {
-	call(glDeleteProgram, id);
+	glDeleteProgram(id);
 }
 
 }

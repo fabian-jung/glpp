@@ -26,30 +26,30 @@ framebuffer_t::framebuffer_t(std::initializer_list<std::pair<const texture_t&, a
 
 GLuint framebuffer_t::create() {
 	GLuint id;
-	call(glCreateFramebuffers, 1, &id);
+	glCreateFramebuffers(1, &id);
 	return id;
 }
 
 void framebuffer_t::destroy(GLuint id) {
-	call(glDeleteFramebuffers, 1, &id);
+	glDeleteFramebuffers(1, &id);
 }
 
 void framebuffer_t::attach(const texture_t& texture, attachment_t attatchment) {
 	if(width() != texture.width() || height() != texture.height()) {
 		throw std::runtime_error("Can not attach texture with different resolution.");
 	}
-	call(glNamedFramebufferTexture, id(), static_cast<GLenum>(attatchment), texture.id(), 0);
+	glNamedFramebufferTexture(id(), static_cast<GLenum>(attatchment), texture.id(), 0);
 }
 
 void framebuffer_t::bind(framebuffer_target_t target) {
-	if(call(glCheckNamedFramebufferStatus, id(), GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE) {
+	if(glCheckNamedFramebufferStatus(id(), GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE) {
 		throw std::runtime_error("Framebuffer is not complete and can not be bound. Attach at least one buffer before binding.");
 	}
-	call(glBindFramebuffer, static_cast<GLenum>(target), id());
+	glBindFramebuffer(static_cast<GLenum>(target), id());
 }
 
 void framebuffer_t::bind_default_framebuffer(framebuffer_target_t target) {
-	call(glBindFramebuffer, static_cast<GLenum>(target), 0);
+	glBindFramebuffer(static_cast<GLenum>(target), 0);
 }
 
 size_t framebuffer_t::width() const {

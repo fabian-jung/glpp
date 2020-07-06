@@ -87,13 +87,13 @@ view_t(const Model& model, T Model::value_type::* ...attributes) -> view_t<typen
 template <class Attribute_Description, view_primitives_t primitive>
 void view_t<Attribute_Description, primitive>::draw() const {
 	m_vao.bind();
-	glpp::call(glDrawArrays, static_cast<GLenum>(primitive), 0, m_size);
+	glDrawArrays(static_cast<GLenum>(primitive), 0, m_size);
 }
 
 template <class Attribute_Description, view_primitives_t primitive>
 void view_t<Attribute_Description, primitive>::draw_instanced(size_t count) const {
 	m_vao.bind();
-	glpp::call(glDrawArraysInstanced, static_cast<GLenum>(primitive), 0, m_size, count);
+	glDrawArraysInstanced(static_cast<GLenum>(primitive), 0, m_size, count);
 }
 
 template <class Attribute_Description, view_primitives_t primitive>

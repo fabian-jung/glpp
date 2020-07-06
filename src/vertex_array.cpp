@@ -10,17 +10,17 @@ vertex_array_t::vertex_array_t() :
 {}
 
 void vertex_array_t::bind() const {
-	call(glBindVertexArray, id());
+	glBindVertexArray(id());
 }
 
 GLuint vertex_array_t::create() {
 	GLuint id;
-	call(glGenVertexArrays,1, &id);
+	glGenVertexArrays(1, &id);
 	return id;
 }
 
 void vertex_array_t::destroy(GLuint id) {
-	call(glDeleteVertexArrays, 1, &id);
+	glDeleteVertexArrays(1, &id);
 }
 
 }

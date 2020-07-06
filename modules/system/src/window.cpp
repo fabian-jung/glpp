@@ -4,12 +4,56 @@
 #include <functional>
 #include <bitset>
 #include <iostream>
+#include <string_view>
+#include <sstream>
 
 namespace glpp::system {
 
-template <class FN, class... ARGS>
-auto call(FN fn, ARGS&& ...args) {
-	return fn(std::forward<ARGS>(args)...);
+void error_handler(GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length, const GLchar* message, const void* userParam)
+{
+	auto window = reinterpret_cast<const window_t*>(userParam);
+	std::stringstream msg;
+	msg << "\n";
+
+	switch (source)
+	{
+		case GL_DEBUG_SOURCE_API:             msg << "Source: API"; break;
+		case GL_DEBUG_SOURCE_WINDOW_SYSTEM:   msg << "Source: Window System"; break;
+		case GL_DEBUG_SOURCE_SHADER_COMPILER: msg << "Source: Shader Compiler"; break;
+		case GL_DEBUG_SOURCE_THIRD_PARTY:     msg << "Source: Third Party"; break;
+		case GL_DEBUG_SOURCE_APPLICATION:     msg << "Source: Application"; break;
+		case GL_DEBUG_SOURCE_OTHER:           msg << "Source: Other"; break;
+	}
+	msg << "\n";
+
+
+	switch (type)
+	{
+		case GL_DEBUG_TYPE_ERROR:               msg << "Type: Error"; break;
+		case GL_DEBUG_TYPE_DEPRECATED_BEHAVIOR: msg << "Type: Deprecated Behaviour"; break;
+		case GL_DEBUG_TYPE_UNDEFINED_BEHAVIOR:  msg << "Type: Undefined Behaviour"; break;
+		case GL_DEBUG_TYPE_PORTABILITY:         msg << "Type: Portability"; break;
+		case GL_DEBUG_TYPE_PERFORMANCE:         msg << "Type: Performance"; break;
+		case GL_DEBUG_TYPE_MARKER:              msg << "Type: Marker"; break;
+		case GL_DEBUG_TYPE_PUSH_GROUP:          msg << "Type: Push Group"; break;
+		case GL_DEBUG_TYPE_POP_GROUP:           msg << "Type: Pop Group"; break;
+		case GL_DEBUG_TYPE_OTHER:               msg << "Type: Other"; break;
+	}
+	msg << "\n";
+
+	switch (severity)
+	{
+		case GL_DEBUG_SEVERITY_HIGH:         msg << "Severity: high"; break;
+		case GL_DEBUG_SEVERITY_MEDIUM:       msg << "Severity: medium"; break;
+		case GL_DEBUG_SEVERITY_LOW:          msg << "Severity: low"; break;
+		case GL_DEBUG_SEVERITY_NOTIFICATION: msg << "Severity: notification"; break;
+	}
+	msg << "\n";
+
+	msg << "Debug message (" << id << ") from window " << window->get_name() <<  ": " <<  std::string_view(message, length) << "\n";
+
+
+	throw std::runtime_error(msg.str());
 }
 
 window_t::window_t(unsigned int width, unsigned int height, const std::string& name, vsync_t vsyncOn, fullscreen_t fullScreen) :
@@ -29,8 +73,8 @@ window_t::window_t(unsigned int width, unsigned int height, const std::string& n
 	//Check GL context
 	GLint glMajor = 0;
 	GLint glMinor = 0;
-	call(glGetIntegerv, GL_MAJOR_VERSION, &glMajor);
-	call(glGetIntegerv, GL_MINOR_VERSION, &glMinor);
+	glGetIntegerv(GL_MAJOR_VERSION, &glMajor);
+	glGetIntegerv(GL_MINOR_VERSION, &glMinor);
 	std::cout << "GL " << glMajor << "." << glMinor << " context created." << std::endl;
 
 	m_version = opengl_version_t(glMajor,glMinor);
@@ -47,24 +91,38 @@ window_t::window_t(unsigned int width, unsigned int height, const std::string& n
 	};
 
 	// Set up Gl Stuff
-	call(glClearColor, .0f,.0f,.0f,1.000f);
-	call(glClear, GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+#ifndef NDEBUG
+	glDebugMessageCallback(error_handler, this);
+	glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS);
+	glDebugMessageControl(GL_DONT_CARE, GL_DONT_CARE, GL_DEBUG_SEVERITY_HIGH, 0, nullptr, true);
+	glDebugMessageControl(GL_DONT_CARE, GL_DONT_CARE, GL_DEBUG_SEVERITY_MEDIUM, 0, nullptr, true);
+	glDebugMessageControl(GL_DONT_CARE, GL_DONT_CARE, GL_DEBUG_SEVERITY_LOW, 0, nullptr, true);
+	glDebugMessageControl(GL_DONT_CARE, GL_DONT_CARE, GL_DEBUG_SEVERITY_NOTIFICATION, 0, nullptr, false);
+	constexpr std::array ignore_buffer {
+		static_cast<GLuint>(131218)
+	};
+	glDebugMessageControl(GL_DEBUG_SOURCE_API,  GL_DEBUG_TYPE_PERFORMANCE, GL_DONT_CARE, ignore_buffer.size(), ignore_buffer.data(), false);
+
+#endif
+
+	glClearColor(.0f,.0f,.0f,1.000f);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glfwSwapBuffers(m_window);
 
 
 	//supress first error after init. it seems to have no reason.
 	glGetError();
 
+	// Initialise error callback function
 	// tell GL to only draw onto a pixel if the shape is closer to the viewer
-	call(glDepthFunc, GL_LESS); // depth-testing interprets a smaller value as "closer"
+	glDepthFunc(GL_LESS); // depth-testing interprets a smaller value as "closer"
 	// enable depth-testing
-	call(glEnable, GL_DEPTH_TEST);
+	glEnable(GL_DEPTH_TEST);
 	// Enable Antialiasing by multisampling
-	call(glEnable, GL_MULTISAMPLE);
+	glEnable(GL_MULTISAMPLE);
 
 	// Texture input aligned bytewise // this is the slowest, but safest way to upload textures
-	call(glPixelStorei, GL_UNPACK_ALIGNMENT, 1); // Disable byte-alignment restriction
-
+	glPixelStorei(GL_UNPACK_ALIGNMENT, 1); // Disable byte-alignment restriction
 
 }
 window_t::~window_t()
@@ -90,8 +148,9 @@ GLFWwindow* window_t::init_window(fullscreen_t fullScreen, vsync_t vsync) {
 	glfwWindowHint (GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 //	glfwWindowHint (GLFW_OPENGL_PROFILE, GLFW_OPENGL_ANY_PROFILE); //Default value
 	glfwWindowHint (GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE); //Better compatability
-// 	glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, GL_TRUE);
-
+#ifndef NDEBUG
+	glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, GL_TRUE);
+#endif
 	//Anti Aliasing
 	glfwWindowHint (GLFW_SAMPLES, 4);
 
@@ -116,6 +175,10 @@ void window_t::set_cursor_mode(cursor_mode_t mode)
 {
 	cursor_mode = mode;
 	glfwSetInputMode(m_window, GLFW_CURSOR, static_cast<int>(mode));
+}
+
+const std::string& window_t::get_name() const {
+	return m_name;
 }
 
 cursor_mode_t window_t::get_cursor_mode() {

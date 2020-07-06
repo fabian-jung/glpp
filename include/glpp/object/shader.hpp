@@ -75,7 +75,7 @@ private:
 template <class... shader_t>
 shader_program_t::shader_program_t(const shader_t&... shader) :
 	object_t(
-		call(glCreateProgram),
+		glCreateProgram(),
 		destroy
 	)
 {
@@ -84,7 +84,7 @@ shader_program_t::shader_program_t(const shader_t&... shader) :
 		link();
 		int success;
 		char info_log[512];
-		call(glGetProgramiv, id(), GL_LINK_STATUS, &success);
+		glGetProgramiv(id(), GL_LINK_STATUS, &success);
 		if(!success) {
 			glGetProgramInfoLog(id(), sizeof(info_log), NULL, info_log);
 			throw std::runtime_error(info_log);
@@ -96,7 +96,7 @@ shader_program_t::shader_program_t(const shader_t&... shader) :
 template <class Value>
 void shader_program_t::set_uniform(const char* name, const Value& value) {
 	use();
-	auto location = glpp::call(glGetUniformLocation, id(), name);
+	auto location = glGetUniformLocation(id(), name);
 	uniform_setter_t setter(location);
 	setter.set_value(value);
 }
@@ -104,7 +104,7 @@ void shader_program_t::set_uniform(const char* name, const Value& value) {
 template <class Value>
 void shader_program_t::set_uniform_array(const char* name, const Value* value, const size_t size) {
 	use();
-	auto location = glpp::call(glGetUniformLocation, id(), name);
+	auto location = glGetUniformLocation(id(), name);
 	uniform_setter_t setter(location);
 	setter.set_value(value, size);
 }
@@ -114,7 +114,7 @@ template <class texture_slot_iterator>
 void shader_program_t::set_texture_array(const char* name, const texture_slot_iterator begin, const texture_slot_iterator end) {
 	const auto size = std::distance(begin, end);
 	use();
-	auto location = glpp::call(glGetUniformLocation, id(), name);
+	auto location = glGetUniformLocation(id(), name);
 	uniform_setter_t setter(location);
 	if constexpr(std::is_integral_v<std::remove_pointer_t<texture_slot_iterator>>) {
 		setter.set_value(begin, size);
