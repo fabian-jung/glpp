@@ -1,3 +1,4 @@
+option(enable_asset "Build with the asset module, for loading 3d assets from files." ON)
 option(enable_system "Build with the system module, for creating windows." ON)
 option(enable_image "Build with the image module, for loading images into textures." ON)
 option(enable_text "Build with the system module, for loading fonts and rendering text." ON)
@@ -8,6 +9,10 @@ add_subdirectory(test)
 endif()
 
 add_subdirectory(core)
+
+if(${enable_asset})
+add_subdirectory(asset)
+endif()
 
 if(${enable_system})
 add_subdirectory(system)

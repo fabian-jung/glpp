@@ -54,7 +54,7 @@ glpp::core::render::camera_t::camera_t(
 {}
 
 glm::mat4 glpp::core::render::camera_t::mvp(const glm::mat4& model_matrix) const {
-	const glm::mat4 translation = glm::translate(model_matrix, -position);
+	const glm::mat4 translation = glm::translate(glm::mat4(1.0f), -position);
 	const auto rotation = glm::mat4_cast(glm::inverse(orientation));
 	const glm::mat4 projection = glm::perspectiveFov(
 		glm::radians(fov),
@@ -63,5 +63,5 @@ glm::mat4 glpp::core::render::camera_t::mvp(const glm::mat4& model_matrix) const
 		near_plane,
 		far_plane
 	);
-	return projection*rotation*translation;
+	return projection*rotation*translation*model_matrix;
 }

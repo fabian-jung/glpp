@@ -210,3 +210,12 @@ TEST_CASE("Construct camera with look_at vector. look_at should be projected to 
 		}
 	}
 }
+
+TEST_CASE("Check mvp construction with a non uniform model_matrix") {
+    const glm::mat4 model_matrix = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, -5.0f, 0.0f));
+    const glpp::core::render::camera_t camera;
+    const glm::vec4 position { 0.0f, 5.0f, 0.0f, 1.0f };
+    const auto projected = camera.mvp(model_matrix)*position;
+    REQUIRE(projected.x == Approx(0.0f).margin(0.001f));
+    REQUIRE(projected.y == Approx(0.0f).margin(0.001f));
+}
