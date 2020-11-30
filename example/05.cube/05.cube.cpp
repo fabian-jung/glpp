@@ -67,6 +67,11 @@ private:
 	}
 };
 
+namespace glpp::render {
+	template <>
+	struct model_traits<cube_model_t> : public model_traits<glpp::render::model_t<vertex_description_t>> {};
+}
+
 int main(
 	__attribute__((unused)) int argc,
 	__attribute__((unused)) char *argv[]
@@ -86,7 +91,7 @@ int main(
 	};
 	renderer.set_uniform_name(&scene_uniform_description_t::mvp, "mvp");
 
-	view_t<vertex_description_t> view(
+	view_t view(
 		cube_model_t{{std::make_pair(glm::vec3{0,0,0}, glm::vec3{2, 2, 2})}},
 		&vertex_description_t::position,
 		&vertex_description_t::norm

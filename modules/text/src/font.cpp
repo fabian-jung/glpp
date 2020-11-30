@@ -115,18 +115,19 @@ glpp::object::texture_t font_t::init_texture() const {
 	struct vertex_description_t {
 		glm::vec2 pos;
 	};
-	using model_t = glpp::render::model_t<vertex_description_t>;
 
-	glpp::render::view_t view{
-		model_t {
-			vertex_description_t{{0.0, 0.0}},
-			vertex_description_t{{1.0, 1.0}},
-			vertex_description_t{{1.0, 0.0}},
+	glpp::render::model_t<vertex_description_t> model {
+		vertex_description_t{{0.0, 0.0}},
+		vertex_description_t{{1.0, 1.0}},
+		vertex_description_t{{1.0, 0.0}},
 
-			vertex_description_t{{0.0, 0.0}},
-			vertex_description_t{{0.0, 1.0}},
-			vertex_description_t{{1.0, 1.0}}
-		},
+		vertex_description_t{{0.0, 0.0}},
+		vertex_description_t{{0.0, 1.0}},
+		vertex_description_t{{1.0, 1.0}}
+	};
+
+	glpp::render::view_t view {
+		model,
 		&vertex_description_t::pos
 	};
 

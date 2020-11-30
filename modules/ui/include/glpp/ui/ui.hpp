@@ -88,7 +88,7 @@ public:
 	}
 
 	void update() {
-		view = glpp::render::view_t<vertex_description_t> {
+		view = glpp::render::view_t {
 			model,
 			&vertex_description_t::pos,
 			&vertex_description_t::tex,
@@ -126,7 +126,7 @@ private:
 	std::string vertex_shader_code() const;
 	std::string fragment_shader_code() const ;
 
-	glpp::render::view_t<vertex_description_t> view;
+	glpp::render::view_t<model_t> view;
 	glpp::render::renderer_t<> renderer;
 };
 

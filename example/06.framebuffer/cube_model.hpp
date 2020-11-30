@@ -61,3 +61,8 @@ private:
 		emplace_back(fourth);
 	}
 };
+
+namespace glpp::render {
+	template <>
+	struct model_traits<cube_model_t> : public model_traits<glpp::render::model_t<cube_vertex_description_t>> {};
+}

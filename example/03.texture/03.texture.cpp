@@ -32,6 +32,11 @@ public:
 	}
 };
 
+namespace glpp::render {
+	template <>
+	struct model_traits<::model_t> : public model_traits<glpp::render::model_t<vertex_description_t>> {};
+}
+
 int main(__attribute__((unused)) int argc, __attribute__((unused)) char* argv[]) {
 	glpp::system::window_t window(800, 600, "texture");
 	window.set_input_mode(glpp::system::input_mode_t::wait);
@@ -67,7 +72,7 @@ int main(__attribute__((unused)) int argc, __attribute__((unused)) char* argv[])
 	auto texture_unit_one = texture_one.bind_to_texture_slot();
 	renderer.set_texture("texture_one" , texture_unit_one);
 
-	glpp::render::view_t<vertex_description_t> view(
+	glpp::render::view_t view(
 		model,
 		&vertex_description_t::position,
 		&vertex_description_t::tex

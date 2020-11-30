@@ -55,7 +55,7 @@ int main(
 	};
 	second_stage_postprocessing.set_uniform_name(&second_stage_uniform_description_t::depth_in_focus, "depth_in_focus");
 
-	view_t<cube_vertex_description_t> scene(
+	view_t scene(
 		cube_model_t{
 			{{0,0,0},  {2,2,2}},
 			{{0,-1,0},  {20,0,20}}
@@ -64,7 +64,7 @@ int main(
 		&cube_vertex_description_t::norm
 	);
 
-	view_t<quad_vertex_description_t> screen_quad{
+	view_t screen_quad{
 		quad_model_t{
 			{{0,0}, {2, 2}}
 		},

@@ -41,3 +41,8 @@ public:
 		);
 	}
 };
+
+namespace glpp::render {
+	template <>
+	struct model_traits<quad_model_t> : public model_traits<glpp::render::model_t<quad_vertex_description_t>> {};
+}

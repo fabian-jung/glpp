@@ -56,6 +56,11 @@ public:
 	}
 };
 
+namespace glpp::render {
+	template <>
+	struct model_traits<quad_model_t> : public model_traits<glpp::render::model_t<vertex_description_t>> {};
+}
+
 using namespace glpp::system;
 using namespace glpp::object;
 using namespace glpp::render;
@@ -88,7 +93,7 @@ int main(__attribute__((unused)) int argc, __attribute__((unused)) char* argv[])
 		texture_t texture{image_t<glm::vec3>("Tile.png")};
 		texture_slot_t tex_slot = texture.bind_to_texture_slot();
 		texture_slot_t level_tex_slot = mh.level_texture().bind_to_texture_slot();
-		view_t<vertex_description_t> view{
+		view_t<quad_model_t> view{
 			quad_model_t{{glm::vec2(1.0/mh.level().width(), 1.0/mh.level().height()), glm::vec2(2.0/mh.level().width(), 2.0/mh.level().height())}},
 			&vertex_description_t::position,
 			&vertex_description_t::tex
@@ -106,7 +111,7 @@ int main(__attribute__((unused)) int argc, __attribute__((unused)) char* argv[])
 		};
 		texture_t texture{image_t<glm::vec3>("Slider.png")};
 		texture_slot_t tex_slot = texture.bind_to_texture_slot();
-		view_t<vertex_description_t> view{
+		view_t<quad_model_t> view{
 			quad_model_t{{glm::vec2(0, 0), glm::vec2(mh.slider_width(), 0.05)}},
 			&vertex_description_t::position,
 			&vertex_description_t::tex
@@ -123,7 +128,7 @@ int main(__attribute__((unused)) int argc, __attribute__((unused)) char* argv[])
 		};
 		texture_t texture{image_t<glm::vec3>("Ball.png")};
 		texture_slot_t tex_slot = texture.bind_to_texture_slot();
-		view_t<vertex_description_t> view{
+		view_t<quad_model_t> view{
 			quad_model_t{{glm::vec2(0.0, 0.0), glm::vec2(mh.size(), mh.size())}},
 			&vertex_description_t::position,
 			&vertex_description_t::tex

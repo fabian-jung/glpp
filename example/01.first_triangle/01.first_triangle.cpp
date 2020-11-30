@@ -63,6 +63,10 @@ public:
 	}
 };
 
+namespace glpp::render {
+	template <>
+	struct model_traits<::model_t> : public model_traits<glpp::render::model_t<vertex_description_t>> {};
+}
 
 int main(
 	__attribute__((unused)) int argc,
@@ -84,7 +88,7 @@ int main(
 		glm::vec3{0.0, 1.0, 0.0}
 	);
 
-	glpp::render::view_t<vertex_description_t> view(
+	glpp::render::view_t view(
 		model,
 		&vertex_description_t::position,
 		&vertex_description_t::color

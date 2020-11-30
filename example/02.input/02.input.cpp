@@ -32,6 +32,11 @@ public:
 	}
 };
 
+namespace glpp::render {
+template <>
+struct model_traits<::model_t> : public model_traits<glpp::render::model_t<vertex_description_t>> {};
+}
+
 bool hit_check(const glm::vec2& offset, const glm::vec2& mouse) {
 	const glm::vec2 pos = mouse - offset + glm::vec2(0.25, 0.25);
 	return pos.x > 0 && pos.x < 0.5 && pos.y > 0 && pos.y < 0.5;
@@ -71,7 +76,7 @@ int main(__attribute__((unused)) int argc, __attribute__((unused)) char* argv[])
 		glm::vec2{-0.25,  0.25}
 	);
 
-	glpp::render::view_t<vertex_description_t> view(
+	glpp::render::view_t view(
 		model,
 		&vertex_description_t::position
 	);
