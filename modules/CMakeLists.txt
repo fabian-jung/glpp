@@ -3,6 +3,8 @@ option(enable_image "Build with the image module, for loading images into textur
 option(enable_text "Build with the system module, for loading fonts and rendering text." ON)
 option(enable_ui "Build with the ui module, for displaying widgets like buttons, frames and labels." ON)
 
+add_subdirectory(core)
+
 if(${enable_system})
 add_subdirectory(system)
 endif()
