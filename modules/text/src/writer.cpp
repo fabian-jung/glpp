@@ -48,6 +48,7 @@ glpp::render::renderer_t<writer_t::uniform_description_t> writer_t::renderer() {
 	};
 	result.set_texture("glyphs", m_font.texture_slot());
 	result.set_uniform_name(&uniform_description_t::color, "color");
+	result.set_uniform(&uniform_description_t::color, glm::vec4(1.0f));
 	return result;
 }
 
