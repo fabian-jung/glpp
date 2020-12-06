@@ -11,3 +11,4 @@
 #include "render/renderer.hpp"
 #include "render/view.hpp"
 #include "render/camera.hpp"
+#include "render/light.hpp"
