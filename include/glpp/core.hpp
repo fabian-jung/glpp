@@ -10,3 +10,4 @@
 #include "render/model.hpp"
 #include "render/renderer.hpp"
 #include "render/view.hpp"
+#include "render/camera.hpp"
