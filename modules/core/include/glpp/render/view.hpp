@@ -108,8 +108,8 @@ view_t(const Model& model, T model_traits<Model>::attribute_description_t::* ...
  * Implementation
  */
 
-template <class Attribute_Description, view_primitives_t primitive>
-void view_t<Attribute_Description, primitive>::draw() const {
+template <class Model, view_primitives_t primitive>
+void view_t<Model, primitive>::draw() const {
 	m_vao.bind();
 	if constexpr(model_traits_t::instanced()) {
 		glDrawElements(static_cast<GLenum>(primitive), m_size, GL_UNSIGNED_INT, 0);
@@ -118,19 +118,19 @@ void view_t<Attribute_Description, primitive>::draw() const {
 	}
 }
 
-template <class Attribute_Description, view_primitives_t primitive>
-void view_t<Attribute_Description, primitive>::draw_instanced(size_t count) const {
+template <class Model, view_primitives_t primitive>
+void view_t<Model, primitive>::draw_instanced(size_t count) const {
 	m_vao.bind();
 	if constexpr(model_traits_t::instanced()) {
-		glDrawArraysInstanced(static_cast<GLenum>(primitive), 0, m_size, count);
-	} else {
 		glDrawElementsInstanced(static_cast<GLenum>(primitive), m_size, GL_UNSIGNED_INT, 0, count);
+	} else {
+		glDrawArraysInstanced(static_cast<GLenum>(primitive), 0, m_size, count);
 	}
 }
 
-template <class Attribute_Description, view_primitives_t primitive>
+template <class Model, view_primitives_t primitive>
 template <class T>
-constexpr void* view_t<Attribute_Description, primitive>::offset(T attribute_description_t::* attr) {
+constexpr void* view_t<Model, primitive>::offset(T attribute_description_t::* attr) {
 	return reinterpret_cast<void*>(
 		&(reinterpret_cast<attribute_description_t*>(0)->*attr)
 	);
