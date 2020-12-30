@@ -8,6 +8,7 @@
 #include "mesh.hpp"
 #include "material.hpp"
 #include "light.hpp"
+#include "scene_graph_t.hpp"
 #include <glpp/render/camera.hpp>
 
 namespace glpp::asset {
@@ -32,11 +33,10 @@ public:
 
 	std::vector<any_light_t> all_lights() const;
 
-	void scene_graph() const;
-
 private:
 	Assimp::Importer m_importer;
-	const aiScene* scene;
+	const aiScene* m_scene;
+	scene_graph_t m_scene_graph;
 };
 
 }

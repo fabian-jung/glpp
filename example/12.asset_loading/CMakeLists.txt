@@ -11,7 +11,7 @@ foreach(res ${ASSET_LOADING_ASSETS})
 	get_filename_component(name ${res} NAME_WLE)
 	add_custom_command(
 		OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/${name}.fbx
-		DEPENDS ${name}.blend
+		DEPENDS ${name}.blend export_fbx.py
 		COMMAND ${blender_executable} ${res} --background --python ${CMAKE_CURRENT_LIST_DIR}/export_fbx.py -- ${CMAKE_CURRENT_BINARY_DIR}/${name}.fbx
 		COMMENT "Generate FBX ${CMAKE_CURRENT_BINARY_DIR}/${name}.fbx"
 		MAIN_DEPENDENCY ${res}

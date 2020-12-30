@@ -15,12 +15,14 @@
 #include <iostream>
 
 int main(int, char*[]) {
+
 	glpp::asset::importer_t importer("room.fbx");
 
 
-	auto materials = importer.materials(std::cout);
+	auto materials = importer.materials();
 
 	const auto lights = importer.all_lights();
+
 	std::for_each(lights.begin(), lights.end(), [](const auto& light) {
 		std::visit(
 			[](const auto& l){
@@ -65,46 +67,56 @@ int main(int, char*[]) {
 	renderer.set_uniform_name(&scene_uniform_description_t::mvp, "mvp");
 	renderer.set_texture("tile_tex" , texture_unit_one);
 
-	std::vector<glpp::asset::mesh_t::model_t> models;
-	for(const auto& mesh : importer.meshes()) {
-		models.emplace_back(mesh.model());
-	}
+	auto meshes = importer.meshes();
 
 	auto cameras = importer.cameras();
 
-	using model_t = decltype(models)::value_type;
-	using vertex_description_t = typename model_traits<model_t>::attribute_description_t;
+	using vertex_description_t = glpp::asset::mesh_t::vertex_description_t;
+	using model_t = glpp::asset::mesh_t::model_t;
 	using view_t = glpp::render::view_t<model_t>;
-	std::vector<view_t> views;
-	std::transform(models.begin(), models.end(), std::back_inserter(views), [](const auto& model){
-		return glpp::render::view_t {
-			model,
-			&vertex_description_t::position,
-			&vertex_description_t::normal,
-			&vertex_description_t::tex
-		};
+
+
+	std::vector<std::pair<glm::mat4, view_t>> views;
+	std::transform(meshes.begin(), meshes.end(), std::back_inserter(views), [](const auto& mesh){
+		return std::make_pair(
+			mesh.model_matrix,
+			glpp::render::view_t {
+				mesh.model,
+				&vertex_description_t::position,
+				&vertex_description_t::normal,
+				&vertex_description_t::tex
+			}
+		);
 	});
 
 	glClearColor(0.2,0.2,0.2,1.0);
-
 	int cam_count = 0;
 	window.input_handler().set_keyboard_action(glpp::system::key_t::space, glpp::system::action_t::release, [&](int){
  		cam_count = (cam_count+1)%cameras.size();
 
 	});
-	// 	glPolygonMode( GL_FRONT_AND_BACK, GL_LINE );
 
-	glm::mat4 m(1.0f);
+	window.input_handler().set_keyboard_action(glpp::system::key_t::tab, glpp::system::action_t::release, [&, toggle = true](int) mutable {
+		if(toggle) {
+			glPolygonMode( GL_FRONT_AND_BACK, GL_LINE );
+		} else {
+			glPolygonMode( GL_FRONT_AND_BACK, GL_FILL );
+		}
+		toggle = !toggle;
+	});
+	
+	glEnable(GL_DEPTH_TEST);
+	
 	window.enter_main_loop([&]() {
 		auto& camera = cameras[cam_count];
 		camera.aspect_ratio = window.get_aspect_ratio();
-
-		renderer.set_uniform(&scene_uniform_description_t::mvp, camera.mvp(m));
-
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		std::for_each(views.begin(), views.end(), [&](const auto& view){
+
+
+		for(const auto& [model_matrix, view] : views) {
+			renderer.set_uniform(&scene_uniform_description_t::mvp, camera.mvp(model_matrix));
 			renderer.render(view);
-		});
+		}
 	});
 
 	return 0;

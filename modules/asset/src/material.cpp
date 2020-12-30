@@ -92,6 +92,4 @@ material_t::material_t(const aiMaterial* material, std::ostream& logger) :
 	logger << "}\n";
 }
 
-
-
 }

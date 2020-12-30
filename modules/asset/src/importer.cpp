@@ -1,22 +1,28 @@
 #include "glpp/asset/importer.hpp"
 
+#warning
+#include <iostream>
+
 namespace glpp::asset {
 
 importer_t::importer_t(const std::string& file) :
-	scene(m_importer.ReadFile(file, aiProcess_Triangulate))
+	m_scene(m_importer.ReadFile(file, aiProcess_Triangulate)),
+	m_scene_graph(m_scene, m_scene->mRootNode, std::cout)
 {
-	if(!scene) {
+	if(!m_scene) {
 		throw std::runtime_error(m_importer.GetErrorString());
 	}
 }
 
 std::vector<mesh_t> importer_t::meshes() const {
 	std::vector<mesh_t> meshes;
-	meshes.reserve(scene->mNumMeshes);
-	const auto begin = scene->mMeshes;
-	const auto end = scene->mMeshes+scene->mNumMeshes;
-	std::transform(begin, end, std::back_inserter(meshes), [](aiMesh* mesh){
-		return mesh_t(mesh);
+	meshes.reserve(m_scene->mNumMeshes);
+	const auto begin = m_scene->mMeshes;
+	const auto end = m_scene->mMeshes+m_scene->mNumMeshes;
+	std::transform(begin, end, std::back_inserter(meshes), [this](aiMesh* mesh){
+		#warning stringview
+		auto model_matrix = m_scene_graph.scene.at(std::string(mesh->mName.C_Str()));
+		return mesh_t(model_matrix, mesh);
 	});
 	return meshes;
 }
@@ -24,8 +30,8 @@ std::vector<mesh_t> importer_t::meshes() const {
 std::vector<material_t> importer_t::materials() const {
 	std::vector<material_t> result;
 	std::transform(
-		scene->mMaterials,
-		scene->mMaterials+scene->mNumMaterials,
+		m_scene->mMaterials,
+		m_scene->mMaterials+m_scene->mNumMaterials,
 		std::back_inserter(result), [](const auto* m){
 			return material_t(m);
 		}
@@ -36,8 +42,8 @@ std::vector<material_t> importer_t::materials() const {
 std::vector<material_t> importer_t::materials(std::ostream& logger) const {
 	std::vector<material_t> result;
 	std::transform(
-		scene->mMaterials,
-		scene->mMaterials+scene->mNumMaterials,
+		m_scene->mMaterials,
+		m_scene->mMaterials+m_scene->mNumMaterials,
 		std::back_inserter(result), [&](const auto* m){
 			return material_t(m, logger);
 		}
@@ -47,9 +53,9 @@ std::vector<material_t> importer_t::materials(std::ostream& logger) const {
 
 std::vector<render::camera_t> importer_t::cameras() const {
 	std::vector<render::camera_t> cameras;
-	cameras.reserve(scene->mNumCameras);
-	std::transform(scene->mCameras, scene->mCameras+scene->mNumCameras, std::back_inserter(cameras), [&](const aiCamera* cam){
-		aiNode* cameraNode = scene->mRootNode->FindNode(cam->mName);
+	cameras.reserve(m_scene->mNumCameras);
+	std::transform(m_scene->mCameras, m_scene->mCameras+m_scene->mNumCameras, std::back_inserter(cameras), [&](const aiCamera* cam){
+		aiNode* cameraNode = m_scene->mRootNode->FindNode(cam->mName);
 		auto transform = cameraNode->mTransformation;
 		auto aiPos = transform*cam->mPosition;
 		const glm::vec3 position { aiPos.x,  aiPos.y,  aiPos.z };
@@ -62,14 +68,15 @@ std::vector<render::camera_t> importer_t::cameras() const {
 			look_at,
 			up,
 			glm::degrees(cam->mHorizontalFOV),
-								cam->mClipPlaneNear,
-						  cam->mClipPlaneFar,
-						  cam->mAspect
+			cam->mClipPlaneNear,
+			cam->mClipPlaneFar,
+			cam->mAspect
 		);
 	});
 	return cameras;
 }
 
+namespace detail {
 struct light_cast_t {
 	const aiLight* light;
 
@@ -154,12 +161,13 @@ private:
 		}
 	}
 };
+}
 
 template <class T>
 std::vector<T> importer_t::lights() {
 	std::vector<T> result;
-	std::for_each(scene->mLights, scene->mLights+scene->mNumLights, [&](const auto light) {
-		light_cast_t caster{ light };
+	std::for_each(m_scene->mLights, m_scene->mLights+m_scene->mNumLights, [&](const auto light) {
+		detail::light_cast_t caster{ light };
 		if(caster.has_type<T>()) {
 			result.emplace_back(caster.cast<T>());
 		}
@@ -169,8 +177,8 @@ std::vector<T> importer_t::lights() {
 
 std::vector<any_light_t> importer_t::all_lights() const {
 	std::vector<any_light_t> result;
-	std::for_each(scene->mLights, scene->mLights+scene->mNumLights, [&](const auto light) {
-		light_cast_t caster { light };
+	std::for_each(m_scene->mLights, m_scene->mLights+m_scene->mNumLights, [&](const auto light) {
+		detail::light_cast_t caster { light };
 		if(caster.has_type<ambient_light_t>()) {
 			result.emplace_back(caster.cast<ambient_light_t>());
 		} else if(caster.has_type<directional_light_t>()) {

@@ -16,12 +16,10 @@ public:
 
 	using model_t = glpp::render::indexed_model_t<vertex_description_t>;
 
-	explicit mesh_t(const aiMesh* mesh) noexcept;
+	explicit mesh_t(glm::mat4 model_matrix, const aiMesh* mesh);
 
-	[[nodiscard]] model_t model() const;
-
-private:
-	const aiMesh* m_mesh;
+	glm::mat4 model_matrix;
+	model_t model;
 };
 
 }
