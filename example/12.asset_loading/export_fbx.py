@@ -10,7 +10,7 @@ bpy.ops.export_scene.fbx(
 	embed_textures=False, 
 	global_scale=.01, 
 	#apply_unit_scale=True, 
-	bake_space_transform=True, 
+	#bake_space_transform=True, 
 	axis_forward='-Z',
 	axis_up='Y'
 )

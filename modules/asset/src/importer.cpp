@@ -1,29 +1,37 @@
 #include "glpp/asset/importer.hpp"
 
-#warning
-#include <iostream>
-
 namespace glpp::asset {
 
 importer_t::importer_t(const std::string& file) :
-	m_scene(m_importer.ReadFile(file, aiProcess_Triangulate)),
-	m_scene_graph(m_scene, m_scene->mRootNode, std::cout)
+	m_scene(m_importer.ReadFile(file, aiProcess_Triangulate))
 {
 	if(!m_scene) {
 		throw std::runtime_error(m_importer.GetErrorString());
 	}
 }
 
+namespace detail {
+void traverse_scene_graph(const aiScene* scene, const aiNode* node, glm::mat4 old, std::vector<mesh_t>& meshes) {
+	glm::mat4 transformation = glm::transpose(glm::make_mat4(&(node->mTransformation.a1)))*old;
+	std::for_each_n(node->mMeshes, node->mNumMeshes, [&](unsigned int meshId){
+		const auto* mesh = scene->mMeshes[meshId];
+		meshes.emplace_back(
+			mesh_t{
+				transformation,
+				mesh
+			}
+		);		
+	});
+
+	std::for_each_n(node->mChildren, node->mNumChildren, [&](const aiNode* next){
+		traverse_scene_graph(scene, next, transformation, meshes);
+	});
+}
+}
+
 std::vector<mesh_t> importer_t::meshes() const {
 	std::vector<mesh_t> meshes;
-	meshes.reserve(m_scene->mNumMeshes);
-	const auto begin = m_scene->mMeshes;
-	const auto end = m_scene->mMeshes+m_scene->mNumMeshes;
-	std::transform(begin, end, std::back_inserter(meshes), [this](aiMesh* mesh){
-		#warning stringview
-		auto model_matrix = m_scene_graph.scene.at(std::string(mesh->mName.C_Str()));
-		return mesh_t(model_matrix, mesh);
-	});
+	detail::traverse_scene_graph(m_scene, m_scene->mRootNode, glm::mat4(1.0f), meshes);
 	return meshes;
 }
 

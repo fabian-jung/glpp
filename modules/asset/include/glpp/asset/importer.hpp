@@ -8,7 +8,6 @@
 #include "mesh.hpp"
 #include "material.hpp"
 #include "light.hpp"
-#include "scene_graph_t.hpp"
 #include <glpp/render/camera.hpp>
 
 namespace glpp::asset {
@@ -36,7 +35,6 @@ public:
 private:
 	Assimp::Importer m_importer;
 	const aiScene* m_scene;
-	scene_graph_t m_scene_graph;
 };
 
 }

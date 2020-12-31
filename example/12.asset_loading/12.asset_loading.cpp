@@ -14,12 +14,29 @@
 
 #include <iostream>
 
+
 int main(int, char*[]) {
 
 	glpp::asset::importer_t importer("room.fbx");
 
 
 	auto materials = importer.materials();
+	for(const auto& m : materials) {
+		std::cout << m.name << " ";
+		for(const auto& t : m.diffuse_textures) {
+			std::cout << t.op << " " << t.strength << "*" << t.file << "	";
+		}
+		for(const auto& t : m.ambient_textures) {
+			std::cout << t.op << " " << t.strength << "*" << t.file << "	";
+		}
+		for(const auto& t : m.emissive_textures) {
+			std::cout << t.op << " " << t.strength << "*" << t.file << "	";
+		}
+		for(const auto& t : m.specular_textures) {
+			std::cout << t.op << " " << t.strength << "*" << t.file << "	";
+		}
+		std::cout << std::endl;
+	}
 
 	const auto lights = importer.all_lights();
 

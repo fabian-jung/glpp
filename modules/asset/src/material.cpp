@@ -49,6 +49,27 @@ std::ostream& operator<<(std::ostream& lhs, const aiMaterialProperty& property) 
 	return lhs;
 }
 
+std::ostream& operator<<(std::ostream& lhs, const glpp::asset::material_t::op_t& rhs) {
+	switch(rhs) {
+		case glpp::asset::material_t::op_t::addition:
+			lhs << "ADD";
+			break;
+		case glpp::asset::material_t::op_t::multiplication:
+			lhs << "MUL";
+			break;
+		case glpp::asset::material_t::op_t::division:
+			lhs << "DIV";
+			break;
+		case glpp::asset::material_t::op_t::smooth_addition:
+			lhs << "SMOOTH_ADD";
+			break;
+		case glpp::asset::material_t::op_t::signed_addition:
+			lhs << "SIGNED_ADD";
+			break;
+	}
+	return lhs;
+}
+
 namespace glpp::asset {
 
 template <class T, class... Args>
@@ -72,15 +93,59 @@ glm::vec3 glm_cast(const aiColor3D& ai_color) {
 	return glm::vec3{ ai_color.r, ai_color.g, ai_color.b };
 }
 
+namespace detail {
+	auto texture_stack_from_key(const aiMaterial* material, const aiTextureType key) {
+		const auto count = material->GetTextureCount(key);
+		material_t::texture_stack_t result;
+		std::generate_n(std::back_inserter(result), count, [index = 0, key, material]() mutable {
+			ai_real strength = 1.0f;
+			aiString file;
+			aiTextureOp op;
+			material->GetTexture(key, index, &file, nullptr, nullptr, &strength, &op, nullptr);
+			++index;
+			
+			material_t::op_t cop = material_t::op_t::addition;
+			switch(op) {
+				case aiTextureOp_Subtract:
+					strength *= -1.0f;
+					break;
+				case aiTextureOp_Multiply:
+					cop = material_t::op_t::multiplication;
+					break;
+				case aiTextureOp_Divide:
+					cop = material_t::op_t::division;
+					break;
+				case aiTextureOp_SmoothAdd:
+					cop = material_t::op_t::smooth_addition;
+					break;
+				case aiTextureOp_SignedAdd:
+					cop = material_t::op_t::signed_addition;
+					break;
+				default:
+					break;
+			}
+			
+			return material_t::texture_stack_entry_t {
+				strength,
+				file.C_Str(),
+				cop
+			};
+		});
+		return result;
+	}
+}
 
 material_t::material_t(const aiMaterial* material) :
 	name(get<aiString>(material, AI_MATKEY_NAME).C_Str()),
 	diffuse(glm_cast(get<aiColor3D>(material, AI_MATKEY_COLOR_DIFFUSE))),
+	diffuse_textures(detail::texture_stack_from_key(material, aiTextureType_DIFFUSE)),
 	emissive(glm_cast(get<aiColor3D>(material, AI_MATKEY_COLOR_EMISSIVE))),
+	emissive_textures(detail::texture_stack_from_key(material, aiTextureType_EMISSIVE)),
 	ambient(glm_cast(get<aiColor3D>(material, AI_MATKEY_COLOR_AMBIENT))),
-	specular(glm_cast(get<aiColor3D>(material, AI_MATKEY_COLOR_SPECULAR)))
-{
-}
+	ambient_textures(detail::texture_stack_from_key(material, aiTextureType_AMBIENT)),
+	specular(glm_cast(get<aiColor3D>(material, AI_MATKEY_COLOR_SPECULAR))),
+	specular_textures(detail::texture_stack_from_key(material, aiTextureType_SPECULAR))
+{}
 
 material_t::material_t(const aiMaterial* material, std::ostream& logger) :
 	material_t(material)
