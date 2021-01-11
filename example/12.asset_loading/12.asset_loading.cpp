@@ -37,7 +37,7 @@ int main(int, char*[]) {
 		importer_t::material_policy_t::augment
 	);
 	auto cameras = importer->cameras();
-	scene_renderer_t<shading::flat_t> srenderer(*importer);
+	scene_renderer_t<shading::normal_t> srenderer(*importer);
 	importer.reset();
 	
 	glClearColor(0.2,0.2,0.2,1.0);
