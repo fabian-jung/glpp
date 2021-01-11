@@ -17,28 +17,15 @@ foreach(res ${ASSET_LOADING_ASSETS})
 		MAIN_DEPENDENCY ${res}
 	)
 	list(APPEND FBX_FILES "${CMAKE_CURRENT_BINARY_DIR}/${name}.fbx")
+	add_custom_command(
+		OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/${name}.glb
+		DEPENDS ${name}.blend export_gltf.py
+		COMMAND ${blender_executable} ${res} --background --python ${CMAKE_CURRENT_LIST_DIR}/export_gltf.py -- ${CMAKE_CURRENT_BINARY_DIR}/${name}.glb
+		COMMENT "Generate GLB ${CMAKE_CURRENT_BINARY_DIR}/${name}.glb"
+		MAIN_DEPENDENCY ${res}
+	)
+	list(APPEND FBX_FILES "${CMAKE_CURRENT_BINARY_DIR}/${name}.glb")
 endforeach()
 
 add_custom_target(12.asset_loading.fbx_target DEPENDS ${FBX_FILES})
 add_dependencies(12.asset_loading 12.asset_loading.fbx_target)
-
-
-file(GLOB ASSET_LOADING_DEPENDENCIES ${CMAKE_CURRENT_LIST_DIR}/*.glsl)
-
-add_custom_target(12.asset_loading.copy
-	DEPENDS ${ASSET_LOADING_DEPENDENCIES}
-)
-
-
-foreach(res ${ASSET_LOADING_DEPENDENCIES})
-	get_filename_component(name ${res} NAME)
-	add_custom_command(
-		TARGET 12.asset_loading.copy POST_BUILD
-		COMMAND ${CMAKE_COMMAND} -E copy
-				${CMAKE_CURRENT_LIST_DIR}/${name}
-				${CMAKE_CURRENT_BINARY_DIR}/${name}
-		DEPENDS ${CMAKE_CURRENT_LIST_DIR}/${name}
-	)
-endforeach()
-
-add_dependencies(12.asset_loading 12.asset_loading.copy)

@@ -5,6 +5,9 @@
 #include <ostream>
 #include <memory>
 
+#warning 
+#include <iostream>
+
 std::ostream& operator<<(std::ostream& lhs, const aiMaterialProperty& property) {
 	constexpr std::array<std::string_view, 6> types {
 		"<unknown>",
@@ -74,19 +77,9 @@ namespace glpp::asset {
 
 template <class T, class... Args>
 T get(const aiMaterial* material, Args... args) {
-	if constexpr(std::is_arithmetic_v<T>) {
-		T value;
-		material->Get(args..., &value);
-		return value;
-	} else {
-		// For some unknown reason the Get-method takes a l-reference to a pointer.
-		// Because of this it is not possible to pass a temporary of any sort.
-		T* ptr = new T;
-		material->Get(args..., ptr);
-		T value(*ptr);
-		delete ptr;
-		return value;
-	}
+	T value;
+	material->Get(args..., value);
+	return value;
 }
 
 glm::vec3 glm_cast(const aiColor3D& ai_color) {
@@ -144,8 +137,11 @@ material_t::material_t(const aiMaterial* material) :
 	ambient(glm_cast(get<aiColor3D>(material, AI_MATKEY_COLOR_AMBIENT))),
 	ambient_textures(detail::texture_stack_from_key(material, aiTextureType_AMBIENT)),
 	specular(glm_cast(get<aiColor3D>(material, AI_MATKEY_COLOR_SPECULAR))),
-	specular_textures(detail::texture_stack_from_key(material, aiTextureType_SPECULAR))
-{}
+	specular_textures(detail::texture_stack_from_key(material, aiTextureType_SPECULAR)),
+	shininess(get<float>(material, AI_MATKEY_SHININESS))
+{
+	std::cout << "load material " << name << " " << get<aiString>(material, AI_MATKEY_NAME).C_Str() << std::endl;
+}
 
 material_t::material_t(const aiMaterial* material, std::ostream& logger) :
 	material_t(material)

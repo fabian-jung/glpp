@@ -28,7 +28,8 @@ namespace glpp::asset {
 
 mesh_t::mesh_t(glm::mat4 model_matrix, const aiMesh* mesh) :
 	model_matrix(std::move(model_matrix)),
-	model(to_model(mesh))
+	model(to_model(mesh)),
+	material_index(mesh->mMaterialIndex)
 {}
 
 }

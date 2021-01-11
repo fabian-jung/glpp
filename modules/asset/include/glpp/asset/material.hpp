@@ -33,7 +33,7 @@ struct material_t {
 	const texture_stack_t ambient_textures;
 	const glm::vec3 specular;
 	const texture_stack_t specular_textures;
-
+	float shininess = 6;
 };
 
 }

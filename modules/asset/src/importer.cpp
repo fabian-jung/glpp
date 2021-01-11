@@ -2,8 +2,10 @@
 
 namespace glpp::asset {
 
-importer_t::importer_t(const std::string& file) :
-	m_scene(m_importer.ReadFile(file, aiProcess_Triangulate))
+importer_t::importer_t(const std::string& file,  material_map_t material_map, material_policy_t material_policy) :
+	m_scene(m_importer.ReadFile(file, aiProcess_Triangulate)),
+	m_material_map(material_map),
+	m_material_policy(material_policy)
 {
 	if(!m_scene) {
 		throw std::runtime_error(m_importer.GetErrorString());
@@ -11,6 +13,26 @@ importer_t::importer_t(const std::string& file) :
 }
 
 namespace detail {
+
+// void traverse_scene_graph(const aiScene* scene, const aiNode* node, glm::mat4 old, std::vector<mesh_t>& meshes) {
+// 	glm::mat4 transformation = glm::transpose(glm::make_mat4(&(node->mTransformation.a1)))*old;
+// 	std::for_each_n(node->mMeshes, node->mNumMeshes, [&](unsigned int meshId) {
+// 		node->
+// 		const auto* mesh = scene->mMeshes[meshId];
+// 		meshes.emplace_back(
+// 			mesh_t{
+// 				transformation,
+// 				mesh
+// 			}
+// 		);		
+// 	});
+// 
+// 	std::for_each_n(node->mChildren, node->mNumChildren, [&](const aiNode* next){
+// 		traverse_scene_graph(scene, next, transformation, meshes);
+// 	});
+// }
+
+
 void traverse_scene_graph(const aiScene* scene, const aiNode* node, glm::mat4 old, std::vector<mesh_t>& meshes) {
 	glm::mat4 transformation = glm::transpose(glm::make_mat4(&(node->mTransformation.a1)))*old;
 	std::for_each_n(node->mMeshes, node->mNumMeshes, [&](unsigned int meshId){
@@ -40,8 +62,19 @@ std::vector<material_t> importer_t::materials() const {
 	std::transform(
 		m_scene->mMaterials,
 		m_scene->mMaterials+m_scene->mNumMaterials,
-		std::back_inserter(result), [](const auto* m){
-			return material_t(m);
+		std::back_inserter(result), 
+		[&](const aiMaterial* m){
+			material_t native_material(m);
+			auto material_library_it = m_material_map.find(native_material.name);
+			if(material_library_it==m_material_map.end()) {
+				switch(m_material_policy) {
+					case material_policy_t::augment:
+						return native_material;
+					case material_policy_t::replace:
+						throw std::runtime_error("Try to load material \""+native_material.name+"\", that is not in material_map.");
+				}
+			}
+			return material_library_it->second;
 		}
 	);
 	return result;
@@ -52,14 +85,26 @@ std::vector<material_t> importer_t::materials(std::ostream& logger) const {
 	std::transform(
 		m_scene->mMaterials,
 		m_scene->mMaterials+m_scene->mNumMaterials,
-		std::back_inserter(result), [&](const auto* m){
-			return material_t(m, logger);
+		std::back_inserter(result), 
+		[&](const aiMaterial* m){
+			material_t native_material(m, logger);
+			auto material_library_it = m_material_map.find(native_material.name);
+			if(material_library_it==m_material_map.end()) {
+				switch(m_material_policy) {
+					case material_policy_t::augment:
+						return native_material;
+					case material_policy_t::replace:
+						throw std::runtime_error("Try to load material, that is not in material_map.");
+				}
+			}
+			return material_library_it->second;
 		}
 	);
 	return result;
 }
 
 std::vector<render::camera_t> importer_t::cameras() const {
+#warning wrong implementation because model matricies must be multiplied along the scene graph
 	std::vector<render::camera_t> cameras;
 	cameras.reserve(m_scene->mNumCameras);
 	std::transform(m_scene->mCameras, m_scene->mCameras+m_scene->mNumCameras, std::back_inserter(cameras), [&](const aiCamera* cam){
@@ -86,6 +131,7 @@ std::vector<render::camera_t> importer_t::cameras() const {
 
 namespace detail {
 struct light_cast_t {
+#warning implementation ignores model matricies from scene graph
 	const aiLight* light;
 
 	template <class T>
@@ -172,7 +218,7 @@ private:
 }
 
 template <class T>
-std::vector<T> importer_t::lights() {
+std::vector<T> importer_t::lights() const {
 	std::vector<T> result;
 	std::for_each(m_scene->mLights, m_scene->mLights+m_scene->mNumLights, [&](const auto light) {
 		detail::light_cast_t caster{ light };
@@ -182,6 +228,11 @@ std::vector<T> importer_t::lights() {
 	});
 	return result;
 }
+
+template std::vector<ambient_light_t> importer_t::lights<ambient_light_t>() const;
+template std::vector<directional_light_t> importer_t::lights<directional_light_t>() const;
+template std::vector<point_light_t> importer_t::lights<point_light_t>() const;
+template std::vector<spot_light_t> importer_t::lights<spot_light_t>() const;
 
 std::vector<any_light_t> importer_t::all_lights() const {
 	std::vector<any_light_t> result;

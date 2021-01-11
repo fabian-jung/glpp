@@ -3,6 +3,7 @@
 #include <assimp/scene.h>
 #include <glm/glm.hpp>
 #include <glpp/core.hpp>
+#include "material.hpp"
 
 namespace glpp::asset {
 
@@ -20,6 +21,7 @@ public:
 
 	glm::mat4 model_matrix;
 	model_t model;
+	unsigned int material_index;
 };
 
 }
