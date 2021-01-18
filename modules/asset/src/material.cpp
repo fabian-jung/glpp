@@ -5,9 +5,6 @@
 #include <ostream>
 #include <memory>
 
-#warning 
-#include <iostream>
-
 std::ostream& operator<<(std::ostream& lhs, const aiMaterialProperty& property) {
 	constexpr std::array<std::string_view, 6> types {
 		"<unknown>",
@@ -140,7 +137,6 @@ material_t::material_t(const aiMaterial* material) :
 	specular_textures(detail::texture_stack_from_key(material, aiTextureType_SPECULAR)),
 	shininess(get<float>(material, AI_MATKEY_SHININESS))
 {
-	std::cout << "load material " << name << " " << get<aiString>(material, AI_MATKEY_NAME).C_Str() << std::endl;
 }
 
 material_t::material_t(const aiMaterial* material, std::ostream& logger) :
