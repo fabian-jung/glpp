@@ -16,7 +16,7 @@ void unroll_tex_stack(shader_factory_t& factory, const material_t::texture_stack
 				throw std::runtime_error("not implemented");
 		}
 	};
-	
+
 	std::string tex_stack_handling = "";
 
 	int i = 0;
@@ -28,10 +28,11 @@ void unroll_tex_stack(shader_factory_t& factory, const material_t::texture_stack
 	factory.set("<tex_stack_handling>", tex_stack_handling);
 }
 
-flat_t::flat_t(flat_shading_channel_t source) :
+flat_t::flat_t(texture_storage_t& texture_storage, flat_shading_channel_t source) :
+	m_texture_storage(texture_storage),
 	m_source(source)
 {}
-	
+
 std::string flat_t::vertex_shader_code(const material_t&) const  {
 	constexpr auto code =
 	R"(
@@ -39,14 +40,14 @@ std::string flat_t::vertex_shader_code(const material_t&) const  {
 	layout (location = 0) in vec3 pos;
 	layout (location = 1) in vec3 norm;
 	layout (location = 2) in vec2 uv;
-	
+
 	out vec3 v_world_pos;
 	out vec3 v_norm;
 	out vec2 v_uv;
-	
+
 	uniform mat4 model_matrix;
 	uniform mat4 view_projection;
-	
+
 	void main()
 	{
 		v_world_pos = (model_matrix*vec4(pos, 1.0)).xyz;
@@ -76,9 +77,9 @@ std::string flat_t::fragment_shader_code(const material_t& material) const {
 		<tex_stack_handling>
 	};
 	)";
-	
+
 	shader_factory_t factory(code_template);
-	
+
 	factory.set("<ambient>", material.ambient);
 	factory.set("<diffuse>", material.diffuse);
 	factory.set("<specular>", material.specular);
@@ -101,19 +102,19 @@ std::string flat_t::fragment_shader_code(const material_t& material) const {
 			unroll_tex_stack(factory, material.emissive_textures);
 			break;
 	}
-	
+
 	return factory.code();
 }
 
 flat_t::renderer_t flat_t::renderer(const material_t& material) const {
-	
+
 	renderer_t result(
 		object::shader_t(object::shader_type_t::vertex, vertex_shader_code(material)),
 		object::shader_t(object::shader_type_t::fragment, fragment_shader_code(material))
 	);
 	result.set_uniform_name(&uniform_description_t::model_matrix, "model_matrix");
 	result.set_uniform_name(&uniform_description_t::view_projection, "view_projection");
-	
+
 	return result;
 }
 
@@ -130,11 +131,10 @@ void flat_t::set_up(renderer_t& renderer, const material_t& material) const {
 			case flat_shading_channel_t::emission:
 				return material.emissive_textures;
 		}
+		throw std::runtime_error("Trying to use shading channel, that is not implemented.");
 	}();
 	for(const auto& t : tex_stack) {
-#warning this is really slow
-		static auto tex = object::texture_t(object::image_t<glm::vec3>(t.file.c_str()));
-		static auto slot = tex.bind_to_texture_slot();
+		const auto& slot = m_texture_storage.slot(t.file);
 		renderer.set_texture(("tex_stack_"+std::to_string(i++)).c_str(), slot);
 	}
 }

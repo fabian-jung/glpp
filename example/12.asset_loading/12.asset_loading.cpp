@@ -29,7 +29,7 @@ int main(int, char*[]) {
 		}
 	);
 
-	
+
 	importer_t::material_map_t map;
 	auto importer = std::make_unique<glpp::asset::importer_t>(
 		"room.fbx",
@@ -37,9 +37,11 @@ int main(int, char*[]) {
 		importer_t::material_policy_t::augment
 	);
 	auto cameras = importer->cameras();
-	scene_renderer_t<shading::normal_t> srenderer(*importer);
+
+	shading::texture_storage_t texture_storage;
+	scene_renderer_t<shading::flat_t> srenderer(*importer, texture_storage);
 	importer.reset();
-	
+
 	glClearColor(0.2,0.2,0.2,1.0);
 	auto cam_it = cameras.begin();
 	window.input_handler().set_keyboard_action(glpp::system::key_t::space, glpp::system::action_t::release, [&](int){
@@ -57,9 +59,9 @@ int main(int, char*[]) {
 		}
 		toggle = !toggle;
 	});
-	
+
 	glEnable(GL_DEPTH_TEST);
-	
+
 	window.enter_main_loop([&]() {
 		cam_it->aspect_ratio = window.get_aspect_ratio();
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
