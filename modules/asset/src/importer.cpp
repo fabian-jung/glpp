@@ -14,25 +14,6 @@ importer_t::importer_t(const std::string& file,  material_map_t material_map, ma
 
 namespace detail {
 
-// void traverse_scene_graph(const aiScene* scene, const aiNode* node, glm::mat4 old, std::vector<mesh_t>& meshes) {
-// 	glm::mat4 transformation = glm::transpose(glm::make_mat4(&(node->mTransformation.a1)))*old;
-// 	std::for_each_n(node->mMeshes, node->mNumMeshes, [&](unsigned int meshId) {
-// 		node->
-// 		const auto* mesh = scene->mMeshes[meshId];
-// 		meshes.emplace_back(
-// 			mesh_t{
-// 				transformation,
-// 				mesh
-// 			}
-// 		);		
-// 	});
-// 
-// 	std::for_each_n(node->mChildren, node->mNumChildren, [&](const aiNode* next){
-// 		traverse_scene_graph(scene, next, transformation, meshes);
-// 	});
-// }
-
-
 void traverse_scene_graph(const aiScene* scene, const aiNode* node, glm::mat4 old, std::vector<mesh_t>& meshes) {
 	glm::mat4 transformation = glm::transpose(glm::make_mat4(&(node->mTransformation.a1)))*old;
 	std::for_each_n(node->mMeshes, node->mNumMeshes, [&](unsigned int meshId){
@@ -49,6 +30,18 @@ void traverse_scene_graph(const aiScene* scene, const aiNode* node, glm::mat4 ol
 		traverse_scene_graph(scene, next, transformation, meshes);
 	});
 }
+
+
+aiMatrix4x4 get_transformation(const aiNode* node) {
+	aiMatrix4x4 transform;
+	do {
+		const auto node_transform = node->mTransformation;
+		transform = transform*node_transform;
+		node = node->mParent;
+	} while(node);
+	return transform;
+}
+
 }
 
 std::vector<mesh_t> importer_t::meshes() const {
@@ -104,12 +97,11 @@ std::vector<material_t> importer_t::materials(std::ostream& logger) const {
 }
 
 std::vector<render::camera_t> importer_t::cameras() const {
-#warning wrong implementation because model matricies must be multiplied along the scene graph
 	std::vector<render::camera_t> cameras;
 	cameras.reserve(m_scene->mNumCameras);
 	std::transform(m_scene->mCameras, m_scene->mCameras+m_scene->mNumCameras, std::back_inserter(cameras), [&](const aiCamera* cam){
-		aiNode* cameraNode = m_scene->mRootNode->FindNode(cam->mName);
-		auto transform = cameraNode->mTransformation;
+		aiMatrix4x4 transform = detail::get_transformation(m_scene->mRootNode->FindNode(cam->mName));
+		
 		auto aiPos = transform*cam->mPosition;
 		const glm::vec3 position { aiPos.x,  aiPos.y,  aiPos.z };
 		auto aiLookAt = transform*cam->mLookAt;
@@ -131,7 +123,7 @@ std::vector<render::camera_t> importer_t::cameras() const {
 
 namespace detail {
 struct light_cast_t {
-#warning implementation ignores model matricies from scene graph
+	const aiScene* scene;
 	const aiLight* light;
 
 	template <class T>
@@ -174,7 +166,9 @@ struct light_cast_t {
 				specular
 			};
 		}
-		const glm::vec3 position { light->mPosition.x, light->mPosition.y, light->mPosition.z };
+		const auto transform = detail::get_transformation(scene->mRootNode->FindNode(light->mName));
+		const auto ai_position = transform*light->mPosition; 
+		const glm::vec3 position { ai_position.x, ai_position.y, ai_position.z };
 		const float attenuation_constant = light->mAttenuationConstant;
 		const float attenuation_linear = light->mAttenuationLinear;
 		const float attenuation_quadratic = light->mAttenuationQuadratic;
@@ -221,7 +215,7 @@ template <class T>
 std::vector<T> importer_t::lights() const {
 	std::vector<T> result;
 	std::for_each(m_scene->mLights, m_scene->mLights+m_scene->mNumLights, [&](const auto light) {
-		detail::light_cast_t caster{ light };
+		detail::light_cast_t caster{ m_scene, light };
 		if(caster.has_type<T>()) {
 			result.emplace_back(caster.cast<T>());
 		}
@@ -237,7 +231,7 @@ template std::vector<spot_light_t> importer_t::lights<spot_light_t>() const;
 std::vector<any_light_t> importer_t::all_lights() const {
 	std::vector<any_light_t> result;
 	std::for_each(m_scene->mLights, m_scene->mLights+m_scene->mNumLights, [&](const auto light) {
-		detail::light_cast_t caster { light };
+		detail::light_cast_t caster { m_scene, light };
 		if(caster.has_type<ambient_light_t>()) {
 			result.emplace_back(caster.cast<ambient_light_t>());
 		} else if(caster.has_type<directional_light_t>()) {
