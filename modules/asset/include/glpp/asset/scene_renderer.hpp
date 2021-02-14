@@ -7,12 +7,12 @@ namespace glpp::asset {
 template <class shading_model_t>
 class scene_renderer_t {
 public:
-	
+
 	template <class... Args>
 	scene_renderer_t(const importer_t& importer, Args&&... args);
-	
+
 	void render(const render::camera_t& camera);
-		
+
 private:
 	struct render_object_t {
 		typename shading_model_t::view_t view;
@@ -20,10 +20,10 @@ private:
 		typename shading_model_t::renderer_t renderer;
 		material_t material;
 	};
-	
+
 	shading_model_t m_shading_model;
 	std::vector<render_object_t> m_objects;
-		
+
 	void render(render_object_t& render_object, const render::camera_t& cam) const;
 };
 
@@ -64,8 +64,8 @@ void scene_renderer_t<shading_model_t>::render(render_object_t& render_object, c
 	using ud = typename shading_model_t::uniform_description_t;
 	render_object.renderer.set_uniform(&ud::model_matrix, render_object.model_matrix);
 	render_object.renderer.set_uniform(&ud::view_projection, cam.mvp());
-	
-	m_shading_model.set_up(render_object.renderer,render_object. material);
+
+	m_shading_model.set_up(render_object.renderer,render_object.material);
 	render_object.renderer.render(render_object.view);
 }
 

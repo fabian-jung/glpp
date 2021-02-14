@@ -1,9 +1,10 @@
 cmake_minimum_required(VERSION 3.16)
 
-project(mapnify)
+project(glpp)
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -pedantic -Wextra")
 set(CMAKE_CXX_EXTENSIONS OFF)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_IMPLICIT_LINK_DIRECTORIES /usr/local/lib ${CMAKE_CXX_IMPLICIT_LINK_DIRECTORIES})
 
 option(enable_unit_test "Build with unit tests applications" ON)
@@ -12,6 +13,7 @@ find_package(Catch2 REQUIRED)
 include(CTest NO_POLICY_SCOPE)
 include(Catch NO_POLICY_SCOPE)
 include(ParseAndAddCatchTests)
+
 endif()
 
 add_subdirectory(modules)

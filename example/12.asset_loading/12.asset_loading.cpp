@@ -39,7 +39,7 @@ int main(int, char*[]) {
 	auto cameras = importer->cameras();
 
 	shading::texture_storage_t texture_storage;
-	scene_renderer_t<shading::flat_t> srenderer(*importer, texture_storage);
+	scene_renderer_t<shading::blinn_phong_t> srenderer(*importer, *importer, texture_storage);
 	importer.reset();
 
 	glClearColor(0.2,0.2,0.2,1.0);

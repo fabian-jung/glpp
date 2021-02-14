@@ -93,7 +93,7 @@ namespace detail {
 			aiTextureOp op;
 			material->GetTexture(key, index, &file, nullptr, nullptr, &strength, &op, nullptr);
 			++index;
-			
+
 			material_t::op_t cop = material_t::op_t::addition;
 			switch(op) {
 				case aiTextureOp_Subtract:
@@ -114,7 +114,7 @@ namespace detail {
 				default:
 					break;
 			}
-			
+
 			return material_t::texture_stack_entry_t {
 				strength,
 				file.C_Str(),

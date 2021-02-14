@@ -2,8 +2,8 @@
 #include <glm/glm.hpp>
 
 namespace glpp::asset::shading {
-	
-shader_factory_t::shader_factory_t(std::string code_template) : 
+
+shader_factory_t::shader_factory_t(std::string code_template) :
 	m_code(code_template)
 {}
 
@@ -34,7 +34,7 @@ std::string to_string(const glm::vec<N, T>& value) {
 	return result;
 }
 
-template<typename T> 
+template<typename T>
 shader_factory_t& shader_factory_t::set(std::string_view key, const T& value)
 {
 	std::string::size_type pos = 0;
@@ -44,7 +44,7 @@ shader_factory_t& shader_factory_t::set(std::string_view key, const T& value)
 		m_code.insert(pos, replace);
 		pos += replace.length();
 	}
-	
+
 	return *this;
 }
 
@@ -60,5 +60,13 @@ template shader_factory_t& shader_factory_t::set(std::string_view key, const glm
 template shader_factory_t& shader_factory_t::set(std::string_view key, const glm::dvec2& value);
 template shader_factory_t& shader_factory_t::set(std::string_view key, const glm::dvec3& value);
 template shader_factory_t& shader_factory_t::set(std::string_view key, const glm::dvec4& value);
+template shader_factory_t& shader_factory_t::set(std::string_view key, const std::int8_t& value);
+template shader_factory_t& shader_factory_t::set(std::string_view key, const std::int16_t& value);
+template shader_factory_t& shader_factory_t::set(std::string_view key, const std::int32_t& value);
+template shader_factory_t& shader_factory_t::set(std::string_view key, const std::int64_t& value);
+template shader_factory_t& shader_factory_t::set(std::string_view key, const std::uint8_t& value);
+template shader_factory_t& shader_factory_t::set(std::string_view key, const std::uint16_t& value);
+template shader_factory_t& shader_factory_t::set(std::string_view key, const std::uint32_t& value);
+template shader_factory_t& shader_factory_t::set(std::string_view key, const std::uint64_t& value);
 
 }
