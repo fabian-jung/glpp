@@ -21,6 +21,17 @@ if(${enable_examples})
 add_subdirectory(example)
 endif()
 
+file(GLOB_RECURSE GLPP_FORMAT_SET *.hpp *.cpp)
+add_custom_target(check-format
+	COMMAND clang-format --dry-run -Werror ${GLPP_FORMAT_SET}
+)
+
+add_custom_target(format
+	COMMAND clang-format -i ${GLPP_FORMAT_SET}
+)
+
+
+
 include(GNUInstallDirs)
 install(TARGETS core system stb image EXPORT glppConfig LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR} )
 install(EXPORT glppConfig FILE glppTargets.cmake NAMESPACE glpp:: DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/glpp EXPORT_LINK_INTERFACE_LIBRARIES)
