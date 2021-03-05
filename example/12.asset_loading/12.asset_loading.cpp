@@ -19,6 +19,7 @@ int main(int, char*[]) {
 
 	using namespace glpp::system;
 	using namespace glpp::asset;
+	using namespace glpp::asset::render;
 
 	window_t window(2000, 1000, "12.asset_loading", vsync_t::on);
 	window.input_handler().set_keyboard_action(
@@ -31,16 +32,17 @@ int main(int, char*[]) {
 
 
 	importer_t::material_map_t map;
-	auto importer = std::make_unique<glpp::asset::importer_t>(
+	glpp::asset::importer_t importer(
 		"room.fbx",
 		map,
 		importer_t::material_policy_t::augment
 	);
-	auto cameras = importer->cameras();
+	auto cameras = importer.cameras();
 
 	shading::texture_storage_t texture_storage;
-	scene_renderer_t<shading::blinn_phong_t> srenderer(*importer, *importer, texture_storage);
-	importer.reset();
+	scene_t scene(importer);
+	scene_view_t sview(scene);
+	scene_renderer_t<shading::normal_t> srenderer(scene);
 
 	glClearColor(0.2,0.2,0.2,1.0);
 	auto cam_it = cameras.begin();
@@ -66,7 +68,7 @@ int main(int, char*[]) {
 		cam_it->aspect_ratio = window.get_aspect_ratio();
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-		srenderer.render(*cam_it);
+		srenderer.render(sview, *cam_it);
 	});
 
 	return 0;

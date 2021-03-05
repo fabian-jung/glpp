@@ -1,5 +1,9 @@
 #pragma once
 
-#include <glpp/asset/importer.hpp>
-#include <glpp/asset/shading.hpp>
-#include <glpp/asset/scene_renderer.hpp>
+#include "asset/light.hpp"
+#include "asset/material.hpp"
+#include "asset/mesh.hpp"
+#include "asset/scene.hpp"
+#include "asset/importer.hpp"
+#include "asset/shading.hpp"
+#include "asset/render.hpp"

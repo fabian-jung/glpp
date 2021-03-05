@@ -42,7 +42,6 @@ public:
 	renderer_t renderer(const material_t& material) const;
 
 private:
-
 	std::string assemble_fragment_shader(const material_t& material) const;
 
 	std::vector<point_light_t> m_point_lights;
