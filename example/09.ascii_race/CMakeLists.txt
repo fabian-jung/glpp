@@ -1,7 +1,9 @@
 add_executable(09.ascii_race 09.ascii_race.cpp)
 target_link_libraries(09.ascii_race PRIVATE glpp::core glpp::system glpp::text)
 
-file(GLOB_RECURSE TEXT_DEPENDENCIES ${CMAKE_CURRENT_LIST_DIR}/*.glsl ${CMAKE_CURRENT_LIST_DIR}/*.ttf)
+set(TEXT_DEPENDENCIES
+	${CMAKE_CURRENT_LIST_DIR}/ttf/Hack-Regular.ttf
+)
 
 add_custom_target(09.ascii_race.copy
 	DEPENDS ${TEXT_DEPENDENCIES}

@@ -1,7 +1,11 @@
 add_executable(10.ui 10.ui.cpp)
 target_link_libraries(10.ui PRIVATE glpp::core glpp::image glpp::system glpp::ui)
 
-file(GLOB_RECURSE TEXT_DEPENDENCIES ${CMAKE_CURRENT_LIST_DIR}/*.ttf ${CMAKE_CURRENT_LIST_DIR}/*.png)
+set(TEXT_DEPENDENCIES
+	${CMAKE_CURRENT_LIST_DIR}/ttf/Hack-Regular.ttf
+	${CMAKE_CURRENT_LIST_DIR}/add.png
+	${CMAKE_CURRENT_LIST_DIR}/remove.png
+)
 
 add_custom_target(10.ui.copy
 	DEPENDS ${TEXT_DEPENDENCIES}

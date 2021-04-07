@@ -1,7 +1,10 @@
 add_executable(11.lights_out 11.lights_out.cpp)
 target_link_libraries(11.lights_out PRIVATE glpp::core glpp::image glpp::system glpp::ui)
 
-file(GLOB_RECURSE TEXT_DEPENDENCIES ${CMAKE_CURRENT_LIST_DIR}/*.png ${CMAKE_CURRENT_LIST_DIR}/*.ttf)
+set(TEXT_DEPENDENCIES
+	${CMAKE_CURRENT_LIST_DIR}/Light.png
+	${CMAKE_CURRENT_LIST_DIR}/ttf/Hack-Regular.ttf
+)
 
 add_custom_target(11.lights_out.copy
 	DEPENDS ${TEXT_DEPENDENCIES}

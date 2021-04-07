@@ -1,7 +1,9 @@
 add_executable(08.text_box 08.text_box.cpp)
 target_link_libraries(08.text_box PRIVATE glpp::core glpp::system glpp::text)
 
-file(GLOB_RECURSE TEXT_DEPENDENCIES ${CMAKE_CURRENT_LIST_DIR}/*.glsl ${CMAKE_CURRENT_LIST_DIR}/*.ttf)
+set(TEXT_DEPENDENCIES
+	${CMAKE_CURRENT_LIST_DIR}/ttf/Hack-Regular.ttf
+)
 
 add_custom_target(08.text_box.copy
 	DEPENDS ${TEXT_DEPENDENCIES}
