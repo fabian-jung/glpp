@@ -13,6 +13,7 @@ set(glpp-files
     ${CMAKE_CURRENT_LIST_DIR}/src/framebuffer.cpp
     ${CMAKE_CURRENT_LIST_DIR}/src/glpp.cpp
     ${CMAKE_CURRENT_LIST_DIR}/src/shader.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/src/shader_factory.cpp
     ${CMAKE_CURRENT_LIST_DIR}/src/texture.cpp
     ${CMAKE_CURRENT_LIST_DIR}/src/vertex_array.cpp
 )
