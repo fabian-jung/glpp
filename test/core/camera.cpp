@@ -18,7 +18,7 @@ std::ostream& operator<<(std::ostream& lhs, const glm::vec<N, T>& rhs) {
 	return lhs;
 }
 
-TEST_CASE("core::camera_t default construction has sane default values", "[core, render, camera]") {
+TEST_CASE("core::camera_t default construction has sane default values", "[core, unit]") {
 	const glpp::render::camera_t camera;
 
 	REQUIRE(camera.fov != Approx(0.0f));
@@ -33,7 +33,7 @@ TEST_CASE("core::camera_t default construction has sane default values", "[core,
 
 }
 
-TEST_CASE("Camera constructed with parameters", "[core, render, camera]") {
+TEST_CASE("Camera constructed with parameters", "[core, unit]") {
 	const glm::vec3 position { 1.0f, 1.0f, 1.0f};
 	const glm::quat orientation {glm::vec3(45.0f, 37.5f, 90.0f)};
 	const float fov = 45.0f;
@@ -72,7 +72,7 @@ void compare_cameras(const glpp::render::camera_t& lhs, const glpp::render::came
 	REQUIRE(glm::length(right*lhs.orientation-right*rhs.orientation) < 0.01);
 }
 
-TEST_CASE("Camera constructed with look_at and up vector", "[core, render, camera]") {
+TEST_CASE("Camera constructed with look_at and up vector", "[core, unit]") {
 	using glpp::render::camera_t;
 
 	const glm::vec3 position {0.0f, 0.0f,  0.0f};
@@ -146,7 +146,7 @@ TEST_CASE("Camera constructed with look_at and up vector", "[core, render, camer
 
 }
 
-TEST_CASE("core::camera_t::mvp() sanity checks of the projection matrix") {
+TEST_CASE("core::camera_t::mvp() sanity checks of the projection matrix", "[core, unit]") {
 	const glpp::render::camera_t camera;
 	const auto mvp = camera.mvp();
 
@@ -173,7 +173,7 @@ TEST_CASE("core::camera_t::mvp() sanity checks of the projection matrix") {
 	}
 }
 
-TEST_CASE("Construct camera with look_at vector. look_at should be projected to the middle:") {
+TEST_CASE("Construct camera with look_at vector. look_at should be projected to the middle:", "[core, unit]") {
 	const auto offsets = [](){
 		std::vector<glm::vec3> container;
 		for(float x = -1.0f; x <= 1.0f; ++x) {
