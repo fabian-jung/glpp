@@ -9,6 +9,9 @@ target_include_directories(system PUBLIC
 )
 target_include_directories(system PRIVATE ${GLFW_INCLUDE_DIRS})
 target_link_libraries(system PUBLIC  ${GLFW_LIBRARIES} glpp::core)
-file(GLOB_RECURSE glpp-system-files ${CMAKE_CURRENT_LIST_DIR}/src/*.cpp)
+set(glpp-system-files 
+    ${CMAKE_CURRENT_LIST_DIR}/src/input.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/src/window.cpp
+)
 target_sources(system PRIVATE ${glpp-system-files})
 target_compile_features(system PUBLIC cxx_std_17)

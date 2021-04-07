@@ -8,7 +8,14 @@ target_include_directories(core PUBLIC
     $<INSTALL_INTERFACE:/usr/local/include>
 )
 target_link_libraries(core PUBLIC GLEW::GLEW OpenGL::OpenGL)
-file(GLOB_RECURSE glpp-files ${CMAKE_CURRENT_LIST_DIR}/src/*.cpp)
+set(glpp-files
+    ${CMAKE_CURRENT_LIST_DIR}/src/camera.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/src/framebuffer.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/src/glpp.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/src/shader.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/src/texture.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/src/vertex_array.cpp
+)
 target_sources(core PRIVATE ${glpp-files})
 set_target_properties(core PROPERTIES PUBLIC_HEADER "${glpp-header}")
 target_compile_features(core PUBLIC cxx_std_17)
