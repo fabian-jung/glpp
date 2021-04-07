@@ -122,7 +122,7 @@ void shader_program_t::set_texture_array(const char* name, const texture_slot_it
 		std::vector<GLint> buffer(size);
 		std::transform(
 			begin,
-			begin+size,
+			end,
 			buffer.begin(),
 			[](const auto& slot){
 				if constexpr(std::is_integral_v<std::remove_reference_t<decltype(slot)>>) {
