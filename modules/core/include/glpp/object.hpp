@@ -11,8 +11,8 @@ public:
 	object_t(GLuint id, destructor_t destroy);
 	~object_t();
 
-	object_t(object_t&& mov);
-	object_t& operator=(object_t&& mov);
+	object_t(object_t&& mov) noexcept;
+	object_t& operator=(object_t&& mov) noexcept;
 
 	object_t(const object_t& cpy) = delete;
 	object_t& operator=(const object_t& cpy) = delete;
@@ -45,7 +45,7 @@ object_t<destructor_t>::~object_t() {
 }
 
 template <class destructor_t>
-object_t<destructor_t>::object_t(object_t&& mov) :
+object_t<destructor_t>::object_t(object_t&& mov) noexcept:
 	m_id(mov.m_id),
 	m_destroy(mov.m_destroy)
 {
@@ -53,7 +53,7 @@ object_t<destructor_t>::object_t(object_t&& mov) :
 }
 
 template <class destructor_t>
-object_t<destructor_t>& object_t<destructor_t>::operator=(object_t&& mov) {
+object_t<destructor_t>& object_t<destructor_t>::operator=(object_t&& mov) noexcept {
 	m_id = mov.m_id;
 	m_destroy = mov.m_destroy;
 	mov.m_id = 0;
