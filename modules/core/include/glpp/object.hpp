@@ -1,14 +1,14 @@
 #pragma once
 
 #include "glpp.hpp"
-
+#include <cassert>
 namespace glpp {
 
 template <class destructor_t = void (*)(GLuint)>
 class object_t {
 public:
 
-	object_t(GLuint id, destructor_t destroy);
+	object_t(GLuint id, destructor_t destroy) noexcept;
 	~object_t();
 
 	object_t(object_t&& mov) noexcept;
@@ -20,6 +20,7 @@ public:
 	GLuint id() const noexcept;
 
 private:
+	bool m_valid = false;
 	GLuint m_id = 0;
 	destructor_t m_destroy = nullptr;
 };
@@ -32,36 +33,40 @@ template <class destructor_t>
 object_t<destructor_t>::object_t(
 	GLuint id,
 	destructor_t destroy
-) :
+) noexcept :
+	m_valid(true),
 	m_id(id),
 	m_destroy(destroy)
-{
-
-}
+{}
 
 template <class destructor_t>
 object_t<destructor_t>::~object_t() {
-	m_destroy(m_id);
+	if(m_valid) {
+		m_destroy(m_id);
+	}
 }
 
 template <class destructor_t>
-object_t<destructor_t>::object_t(object_t&& mov) noexcept:
+object_t<destructor_t>::object_t(object_t&& mov) noexcept :
+	m_valid(mov.m_valid),
 	m_id(mov.m_id),
 	m_destroy(mov.m_destroy)
 {
-	mov.m_id = 0;
+	mov.m_valid = false;
 }
 
 template <class destructor_t>
 object_t<destructor_t>& object_t<destructor_t>::operator=(object_t&& mov) noexcept {
+	m_valid = mov.m_valid;
+	mov.m_valid = false;
 	m_id = mov.m_id;
 	m_destroy = mov.m_destroy;
-	mov.m_id = 0;
 	return *this;
 }
 
 template <class destructor_t>
 GLuint object_t<destructor_t>::id() const noexcept {
+	assert(m_valid);
 	return m_id;
 }
 
