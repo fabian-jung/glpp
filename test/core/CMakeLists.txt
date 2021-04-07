@@ -1,0 +1,5 @@
+if(${enable_unit_test})
+add_executable(object_test object.cpp)
+target_link_libraries(object_test PRIVATE glpp::testing glpp::core)
+catch_discover_tests(object_test)
+endif()

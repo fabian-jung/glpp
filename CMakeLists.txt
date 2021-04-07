@@ -12,6 +12,7 @@ find_package(Catch2 REQUIRED)
 include(CTest NO_POLICY_SCOPE)
 include(Catch NO_POLICY_SCOPE)
 include(ParseAndAddCatchTests)
+add_subdirectory(test)
 endif()
 
 add_subdirectory(modules)
