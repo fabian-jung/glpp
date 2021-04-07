@@ -2,6 +2,7 @@ set(CORE_TESTS
     ${CMAKE_CURRENT_LIST_DIR}/camera.cpp
     ${CMAKE_CURRENT_LIST_DIR}/object.cpp
     ${CMAKE_CURRENT_LIST_DIR}/model.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/attribute_properties.cpp
 )
 
 if(${enable_unit_test})
