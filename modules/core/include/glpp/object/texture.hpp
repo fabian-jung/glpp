@@ -319,8 +319,8 @@ public:
 	texture_slot_t(texture_slot_t&& mov);
 	texture_slot_t& operator=(texture_slot_t&& mov);
 
-	texture_slot_t(const texture_slot_t& mov) = delete;
-	texture_slot_t& operator=(const texture_slot_t& mov) = delete;
+	texture_slot_t(const texture_slot_t& cpy) = delete;
+	texture_slot_t& operator=(const texture_slot_t& cpy) = delete;
 
 	~texture_slot_t();
 
