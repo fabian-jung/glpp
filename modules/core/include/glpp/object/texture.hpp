@@ -130,7 +130,7 @@ private:
 	int max_texture_units() const;
 
 	static std::vector<int> units;
-	GLuint m_id;
+	GLint m_id;
 };
 
 namespace detail {

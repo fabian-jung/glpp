@@ -94,14 +94,26 @@ texture_slot_t::texture_slot_t(const texture_t& texture) :
 	glBindTextureUnit(id(), texture.id());
 }
 
-texture_slot_t::texture_slot_t(texture_slot_t&& mov) = default;
-texture_slot_t& texture_slot_t::operator=(texture_slot_t&& mov) = default;
+texture_slot_t::texture_slot_t(texture_slot_t&& mov) :
+	m_id(mov.m_id)
+{
+	mov.m_id = -1;
+}
+
+texture_slot_t& texture_slot_t::operator=(texture_slot_t&& mov) {
+	m_id = mov.m_id;
+	mov.m_id = -1;
+	return *this;
+}
 
 texture_slot_t::~texture_slot_t() {
-	units[id()] = -1;
+	if(m_id >= 0) {
+		units[id()] = -1;
+	}
 }
 
 GLint texture_slot_t::id() const {
+	assert(m_id >= 0);
 	return m_id;
 }
 
