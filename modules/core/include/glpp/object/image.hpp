@@ -3,6 +3,7 @@
 
 #include <vector>
 #include <algorithm>
+#include <stdexcept>
 
 namespace glpp::object {
 
@@ -325,12 +326,24 @@ const typename image_t<T>::value_type& image_t<T>::get(size_t x, size_t y) const
 
 template <class T>
 typename image_t<T>::value_type& image_t<T>::at(size_t x, size_t y) {
-	return m_storage.at(y*m_width+x);
+	if(x >= width() || y >= height()) {
+		const auto msg = std::string("")+
+			"Try to access image at ["+std::to_string(x)+", "+std::to_string(y)+"]"
+			" with the dimensions of ["+std::to_string(width())+", "+std::to_string(height())+"].";
+		throw std::out_of_range(msg);
+	}
+	return get(x, y);
 }
 
 template <class T>
 const typename image_t<T>::value_type& image_t<T>::at(size_t x, size_t y) const {
-	return m_storage.at(y*m_width+x);
+	if(x >= width() || y >= height()) {
+		const auto msg = std::string("")+
+			"Try to access image at ["+std::to_string(x)+", "+std::to_string(y)+"]"
+			" with the dimensions of ["+std::to_string(width())+", "+std::to_string(height())+"].";
+		throw std::out_of_range(msg);	
+	}
+	return get(x, y);
 }
 
 template <class T>
