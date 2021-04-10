@@ -2,6 +2,7 @@
 
 #include <string>
 #include <unordered_map>
+#include <glpp/object/texture_atlas.hpp>
 #include <glpp/object/shader.hpp>
 
 namespace glpp::render {
@@ -43,6 +44,12 @@ public:
 
 	template <class texture_slot_iterator>
 	void set_texture_array(const char* name, texture_slot_iterator begin, texture_slot_iterator end);
+
+	template <class Container>
+	void set_texture_array(const char* name, const Container& container);
+
+	template <class AllocPolicy>
+	void set_texture_atlas(const char* name, const object::texture_atlas_slot_t<AllocPolicy>& texture_atlas);
 
 private:
 	glpp::object::shader_program_t m_shader;
@@ -114,6 +121,18 @@ template <class uniform_description_t>
 template <class texture_slot_iterator>
 void renderer_t<uniform_description_t>::set_texture_array(const char* name, texture_slot_iterator begin, texture_slot_iterator end) {
 	m_shader.set_texture_array(name, begin, end);
+}
+
+template <class uniform_description_t>
+template <class Container>
+void renderer_t<uniform_description_t>::set_texture_array(const char* name, const Container& container) {
+	set_texture_array(name, container.begin(), container.end());
+}
+
+template <class uniform_description_t>
+template <class AllocPolicy>
+void renderer_t<uniform_description_t>::set_texture_atlas(const char* name, const object::texture_atlas_slot_t<AllocPolicy>& texture_atlas) {
+	set_texture_array(name, texture_atlas);
 }
 
 }
