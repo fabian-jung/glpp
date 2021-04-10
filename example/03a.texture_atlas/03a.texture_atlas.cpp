@@ -50,14 +50,16 @@ int main(__attribute__((unused)) int argc, __attribute__((unused)) char* argv[])
 
 
 	glpp::object::multi_atlas_t texture_atlas;
-	const auto zero = texture_atlas.alloc(glpp::object::image_t<glm::vec3>(1, 1, { glm::vec3(1.0,0,0)}));
-	const auto first = texture_atlas.alloc(glpp::object::image_t<glm::vec3>("one.png"));
-	const auto second = texture_atlas.alloc(glpp::object::image_t<glm::vec3>("two.png"));
+	texture_atlas.alloc(glpp::object::image_t<glm::vec3>(1, 1, { glm::vec3(1.0,0,0)}));
+	texture_atlas.alloc(glpp::object::image_t<glm::vec3>("one.png"));
+	texture_atlas.alloc(glpp::object::image_t<glm::vec3>("two.png"));
+	const auto tid = texture_atlas.alloc(glpp::object::image_t<glm::vec3>("three.png"));
+	texture_atlas.alloc(glpp::object::image_t<glm::vec3>("four.png"));
 
 
 	glpp::object::shader_factory_t fragment_shader_factory(std::ifstream("fragment.glsl"));
 	fragment_shader_factory.set("<texture_atlas>", texture_atlas.declaration());
-	fragment_shader_factory.set("<fetch>", texture_atlas.fetch(first, "tex"));
+	fragment_shader_factory.set("<fetch>", texture_atlas.fetch(tid , "tex"));
 	std::cout << fragment_shader_factory.code() << std::endl;
 	glpp::render::renderer_t<scene_uniform_description_t> renderer {
 		glpp::object::shader_t(glpp::object::shader_type_t::vertex, std::ifstream("vertex.glsl")),
@@ -66,10 +68,10 @@ int main(__attribute__((unused)) int argc, __attribute__((unused)) char* argv[])
 
 	model_t model;
 	model.add_quad(
-		vertex_description_t{{-0.75, -0.75}, {0, 0}},
-		vertex_description_t{{ 0.75, -0.75}, {1, 0}},
-		vertex_description_t{{ 0.75,  0.75}, {1, 1}},
-		vertex_description_t{{-0.75,  0.75}, {0, 1}}
+		vertex_description_t{{-1.0, -1.0}, {0, 0}},
+		vertex_description_t{{ 1.0, -1.0}, {1, 0}},
+		vertex_description_t{{ 1.0,  1.0}, {1, 1}},
+		vertex_description_t{{-1.0,  1.0}, {0, 1}}
 	);
 
 	glpp::object::texture_t texture_one(
@@ -81,12 +83,10 @@ int main(__attribute__((unused)) int argc, __attribute__((unused)) char* argv[])
 		glpp::object::filter_mode_t::linear
 	);
 	const auto tu = texture_atlas.bind_to_texture_slot();
-	//renderer.set_texture_atlas_slot(tu);
 	
 	// const auto texture_unit_one = texture_one.bind_to_texture_slot();
 	const auto ta_slot = texture_atlas.bind_to_texture_slot();
-	//renderer.set_texture("texture_one" , texture_unit_one);
-	renderer.set_texture_array(texture_atlas.texture_id().c_str(), ta_slot.begin(), ta_slot.end());
+	renderer.set_texture_atlas(texture_atlas.texture_id().c_str(), ta_slot);
 
 	glpp::render::view_t view(
 		model,

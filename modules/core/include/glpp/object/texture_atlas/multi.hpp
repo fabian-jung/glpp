@@ -1,22 +1,22 @@
 #pragma once
 
 #include <iterator>
+#include <unordered_map>
+#include <vector>
+#include <algorithm>
 #include "glpp/object/texture.hpp"
 
 namespace glpp::object::texture_atlas {
 
 struct multi_policy_t {
-	using key_t = unsigned int;
-	using storage_t = std::unordered_map<key_t, texture_t>;
+	using key_t = size_t;
+	using storage_t = std::vector<texture_t>;
 	using slot_storage_t = std::vector<texture_slot_t>;
 	
 	template <class Image>
 	static key_t alloc(storage_t& storage, const Image& image) {
-		key_t key = 0;
-		while(storage.count(key) > 0) {
-			++key;
-		}
-		storage.insert({key, texture_t{image}});
+		const key_t key = storage.size();
+		storage.emplace_back(texture_t{image});
 		return key;
 	}
 
@@ -30,11 +30,9 @@ struct multi_policy_t {
 		std::transform(
 			storage.begin(),
 			storage.end(),
-			std::inserter(result, result.end()),
-			[](const auto& kv) -> slot_storage_t::value_type {
-				const auto& [key, texture] = kv;
-				auto slot = texture.bind_to_texture_slot();
-				return slot;
+			std::back_inserter(result),
+			[](const texture_t& tex) {
+				return tex.bind_to_texture_slot();
 			}
 		);
 		return result;

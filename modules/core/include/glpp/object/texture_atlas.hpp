@@ -44,7 +44,6 @@ public:
 
 	texture_atlas_slot_t<AllocationPolicy> bind_to_texture_slot() const;
 
-#warning should be implementation detail?
 	std::string texture_id() const {
 		return m_namespace;
 	}
