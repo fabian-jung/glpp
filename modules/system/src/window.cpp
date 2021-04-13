@@ -128,14 +128,20 @@ window_t::window_t(unsigned int width, unsigned int height, const std::string& n
 window_t::~window_t()
 {
 	glfwDestroyWindow(m_window);
-	glfwTerminate();
 }
+
+struct glfw_context_t {
+	~glfw_context_t() {
+		glfwTerminate();
+	}
+
+	bool init_successful = glfwInit();
+};
 
 GLFWwindow* window_t::init_window(fullscreen_t fullScreen, vsync_t vsync) {
 	// start GL context and OS window using the GLFW helper library
-	static bool init_successful = glfwInit();
-	if (!init_successful) {
-		std::cerr << "ERROR: could not start GLFW3" << std::endl;
+	static glfw_context_t glfw_context;
+	if (!glfw_context.init_successful) {
 		throw std::runtime_error("Could not initialise GLFW");
 	}
 
