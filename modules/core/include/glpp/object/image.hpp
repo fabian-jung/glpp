@@ -1,9 +1,10 @@
-
 #pragma once
 
 #include <vector>
 #include <algorithm>
 #include <stdexcept>
+#include <glpp/glpp.hpp>
+#include <glpp/object/attribute_properties.hpp>
 
 namespace glpp::object {
 
@@ -170,6 +171,7 @@ public:
 
 	size_t width() const;
 	size_t height() const;
+	T* data();
 	const T* data() const;
 	size_t size() const;
 	value_type& get(size_t x, size_t y);
@@ -302,6 +304,11 @@ size_t image_t<T>::width() const {
 template <class T>
 size_t image_t<T>::height() const {
 	return m_height;
+}
+
+template <class T>
+T* image_t<T>::data() {
+	return m_storage.data();
 }
 
 template <class T>
