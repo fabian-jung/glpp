@@ -33,6 +33,12 @@ public:
 
 	static void bind_default_framebuffer(framebuffer_target_t target = framebuffer_target_t::read_and_write);
 
+	template <class T = glm::vec3>
+	image_t<T> pixel_read(size_t x = 0, size_t y = 0) const;
+
+	template <class T = glm::vec3>
+	image_t<T> pixel_read(size_t x, size_t y, size_t width, size_t height) const;
+
 private:
 	GLuint create();
 	static void destroy(GLuint id);
@@ -40,5 +46,17 @@ private:
 	size_t m_width;
 	size_t m_height;
 };
+
+template <class T>
+image_t<T> framebuffer_t::pixel_read(size_t x, size_t y) const {
+	return pixel_read<T>(x, y, m_width - x, m_height - y);
+}
+
+template <class T>
+image_t<T> framebuffer_t::pixel_read(size_t x, size_t y, size_t width, size_t height) const {
+	image_t<T> result(width, height);
+	glReadPixels(x, y, width, height, static_cast<GLenum>(result.format()), result.type(), result.data());
+	return result;
+}
 
 } // End of namespace glpp::object
