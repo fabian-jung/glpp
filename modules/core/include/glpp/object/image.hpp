@@ -3,8 +3,12 @@
 #include <vector>
 #include <algorithm>
 #include <stdexcept>
+#include <ostream>
+#include <typeinfo>
+#include <glm/gtx/string_cast.hpp>
 #include <glpp/glpp.hpp>
 #include <glpp/object/attribute_properties.hpp>
+#include <functional>
 
 namespace glpp::object {
 
@@ -198,8 +202,11 @@ private:
 	std::vector<value_type> m_storage;
 };
 
-template <class Range>
-image_t(size_t, size_t, const Range&) -> image_t<typename Range::value_type>;
+template <class T>
+image_t(size_t, size_t, T) -> image_t<T>;
+
+template <class T>
+image_t(size_t, size_t, T*) -> image_t<T>;
 
 template <class Iterator>
 image_t(size_t, size_t, Iterator, Iterator) -> image_t<typename std::iterator_traits<Iterator>::value_type>;
@@ -210,6 +217,63 @@ image_t(size_t, size_t, std::initializer_list<T>) -> image_t<T>;
 template <class T>
 image_t(size_t, size_t, const T*) -> image_t<std::iterator_traits<T>>;
 
+template <class T>
+struct epsilon_matcher_t {
+	constexpr bool operator()(const T& lhs, const T& rhs) const {
+		return glm::all(glm::lessThanEqual(glm::abs(lhs-rhs), T(epsilon)));
+	}
+
+	using value_type = typename attribute_properties<T>::value_type;
+	value_type epsilon = static_cast<value_type>(0.01);
+};
+template <class T, class Comperator = std::equal_to<T>>
+struct image_comperator_t {
+	constexpr operator bool() const {
+		return 
+			lhs.width() == rhs.width() &&
+			lhs.width() == rhs.width() &&
+			std::equal(lhs.begin(), lhs.end(), rhs.begin(), comperator);
+	}
+
+	constexpr auto epsilon(typename attribute_properties<T>::value_type epsilon) {
+		return image_comperator_t<T, epsilon_matcher_t<T>>{lhs, rhs, { epsilon }};
+	}
+	const image_t<T>& lhs;
+	const image_t<T>& rhs;
+	Comperator comperator {};
+};
+
+template <class T, class Comp>
+std::ostream& operator<<(std::ostream& lhs, const image_comperator_t<T, Comp>& rhs) {
+	lhs << rhs.lhs << " == " << rhs.rhs;
+	return lhs;
+}
+
+template <class T>
+image_comperator_t(const image_t<T>&, const image_t<T>&) -> image_comperator_t<T>;
+
+template <class T>
+constexpr auto operator==(const image_t<T>& lhs, const image_t<T>& rhs) {
+	return image_comperator_t{lhs, rhs};
+} 
+
+template <class T>
+std::ostream& operator<<(std::ostream& lhs, const image_t<T>& rhs) {
+    lhs << "image_t<" << typeid(T).name() <<"> { " << rhs.width() << ", " << rhs.height() << ", {";
+    constexpr size_t max_display_elem = 9;
+    const auto cpy_n = std::min(rhs.size(), max_display_elem);
+    std::for_each_n(rhs.begin(), cpy_n-1, [&](const auto& elem){
+        lhs << glm::to_string(elem) << ", ";
+    });
+    if(rhs.size() >= cpy_n) {
+        lhs << glm::to_string(rhs.begin()[cpy_n-1]);
+    }
+    if(rhs.size() > max_display_elem) {
+        lhs << ", ... ";
+    }
+    lhs << "} }";
+    return lhs;
+}
 
 template <class T>
 image_t<T>::image_t(size_t width, size_t height, std::initializer_list<T> init_list) :
