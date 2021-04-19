@@ -1,7 +1,11 @@
 #include <catch2/catch.hpp>
 #include <glpp/test/context.hpp>
 
-TEST_CASE("test context construction and teardown","[test, unit, xorg]") {
+TEST_CASE("single test context construction and teardown","[test, unit, xorg]") {
+    REQUIRE_NOTHROW(glpp::test::context_t<glpp::test::window_driver_t>(16,16));
+}
+
+TEST_CASE("three test context constructions and teardowns","[test, unit, xorg]") {
     REQUIRE_NOTHROW(glpp::test::context_t<glpp::test::window_driver_t>(16,16));
     REQUIRE_NOTHROW(glpp::test::context_t<glpp::test::window_driver_t>(16,16));
     REQUIRE_NOTHROW(glpp::test::context_t<glpp::test::window_driver_t>(16,16));

@@ -10,13 +10,13 @@ template <class Driver>
 class context_t {
 public:
 
-
     context_t(const size_t width, const size_t height) :
         m_texture(width, height, object::image_format_t::rgb_8),
         m_framebuffer(width, height)
     {
         m_framebuffer.attach(m_texture, object::attachment_t::color);
         m_framebuffer.bind();
+        glViewport(0, 0, width, height);
     };
 
     context_t(context_t&& mov) = default;
@@ -29,7 +29,6 @@ public:
     object::image_t<Color> swap_buffer() {
         return m_framebuffer.pixel_read<Color>();
     }
-
 
 private:
     Driver m_driver;
