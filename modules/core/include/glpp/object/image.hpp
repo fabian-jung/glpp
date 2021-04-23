@@ -132,6 +132,12 @@ public:
 	using iterator = typename std::vector<value_type>::iterator;
 	using const_iterator = typename std::vector<value_type>::const_iterator;
 
+	image_t(const image_t& cpy) = default;
+	image_t(image_t&& mov) noexcept = default;
+
+	image_t& operator=(const image_t& cpy) = default;
+	image_t& operator=(image_t&& mov) noexcept = default;
+
 	image_t(size_t width, size_t height);
 	image_t(size_t width, size_t height, const value_type value);
 
@@ -197,8 +203,8 @@ private:
 
 	static constexpr int channels_impl();
 
-	const size_t m_width;
-	const size_t m_height;
+	size_t m_width;
+	size_t m_height;
 	std::vector<value_type> m_storage;
 };
 
