@@ -132,17 +132,17 @@ public:
 	using iterator = typename std::vector<value_type>::iterator;
 	using const_iterator = typename std::vector<value_type>::const_iterator;
 
-	image_t(const image_t& cpy) = default;
-	image_t(image_t&& mov) noexcept = default;
+	constexpr image_t(const image_t& cpy) = default;
+	constexpr image_t(image_t&& mov) noexcept = default;
 
-	image_t& operator=(const image_t& cpy) = default;
-	image_t& operator=(image_t&& mov) noexcept = default;
+	constexpr image_t& operator=(const image_t& cpy) = default;
+	constexpr image_t& operator=(image_t&& mov) noexcept = default;
 
-	image_t(size_t width, size_t height);
-	image_t(size_t width, size_t height, const value_type value);
+	constexpr image_t(size_t width, size_t height);
+	constexpr image_t(size_t width, size_t height, const value_type value);
 
-	image_t(size_t width, size_t height, const value_type* begin);
-	image_t(size_t width, size_t height, std::initializer_list<T> init_list);
+	constexpr image_t(size_t width, size_t height, const value_type* begin);
+	constexpr image_t(size_t width, size_t height, std::initializer_list<T> init_list);
 
 	template <
 		class Range,
@@ -151,7 +151,7 @@ public:
 			int
 		> = 0
 	>
-	image_t(size_t width, size_t height, const Range& range) :
+	constexpr image_t(size_t width, size_t height, const Range& range) :
 		m_width(width),
 		m_height(height),
 		m_storage(range.begin(), range.end())
@@ -166,7 +166,7 @@ public:
 			int
 		> = 0
 	>
-	image_t(size_t width, size_t height, const Iterator& begin, const Iterator& end) :
+	constexpr image_t(size_t width, size_t height, const Iterator& begin, const Iterator& end) :
 		m_width(width),
 		m_height(height),
 		m_storage(begin, end)
@@ -179,29 +179,29 @@ public:
 	image_t(const char* filename);
 
 
-	size_t width() const;
-	size_t height() const;
-	T* data();
-	const T* data() const;
-	size_t size() const;
-	value_type& get(size_t x, size_t y);
-	const value_type& get(size_t x, size_t y) const;
-	value_type& at(size_t x, size_t y);
-	const value_type& at(size_t x, size_t y) const;
+	constexpr size_t width() const noexcept;
+	constexpr size_t height() const noexcept;
+	constexpr T* data() noexcept;
+	constexpr const T* data() const noexcept;
+	constexpr size_t size() const noexcept;
+	constexpr value_type& get(size_t x, size_t y);
+	constexpr const value_type& get(size_t x, size_t y) const;
+	constexpr value_type& at(size_t x, size_t y);
+	constexpr const value_type& at(size_t x, size_t y) const;
  
-	iterator begin();
-	const_iterator begin() const;
-	iterator end();
-	const_iterator end() const;
+	constexpr iterator begin() noexcept;
+	constexpr const_iterator begin() const noexcept;
+	constexpr iterator end() noexcept;
+	constexpr const_iterator end() const noexcept;
 
-	constexpr int channels() const;
-	constexpr image_format_t format() const;
-	constexpr GLenum type() const;
+	constexpr int channels() const noexcept;
+	constexpr image_format_t format() const noexcept;
+	constexpr GLenum type() const noexcept;
 
 private:
 	image_t(const detail::stbi_image_t& storage);
 
-	static constexpr int channels_impl();
+	static constexpr int channels_impl() noexcept;
 
 	size_t m_width;
 	size_t m_height;
@@ -282,7 +282,7 @@ std::ostream& operator<<(std::ostream& lhs, const image_t<T>& rhs) {
 }
 
 template <class T>
-image_t<T>::image_t(size_t width, size_t height, std::initializer_list<T> init_list) :
+constexpr image_t<T>::image_t(size_t width, size_t height, std::initializer_list<T> init_list) :
 	m_width(width),
 	m_height(height),
 	m_storage(init_list)
@@ -291,7 +291,7 @@ image_t<T>::image_t(size_t width, size_t height, std::initializer_list<T> init_l
 }
 
 template <class T>
-image_t<T>::image_t(size_t width, size_t height, const value_type* begin) :
+constexpr image_t<T>::image_t(size_t width, size_t height, const value_type* begin) :
 	m_width(width),
 	m_height(height),
 	m_storage(begin, begin+width*height)
@@ -299,7 +299,7 @@ image_t<T>::image_t(size_t width, size_t height, const value_type* begin) :
 }
 
 template <class T>
-image_t<T>::image_t(size_t width, size_t height) :
+constexpr image_t<T>::image_t(size_t width, size_t height) :
 	m_width(width),
 	m_height(height),
 	m_storage(width*height)
@@ -307,7 +307,7 @@ image_t<T>::image_t(size_t width, size_t height) :
 }
 
 template <class T>
-image_t<T>::image_t(size_t width, size_t height, const value_type value) :
+constexpr image_t<T>::image_t(size_t width, size_t height, const value_type value) :
 	m_width(width),
 	m_height(height),
 	m_storage(width*height, value)
@@ -367,42 +367,42 @@ image_t<T>::image_t(const char* filename) :
 }
 
 template <class T>
-size_t image_t<T>::width() const {
+constexpr size_t image_t<T>::width() const noexcept {
 	return m_width;
 }
 
 template <class T>
-size_t image_t<T>::height() const {
+constexpr size_t image_t<T>::height() const noexcept{
 	return m_height;
 }
 
 template <class T>
-T* image_t<T>::data() {
+constexpr T* image_t<T>::data() noexcept {
 	return m_storage.data();
 }
 
 template <class T>
-const T* image_t<T>::data() const {
+constexpr const T* image_t<T>::data() const noexcept {
 	return m_storage.data();
 }
 
 template <class T>
-size_t image_t<T>::size() const {
+constexpr size_t image_t<T>::size() const noexcept {
 	return m_storage.size();
 }
 
 template <class T>
-typename image_t<T>::value_type& image_t<T>::get(size_t x, size_t y) {
+constexpr typename image_t<T>::value_type& image_t<T>::get(size_t x, size_t y) {
 	return m_storage[y*m_width+x];
 }
 
 template <class T>
-const typename image_t<T>::value_type& image_t<T>::get(size_t x, size_t y) const {
+constexpr const typename image_t<T>::value_type& image_t<T>::get(size_t x, size_t y) const {
 	return m_storage[y*m_width+x];
 }
 
 template <class T>
-typename image_t<T>::value_type& image_t<T>::at(size_t x, size_t y) {
+constexpr typename image_t<T>::value_type& image_t<T>::at(size_t x, size_t y) {
 	if(x >= width() || y >= height()) {
 		const auto msg = std::string("")+
 			"Try to access image at ["+std::to_string(x)+", "+std::to_string(y)+"]"
@@ -413,7 +413,7 @@ typename image_t<T>::value_type& image_t<T>::at(size_t x, size_t y) {
 }
 
 template <class T>
-const typename image_t<T>::value_type& image_t<T>::at(size_t x, size_t y) const {
+constexpr const typename image_t<T>::value_type& image_t<T>::at(size_t x, size_t y) const {
 	if(x >= width() || y >= height()) {
 		const auto msg = std::string("")+
 			"Try to access image at ["+std::to_string(x)+", "+std::to_string(y)+"]"
@@ -424,32 +424,32 @@ const typename image_t<T>::value_type& image_t<T>::at(size_t x, size_t y) const 
 }
 
 template <class T>
-typename image_t<T>::iterator image_t<T>::begin() {
+constexpr typename image_t<T>::iterator image_t<T>::begin() noexcept {
 	return m_storage.begin();
 }
 
 template <class T>
-typename image_t<T>::const_iterator image_t<T>::begin() const {
+constexpr typename image_t<T>::const_iterator image_t<T>::begin() const noexcept {
 	return m_storage.begin();
 }
 
 template <class T>
-typename image_t<T>::iterator image_t<T>::end() {
+constexpr typename image_t<T>::iterator image_t<T>::end() noexcept {
 	return m_storage.end();
 }
 
 template <class T>
-typename image_t<T>::const_iterator image_t<T>::end() const {
+constexpr typename image_t<T>::const_iterator image_t<T>::end() const noexcept {
 	return m_storage.end();
 }
 
 template <class T>
-constexpr int image_t<T>::channels() const {
+constexpr int image_t<T>::channels() const noexcept {
 	return channels_impl();
 }
 
 template <class T>
-constexpr image_format_t image_t<T>::format() const {
+constexpr image_format_t image_t<T>::format() const noexcept {
 	if constexpr(channels_impl() == 1) {
 		return image_format_t::red;
 	} if constexpr(channels_impl() == 2) {
@@ -462,12 +462,12 @@ constexpr image_format_t image_t<T>::format() const {
 }
 
 template <class T>
-constexpr GLenum image_t<T>::type() const {
+constexpr GLenum image_t<T>::type() const noexcept {
 	return attribute_properties<value_type>::type;
 }
 
 template <class T>
-constexpr int image_t<T>::channels_impl() {
+constexpr int image_t<T>::channels_impl() noexcept {
 	return attribute_properties<value_type>::elements_per_vertex;
 }
 
