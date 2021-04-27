@@ -30,8 +30,9 @@ public:
 
 	std::string declaration() const {
 		std::string result;
-		result += "uniform sampler2D "+texture_id()+"["+std::to_string(m_storage.size())+"];\n";
-
+		if(AllocationPolicy::size(m_storage) > 0) {
+			result += "uniform sampler2D "+texture_id()+"["+std::to_string(m_storage.size())+"];\n";
+		}
 		return result;
 	}
 
