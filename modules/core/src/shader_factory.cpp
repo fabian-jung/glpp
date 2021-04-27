@@ -37,7 +37,7 @@ std::string to_string(const glm::vec<N, T>& value) {
 		if(i != 0) {
 			result += ", ";
 		}
-		result += std::to_string(value[0]);
+		result += std::to_string(value[i]);
 	}
 	result += ")";
 	return result;
