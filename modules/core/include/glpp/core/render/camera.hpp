@@ -3,7 +3,7 @@
 #include <glm/glm.hpp>
 #include <glm/gtx/vector_angle.hpp>
 
-namespace glpp::render {
+namespace glpp::core::render {
 
 struct camera_t {
 

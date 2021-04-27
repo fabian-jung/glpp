@@ -4,8 +4,7 @@
 #include <glm/gtc/matrix_transform.hpp>
 
 using namespace glpp::system;
-using namespace glpp::object;
-using namespace glpp::render;
+using namespace glpp::core;
 
 struct scene_uniform_description_t {
 	glm::mat4 mvp;
@@ -16,7 +15,7 @@ struct vertex_description_t {
 	glm::vec3 norm;
 };
 
-class cube_model_t : public glpp::render::model_t<vertex_description_t> {
+class cube_model_t : public render::model_t<vertex_description_t> {
 public:
 	cube_model_t(std::initializer_list<std::pair<glm::vec3, glm::vec3>> list) {
 		for(const auto& p : list) {
@@ -67,9 +66,9 @@ private:
 	}
 };
 
-namespace glpp::render {
+namespace glpp::core::render {
 	template <>
-	struct model_traits<cube_model_t> : public model_traits<glpp::render::model_t<vertex_description_t>> {};
+	struct model_traits<cube_model_t> : public model_traits<glpp::core::render::model_t<vertex_description_t>> {};
 }
 
 int main(
@@ -85,13 +84,13 @@ int main(
 		}
 	);
 
-	renderer_t<scene_uniform_description_t> renderer {
-		shader_t(shader_type_t::vertex, std::ifstream("vertex.glsl")),
-		shader_t(shader_type_t::fragment, std::ifstream("fragment.glsl"))
+	render::renderer_t<scene_uniform_description_t> renderer {
+		object::shader_t(object::shader_type_t::vertex, std::ifstream("vertex.glsl")),
+		object::shader_t(object::shader_type_t::fragment, std::ifstream("fragment.glsl"))
 	};
 	renderer.set_uniform_name(&scene_uniform_description_t::mvp, "mvp");
 
-	view_t view(
+	render::view_t view(
 		cube_model_t{{std::make_pair(glm::vec3{0,0,0}, glm::vec3{2, 2, 2})}},
 		&vertex_description_t::position,
 		&vertex_description_t::norm

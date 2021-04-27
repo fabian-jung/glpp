@@ -1,7 +1,7 @@
-#include <glpp/object/shader.hpp>
-#include <glpp/render/renderer.hpp>
-#include <glpp/render/model.hpp>
-#include <glpp/render/view.hpp>
+#include <glpp/core/object/shader.hpp>
+#include <glpp/core/render/renderer.hpp>
+#include <glpp/core/render/model.hpp>
+#include <glpp/core/render/view.hpp>
 #include <glpp/system/window.hpp>
 
 #include <glm/glm.hpp>
@@ -10,10 +10,11 @@ struct scene_uniform_description_t {
 	glm::vec4 color;
 };
 
-struct vertex_shader_t : public glpp::object::shader_t {
+using namespace glpp::core;
+struct vertex_shader_t : public glpp::core::object::shader_t {
 	vertex_shader_t() :
-		glpp::object::shader_t(
-			glpp::object::shader_type_t::vertex,
+		object::shader_t(
+			object::shader_type_t::vertex,
 			"#version 330 core\n\
 			layout (location = 0) in vec3 aPos;\n\
 			layout (location = 1) in vec3 color;\n\
@@ -28,10 +29,10 @@ struct vertex_shader_t : public glpp::object::shader_t {
 	{}
 };
 
-struct fragment_shader_t : public glpp::object::shader_t {
+struct fragment_shader_t : public glpp::core::object::shader_t {
 	fragment_shader_t() :
-		glpp::object::shader_t(
-			glpp::object::shader_type_t::fragment,
+		object::shader_t(
+			object::shader_type_t::fragment,
 			"#version 330 core\n\
 			uniform vec4 color;\n\
 			out vec4 FragColor;\n\
@@ -50,7 +51,7 @@ struct vertex_description_t {
 	glm::vec3 color;
 };
 
-class model_t : public glpp::render::model_t<vertex_description_t> {
+class model_t : public glpp::core::render::model_t<vertex_description_t> {
 public:
 	void add_triangle(
 		const glm::vec3& first,
@@ -63,9 +64,9 @@ public:
 	}
 };
 
-namespace glpp::render {
+namespace glpp::core::render {
 	template <>
-	struct model_traits<::model_t> : public model_traits<glpp::render::model_t<vertex_description_t>> {};
+	struct model_traits<::model_t> : public model_traits<glpp::core::render::model_t<vertex_description_t>> {};
 }
 
 int main(
@@ -74,7 +75,7 @@ int main(
 ) {
 
 	glpp::system::window_t window(800, 600, "example", glpp::system::vsync_t::off);
-	glpp::render::renderer_t<scene_uniform_description_t> renderer {
+	render::renderer_t<scene_uniform_description_t> renderer {
 		vertex_shader_t(),
 		fragment_shader_t()
 	};
@@ -88,7 +89,7 @@ int main(
 		glm::vec3{0.0, 1.0, 0.0}
 	);
 
-	glpp::render::view_t view(
+	render::view_t view(
 		model,
 		&vertex_description_t::position,
 		&vertex_description_t::color

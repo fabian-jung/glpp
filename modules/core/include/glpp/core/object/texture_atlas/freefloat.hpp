@@ -1,6 +1,6 @@
 #pragma once
 
-namespace glpp::object::texture_atlas {
+namespace glpp::core::object::texture_atlas {
 
 struct freefloat_policy_t {};
 

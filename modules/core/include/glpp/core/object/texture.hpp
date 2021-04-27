@@ -1,9 +1,9 @@
 #pragma once
 
-#include "glpp/glpp.hpp"
-#include "glpp/object.hpp"
-#include "glpp/object/attribute_properties.hpp"
-#include "glpp/object/image.hpp"
+#include "glpp/core/glpp.hpp"
+#include "glpp/core/object.hpp"
+#include "glpp/core/object/attribute_properties.hpp"
+#include "glpp/core/object/image.hpp"
 #include <vector>
 #include <type_traits>
 #include <iterator>
@@ -11,7 +11,7 @@
 #include <algorithm>
 #include <limits>
 
-namespace glpp::object {
+namespace glpp::core::object {
 
 enum class clamp_mode_t : GLenum  {
 	repeat = GL_REPEAT,

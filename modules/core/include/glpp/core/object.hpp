@@ -2,7 +2,7 @@
 
 #include "glpp.hpp"
 #include <cassert>
-namespace glpp {
+namespace glpp::core {
 
 template <class destructor_t = void (*)(GLuint)>
 class object_t {

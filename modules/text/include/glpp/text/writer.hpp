@@ -1,8 +1,8 @@
 #pragma once
 
 #include "font.hpp"
-#include "glpp/render/model.hpp"
-#include "glpp/render/renderer.hpp"
+#include "glpp/core/render/model.hpp"
+#include "glpp/core/render/renderer.hpp"
 
 namespace glpp::text {
 
@@ -56,12 +56,12 @@ public:
 		glm::vec4 color;
 	};
 
-	using model_t = glpp::render::model_t<vertex_description_t>;
+	using model_t = glpp::core::render::model_t<vertex_description_t>;
 
-	static glpp::object::shader_t vertex_shader();
-	static glpp::object::shader_t fragment_shader();
+	static glpp::core::object::shader_t vertex_shader();
+	static glpp::core::object::shader_t fragment_shader();
 
-	glpp::render::renderer_t<uniform_description_t> renderer();
+	glpp::core::render::renderer_t<uniform_description_t> renderer();
 
 	writer_t(const font_t& atlas);
 

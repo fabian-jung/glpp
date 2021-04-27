@@ -2,6 +2,6 @@
 
 #include <GL/glew.h>
 
-namespace glpp {
+namespace glpp::core {
 
 }

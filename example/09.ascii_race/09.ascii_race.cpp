@@ -117,7 +117,7 @@ private:
 	}
 
 	void print(const std::string& s, int y, float x = 0, glpp::text::horizontal_alignment_t halign = glpp::text::horizontal_alignment_t::center) {
-		glpp::render::view_t view {
+		glpp::core::render::view_t view {
 			m_writer.write(
 				glpp::text::label_t{
 					{0,font_size},
@@ -147,7 +147,7 @@ private:
 	static constexpr size_t screen_height = 13;
 	static constexpr float font_size = (1.0/1.11)*(2.0/static_cast<float>(screen_height));
 	glpp::text::writer_t m_writer;
-	glpp::render::renderer_t<glpp::text::writer_t::uniform_description_t> m_renderer;
+	glpp::core::render::renderer_t<glpp::text::writer_t::uniform_description_t> m_renderer;
 	bool m_gameover = false;
 	std::vector<int> m_track;
 	int m_car = 7, m_car_offset = 8;

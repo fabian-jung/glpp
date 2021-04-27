@@ -99,24 +99,29 @@ auto font_t::init_glyphs(charset_t& charset) {
 	return result;
 }
 
-glpp::object::texture_t font_t::init_texture() const {
+glpp::core::object::texture_t font_t::init_texture() const {
 
-	glpp::object::texture_t result {
-		glpp::object::image_t<std::uint8_t>(m_atlas_size.x, m_atlas_size.y),
-		object::image_format_t::prefered,
-		object::clamp_mode_t::clamp_to_edge,
-		object::filter_mode_t::linear,
-		object::mipmap_mode_t::none,
-		{ object::texture_channel_t::one, object::texture_channel_t::one, object::texture_channel_t::one, object::texture_channel_t::red }
+	core::object::texture_t result {
+		core::object::image_t<std::uint8_t>(m_atlas_size.x, m_atlas_size.y),
+		core::object::image_format_t::prefered,
+		core::object::clamp_mode_t::clamp_to_edge,
+		core::object::filter_mode_t::linear,
+		core::object::mipmap_mode_t::none,
+		{
+			core::object::texture_channel_t::one,
+			core::object::texture_channel_t::one,
+			core::object::texture_channel_t::one,
+			core::object::texture_channel_t::red 
+		}
 	};
-	glpp::object::framebuffer_t fb({{result, glpp::object::attachment_t::color}});
-	fb.bind(glpp::object::framebuffer_target_t::write);
+	core::object::framebuffer_t fb({{result, glpp::core::object::attachment_t::color}});
+	fb.bind(glpp::core::object::framebuffer_target_t::write);
 
 	struct vertex_description_t {
 		glm::vec2 pos;
 	};
 
-	glpp::render::model_t<vertex_description_t> model {
+	glpp::core::render::model_t<vertex_description_t> model {
 		vertex_description_t{{0.0, 0.0}},
 		vertex_description_t{{1.0, 1.0}},
 		vertex_description_t{{1.0, 0.0}},
@@ -126,7 +131,7 @@ glpp::object::texture_t font_t::init_texture() const {
 		vertex_description_t{{1.0, 1.0}}
 	};
 
-	glpp::render::view_t view {
+	glpp::core::render::view_t view {
 		model,
 		&vertex_description_t::pos
 	};
@@ -134,8 +139,8 @@ glpp::object::texture_t font_t::init_texture() const {
 	struct uniform_description_t {
 		float left, right;
 	};
-	glpp::render::renderer_t<uniform_description_t> renderer{
-		glpp::object::shader_t(glpp::object::shader_type_t::vertex,
+	glpp::core::render::renderer_t<uniform_description_t> renderer{
+		glpp::core::object::shader_t(glpp::core::object::shader_type_t::vertex,
 			"#version 330 core\n\
 			layout (location = 0) in vec2 pos;\n\
 			out vec2 tex;\n\
@@ -148,7 +153,7 @@ glpp::object::texture_t font_t::init_texture() const {
 				gl_Position = vec4(2*(left+pos.x*(right-left))-1.0, 2*pos.y-1.0, 0.0, 1.0);\n\
 			}"
 		),
-		glpp::object::shader_t(glpp::object::shader_type_t::fragment,
+		glpp::core::object::shader_t(glpp::core::object::shader_type_t::fragment,
 			"#version 330 core\n\
 			in vec2 tex;\n\
 			uniform sampler2D glyph;\n\
@@ -171,21 +176,21 @@ glpp::object::texture_t font_t::init_texture() const {
 			renderer.set_uniform(&uniform_description_t::left, glyph.tex_range[0]);
 			renderer.set_uniform(&uniform_description_t::right, glyph.tex_range[1]);
 			const auto& [_, pixbuf] = m_loader->get_char(c);
-			glpp::object::texture_t glyph_texture {
-				glpp::object::image_t<std::uint8_t>{
+			core::object::texture_t glyph_texture {
+				core::object::image_t<std::uint8_t>{
 					static_cast<size_t>(glyph.size.x*vertical_resolution),
 					static_cast<size_t>(glyph.size.y*vertical_resolution),
 					pixbuf
 				},
-				object::image_format_t::prefered,
-				object::clamp_mode_t::clamp_to_edge
+				core::object::image_format_t::prefered,
+				core::object::clamp_mode_t::clamp_to_edge
 			};
 			auto slot = glyph_texture.bind_to_texture_slot();
 			renderer.set_texture("glyph", slot);
 			renderer.render(view);
 		}
 	}
-	glpp::object::framebuffer_t::bind_default_framebuffer(glpp::object::framebuffer_target_t::write);
+	glpp::core::object::framebuffer_t::bind_default_framebuffer(glpp::core::object::framebuffer_target_t::write);
 	return result;
 }
 
@@ -204,7 +209,7 @@ const glyph_t& font_t::operator[](char_t c) const {
 	return m_glyphs.at(c);
 }
 
-const glpp::object::texture_slot_t& font_t::texture_slot() const {
+const glpp::core::object::texture_slot_t& font_t::texture_slot() const {
 	return m_texture_slot;
 }
 

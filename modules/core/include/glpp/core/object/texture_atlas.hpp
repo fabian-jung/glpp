@@ -4,7 +4,7 @@
 #include "texture_atlas/grid.hpp"
 #include "texture_atlas/multi.hpp"
 
-namespace glpp::object {
+namespace glpp::core::object {
 
 template <class AllocationPolicy>
 class texture_atlas_slot_t;

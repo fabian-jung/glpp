@@ -1,11 +1,11 @@
 #pragma once
 
 #include <type_traits>
-#include <glpp/object/buffer.hpp>
-#include <glpp/object/vertex_array.hpp>
-#include <glpp/render/model.hpp>
+#include <glpp/core/object/buffer.hpp>
+#include <glpp/core/object/vertex_array.hpp>
+#include <glpp/core/render/model.hpp>
 
-namespace glpp::render {
+namespace glpp::core::render {
 
 template <class uniform_description_t>
 class renderer_t;
@@ -47,10 +47,10 @@ public:
 			}()
 		),
 		m_buffer(
-			glpp::object::buffer_target_t::array_buffer,
+			glpp::core::object::buffer_target_t::array_buffer,
 			model_traits<model_t>::verticies(model).data(),
 			model_traits<model_t>::verticies(model).size()*sizeof(attribute_description_t),
-			glpp::object::buffer_usage_t::static_draw
+			glpp::core::object::buffer_usage_t::static_draw
 		)
 	{
 		static_assert(sizeof...(T) > 0, "Trying to initialise view without attributes");
@@ -59,17 +59,17 @@ public:
 			m_buffer,
 			index++,
 			sizeof(attribute_description_t)/*-sizeof(T)*/,
-			glpp::object::attribute_properties<T>::elements_per_vertex,
-			glpp::object::attribute_properties<T>::type,
+			glpp::core::object::attribute_properties<T>::elements_per_vertex,
+			glpp::core::object::attribute_properties<T>::type,
 			offset(attributes)
 		), ...);
 		if constexpr(model_traits_t::instanced()) {
 			m_vao.bind(); // TODO
-			m_indicies = glpp::object::buffer_t<GLuint>(
-				glpp::object::buffer_target_t::element_array_buffer,
+			m_indicies = glpp::core::object::buffer_t<GLuint>(
+				glpp::core::object::buffer_target_t::element_array_buffer,
 				model_traits<model_t>::indicies(model).data(),
 					model_traits<model_t>::indicies(model).size()*sizeof(GLuint), //TODO  GLint
-					glpp::object::buffer_usage_t::static_draw
+					glpp::core::object::buffer_usage_t::static_draw
 			);
 			m_indicies.bind();
 		}
@@ -95,10 +95,10 @@ private:
 	template <class T>
 	static constexpr void* offset(T attribute_description_t::* attr);
 
-	glpp::object::vertex_array_t m_vao;
+	glpp::core::object::vertex_array_t m_vao;
 	size_t m_size;
-	glpp::object::buffer_t<attribute_description_t> m_buffer;
-	glpp::object::buffer_t<GLuint> m_indicies;
+	glpp::core::object::buffer_t<attribute_description_t> m_buffer;
+	glpp::core::object::buffer_t<GLuint> m_indicies;
 };
 
 template <class Model, class... T>

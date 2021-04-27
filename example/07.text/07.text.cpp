@@ -15,7 +15,7 @@ int main() {
 
 	auto renderer = writer.renderer();
 
-	glpp::render::view_t view {
+	glpp::core::render::view_t view {
 		writer.write(
 			glpp::text::label_t{
 				{2.0, 2.0},

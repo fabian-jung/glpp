@@ -1,8 +1,8 @@
-#include "glpp/glpp.hpp"
+#include "glpp/core/glpp.hpp"
 
 #include <iostream>
 
-namespace glpp {
+namespace glpp::core {
 
 std::string error_description(GLenum err) {
 	switch(err) {

@@ -3,7 +3,7 @@
 
 namespace glpp::ui::element {
 
-image_t::image_t(const glpp::object::texture_slot_t& texture, glm::vec4 tint) :
+image_t::image_t(const glpp::core::object::texture_slot_t& texture, glm::vec4 tint) :
 	texture(&texture),
 	tint(tint)
 {}

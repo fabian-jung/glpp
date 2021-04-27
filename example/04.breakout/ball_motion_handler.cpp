@@ -149,11 +149,11 @@ float ball_motion_handler_t::get_slider() const {
 	return m_slider_x;
 }
 
-glpp::object::image_t<GLubyte>& ball_motion_handler_t::level() {
+glpp::core::object::image_t<GLubyte>& ball_motion_handler_t::level() {
 	return m_level;
 }
 
-glpp::object::texture_t& ball_motion_handler_t::level_texture() {
+glpp::core::object::texture_t& ball_motion_handler_t::level_texture() {
 	return m_level_tex;
 }
 

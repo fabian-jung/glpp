@@ -2,10 +2,10 @@
 
 #include <string>
 #include <unordered_map>
-#include <glpp/object/texture_atlas.hpp>
-#include <glpp/object/shader.hpp>
+#include <glpp/core/object/texture_atlas.hpp>
+#include <glpp/core/object/shader.hpp>
 
-namespace glpp::render {
+namespace glpp::core::render {
 
 namespace detail {
 	struct none_t {};
@@ -52,7 +52,7 @@ public:
 	void set_texture_atlas(const char* name, const object::texture_atlas_slot_t<AllocPolicy>& texture_atlas);
 
 private:
-	glpp::object::shader_program_t m_shader;
+	glpp::core::object::shader_program_t m_shader;
 	std::unordered_map<size_t, std::string> m_uniform_map;
 	std::unordered_map<std::string, object::texture_slot_t> m_texture_slots;
 };

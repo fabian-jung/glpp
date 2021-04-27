@@ -8,7 +8,7 @@ struct quad_vertex_description_t {
 	glm::vec2 tex;
 };
 
-class quad_model_t : public glpp::render::model_t<quad_vertex_description_t> {
+class quad_model_t : public glpp::core::render::model_t<quad_vertex_description_t> {
 public:
 	quad_model_t(std::initializer_list<std::pair<glm::vec2, glm::vec2>> list) {
 		for(const auto& p : list) {
@@ -42,7 +42,7 @@ public:
 	}
 };
 
-namespace glpp::render {
+namespace glpp::core::render {
 	template <>
-	struct model_traits<quad_model_t> : public model_traits<glpp::render::model_t<quad_vertex_description_t>> {};
+	struct model_traits<quad_model_t> : public model_traits<glpp::core::render::model_t<quad_vertex_description_t>> {};
 }

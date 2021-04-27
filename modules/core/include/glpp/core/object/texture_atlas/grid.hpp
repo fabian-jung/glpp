@@ -1,9 +1,9 @@
 #pragma once
 
 #include <glm/glm.hpp>
-#include "glpp/object/texture.hpp"
+#include "glpp/core/object/texture.hpp"
 
-namespace glpp::object::texture_atlas
+namespace glpp::core::object::texture_atlas
 {
     
 struct grid_policy_t {
@@ -15,7 +15,7 @@ struct grid_policy_t {
 		{}
 
 		private:
-			glpp::object::texture_t m_texture;
+			glpp::core::object::texture_t m_texture;
 	};
 };
 

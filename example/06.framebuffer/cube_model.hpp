@@ -9,7 +9,7 @@ struct cube_vertex_description_t {
 	glm::vec3 norm;
 };
 
-class cube_model_t : public glpp::render::model_t<cube_vertex_description_t> {
+class cube_model_t : public glpp::core::render::model_t<cube_vertex_description_t> {
 public:
 	cube_model_t() = default;
 
@@ -62,7 +62,7 @@ private:
 	}
 };
 
-namespace glpp::render {
+namespace glpp::core::render {
 	template <>
-	struct model_traits<cube_model_t> : public model_traits<glpp::render::model_t<cube_vertex_description_t>> {};
+	struct model_traits<cube_model_t> : public model_traits<glpp::core::render::model_t<cube_vertex_description_t>> {};
 }

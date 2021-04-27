@@ -1,9 +1,9 @@
 #pragma once
 
-#include "glpp/glpp.hpp"
+#include "glpp/core/glpp.hpp"
 #include <glm/glm.hpp>
 
-namespace glpp::object {
+namespace glpp::core::object {
 
 template <class T>
 struct attribute_properties;

@@ -1,8 +1,8 @@
-#include <glpp/object/shader_factory.hpp>
+#include <glpp/core/object/shader_factory.hpp>
 #include <glm/glm.hpp>
 #include <streambuf>
 
-namespace glpp::object {
+namespace glpp::core::object{
 
 shader_factory_t::shader_factory_t(std::ifstream& code_template) :
 	m_code(std::istreambuf_iterator<char>(code_template), std::istreambuf_iterator<char>())

@@ -1,11 +1,11 @@
 #pragma once
 
-#include "glpp/glpp.hpp"
+#include "glpp/core/glpp.hpp"
 #include "buffer.hpp"
 #include "attribute_properties.hpp"
 #include <algorithm>
 
-namespace glpp::object {
+namespace glpp::core::object {
 
 class vertex_array_t : public object_t<> {
 public:

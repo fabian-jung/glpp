@@ -9,7 +9,7 @@
 struct my_button_t : public glpp::ui::element::button_t<glpp::ui::element::image_t> {
 	using image_t = glpp::ui::element::image_t;
 
-	my_button_t(const glpp::object::texture_slot_t& slot, std::function<void()> action) :
+	my_button_t(const glpp::core::object::texture_slot_t& slot, std::function<void()> action) :
 		button_t(
 			image_t { slot },
 			action,
@@ -33,14 +33,14 @@ int main(int, char*[]) {
  	glpp::text::font_t font {"Hack-Regular.ttf", 160};
 
 
-	glpp::object::texture_t add_icon {
- 		glpp::object::image_t<glm::vec4>{
+	glpp::core::object::texture_t add_icon {
+ 		glpp::core::object::image_t<glm::vec4>{
 			"add.png"
 		}
 	};
 
-	glpp::object::texture_t remove_icon {
-		glpp::object::image_t<glm::vec4>{
+	glpp::core::object::texture_t remove_icon {
+		glpp::core::object::image_t<glm::vec4>{
 			"remove.png"
 		}
 	};

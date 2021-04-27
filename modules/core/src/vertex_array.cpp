@@ -1,6 +1,6 @@
-#include "glpp/object/vertex_array.hpp"
+#include "glpp/core/object/vertex_array.hpp"
 
-namespace glpp::object {
+namespace glpp::core::object {
 
 vertex_array_t::vertex_array_t() :
 	object_t(

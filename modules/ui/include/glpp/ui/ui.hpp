@@ -48,7 +48,7 @@ public:
 		glm::vec4 tint { 1.0f };
 	};
 
-	using model_t = glpp::render::model_t<vertex_description_t>;
+	using model_t = glpp::core::render::model_t<vertex_description_t>;
 
 	class textures_t {
 	public:
@@ -88,7 +88,7 @@ public:
 	}
 
 	void update() {
-		view = glpp::render::view_t {
+		view = glpp::core::render::view_t {
 			model,
 			&vertex_description_t::pos,
 			&vertex_description_t::tex,
@@ -96,12 +96,12 @@ public:
 			&vertex_description_t::tint
 		};
 		renderer = {
-			glpp::object::shader_t(
-				glpp::object::shader_type_t::vertex,
+			glpp::core::object::shader_t(
+				glpp::core::object::shader_type_t::vertex,
 				vertex_shader_code()
 			),
-			glpp::object::shader_t(
-				glpp::object::shader_type_t::fragment,
+			glpp::core::object::shader_t(
+				glpp::core::object::shader_type_t::fragment,
 				fragment_shader_code()
 			)
 		};
@@ -126,8 +126,8 @@ private:
 	std::string vertex_shader_code() const;
 	std::string fragment_shader_code() const ;
 
-	glpp::render::view_t<model_t> view;
-	glpp::render::renderer_t<> renderer;
+	glpp::core::render::view_t<model_t> view;
+	glpp::core::render::renderer_t<> renderer;
 };
 
 template <class Widget>

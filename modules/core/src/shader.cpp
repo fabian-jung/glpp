@@ -1,9 +1,9 @@
-#include "glpp/object/shader.hpp"
+#include "glpp/core/object/shader.hpp"
 #include <string>
 #include <streambuf>
 #include <iterator>
 
-namespace glpp::object {
+namespace glpp::core::object {
 
 void shader_t::init(const std::string& code) {
 	if(code.size() == 0) throw std::runtime_error("Trying to compile shader with no code.");

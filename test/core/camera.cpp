@@ -2,7 +2,7 @@
 
 #include <glm/gtx/string_cast.hpp>
 
-#include <glpp/render/camera.hpp>
+#include <glpp/core/render/camera.hpp>
 #include <iostream>
 
 template <class T, auto N>
@@ -19,7 +19,7 @@ std::ostream& operator<<(std::ostream& lhs, const glm::vec<N, T>& rhs) {
 }
 
 TEST_CASE("core::camera_t default construction has sane default values", "[core][unit]") {
-	const glpp::render::camera_t camera;
+	const glpp::core::render::camera_t camera;
 
 	REQUIRE(camera.fov != Approx(0.0f));
 	REQUIRE(glm::length(camera.position) == 0.0f);
@@ -41,7 +41,7 @@ TEST_CASE("Camera constructed with parameters", "[core][unit]") {
 	const float far_plane = 10.0f;
 	const float aspect_ratio = 2.0f;
 
-	const glpp::render::camera_t camera(
+	const glpp::core::render::camera_t camera(
 		position,
 		orientation,
 		fov,
@@ -58,7 +58,7 @@ TEST_CASE("Camera constructed with parameters", "[core][unit]") {
 	REQUIRE(camera.aspect_ratio == aspect_ratio);
 }
 
-void compare_cameras(const glpp::render::camera_t& lhs, const glpp::render::camera_t& rhs) {
+void compare_cameras(const glpp::core::render::camera_t& lhs, const glpp::core::render::camera_t& rhs) {
 	REQUIRE(lhs.position == rhs.position);
 	const glm::vec3 up {0,1,0};
 	const glm::vec3 forward {0,0,-1};
@@ -66,14 +66,14 @@ void compare_cameras(const glpp::render::camera_t& lhs, const glpp::render::came
 
 	const auto l1 = up*lhs.orientation;
 	const auto l2 = up*rhs.orientation;
-	std::cout << "l1 = " << l1 << " " << " l2 = " << l2 << std::endl;
+
 	REQUIRE(glm::length(up*lhs.orientation-up*rhs.orientation) < 0.01);
 	REQUIRE(glm::length(forward*lhs.orientation-forward*rhs.orientation) < 0.01);
 	REQUIRE(glm::length(right*lhs.orientation-right*rhs.orientation) < 0.01);
 }
 
 TEST_CASE("Camera constructed with look_at and up vector", "[core][unit]") {
-	using glpp::render::camera_t;
+	using glpp::core::render::camera_t;
 
 	const glm::vec3 position {0.0f, 0.0f,  0.0f};
 	const glm::vec3  look_at {0.0f, 0.0f, -1.0f};
@@ -147,7 +147,7 @@ TEST_CASE("Camera constructed with look_at and up vector", "[core][unit]") {
 }
 
 TEST_CASE("core::camera_t::mvp() sanity checks of the projection matrix", "[core][unit]") {
-	const glpp::render::camera_t camera;
+	const glpp::core::render::camera_t camera;
 	const auto mvp = camera.mvp();
 
 	SECTION("Centerpoint on near_plane projected to back") {
@@ -198,7 +198,7 @@ TEST_CASE("Construct camera with look_at vector. look_at should be projected to 
 				<< up.x << " " << up.y << " " << up.z << " )"
 			) {
 
-				const glpp::render::camera_t camera(
+				const glpp::core::render::camera_t camera(
 					position,
 					look_at,
 					up

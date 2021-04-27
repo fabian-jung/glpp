@@ -4,9 +4,9 @@
 #include <unordered_map>
 #include <vector>
 #include <algorithm>
-#include "glpp/object/texture.hpp"
+#include "glpp/core/object/texture.hpp"
 
-namespace glpp::object::texture_atlas {
+namespace glpp::core::object::texture_atlas {
 
 struct multi_policy_t {
 	using key_t = size_t;

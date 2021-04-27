@@ -1,10 +1,10 @@
 #pragma once
 
-#include "glpp/glpp.hpp"
-#include "glpp/object.hpp"
+#include "glpp/core/glpp.hpp"
+#include "glpp/core/object.hpp"
 #include "texture.hpp"
 
-namespace glpp::object {
+namespace glpp::core::object {
 
 enum class attachment_t : GLenum {
 	color = GL_COLOR_ATTACHMENT0,

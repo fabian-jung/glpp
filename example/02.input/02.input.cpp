@@ -1,7 +1,7 @@
 #include <glpp/system/window.hpp>
-#include <glpp/render/renderer.hpp>
-#include <glpp/render/model.hpp>
-#include <glpp/render/view.hpp>
+#include <glpp/core/render/renderer.hpp>
+#include <glpp/core/render/model.hpp>
+#include <glpp/core/render/view.hpp>
 
 #include <fstream>
 
@@ -14,7 +14,7 @@ struct vertex_description_t {
 	glm::vec2 position;
 };
 
-class model_t : public glpp::render::model_t<vertex_description_t> {
+class model_t : public glpp::core::render::model_t<vertex_description_t> {
 public:
 	void add_quad(
 		const glm::vec2& first,
@@ -32,9 +32,9 @@ public:
 	}
 };
 
-namespace glpp::render {
+namespace glpp::core::render {
 template <>
-struct model_traits<::model_t> : public model_traits<glpp::render::model_t<vertex_description_t>> {};
+struct model_traits<::model_t> : public model_traits<glpp::core::render::model_t<vertex_description_t>> {};
 }
 
 bool hit_check(const glm::vec2& offset, const glm::vec2& mouse) {
@@ -55,9 +55,9 @@ int main(__attribute__((unused)) int argc, __attribute__((unused)) char* argv[])
 	});
 
 
-	glpp::render::renderer_t<scene_uniform_description_t> renderer{
-		glpp::object::shader_t(glpp::object::shader_type_t::vertex, std::ifstream("vertex.glsl")),
-		glpp::object::shader_t(glpp::object::shader_type_t::fragment, std::ifstream("fragment.glsl"))
+	glpp::core::render::renderer_t<scene_uniform_description_t> renderer{
+		glpp::core::object::shader_t(glpp::core::object::shader_type_t::vertex, std::ifstream("vertex.glsl")),
+		glpp::core::object::shader_t(glpp::core::object::shader_type_t::fragment, std::ifstream("fragment.glsl"))
 	};
 
 	renderer.set_uniform_name( &scene_uniform_description_t::color, "color");
@@ -76,7 +76,7 @@ int main(__attribute__((unused)) int argc, __attribute__((unused)) char* argv[])
 		glm::vec2{-0.25,  0.25}
 	);
 
-	glpp::render::view_t view(
+	glpp::core::render::view_t view(
 		model,
 		&vertex_description_t::position
 	);

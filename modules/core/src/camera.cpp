@@ -1,7 +1,7 @@
-#include <glpp/render/camera.hpp>
+#include <glpp/core/render/camera.hpp>
 #include <glm/gtx/vector_angle.hpp>
 
-glpp::render::camera_t::camera_t(
+glpp::core::render::camera_t::camera_t(
 	glm::vec3 position,
 	glm::quat orientation,
 	float fov,
@@ -36,7 +36,7 @@ glm::quat orientationFromLookAt(const glm::vec3& look_at, const glm::vec3& up) {
 	return up_rotation*forward_rotation;
 }
 
-glpp::render::camera_t::camera_t(
+glpp::core::render::camera_t::camera_t(
 	glm::vec3 position,
 	glm::vec3 lookAt,
 	glm::vec3 up,
@@ -53,7 +53,7 @@ glpp::render::camera_t::camera_t(
 	aspect_ratio(aspect_ratio)
 {}
 
-glm::mat4 glpp::render::camera_t::mvp(const glm::mat4& model_matrix) const {
+glm::mat4 glpp::core::render::camera_t::mvp(const glm::mat4& model_matrix) const {
 	const glm::mat4 translation = glm::translate(model_matrix, -position);
 	const auto rotation = glm::mat4_cast(glm::inverse(orientation));
 	const glm::mat4 projection = glm::perspectiveFov(

@@ -1,5 +1,5 @@
 #pragma once
-#include <glpp/object/texture.hpp>
+#include <glpp/core/object/texture.hpp>
 #include <chrono>
 #include <glm/glm.hpp>
 #include <vector>
@@ -37,14 +37,14 @@ public:
 	void set_slider(float x);
 	float get_slider() const;
 
-	glpp::object::image_t<GLubyte>& level();
-	glpp::object::texture_t& level_texture();
+	glpp::core::object::image_t<GLubyte>& level();
+	glpp::core::object::texture_t& level_texture();
 
 private:
 	float m_slider_x;
 	bool m_running = false;
-	glpp::object::image_t<GLubyte> m_level;
-	glpp::object::texture_t m_level_tex;
+	glpp::core::object::image_t<GLubyte> m_level;
+	glpp::core::object::texture_t m_level_tex;
 	constexpr static float m_size = .05;
 	clock_t::time_point m_last_update = clock_t::now();
 	glm::vec2 m_direction = glm::normalize(glm::vec2(1, .9));

@@ -1,13 +1,13 @@
 #pragma once
 
-#include "glpp/glpp.hpp"
-#include "glpp/object.hpp"
-#include "glpp/object/texture.hpp"
+#include "glpp/core/glpp.hpp"
+#include "glpp/core/object.hpp"
+#include "glpp/core/object/texture.hpp"
 #include <glm/glm.hpp>
 #include <glm/gtc/type_ptr.hpp>
 #include <istream>
 
-namespace glpp::object {
+namespace glpp::core::object {
 
 enum class shader_type_t : GLenum {
 	compute = GL_COMPUTE_SHADER,

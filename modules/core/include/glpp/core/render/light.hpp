@@ -2,7 +2,7 @@
 
 #include <glm/glm.hpp>
 
-namespace glpp::render {
+namespace glpp::core::render {
 
 struct light_t {
 	glm::vec3 positon;

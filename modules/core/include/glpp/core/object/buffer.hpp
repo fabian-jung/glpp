@@ -1,8 +1,8 @@
 #pragma once
 
-#include "glpp/object.hpp"
+#include "glpp/core/object.hpp"
 
-namespace glpp::object {
+namespace glpp::core::object {
 
 enum class buffer_target_t : GLenum {
 	array_buffer = GL_ARRAY_BUFFER,

@@ -21,8 +21,8 @@ using board_base_t =
 struct board_t : public board_base_t
 {
 	const auto& tex_slot() {
-		static glpp::object::texture_t lights_on {
-			glpp::object::image_t<glm::vec4>{"Light.png"}
+		static glpp::core::object::texture_t lights_on {
+			glpp::core::object::image_t<glm::vec4>{"Light.png"}
 		};
 		static auto slot = lights_on.bind_to_texture_slot();
 		return slot;

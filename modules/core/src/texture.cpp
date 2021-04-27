@@ -1,7 +1,7 @@
-#include "glpp/object/texture.hpp"
+#include "glpp/core/object/texture.hpp"
 #include <algorithm>
 
-namespace glpp::object {
+namespace glpp::core::object {
 
 texture_t::texture_t(
 	const size_t& width,

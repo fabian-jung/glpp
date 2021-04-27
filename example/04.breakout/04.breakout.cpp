@@ -1,8 +1,5 @@
 #include <glpp/system/window.hpp>
-#include <glpp/render/renderer.hpp>
-#include <glpp/render/model.hpp>
-#include <glpp/render/view.hpp>
-#include <glpp/object/texture.hpp>
+#include <glpp/core.hpp>
 #include "ball_motion_handler.hpp"
 #include <fstream>
 
@@ -22,7 +19,7 @@ struct vertex_description_t {
 	glm::vec2 tex;
 };
 
-class quad_model_t : public glpp::render::model_t<vertex_description_t> {
+class quad_model_t : public glpp::core::render::model_t<vertex_description_t> {
 public:
 	quad_model_t(std::initializer_list<std::pair<glm::vec2, glm::vec2>> list) {
 		for(const auto& p : list) {
@@ -56,14 +53,14 @@ public:
 	}
 };
 
-namespace glpp::render {
+namespace glpp::core::render {
 	template <>
-	struct model_traits<quad_model_t> : public model_traits<glpp::render::model_t<vertex_description_t>> {};
+	struct model_traits<quad_model_t> : public model_traits<model_t<vertex_description_t>> {};
 }
 
 using namespace glpp::system;
-using namespace glpp::object;
-using namespace glpp::render;
+using namespace glpp::core::object;
+using namespace glpp::core::render;
 
 int main(__attribute__((unused)) int argc, __attribute__((unused)) char* argv[]) {
 	window_t window(800, 600, "breakout");

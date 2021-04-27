@@ -1,15 +1,15 @@
 #pragma once
 
 #include <glpp/ui/ui.hpp>
-#include <glpp/object/texture.hpp>
+#include <glpp/core/object/texture.hpp>
 
 namespace glpp::ui::element {
 
 struct image_t {
 
-	image_t(const object::texture_slot_t& texture, glm::vec4 tint = glm::vec4{1.0f});
+	image_t(const core::object::texture_slot_t& texture, glm::vec4 tint = glm::vec4{1.0f});
 
-		const object::texture_slot_t* texture;
+		const core::object::texture_slot_t* texture;
 		glm::vec4 tint { 1.0f };
 
 	void triangulate(

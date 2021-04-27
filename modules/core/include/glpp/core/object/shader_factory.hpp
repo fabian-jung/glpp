@@ -3,7 +3,7 @@
 #include <string>
 #include <fstream>
 
-namespace glpp::object {
+namespace glpp::core::object {
 
 class shader_factory_t {
 public:

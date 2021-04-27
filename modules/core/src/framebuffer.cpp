@@ -1,6 +1,6 @@
-#include "glpp/object/framebuffer.hpp"
+#include "glpp/core/object/framebuffer.hpp"
 
-namespace glpp::object {
+namespace glpp::core::object {
 
 framebuffer_t::framebuffer_t(size_t width, size_t height) :
 	object_t(

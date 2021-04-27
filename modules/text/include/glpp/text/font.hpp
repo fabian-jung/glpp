@@ -2,7 +2,7 @@
 
 #include "charset.hpp"
 #include <glm/glm.hpp>
-#include "glpp/object/texture.hpp"
+#include "glpp/core/object/texture.hpp"
 #include <memory>
 
 namespace glpp::text {
@@ -29,18 +29,18 @@ public:
 	font_t& operator=(const font_t& cpy) = delete;
 
 	const glyph_t& operator[](char_t c) const;
-	const glpp::object::texture_slot_t& texture_slot() const;
+	const glpp::core::object::texture_slot_t& texture_slot() const;
 
 private:
 	auto init_glyphs(charset_t& charset);
-	glpp::object::texture_t init_texture() const;
+	glpp::core::object::texture_t init_texture() const;
 
 	class font_loader_t;
 	std::unique_ptr<font_loader_t> m_loader;
 	glm::vec2 m_atlas_size;
 	/*const*/ std::unordered_map<char_t, glyph_t> m_glyphs;
-	/*const*/ glpp::object::texture_t m_texture_atlas;
-	glpp::object::texture_slot_t m_texture_slot;
+	/*const*/ glpp::core::object::texture_t m_texture_atlas;
+	glpp::core::object::texture_slot_t m_texture_slot;
 };
 
 }

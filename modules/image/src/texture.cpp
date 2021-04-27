@@ -1,8 +1,8 @@
-#include "glpp/object/texture.hpp"
+#include "glpp/core/object/texture.hpp"
 #include <stb_image.h>
 #include <memory>
 
-namespace glpp::object::detail {
+namespace glpp::core::object::detail {
 
 stbi_image_t::stbi_image_t(const char* filename, int channels)
 {

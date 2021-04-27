@@ -6,11 +6,11 @@
 #include <ostream>
 #include <typeinfo>
 #include <glm/gtx/string_cast.hpp>
-#include <glpp/glpp.hpp>
-#include <glpp/object/attribute_properties.hpp>
+#include <glpp/core/glpp.hpp>
+#include <glpp/core/object/attribute_properties.hpp>
 #include <functional>
 
-namespace glpp::object {
+namespace glpp::core::object {
 
 enum class image_format_t : GLenum {
 	prefered        = 0,

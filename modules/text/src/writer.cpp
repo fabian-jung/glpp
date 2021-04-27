@@ -9,9 +9,9 @@ writer_t::writer_t(const font_t& atlas) :
 	m_font(atlas)
 {}
 
-glpp::object::shader_t writer_t::vertex_shader() {
+glpp::core::object::shader_t writer_t::vertex_shader() {
 	return {
-		glpp::object::shader_type_t::vertex,
+		glpp::core::object::shader_type_t::vertex,
 		"#version 330 core\n\
 		layout (location = 0) in vec2 pos;\n\
 		layout (location = 1) in vec2 tex;\n\
@@ -25,9 +25,9 @@ glpp::object::shader_t writer_t::vertex_shader() {
 	};
 }
 
-glpp::object::shader_t writer_t::fragment_shader() {
+glpp::core::object::shader_t writer_t::fragment_shader() {
 	return {
-		glpp::object::shader_type_t::fragment,
+		glpp::core::object::shader_type_t::fragment,
 		"#version 330 core\n\
 		in vec2 v_tex;\n\
 		uniform sampler2D glyphs;\n\
@@ -41,8 +41,8 @@ glpp::object::shader_t writer_t::fragment_shader() {
 	};
 }
 
-glpp::render::renderer_t<writer_t::uniform_description_t> writer_t::renderer() {
-	glpp::render::renderer_t<uniform_description_t> result {
+glpp::core::render::renderer_t<writer_t::uniform_description_t> writer_t::renderer() {
+	glpp::core::render::renderer_t<uniform_description_t> result {
 		vertex_shader(),
 		fragment_shader()
 	};
