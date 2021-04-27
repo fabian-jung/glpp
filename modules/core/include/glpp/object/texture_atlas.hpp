@@ -35,11 +35,11 @@ public:
 		return result;
 	}
 
-	std::string fetch(const key_t key, const std::string_view uv) {
+	std::string fetch(const key_t key, const std::string_view uv) const {
 		return "texture("+texture_id(key)+", "+std::string(uv)+")";
 	}
 
-	std::string fetch(std::string_view key, const std::string_view uv);
+	std::string fetch(std::string_view key, const std::string_view uv) const;
 	
 
 	texture_atlas_slot_t<AllocationPolicy> bind_to_texture_slot() const;
