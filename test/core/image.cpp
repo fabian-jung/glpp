@@ -2,7 +2,7 @@
 
 #include <glpp/core.hpp>
 
-TEST_CASE("image attribute check for vec3", "[core, unit]") {
+TEST_CASE("image attribute check for vec3", "[core][unit]") {
     const glm::vec3 test_color {0.9, 0.8, 0.1};
     const glpp::object::image_t<glm::vec3> image(1, 1 , test_color);
     
@@ -17,7 +17,7 @@ TEST_CASE("image attribute check for vec3", "[core, unit]") {
     REQUIRE(image.type() == GL_FLOAT);
 }
 
-TEST_CASE("image attribute check for ubyte3", "[core, unit]") {
+TEST_CASE("image attribute check for ubyte3", "[core][unit]") {
     using ubyte3 = glm::vec<3, unsigned char>;
     const ubyte3 test_color {123, 45, 67};
     glpp::object::image_t<ubyte3> image(1, 1, test_color);
@@ -34,7 +34,7 @@ TEST_CASE("image attribute check for ubyte3", "[core, unit]") {
 }
 
 
-TEST_CASE("image attribute check for ubyte", "[core, unit]") {
+TEST_CASE("image attribute check for ubyte", "[core][unit]") {
     using ubyte = unsigned char;
     glpp::object::image_t<ubyte> image(
         2, 2,

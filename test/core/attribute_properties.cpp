@@ -3,7 +3,7 @@
 #include <glpp/core.hpp>
 #include <type_traits>
 
-TEST_CASE("attribute_properties basic checks", "[core, unit]") {
+TEST_CASE("attribute_properties basic checks", "[core][unit]") {
     REQUIRE(std::is_same_v<glpp::object::attribute_properties<glm::vec3>::value_type, float>);
     REQUIRE(std::is_same_v<glpp::object::attribute_properties<glm::dvec3>::value_type, double>);
     REQUIRE(std::is_same_v<glpp::object::attribute_properties<glm::ivec3>::value_type, int>);

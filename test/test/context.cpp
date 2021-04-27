@@ -1,17 +1,17 @@
 #include <catch2/catch.hpp>
 #include <glpp/test/context.hpp>
 
-TEST_CASE("single test context construction and teardown","[test, unit, xorg]") {
+TEST_CASE("single test context construction and teardown","[test][unit][xorg]") {
     REQUIRE_NOTHROW(glpp::test::context_t<glpp::test::window_driver_t>(16,16));
 }
 
-TEST_CASE("three test context constructions and teardowns","[test, unit, xorg]") {
+TEST_CASE("three test context constructions and teardowns","[test][unit][xorg]") {
     REQUIRE_NOTHROW(glpp::test::context_t<glpp::test::window_driver_t>(16,16));
     REQUIRE_NOTHROW(glpp::test::context_t<glpp::test::window_driver_t>(16,16));
     REQUIRE_NOTHROW(glpp::test::context_t<glpp::test::window_driver_t>(16,16));
 }
 
-TEST_CASE("test context clear color buffer","[test, unit, xorg]") {
+TEST_CASE("test context clear color buffer","[test][unit][xorg]") {
     glpp::test::context_t<glpp::test::window_driver_t> context(1,1);
     glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
     glClear(GL_COLOR_BUFFER_BIT);

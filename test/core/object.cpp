@@ -2,7 +2,7 @@
 
 #include <glpp/core.hpp>
 
-TEST_CASE("object_t calls destructor once", "[core, unit]") {
+TEST_CASE("object_t calls destructor once", "[core][unit]") {
 	constexpr GLuint id = 1337;
     int destructor_calls = 0;
     {
@@ -18,7 +18,7 @@ TEST_CASE("object_t calls destructor once", "[core, unit]") {
     REQUIRE(destructor_calls == 1);
 }
 
-TEST_CASE("object_t calls destructor once after move", "[core, unit]") {
+TEST_CASE("object_t calls destructor once after move", "[core][unit]") {
 	constexpr GLuint id = 1337;
     int destructor_calls = 0;
     {
