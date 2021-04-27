@@ -13,6 +13,10 @@ struct multi_policy_t {
 	using storage_t = std::vector<texture_t>;
 	using slot_storage_t = std::vector<texture_slot_t>;
 	
+	static size_t size(const storage_t& storage) {
+		return storage.size();
+	}
+
 	template <class Image>
 	static key_t alloc(storage_t& storage, const Image& image) {
 		const key_t key = storage.size();
