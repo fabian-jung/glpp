@@ -64,9 +64,6 @@ void compare_cameras(const glpp::core::render::camera_t& lhs, const glpp::core::
 	const glm::vec3 forward {0,0,-1};
 	const glm::vec3 right {1,0,0};
 
-	const auto l1 = up*lhs.orientation;
-	const auto l2 = up*rhs.orientation;
-
 	REQUIRE(glm::length(up*lhs.orientation-up*rhs.orientation) < 0.01);
 	REQUIRE(glm::length(forward*lhs.orientation-forward*rhs.orientation) < 0.01);
 	REQUIRE(glm::length(right*lhs.orientation-right*rhs.orientation) < 0.01);
