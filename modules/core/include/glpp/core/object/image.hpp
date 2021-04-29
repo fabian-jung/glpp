@@ -111,11 +111,19 @@ namespace detail {
 		using value_type = unsigned char;
 
 		stbi_image_t(const char* filename, int channels);
+		stbi_image_t(size_t width, size_t height, int channels);
 		~stbi_image_t();
+
 		int width() const;
 		int height() const;
+
+		void write(const char* filename) const;
+
 		const value_type* begin() const;
 		const value_type* end() const;
+
+		value_type* begin();
+		value_type* end();
 
 	private:
 		int               m_width;
@@ -179,6 +187,9 @@ public:
 	image_t(const char* filename);
 
 
+	void load(const char* filename);
+	void write(const char* filename) const;
+
 	constexpr size_t width() const noexcept;
 	constexpr size_t height() const noexcept;
 	constexpr T* data() noexcept;
@@ -199,8 +210,6 @@ public:
 	constexpr GLenum type() const noexcept;
 
 private:
-	image_t(const detail::stbi_image_t& storage);
-
 	static constexpr int channels_impl() noexcept;
 
 	size_t m_width;
@@ -314,56 +323,74 @@ constexpr image_t<T>::image_t(size_t width, size_t height, const value_type valu
 {
 }
 
-template<class T>
-image_t<T>::image_t(const detail::stbi_image_t& storage) :
-	m_width(storage.width()),
-	m_height(storage.height()),
-	m_storage(m_width*m_height)
+template <class T>
+image_t<T>::image_t(const char* filename)
 {
+	load(filename);
+}
+
+namespace detail {
+	
+	template <class To, class From>
+	To convert_pixel_format(From v) {
+		if constexpr(
+			std::is_integral_v<From> &&
+			std::is_floating_point_v<To>
+		) {
+			return static_cast<To>(v)/std::numeric_limits<From>::max();
+		} else
+		if constexpr(
+			std::is_floating_point_v<From> &&
+			std::is_floating_point_v<To>
+		) {
+			return static_cast<To>(v);
+		} else
+		if constexpr(
+			std::is_floating_point_v<From> &&
+			std::is_integral_v<To>
+		) {
+			return static_cast<To>(v*std::numeric_limits<To>::max());
+		} else
+		if constexpr(std::is_same_v<From, To>) {
+			return v;
+		} else {
+			// from integral to integral
+			const auto normalized = static_cast<double>(v)/std::numeric_limits<From>::max();
+			return static_cast<To>(
+				normalized*std::numeric_limits<To>::max()
+			);
+		}
+	}
+
+}
+
+template <class T>
+void image_t<T>::load(const char* filename)
+{
+	const auto storage = detail::stbi_image_t(filename, channels_impl());
+	m_width = storage.width();
+	m_height = storage.height();
+	m_storage.resize(m_width*m_height);
 	using internal_type = typename attribute_properties<T>::value_type;
 	std::transform(
 		storage.begin(),
 		storage.end(),
 		reinterpret_cast<internal_type*>(m_storage.data()),
-		[](detail::stbi_image_t::value_type v) {
-			using from_t = detail::stbi_image_t::value_type;
-			using to_t = internal_type;
-
-			if constexpr(
-				std::is_integral_v<from_t> &&
-				std::is_floating_point_v<to_t>
-			) {
-				return static_cast<to_t>(v)/std::numeric_limits<from_t>::max();
-			} else
-			if constexpr(
-				std::is_floating_point_v<from_t> &&
-				std::is_floating_point_v<to_t>
-			) {
-				return static_cast<to_t>(v);
-			} else
-			if constexpr(
-				std::is_floating_point_v<from_t> &&
-				std::is_integral_v<to_t>
-			) {
-				return static_cast<to_t>(v*std::numeric_limits<to_t>::max());
-			} else
-			if constexpr(std::is_same_v<from_t, to_t>) {
-				return v;
-			} else {
-				// from integral to integral
-				const auto normalized = static_cast<double>(v)/std::numeric_limits<from_t>::max();
-				return static_cast<to_t>(
-					normalized*std::numeric_limits<to_t>::max()
-				);
-			}
-		}
+		detail::convert_pixel_format<internal_type, detail::stbi_image_t::value_type>
 	);
 }
 
 template <class T>
-image_t<T>::image_t(const char* filename) :
-	image_t(detail::stbi_image_t(filename, channels_impl()))
-{
+void image_t<T>::write(const char* filename) const {
+	auto storage = detail::stbi_image_t(m_width, m_height, channels_impl());
+	using internal_type = typename attribute_properties<T>::value_type;
+	std::transform(
+		reinterpret_cast<const internal_type*>(data()),
+		reinterpret_cast<const internal_type*>(data())+size()*channels_impl(),
+		storage.begin(),
+		detail::convert_pixel_format<detail::stbi_image_t::value_type, internal_type>
+	);
+	storage.write(filename);
 }
 
 template <class T>
