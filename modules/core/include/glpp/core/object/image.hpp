@@ -140,8 +140,12 @@ public:
 	using iterator = typename std::vector<value_type>::iterator;
 	using const_iterator = typename std::vector<value_type>::const_iterator;
 
-	constexpr image_t(const image_t& cpy) = default;
+	constexpr image_t() = default;
+	explicit constexpr image_t(const image_t& cpy) = default;
 	constexpr image_t(image_t&& mov) noexcept = default;
+
+	template <class U>
+	explicit constexpr image_t(const image_t<U>& conv);
 
 	constexpr image_t& operator=(const image_t& cpy) = default;
 	constexpr image_t& operator=(image_t&& mov) noexcept = default;
@@ -210,11 +214,15 @@ public:
 	constexpr GLenum type() const noexcept;
 
 private:
-	static constexpr int channels_impl() noexcept;
 
-	size_t m_width;
-	size_t m_height;
-	std::vector<value_type> m_storage;
+	static constexpr int channels_impl() noexcept;
+	
+	template <class From, class To>
+	static constexpr To convert_pixel_format(From v);
+
+	size_t m_width { 0 };
+	size_t m_height { 0 };
+	std::vector<value_type> m_storage {};
 };
 
 template <class T>
@@ -235,7 +243,11 @@ image_t(size_t, size_t, const T*) -> image_t<std::iterator_traits<T>>;
 template <class T>
 struct epsilon_matcher_t {
 	constexpr bool operator()(const T& lhs, const T& rhs) const {
-		return glm::all(glm::lessThanEqual(glm::abs(lhs-rhs), T(epsilon)));
+		if constexpr(std::is_arithmetic_v<T>) {
+			return glm::abs(lhs-rhs) <= epsilon;
+		} else {
+			return glm::all(glm::lessThanEqual(glm::abs(lhs-rhs), T(epsilon)));
+		}
 	}
 
 	using value_type = typename attribute_properties<T>::value_type;
@@ -278,16 +290,53 @@ std::ostream& operator<<(std::ostream& lhs, const image_t<T>& rhs) {
     constexpr size_t max_display_elem = 9;
     const auto cpy_n = std::min(rhs.size(), max_display_elem);
     std::for_each_n(rhs.begin(), cpy_n-1, [&](const auto& elem){
-        lhs << glm::to_string(elem) << ", ";
+		if constexpr(std::is_arithmetic_v<T>) {
+			lhs << elem << ", ";
+		} else {
+	        lhs << glm::to_string(elem) << ", ";
+		}
     });
     if(rhs.size() >= cpy_n) {
-        lhs << glm::to_string(rhs.begin()[cpy_n-1]);
+		if constexpr(std::is_arithmetic_v<T>) {
+			lhs << rhs.begin()[cpy_n-1];
+		} else {
+	        lhs << glm::to_string(rhs.begin()[cpy_n-1]);
+		}
     }
     if(rhs.size() > max_display_elem) {
         lhs << ", ... ";
     }
     lhs << "} }";
     return lhs;
+}
+
+template <class T>
+template <class U>
+constexpr image_t<T>::image_t(const image_t<U>& conv) :
+	m_width(conv.width()),
+	m_height(conv.height()),
+	m_storage(conv.size())
+{
+	static_assert(
+		attribute_properties<T>::elements_per_vertex == attribute_properties<U>::elements_per_vertex,
+		"Conversion between image formats is only possible, if the number of channels match exactly."
+	);
+	std::transform(
+		conv.begin(),
+		conv.end(),
+		begin(),
+		[](auto u) {
+			if constexpr (std::is_arithmetic_v<decltype(u)>) {
+				return convert_pixel_format<U, T>(u);
+			} else {
+				T result;
+				for(auto i = 0; i < attribute_properties<T>::elements_per_vertex; ++i) {
+					result[i] = convert_pixel_format<attribute_properties<U>::value_type, attribute_properties<T>::value_type>(u[i]);
+				}
+				return result;
+			}
+		}
+	);
 }
 
 template <class T>
@@ -329,41 +378,6 @@ image_t<T>::image_t(const char* filename)
 	load(filename);
 }
 
-namespace detail {
-	
-	template <class To, class From>
-	To convert_pixel_format(From v) {
-		if constexpr(
-			std::is_integral_v<From> &&
-			std::is_floating_point_v<To>
-		) {
-			return static_cast<To>(v)/std::numeric_limits<From>::max();
-		} else
-		if constexpr(
-			std::is_floating_point_v<From> &&
-			std::is_floating_point_v<To>
-		) {
-			return static_cast<To>(v);
-		} else
-		if constexpr(
-			std::is_floating_point_v<From> &&
-			std::is_integral_v<To>
-		) {
-			return static_cast<To>(v*std::numeric_limits<To>::max());
-		} else
-		if constexpr(std::is_same_v<From, To>) {
-			return v;
-		} else {
-			// from integral to integral
-			const auto normalized = static_cast<double>(v)/std::numeric_limits<From>::max();
-			return static_cast<To>(
-				normalized*std::numeric_limits<To>::max()
-			);
-		}
-	}
-
-}
-
 template <class T>
 void image_t<T>::load(const char* filename)
 {
@@ -376,7 +390,7 @@ void image_t<T>::load(const char* filename)
 		storage.begin(),
 		storage.end(),
 		reinterpret_cast<internal_type*>(m_storage.data()),
-		detail::convert_pixel_format<internal_type, detail::stbi_image_t::value_type>
+		convert_pixel_format<detail::stbi_image_t::value_type, internal_type>
 	);
 }
 
@@ -388,7 +402,7 @@ void image_t<T>::write(const char* filename) const {
 		reinterpret_cast<const internal_type*>(data()),
 		reinterpret_cast<const internal_type*>(data())+size()*channels_impl(),
 		storage.begin(),
-		detail::convert_pixel_format<detail::stbi_image_t::value_type, internal_type>
+		convert_pixel_format<internal_type, detail::stbi_image_t::value_type>
 	);
 	storage.write(filename);
 }
@@ -498,4 +512,41 @@ constexpr int image_t<T>::channels_impl() noexcept {
 	return attribute_properties<value_type>::elements_per_vertex;
 }
 
+template <class T>
+template <class From, class To>
+constexpr To image_t<T>::convert_pixel_format(From v) {
+	if constexpr(
+		std::is_integral_v<From> &&
+		std::is_floating_point_v<To>
+	) {
+		constexpr auto max = static_cast<To>(std::numeric_limits<From>::max());
+		constexpr auto min = static_cast<To>(std::numeric_limits<From>::min());
+		constexpr auto increments = max-min;
+		return (static_cast<To>(v)-min)/increments;
+	} else 
+	if constexpr(
+		std::is_floating_point_v<From> &&
+		std::is_floating_point_v<To>
+	) {
+		return static_cast<To>(v);
+	} else 
+	if constexpr(
+		std::is_floating_point_v<From> &&
+		std::is_integral_v<To>
+	) {
+		constexpr auto max = static_cast<From>(std::numeric_limits<To>::max());
+		constexpr auto min = static_cast<From>(std::numeric_limits<To>::min());
+		constexpr auto increments = max-min;
+		return static_cast<To>(std::ceil(v*increments+min));
+	} else 
+	if constexpr(std::is_same_v<From, To>) {
+		return v;
+	} else {
+		// from integral to integral
+		using normalized_t = double;
+		const auto normalized = convert_pixel_format<From, normalized_t>(v);
+		return convert_pixel_format<normalized_t, To>(normalized);
+	}
+}
+	
 }

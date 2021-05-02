@@ -1,6 +1,7 @@
 #include <catch2/catch.hpp>
 
 #include <glpp/core.hpp>
+#include <cmath>
 
 TEST_CASE("image attribute check for vec3", "[core][unit]") {
     const glm::vec3 test_color {0.9, 0.8, 0.1};
@@ -32,7 +33,6 @@ TEST_CASE("image attribute check for ubyte3", "[core][unit]") {
     REQUIRE(image.format() == glpp::core::object::image_format_t::rgb);
     REQUIRE(image.type() == GL_UNSIGNED_BYTE);
 }
-
 
 TEST_CASE("image attribute check for ubyte", "[core][unit]") {
     using ubyte = unsigned char;
@@ -66,4 +66,165 @@ TEST_CASE("image attribute check for ubyte", "[core][unit]") {
     REQUIRE(image.channels() == 1);
     REQUIRE(image.format() == glpp::core::object::image_format_t::red);
     REQUIRE(image.type() == GL_UNSIGNED_BYTE);
+}
+
+
+
+TEST_CASE("image copy constructor", "[core][unit]") {
+    const glm::vec3 c1(0.5, 0.5, 0.5);
+    const glm::vec3 c2(0.5, 0.5, 1.0);
+    const glm::vec3 c3(0.5, 1.0, 0.5);
+    const glm::vec3 c4(1.0, 0.5, 0.5);
+    constexpr float offset = 1.0/32.0;
+    const float too_small_offset = std::nextafterf(offset, 0);
+    const glpp::core::object::image_t<glm::vec3> image1(
+        2, 2,
+        { 
+            c1, c2,
+            c3, c4
+        }
+    );
+
+    const glpp::core::object::image_t<glm::vec3> image2(
+        2, 2,
+        { 
+            c1, c2,
+            c3, c4
+        }
+    );
+
+    REQUIRE(image1 == image2);
+
+    const glpp::core::object::image_t<glm::vec3> image3(
+        2, 2,
+        { 
+            c1, c2,
+            c3, c4+glm::vec3(0,0,offset)
+        }
+    );
+    REQUIRE_FALSE(image1==image3);
+    REQUIRE_FALSE(image2==image3);
+
+    REQUIRE_FALSE((image1==image3).epsilon(too_small_offset));
+    REQUIRE_FALSE((image2==image3).epsilon(too_small_offset));
+
+    REQUIRE((image1==image3).epsilon(offset));
+    REQUIRE((image2==image3).epsilon(offset));
+
+    const glm::vec3 offset_vec(offset, -offset, offset);
+    const glpp::core::object::image_t<glm::vec3> image4(
+        2, 2,
+        { 
+            c1+offset_vec, c2-offset_vec,
+            c3-offset_vec, c4+offset_vec
+        }
+    );
+
+    REQUIRE_FALSE(image1==image4);
+    REQUIRE_FALSE(image2==image4);
+    REQUIRE_FALSE(image3==image4);
+
+    REQUIRE_FALSE((image1==image4).epsilon(too_small_offset));
+    REQUIRE_FALSE((image2==image4).epsilon(too_small_offset));
+    REQUIRE_FALSE((image3==image4).epsilon(too_small_offset));
+
+    REQUIRE((image1==image4).epsilon(offset));
+    REQUIRE((image2==image4).epsilon(offset));
+    REQUIRE((image4==image4).epsilon(offset));
+}
+
+TEST_CASE("image copy assignment", "[core][unit]") {
+  using ubyte = unsigned char;
+    const glpp::core::object::image_t<ubyte> image1 (
+        2, 2,
+        { 
+            42, 43,
+            44, 45
+        }
+    );
+
+    glpp::core::object::image_t<ubyte> image2;
+    REQUIRE_FALSE(image2==image1);
+    image2 = image1;
+    REQUIRE(image2==image1);
+}
+
+TEST_CASE("image move constructor", "[core][unit]") {
+    using ubyte = unsigned char;
+    const glpp::core::object::image_t<ubyte> reference (
+        2, 2,
+        { 
+            42, 43,
+            44, 45
+        }
+    );
+
+    glpp::core::object::image_t<ubyte> image1(reference);
+    REQUIRE(image1==reference);
+    glpp::core::object::image_t<ubyte> image2(std::move(image1));
+    REQUIRE(image2==reference);
+}
+
+TEST_CASE("image move assignment", "[core][unit]") {
+    using ubyte = unsigned char;
+    const glpp::core::object::image_t<ubyte> reference (
+        2, 2,
+        { 
+            42, 43,
+            44, 45
+        }
+    );
+
+    glpp::core::object::image_t<ubyte> image1(reference);
+    REQUIRE(image1==reference);
+
+    glpp::core::object::image_t<ubyte> image2;
+    REQUIRE_FALSE(image2==reference);
+
+    image2 = std::move(image1);
+    REQUIRE(image2==reference);
+}
+
+TEST_CASE("image conversion constructor", "[core][unit]") {
+    const glpp::core::object::image_t<float> f_image {
+        2, 2, 
+        {
+            1.0f, 0.0f,
+            0.5f, 0.25f
+        }
+    };
+
+    const glpp::core::object::image_t<std::uint8_t> ub_image { f_image };
+    REQUIRE(ub_image.width() == f_image.width());
+    REQUIRE(ub_image.height() == f_image.height());
+    REQUIRE(ub_image.get(0, 0) == std::numeric_limits<std::uint8_t>::max());
+    REQUIRE(ub_image.get(1, 0) == std::numeric_limits<std::uint8_t>::min());
+    REQUIRE(ub_image.get(0, 1) == std::numeric_limits<std::uint8_t>::max()/2+1);
+
+    const glpp::core::object::image_t<std::int8_t> b_image { ub_image };
+    REQUIRE(b_image.width() == ub_image.width());
+    REQUIRE(b_image.height() == ub_image.height());
+    REQUIRE(b_image.get(0, 0) == std::numeric_limits<std::int8_t>::max());
+    REQUIRE(b_image.get(1, 0) == std::numeric_limits<std::int8_t>::min());
+    REQUIRE(b_image.get(0, 1) == 0);
+
+    const glpp::core::object::image_t<std::uint16_t> ui16_image { b_image };
+    REQUIRE(ui16_image.width() == b_image.width());
+    REQUIRE(ui16_image.height() == b_image.height());
+    REQUIRE(ui16_image.get(0, 0) == std::numeric_limits<std::uint16_t>::max());
+    REQUIRE(ui16_image.get(1, 0) == std::numeric_limits<std::uint16_t>::min());
+
+    const glpp::core::object::image_t<double> d_image { ui16_image };
+    REQUIRE(d_image.width() == ui16_image.width());
+    REQUIRE(d_image.height() == ui16_image.height());
+    REQUIRE(d_image.get(0, 0) == 1.0);
+    REQUIRE(d_image.get(1, 0) == 0.0);
+    
+    const glpp::core::object::image_t<float> f_image_2 { d_image };
+    REQUIRE(f_image_2.width() == d_image.width());
+    REQUIRE(f_image_2.height() == d_image.height());
+    REQUIRE(f_image_2.get(0, 0) == 1.0f);
+    REQUIRE(f_image_2.get(1, 0) == 0.0f);
+
+    REQUIRE((f_image_2 == f_image).epsilon(1.0f/256.0f));    
 }
