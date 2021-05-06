@@ -8,11 +8,10 @@ RUN apt-get install -y gcc clang
 RUN apt-get install -y libglapi-mesa libglfw3-dev libglew-dev libglm-dev catch2 libassimp-dev libfreetype-dev pkgconf
 RUN apt-get install -y cmake make ninja-build git blender
 
-RUN mkdir /opt/glpp
-COPY . /opt/glpp
-RUN rm -rf /opt/glpp/build
+RUN mkdir /glpp
+RUN mkdir /build
 
-WORKDIR /opt/glpp
+WORKDIR /
 
-ENTRYPOINT ["/bin/bash", "scripts/docker_entrypoint.sh"]
+ENTRYPOINT ["/bin/bash", "/glpp/scripts/docker_entrypoint.sh"]
 CMD ["info"]

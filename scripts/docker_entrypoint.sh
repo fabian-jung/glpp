@@ -6,9 +6,9 @@ info_fn() {
 
 build_fn() {
 	echo "build stage"
-	mkdir build
-	cd build
-	cmake ..
+	mkdir /build
+	cd /build
+	cmake /glpp
 	make -j
 }
 
