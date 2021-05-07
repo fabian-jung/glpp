@@ -10,4 +10,7 @@ foreach(file ${ASSET_TESTS})
     target_link_libraries(${name}_test PRIVATE glpp::testing glpp::core glpp::asset)
     catch_discover_tests(${name}_test)
 endforeach()
+
+blender_convert(${CMAKE_CURRENT_LIST_DIR}/cube.blend fbx)
+blender_convert(${CMAKE_CURRENT_LIST_DIR}/cube.blend glb)
 endif()

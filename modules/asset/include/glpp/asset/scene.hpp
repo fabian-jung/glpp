@@ -8,7 +8,7 @@ namespace glpp::asset {
 struct scene_t {
 
 	scene_t() = default;
-	explicit scene_t(const std::string_view file_name);
+	explicit scene_t(const char* file_name);
 
 	scene_t(scene_t&&) = default;
 	scene_t(const scene_t&) = default;

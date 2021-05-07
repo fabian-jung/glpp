@@ -1,6 +1,78 @@
-// #include "glpp/asset/importer.hpp"
+#include "glpp/asset/scene.hpp"
+#include <assimp/scene.h>
+#include <assimp/postprocess.h>  
+#include <assimp/Importer.hpp>
 
-// namespace glpp::asset {
+namespace glpp::asset {
+
+void traverse_scene_graph(
+    const aiScene* scene, 
+    const aiNode* node, 
+    glm::mat4 old,
+    std::vector<mesh_t>& meshes
+);
+
+scene_t::scene_t(const char* file_name) {
+    Assimp::Importer importer;
+    auto scene = importer.ReadFile(file_name, aiProcess_Triangulate);
+    if(!scene) {
+        throw std::runtime_error(std::string("Could not open ")+file_name+".");
+    }
+
+    traverse_scene_graph(scene, scene->mRootNode, glm::mat4(1.0f), meshes);
+}
+
+mesh_t mesh_from_assimp(const aiMesh* aiMesh, const glm::mat4& model_matrix) {
+    mesh_t mesh;
+    using vertex_description_t = mesh_t::vertex_description_t;
+    for(auto i = 0u; i < aiMesh->mNumVertices; ++i) {
+        const auto pos = aiMesh->mVertices[i];
+        const auto normal = aiMesh->mNormals[i];
+        aiVector3D tex;
+       
+        if(aiMesh->GetNumUVChannels() > 0) {
+            tex = aiMesh->mTextureCoords[0][i];
+        }
+        mesh.model.verticies.emplace_back(vertex_description_t{
+            glm::vec3{ pos.x, pos.y, pos.z },
+            glm::vec3{ normal.x, normal.y, normal.z },
+            glm::vec2{ tex.x, tex.y },
+        });
+    }
+
+    std::for_each_n(
+        aiMesh->mFaces, aiMesh->mNumFaces, [&](const aiFace& face){
+            std::copy_n(face.mIndices, face.mNumIndices, std::back_inserter(mesh.model.indicies));
+        }
+    );
+  
+    mesh.model_matrix = model_matrix;
+
+    mesh.material_index = static_cast<unsigned>(-1);
+    return mesh;
+}
+
+void traverse_scene_graph(
+    const aiScene* scene, 
+    const aiNode* node, 
+    glm::mat4 old,
+    std::vector<mesh_t>& meshes
+) {
+	glm::mat4 transformation = glm::transpose(glm::make_mat4(&(node->mTransformation.a1)))*old;
+	std::for_each_n(node->mMeshes, node->mNumMeshes, [&](unsigned int meshId){
+		const auto* mesh = scene->mMeshes[meshId];
+		meshes.emplace_back(
+            mesh_from_assimp(mesh, transformation)
+        );
+	});
+
+    std::for_each_n(node->mChildren, node->mNumChildren, [&](const aiNode* next) {
+        traverse_scene_graph(scene, next, transformation, meshes);
+    });
+}
+
+
+}
 
 // namespace detail {
 
@@ -62,22 +134,7 @@
 
 // namespace detail {
 
-// void traverse_scene_graph(const aiScene* scene, const aiNode* node, glm::mat4 old, std::vector<mesh_t>& meshes) {
-// 	glm::mat4 transformation = glm::transpose(glm::make_mat4(&(node->mTransformation.a1)))*old;
-// 	std::for_each_n(node->mMeshes, node->mNumMeshes, [&](unsigned int meshId){
-// 		const auto* mesh = scene->mMeshes[meshId];
-// 		meshes.emplace_back(
-// 			mesh_t{
-// 				transformation,
-// 				mesh
-// 			}
-// 		);
-// 	});
 
-// 	std::for_each_n(node->mChildren, node->mNumChildren, [&](const aiNode* next){
-// 		traverse_scene_graph(scene, next, transformation, meshes);
-// 	});
-// }
 
 
 // aiMatrix4x4 get_transformation(const aiNode* node) {
@@ -181,6 +238,45 @@
 // }
 
 // namespace detail {
+// }
+
+// template <class T>
+// std::vector<T> importer_t::lights() const {
+// 	std::vector<T> result;
+// 	std::for_each(m_scene->mLights, m_scene->mLights+m_scene->mNumLights, [&](const auto light) {
+// 		detail::light_cast_t caster{ m_scene, light };
+// 		if(caster.has_type<T>()) {
+// 			result.emplace_back(caster.cast<T>());
+// 		}
+// 	});
+// 	return result;
+// }
+
+// template std::vector<ambient_light_t> importer_t::lights<ambient_light_t>() const;
+// template std::vector<directional_light_t> importer_t::lights<directional_light_t>() const;
+// template std::vector<point_light_t> importer_t::lights<point_light_t>() const;
+// template std::vector<spot_light_t> importer_t::lights<spot_light_t>() const;
+
+// std::vector<any_light_t> importer_t::all_lights() const {
+// 	std::vector<any_light_t> result;
+// 	std::for_each(m_scene->mLights, m_scene->mLights+m_scene->mNumLights, [&](const auto light) {
+// 		detail::light_cast_t caster { m_scene, light };
+// 		if(caster.has_type<ambient_light_t>()) {
+// 			result.emplace_back(caster.cast<ambient_light_t>());
+// 		} else if(caster.has_type<directional_light_t>()) {
+// 			result.emplace_back(caster.cast<directional_light_t>());
+// 		} else if(caster.has_type<point_light_t>()) {
+// 			result.emplace_back(caster.cast<point_light_t>());
+// 		} else if(caster.has_type<spot_light_t>()) {
+// 			result.emplace_back(caster.cast<spot_light_t>());
+// 		}
+// 	});
+// 	return result;
+// }
+
+// }
+
+
 // struct light_cast_t {
 // 	const aiScene* scene;
 // 	const aiLight* light;
@@ -268,40 +364,3 @@
 // 		}
 // 	}
 // };
-// }
-
-// template <class T>
-// std::vector<T> importer_t::lights() const {
-// 	std::vector<T> result;
-// 	std::for_each(m_scene->mLights, m_scene->mLights+m_scene->mNumLights, [&](const auto light) {
-// 		detail::light_cast_t caster{ m_scene, light };
-// 		if(caster.has_type<T>()) {
-// 			result.emplace_back(caster.cast<T>());
-// 		}
-// 	});
-// 	return result;
-// }
-
-// template std::vector<ambient_light_t> importer_t::lights<ambient_light_t>() const;
-// template std::vector<directional_light_t> importer_t::lights<directional_light_t>() const;
-// template std::vector<point_light_t> importer_t::lights<point_light_t>() const;
-// template std::vector<spot_light_t> importer_t::lights<spot_light_t>() const;
-
-// std::vector<any_light_t> importer_t::all_lights() const {
-// 	std::vector<any_light_t> result;
-// 	std::for_each(m_scene->mLights, m_scene->mLights+m_scene->mNumLights, [&](const auto light) {
-// 		detail::light_cast_t caster { m_scene, light };
-// 		if(caster.has_type<ambient_light_t>()) {
-// 			result.emplace_back(caster.cast<ambient_light_t>());
-// 		} else if(caster.has_type<directional_light_t>()) {
-// 			result.emplace_back(caster.cast<directional_light_t>());
-// 		} else if(caster.has_type<point_light_t>()) {
-// 			result.emplace_back(caster.cast<point_light_t>());
-// 		} else if(caster.has_type<spot_light_t>()) {
-// 			result.emplace_back(caster.cast<spot_light_t>());
-// 		}
-// 	});
-// 	return result;
-// }
-
-// }
