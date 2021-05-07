@@ -12,6 +12,21 @@ void traverse_scene_graph(
     std::vector<mesh_t>& meshes
 );
 
+struct light_cast_t {
+	const aiScene* scene;
+	const aiLight* light;
+
+	template <class T>
+	bool has_type() const;
+		
+	template <class T>
+	T cast() const;
+
+	private:
+	template <class T>
+	void check_type() const;
+};
+
 scene_t::scene_t(const char* file_name) {
     Assimp::Importer importer;
     auto scene = importer.ReadFile(file_name, aiProcess_Triangulate);
@@ -20,6 +35,19 @@ scene_t::scene_t(const char* file_name) {
     }
 
     traverse_scene_graph(scene, scene->mRootNode, glm::mat4(1.0f), meshes);
+
+	std::for_each_n(scene->mLights, scene->mNumLights, [this, scene](const aiLight* light) {
+		light_cast_t light_cast{ scene, light };
+		if(light_cast.has_type<ambient_light_t>()) {
+			ambient_lights.emplace_back(light_cast.cast<ambient_light_t>());
+		} else if(light_cast.has_type<directional_light_t>()) {
+			directional_lights.emplace_back(light_cast.cast<directional_light_t>());
+		} else if(light_cast.has_type<spot_light_t>()) {
+			spot_lights.emplace_back(light_cast.cast<spot_light_t>());
+		} else if(light_cast.has_type<point_light_t>()) {
+			point_lights.emplace_back(light_cast.cast<point_light_t>());
+		}
+	});
 }
 
 mesh_t mesh_from_assimp(const aiMesh* aiMesh, const glm::mat4& model_matrix) {
@@ -71,10 +99,108 @@ void traverse_scene_graph(
     });
 }
 
+aiMatrix4x4 get_transformation(const aiNode* node) {
+	aiMatrix4x4 transform;
+	do {
+		const auto node_transform = node->mTransformation;
+		transform = transform*node_transform;
+		node = node->mParent;
+	} while(node);
+	return transform;
+}
+
+
+template <class T>
+bool light_cast_t::has_type() const {
+	if constexpr(std::is_same_v<T, ambient_light_t>) {
+		return light->mType == aiLightSourceType::aiLightSource_AMBIENT;
+	}
+	if constexpr(std::is_same_v<T, directional_light_t>) {
+		return light->mType == aiLightSourceType::aiLightSource_DIRECTIONAL;
+	}
+	if constexpr(std::is_same_v<T, point_light_t>) {
+		return light->mType == aiLightSourceType::aiLightSource_POINT;
+	}
+	if constexpr(std::is_same_v<T, spot_light_t>) {
+		return light->mType == aiLightSourceType::aiLightSource_SPOT;
+	}
+	return false;
+}
+		
+template <class T>
+T light_cast_t::cast() const {
+	check_type<T>();
+	const glm::vec3 ambient { light->mColorAmbient.r, light->mColorAmbient.g, light->mColorAmbient.b };
+	const glm::vec3 diffuse  { light->mColorDiffuse.r, light->mColorDiffuse.g, light->mColorDiffuse.b };
+	const glm::vec3 specular { light->mColorSpecular.r, light->mColorSpecular.g, light->mColorSpecular.b };
+	if constexpr(std::is_same_v<T, ambient_light_t>) {
+		return ambient_light_t{
+			ambient,
+			diffuse,
+			specular
+		};
+	}
+	const glm::vec3 direction { light->mDirection.x, light->mDirection.y, light->mDirection.z };
+	if constexpr(std::is_same_v<T, directional_light_t>) {
+		return directional_light_t {
+			direction,
+			ambient,
+			diffuse,
+			specular
+		};
+	}
+	const auto transform = get_transformation(scene->mRootNode->FindNode(light->mName));
+	const auto ai_position = transform*light->mPosition;
+	const glm::vec3 position { ai_position.x, ai_position.y, ai_position.z };
+	const float attenuation_constant = light->mAttenuationConstant;
+	const float attenuation_linear = light->mAttenuationLinear;
+	const float attenuation_quadratic = light->mAttenuationQuadratic;
+	if constexpr(std::is_same_v<T, point_light_t>) {
+		return point_light_t {
+			position,
+			ambient,
+			diffuse,
+			specular,
+			attenuation_constant,
+			attenuation_linear,
+			attenuation_quadratic
+		};
+	}
+	float inner_cone = light->mAngleInnerCone;
+	float outer_cone = light->mAngleOuterCone;
+	if constexpr(std::is_same_v<T, spot_light_t>) {
+		return spot_light_t {
+			position,
+			direction,
+			ambient,
+			diffuse,
+			specular,
+			inner_cone,
+			outer_cone,
+			attenuation_constant,
+			attenuation_linear,
+			attenuation_quadratic
+		};
+	}
+}
+
+template <class T>
+void light_cast_t::check_type() const {
+	if(!has_type<T>()) {
+		throw std::runtime_error("Light type missmatch");
+	}
+}
 
 }
 
 // namespace detail {
+
+// void insert_sorted(std::vector<std::string>& vector, std::string str) {
+// 	auto pos = std::lower_bound(vector.begin(), vector.end(), str);
+// 	if(*pos != str) {
+// 		vector.insert(pos, std::move(str));
+// 	}
+// }
 
 // void collect_textures(aiScene*  scene, texture_store_t& textures) {
 // 	constexpr std::array<aiTextureType, 4> texture_keys {
@@ -130,30 +256,6 @@ void traverse_scene_graph(
 // 	// std::vector<directional_light_t> directional_lights;
 // 	// std::vector<point_light_t> point_lights;
 // 	// std::vector<spot_light_t> spot_lights;
-// }
-
-// namespace detail {
-
-
-
-
-// aiMatrix4x4 get_transformation(const aiNode* node) {
-// 	aiMatrix4x4 transform;
-// 	do {
-// 		const auto node_transform = node->mTransformation;
-// 		transform = transform*node_transform;
-// 		node = node->mParent;
-// 	} while(node);
-// 	return transform;
-// }
-
-// void insert_sorted(std::vector<std::string>& vector, std::string str) {
-// 	auto pos = std::lower_bound(vector.begin(), vector.end(), str);
-// 	if(*pos != str) {
-// 		vector.insert(pos, std::move(str));
-// 	}
-// }
-
 // }
 
 // const texture_store_t& importer_t::textures() const {
@@ -275,92 +377,3 @@ void traverse_scene_graph(
 // }
 
 // }
-
-
-// struct light_cast_t {
-// 	const aiScene* scene;
-// 	const aiLight* light;
-
-// 	template <class T>
-// 	bool has_type() const {
-// 		if constexpr(std::is_same_v<T, ambient_light_t>) {
-// 			return light->mType == aiLightSourceType::aiLightSource_AMBIENT;
-// 		}
-// 		if constexpr(std::is_same_v<T, directional_light_t>) {
-// 			return light->mType == aiLightSourceType::aiLightSource_DIRECTIONAL;
-// 		}
-// 		if constexpr(std::is_same_v<T, point_light_t>) {
-// 			return light->mType == aiLightSourceType::aiLightSource_POINT;
-// 		}
-// 		if constexpr(std::is_same_v<T, spot_light_t>) {
-// 			return light->mType == aiLightSourceType::aiLightSource_SPOT;
-// 		}
-// 		return false;
-// 	}
-
-
-// 	template <class T>
-// 	T cast() const {
-// 		check_type<T>();
-// 		const glm::vec3 ambient { light->mColorAmbient.r, light->mColorAmbient.g, light->mColorAmbient.b };
-// 		const glm::vec3 diffuse  { light->mColorDiffuse.r, light->mColorDiffuse.g, light->mColorDiffuse.b };
-// 		const glm::vec3 specular { light->mColorSpecular.r, light->mColorSpecular.g, light->mColorSpecular.b };
-// 		if constexpr(std::is_same_v<T, ambient_light_t>) {
-// 			return ambient_light_t{
-// 				ambient,
-// 				diffuse,
-// 				specular
-// 			};
-// 		}
-// 		const glm::vec3 direction { light->mDirection.x, light->mDirection.y, light->mDirection.z };
-// 		if constexpr(std::is_same_v<T, directional_light_t>) {
-// 			return directional_light_t {
-// 				direction,
-// 				ambient,
-// 				diffuse,
-// 				specular
-// 			};
-// 		}
-// 		const auto transform = detail::get_transformation(scene->mRootNode->FindNode(light->mName));
-// 		const auto ai_position = transform*light->mPosition;
-// 		const glm::vec3 position { ai_position.x, ai_position.y, ai_position.z };
-// 		const float attenuation_constant = light->mAttenuationConstant;
-// 		const float attenuation_linear = light->mAttenuationLinear;
-// 		const float attenuation_quadratic = light->mAttenuationQuadratic;
-// 		if constexpr(std::is_same_v<T, point_light_t>) {
-// 			return point_light_t {
-// 				position,
-// 				ambient,
-// 				diffuse,
-// 				specular,
-// 				attenuation_constant,
-// 				attenuation_linear,
-// 				attenuation_quadratic
-// 			};
-// 		}
-// 		float inner_cone = light->mAngleInnerCone;
-// 		float outer_cone = light->mAngleOuterCone;
-// 		if constexpr(std::is_same_v<T, spot_light_t>) {
-// 			return spot_light_t {
-// 				position,
-// 				direction,
-// 				ambient,
-// 				diffuse,
-// 				specular,
-// 				inner_cone,
-// 				outer_cone,
-// 				attenuation_constant,
-// 				attenuation_linear,
-// 				attenuation_quadratic
-// 			};
-// 		}
-// 	}
-
-// private:
-// 	template <class T>
-// 	void check_type() const {
-// 		if(!has_type<T>()) {
-// 			throw std::runtime_error("Light type missmatch");
-// 		}
-// 	}
-// };
