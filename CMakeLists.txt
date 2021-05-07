@@ -14,10 +14,12 @@ if(${enable_unit_test})
 	include(CTest NO_POLICY_SCOPE)
 	include(Catch NO_POLICY_SCOPE)
 	include(ParseAndAddCatchTests)
-	add_subdirectory(test)
 endif()
 
 add_subdirectory(modules)
+if(${enable_unit_test})
+	add_subdirectory(test)
+endif()
 
 option(enable_examples "Build with example applications" ON)
 if(${enable_examples})
@@ -32,8 +34,6 @@ add_custom_target(check-format
 add_custom_target(format
 	COMMAND clang-format -i ${GLPP_FORMAT_SET}
 )
-
-
 
 include(GNUInstallDirs)
 install(TARGETS core system stb image EXPORT glppConfig LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR} )
