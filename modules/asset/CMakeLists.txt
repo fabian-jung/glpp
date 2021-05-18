@@ -20,10 +20,10 @@ target_include_directories(asset PUBLIC
     $<INSTALL_INTERFACE:/usr/local/include>
 )
 
-IF(POLICY CMP0012)
-    CMAKE_POLICY(SET CMP0012 NEW)
-ENDIF()
-find_package(assimp REQUIRED)
+set(CMAKE_POLICY_DEFAULT_CMP0012 NEW)
+find_package(assimp REQUIRED NO_POLICY_SCOPE)
+unset(CMAKE_POLICY_DEFAULT_CMP0012)
+
 target_link_directories(asset PUBLIC ${ASSIMP_LIBRARY_DIRS})
 target_include_directories(asset PUBLIC ${ASSIMP_INCLUDE_DIRS})
 target_link_libraries(asset PUBLIC ${ASSIMP_LIBRARIES} glpp::core)
