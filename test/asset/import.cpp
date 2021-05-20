@@ -3,6 +3,7 @@
 #include <glpp/test/context.hpp>
 #include <vector>
 #include <string>
+#include <filesystem>
 
 using namespace glpp::asset;
 using namespace glpp::test;
@@ -12,11 +13,11 @@ TEST_CASE("Loading scene with non existant file throws", "[asset][unit]") {
     REQUIRE_THROWS(scene_t("not_existant.obj"));
 }
 
-TEST_CASE("Loading cube scene from .fbx", "[asset][unit]") {
+TEST_CASE("Loading cube scene from blender export", "[asset][unit]") {
     
     std::vector<std::string> file_types {
-        "fbx",
-        "glb"
+        "fbx"
+//        "glb"
     };
 
     for(const auto& ending : file_types) {
@@ -42,6 +43,26 @@ TEST_CASE("Loading cube scene from .fbx", "[asset][unit]") {
             REQUIRE(scene.point_lights.size() == 1);
             REQUIRE(scene.spot_lights.size() == 0);
             REQUIRE(scene.directional_lights.size() == 0);
+
+            REQUIRE(scene.materials.size() == 1);
+            const auto& cube_material = scene.materials.front();
+            REQUIRE(cube_material.name == "CubeMaterial");
+            REQUIRE(glm::distance(cube_material.diffuse, glm::vec3(0.8f)) <= 0.05f);
+            REQUIRE(glm::distance(cube_material.specular, glm::vec3(0.8f)) <= 0.05f);
+            REQUIRE(glm::distance(cube_material.ambient, glm::vec3(0.0f)) <= 0.05f);
+            REQUIRE(glm::distance(cube_material.emissive, glm::vec3(0.0f)) <= 0.05f);
+            REQUIRE(cube_material.shininess != material_t{}.shininess);
+
+            REQUIRE(scene.textures.size() > 0);
+            const auto pos = std::find_if(scene.textures.begin(), scene.textures.end(), [](const auto& path){
+                return std::filesystem::path(path).filename() == "colors.png";
+            });
+            REQUIRE(pos != scene.textures.end());
+            const auto index = std::distance(scene.textures.begin(), pos);
+            
+            REQUIRE(cube_material.diffuse_textures.size() == 1);
+            REQUIRE(cube_material.diffuse_textures.front().texture_key == index);
+
         }
     }
 }

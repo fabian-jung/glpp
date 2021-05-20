@@ -27,6 +27,17 @@ struct light_cast_t {
 	void check_type() const;
 };
 
+struct parse_texture_stack_t {
+	const aiMaterial* material;
+	scene_t& scene;
+
+	using texture_stack_description_t = std::pair<aiTextureType , texture_stack_t material_t::*>;
+
+	glpp::asset::op_t convert(aiTextureOp op) const;
+
+	void operator()(const texture_stack_description_t channel_desc);
+};
+
 scene_t::scene_t(const char* file_name) {
     Assimp::Importer importer;
     auto scene = importer.ReadFile(file_name, aiProcess_Triangulate);
@@ -48,6 +59,45 @@ scene_t::scene_t(const char* file_name) {
 			point_lights.emplace_back(light_cast.cast<point_light_t>());
 		}
 	});
+
+	materials.reserve(scene->mNumMaterials);
+	std::for_each_n(
+		scene->mMaterials,
+		scene->mNumMaterials,
+		[&](const aiMaterial* material) {
+			aiString name;
+			const auto success = material->Get(AI_MATKEY_NAME, name);
+			if(aiReturn_SUCCESS == success) {
+				aiColor3D diffuse, specular, ambient, emissive;
+				material->Get(AI_MATKEY_COLOR_DIFFUSE, diffuse);
+				material->Get(AI_MATKEY_COLOR_SPECULAR, specular);
+				material->Get(AI_MATKEY_COLOR_AMBIENT, ambient);
+				material->Get(AI_MATKEY_COLOR_EMISSIVE, emissive);
+				float shininess;
+				material->Get(AI_MATKEY_SHININESS, shininess);
+				materials.emplace_back(material_t{
+					name.C_Str(),
+					glm::vec3(diffuse.r, diffuse.g, diffuse.b),
+					{},
+					glm::vec3(emissive.r, emissive.g, emissive.b),
+					{},
+					glm::vec3(ambient.r, ambient.g, ambient.b),
+					{},
+					glm::vec3(specular.r, specular.g, specular.b),
+					{},
+					shininess
+				});
+
+				constexpr std::array channels { 
+					std::make_pair(aiTextureType_DIFFUSE, &material_t::diffuse_textures), 
+					std::make_pair(aiTextureType_EMISSIVE, &material_t::emissive_textures),
+					std::make_pair(aiTextureType_AMBIENT, &material_t::ambient_textures), 
+					std::make_pair(aiTextureType_SPECULAR, &material_t::specular_textures)
+				};
+				std::for_each(channels.begin(), channels.end(), parse_texture_stack_t{ material, *this});
+			}
+		}
+	);
 }
 
 mesh_t mesh_from_assimp(const aiMesh* aiMesh, const glm::mat4& model_matrix) {
@@ -191,128 +241,56 @@ void light_cast_t::check_type() const {
 	}
 }
 
+glpp::asset::op_t parse_texture_stack_t::convert(aiTextureOp op) const {
+	switch(op) {
+		case aiTextureOp::aiTextureOp_Add:
+			return glpp::asset::op_t::addition;
+		case aiTextureOp::aiTextureOp_Divide:
+			return glpp::asset::op_t::division;
+		case aiTextureOp::aiTextureOp_Multiply:
+			return glpp::asset::op_t::multiplication;
+		case aiTextureOp::aiTextureOp_SignedAdd:
+			return glpp::asset::op_t::signed_addition;
+		case aiTextureOp::aiTextureOp_SmoothAdd:
+			return glpp::asset::op_t::smooth_addition;
+		case aiTextureOp::aiTextureOp_Subtract:
+			return glpp::asset::op_t::addition;
+		default:
+			throw std::runtime_error("Could not convert texture op");
+	}
 }
 
-// namespace detail {
+void parse_texture_stack_t::operator()(const texture_stack_description_t channel_desc) {
+	auto [channel, corresponding_texture_stack] = channel_desc;
+	const auto stack_size = material->GetTextureCount(aiTextureType_DIFFUSE);
+	for(auto i = 0u; i < stack_size; ++i) {
+		float strength = 1.0f;
+		aiString path;
+		aiTextureOp op = aiTextureOp_Add;
+		material->GetTexture(channel, i, &path, nullptr, nullptr, &strength, &op, nullptr);
 
-// void insert_sorted(std::vector<std::string>& vector, std::string str) {
-// 	auto pos = std::lower_bound(vector.begin(), vector.end(), str);
-// 	if(*pos != str) {
-// 		vector.insert(pos, std::move(str));
-// 	}
-// }
+		std::string std_path{ path.C_Str() };
+		const auto it = std::find(scene.textures.begin(), scene.textures.end(), std_path);
+		const size_t key = std::distance(scene.textures.begin(), it);
+		if(it == scene.textures.end()) {
+			scene.textures.emplace_back(std::move(std_path));
+		}
+		
+		const auto glpp_op = convert(op);
+		if(op == aiTextureOp_Subtract) {
+			strength *= -1.0;
+		}
+		(scene.materials.back().*corresponding_texture_stack).emplace_back(
+			texture_stack_entry_t{
+				key,
+				strength,
+				glpp_op
+			}
+		);
+	}
+}
 
-// void collect_textures(aiScene*  scene, texture_store_t& textures) {
-// 	constexpr std::array<aiTextureType, 4> texture_keys {
-// 		aiTextureType_EMISSIVE,
-// 		aiTextureType_AMBIENT,
-// 		aiTextureType_DIFFUSE,
-// 		aiTextureType_SPECULAR
-// 	};
-
-// 	std::for_each_n(
-// 		scene->mMaterials,
-// 		scene->mNumMaterials,
-// 		[&](const aiMaterial* material) {
-// 			for(auto key : texture_keys) {
-// 				const auto count = material->GetTextureCount(key);
-// 				for(auto i = 0u; i < count; ++i) {
-// 					aiString file;
-// 					material->GetTexture(key, i, &file, nullptr, nullptr, nullptr, nullptr, nullptr);
-// 					textures.insert(file.C_Str());
-// 				}
-// 			}
-// 		}
-// 	);
-// }
-
-// }
-
-// importer_t::importer_t(const std::string& file,  material_map_t material_map, material_policy_t material_policy) :
-// 	m_scene(m_importer.ReadFile(file, aiProcess_Triangulate)),
-// 	m_material_map(material_map),
-// 	m_material_policy(material_policy),
-// 	m_textures()
-// {	
-// 	if(!m_scene) {
-// 		throw std::runtime_error(m_importer.GetErrorString());
-// 	}
-// }
-
-// scene_t importer_t::import() const {
-// 	scene_t result;
-// 	import(result);
-// 	return result;
-// }
-
-// void importer_t::import(scene_t& scene) const {
-// 	// TODO
-// 	// std::vector<mesh_t> meshes;
-// 	// std::vector<std::string> textures;
-// 	scene.textures = m_textures;
-// 	// std::vector<material_t> materials;
-
-// 	// std::vector<ambient_light_t> ambient_lights;
-// 	// std::vector<directional_light_t> directional_lights;
-// 	// std::vector<point_light_t> point_lights;
-// 	// std::vector<spot_light_t> spot_lights;
-// }
-
-// const texture_store_t& importer_t::textures() const {
-// 	return m_textures;
-// }
-
-// std::vector<mesh_t> importer_t::meshes() const {
-// 	std::vector<mesh_t> meshes;
-// 	detail::traverse_scene_graph(m_scene, m_scene->mRootNode, glm::mat4(1.0f), meshes);
-// 	return meshes;
-// }
-
-// std::vector<material_t> importer_t::materials() const {
-// 	std::vector<material_t> result;
-// 	std::transform(
-// 		m_scene->mMaterials,
-// 		m_scene->mMaterials+m_scene->mNumMaterials,
-// 		std::back_inserter(result),
-// 		[&](const aiMaterial* m){
-// 			material_t native_material(m);
-// 			auto material_library_it = m_material_map.find(native_material.name);
-// 			if(material_library_it==m_material_map.end()) {
-// 				switch(m_material_policy) {
-// 					case material_policy_t::augment:
-// 						return native_material;
-// 					case material_policy_t::replace:
-// 						throw std::runtime_error("Try to load material \""+native_material.name+"\", that is not in material_map.");
-// 				}
-// 			}
-// 			return material_library_it->second;
-// 		}
-// 	);
-// 	return result;
-// }
-
-// std::vector<material_t> importer_t::materials(std::ostream& logger) const {
-// 	std::vector<material_t> result;
-// 	std::transform(
-// 		m_scene->mMaterials,
-// 		m_scene->mMaterials+m_scene->mNumMaterials,
-// 		std::back_inserter(result),
-// 		[&](const aiMaterial* m){
-// 			material_t native_material(m, logger);
-// 			auto material_library_it = m_material_map.find(native_material.name);
-// 			if(material_library_it==m_material_map.end()) {
-// 				switch(m_material_policy) {
-// 					case material_policy_t::augment:
-// 						return native_material;
-// 					case material_policy_t::replace:
-// 						throw std::runtime_error("Try to load material, that is not in material_map.");
-// 				}
-// 			}
-// 			return material_library_it->second;
-// 		}
-// 	);
-// 	return result;
-// }
+}
 
 // std::vector<render::camera_t> importer_t::cameras() const {
 // 	std::vector<render::camera_t> cameras;
@@ -337,43 +315,4 @@ void light_cast_t::check_type() const {
 // 		);
 // 	});
 // 	return cameras;
-// }
-
-// namespace detail {
-// }
-
-// template <class T>
-// std::vector<T> importer_t::lights() const {
-// 	std::vector<T> result;
-// 	std::for_each(m_scene->mLights, m_scene->mLights+m_scene->mNumLights, [&](const auto light) {
-// 		detail::light_cast_t caster{ m_scene, light };
-// 		if(caster.has_type<T>()) {
-// 			result.emplace_back(caster.cast<T>());
-// 		}
-// 	});
-// 	return result;
-// }
-
-// template std::vector<ambient_light_t> importer_t::lights<ambient_light_t>() const;
-// template std::vector<directional_light_t> importer_t::lights<directional_light_t>() const;
-// template std::vector<point_light_t> importer_t::lights<point_light_t>() const;
-// template std::vector<spot_light_t> importer_t::lights<spot_light_t>() const;
-
-// std::vector<any_light_t> importer_t::all_lights() const {
-// 	std::vector<any_light_t> result;
-// 	std::for_each(m_scene->mLights, m_scene->mLights+m_scene->mNumLights, [&](const auto light) {
-// 		detail::light_cast_t caster { m_scene, light };
-// 		if(caster.has_type<ambient_light_t>()) {
-// 			result.emplace_back(caster.cast<ambient_light_t>());
-// 		} else if(caster.has_type<directional_light_t>()) {
-// 			result.emplace_back(caster.cast<directional_light_t>());
-// 		} else if(caster.has_type<point_light_t>()) {
-// 			result.emplace_back(caster.cast<point_light_t>());
-// 		} else if(caster.has_type<spot_light_t>()) {
-// 			result.emplace_back(caster.cast<spot_light_t>());
-// 		}
-// 	});
-// 	return result;
-// }
-
 // }
