@@ -2,7 +2,7 @@
 
 #include "mesh.hpp"
 #include "light.hpp"
-
+#include <glpp/core/render/camera.hpp>
 namespace glpp::asset {
 
 struct scene_t {
@@ -25,6 +25,7 @@ struct scene_t {
 	std::vector<point_light_t> point_lights;
 	std::vector<spot_light_t> spot_lights;
 
+	std::vector<core::render::camera_t> cameras;
 };
 
 }

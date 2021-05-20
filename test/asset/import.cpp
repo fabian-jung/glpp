@@ -58,11 +58,12 @@ TEST_CASE("Loading cube scene from blender export", "[asset][unit]") {
                 return std::filesystem::path(path).filename() == "colors.png";
             });
             REQUIRE(pos != scene.textures.end());
-            const auto index = std::distance(scene.textures.begin(), pos);
+            const size_t index = std::distance(scene.textures.begin(), pos);
             
             REQUIRE(cube_material.diffuse_textures.size() == 1);
             REQUIRE(cube_material.diffuse_textures.front().texture_key == index);
 
+            REQUIRE(scene.cameras.size() == 1);
         }
     }
 }

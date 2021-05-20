@@ -38,6 +38,8 @@ struct parse_texture_stack_t {
 	void operator()(const texture_stack_description_t channel_desc);
 };
 
+aiMatrix4x4 get_transformation(const aiNode* node);
+
 scene_t::scene_t(const char* file_name) {
     Assimp::Importer importer;
     auto scene = importer.ReadFile(file_name, aiProcess_Triangulate);
@@ -98,6 +100,27 @@ scene_t::scene_t(const char* file_name) {
 			}
 		}
 	);
+
+	cameras.reserve(scene->mNumCameras);
+	std::transform(scene->mCameras, scene->mCameras+scene->mNumCameras, std::back_inserter(cameras), [&](const aiCamera* cam){
+		aiMatrix4x4 transform = get_transformation(scene->mRootNode->FindNode(cam->mName));
+
+		auto aiPos = transform*cam->mPosition;
+		const glm::vec3 position { aiPos.x,  aiPos.y,  aiPos.z };
+		auto aiLookAt = transform*cam->mLookAt;
+		const glm::vec3 look_at { aiLookAt.x,  aiLookAt.y,  aiLookAt.z };
+		auto aiUp = transform*cam->mUp;
+		const glm::vec3 up { aiUp.x,  aiUp.y,  aiUp.z };
+		return core::render::camera_t(
+			position,
+			look_at,
+			up,
+			glm::degrees(cam->mHorizontalFOV),
+			cam->mClipPlaneNear,
+			cam->mClipPlaneFar,
+			cam->mAspect
+		);
+	});
 }
 
 mesh_t mesh_from_assimp(const aiMesh* aiMesh, const glm::mat4& model_matrix) {
@@ -291,28 +314,3 @@ void parse_texture_stack_t::operator()(const texture_stack_description_t channel
 }
 
 }
-
-// std::vector<render::camera_t> importer_t::cameras() const {
-// 	std::vector<render::camera_t> cameras;
-// 	cameras.reserve(m_scene->mNumCameras);
-// 	std::transform(m_scene->mCameras, m_scene->mCameras+m_scene->mNumCameras, std::back_inserter(cameras), [&](const aiCamera* cam){
-// 		aiMatrix4x4 transform = detail::get_transformation(m_scene->mRootNode->FindNode(cam->mName));
-
-// 		auto aiPos = transform*cam->mPosition;
-// 		const glm::vec3 position { aiPos.x,  aiPos.y,  aiPos.z };
-// 		auto aiLookAt = transform*cam->mLookAt;
-// 		const glm::vec3 look_at { aiLookAt.x,  aiLookAt.y,  aiLookAt.z };
-// 		auto aiUp = transform*cam->mUp;
-// 		const glm::vec3 up { aiUp.x,  aiUp.y,  aiUp.z };
-// 		return render::camera_t(
-// 			position,
-// 			look_at,
-// 			up,
-// 			glm::degrees(cam->mHorizontalFOV),
-// 			cam->mClipPlaneNear,
-// 			cam->mClipPlaneFar,
-// 			cam->mAspect
-// 		);
-// 	});
-// 	return cameras;
-// }
