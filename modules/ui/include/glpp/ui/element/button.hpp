@@ -64,7 +64,8 @@ private:
 		};
 	}
 
-	std::invoke_result_t<decltype(&button_t::init_child), button_t, Child> m_child;
+	using child_t = decltype(std::declval<button_t>().init_child(std::declval<Child>()));
+	child_t m_child;
 
 public:
 	button_t(const button_t& cpy) :
