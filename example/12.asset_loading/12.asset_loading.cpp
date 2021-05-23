@@ -18,6 +18,7 @@
 int main(int, char*[]) {
 
 	using namespace glpp::system;
+	using namespace glpp::core::object;
 	using namespace glpp::asset;
 	using namespace glpp::asset::render;
 	using namespace glpp::asset::shading;
@@ -31,28 +32,25 @@ int main(int, char*[]) {
 		}
 	);
 
+	scene_t scene(
+		"room.fbx"
+	);
+	auto& cameras = scene.cameras;
 
-	// importer_t::material_map_t map;
-	// glpp::asset::importer_t importer(
-	// 	"room.fbx",
-	// 	map,
-	// 	importer_t::material_policy_t::augment
-	// );
-	// auto cameras = importer.cameras();
+	multi_atlas_t texture_atlas;
+	scene_view_t sview(scene);
 
-	// shading::texture_storage_t texture_storage;
-	// scene_t scene(importer);
-	// scene_view_t sview(scene);
-	// scene_renderer_t<shading::flat_t> srenderer(scene, texture_storage, flat_shading_channel_t::diffuse);
+	// scene_renderer_t srenderer { flat_t { texture_atlas, flat_shading_channel_t::diffuse }, scene };
+	scene_renderer_t srenderer { normal_t{}, scene };
 
-	// glClearColor(0.2,0.2,0.2,1.0);
-	// auto cam_it = cameras.begin();
-	// window.input_handler().set_keyboard_action(glpp::system::key_t::space, glpp::system::action_t::release, [&](int){
- 	// 	++cam_it;
-	// 	if(cam_it == cameras.end()) {
-	// 		cam_it = cameras.begin();
-	// 	}
-	// });
+	glClearColor(0.2,0.2,0.2,1.0);
+	auto cam_it = cameras.begin();
+	window.input_handler().set_keyboard_action(glpp::system::key_t::space, glpp::system::action_t::release, [&](int){
+ 		++cam_it;
+		if(cam_it == cameras.end()) {
+			cam_it = cameras.begin();
+		}
+	});
 
 	// window.input_handler().set_keyboard_action(glpp::system::key_t::tab, glpp::system::action_t::release, [&, toggle = true](int) mutable {
 	// 	if(toggle) {
@@ -65,12 +63,12 @@ int main(int, char*[]) {
 
 	// glEnable(GL_DEPTH_TEST);
 
-	// window.enter_main_loop([&]() {
-	// 	cam_it->aspect_ratio = window.get_aspect_ratio();
-	// 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	window.enter_main_loop([&]() {
+		cam_it->aspect_ratio = window.get_aspect_ratio();
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-	// 	srenderer.render(sview, *cam_it);
-	// });
+		srenderer.render(sview, *cam_it);
+	});
 
 	return 0;
 }
