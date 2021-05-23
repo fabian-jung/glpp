@@ -39,10 +39,12 @@ TEST_CASE("Loading cube scene from blender export", "[asset][unit]") {
                 REQUIRE(glm::all(glm::lessThanEqual(vertex.tex, glm::vec2(1.0))));
                 REQUIRE(glm::all(glm::greaterThanEqual(vertex.tex, glm::vec2(0.0))));
             }
+            REQUIRE(cube_mesh.material_index < scene.materials.size());
             REQUIRE(scene.ambient_lights.size() == 0);
             REQUIRE(scene.point_lights.size() == 1);
             REQUIRE(scene.spot_lights.size() == 0);
             REQUIRE(scene.directional_lights.size() == 0);
+
 
             REQUIRE(scene.materials.size() == 1);
             const auto& cube_material = scene.materials.front();

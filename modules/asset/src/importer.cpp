@@ -47,21 +47,6 @@ scene_t::scene_t(const char* file_name) {
         throw std::runtime_error(std::string("Could not open ")+file_name+".");
     }
 
-    traverse_scene_graph(scene, scene->mRootNode, glm::mat4(1.0f), meshes);
-
-	std::for_each_n(scene->mLights, scene->mNumLights, [this, scene](const aiLight* light) {
-		light_cast_t light_cast{ scene, light };
-		if(light_cast.has_type<ambient_light_t>()) {
-			ambient_lights.emplace_back(light_cast.cast<ambient_light_t>());
-		} else if(light_cast.has_type<directional_light_t>()) {
-			directional_lights.emplace_back(light_cast.cast<directional_light_t>());
-		} else if(light_cast.has_type<spot_light_t>()) {
-			spot_lights.emplace_back(light_cast.cast<spot_light_t>());
-		} else if(light_cast.has_type<point_light_t>()) {
-			point_lights.emplace_back(light_cast.cast<point_light_t>());
-		}
-	});
-
 	materials.reserve(scene->mNumMaterials);
 	std::for_each_n(
 		scene->mMaterials,
@@ -100,6 +85,21 @@ scene_t::scene_t(const char* file_name) {
 			}
 		}
 	);
+
+ 	traverse_scene_graph(scene, scene->mRootNode, glm::mat4(1.0f), meshes);
+
+	std::for_each_n(scene->mLights, scene->mNumLights, [this, scene](const aiLight* light) {
+		light_cast_t light_cast{ scene, light };
+		if(light_cast.has_type<ambient_light_t>()) {
+			ambient_lights.emplace_back(light_cast.cast<ambient_light_t>());
+		} else if(light_cast.has_type<directional_light_t>()) {
+			directional_lights.emplace_back(light_cast.cast<directional_light_t>());
+		} else if(light_cast.has_type<spot_light_t>()) {
+			spot_lights.emplace_back(light_cast.cast<spot_light_t>());
+		} else if(light_cast.has_type<point_light_t>()) {
+			point_lights.emplace_back(light_cast.cast<point_light_t>());
+		}
+	});
 
 	cameras.reserve(scene->mNumCameras);
 	std::transform(scene->mCameras, scene->mCameras+scene->mNumCameras, std::back_inserter(cameras), [&](const aiCamera* cam){
@@ -149,7 +149,7 @@ mesh_t mesh_from_assimp(const aiMesh* aiMesh, const glm::mat4& model_matrix) {
   
     mesh.model_matrix = model_matrix;
 
-    mesh.material_index = static_cast<unsigned>(-1);
+    mesh.material_index = aiMesh->mMaterialIndex;
     return mesh;
 }
 
