@@ -11,8 +11,7 @@ public:
 	using material_key_t = size_t;
 	using renderer_t = mesh_renderer_t<ShadingModel>;
 
-	template <class... Args>
-	explicit scene_renderer_t(const scene_t& scene, Args&&... args);
+	scene_renderer_t(const ShadingModel& model, const scene_t& scene);
 
 	void render(const scene_view_t& view);
 	void render(const scene_view_t& view, const glpp::core::render::camera_t& camera);
@@ -24,18 +23,17 @@ private:
 };
 
 template<class ShadingModel>
-template <class... Args>
-scene_renderer_t<ShadingModel>::scene_renderer_t(const scene_t& scene, Args&&... args)
+scene_renderer_t<ShadingModel>::scene_renderer_t(const ShadingModel& model, const scene_t& scene)
 {
+	m_renderers.reserve(scene.materials.size());
 	std::transform(
 		scene.materials.begin(),
 		scene.materials.end(),
 		std::back_inserter(m_renderers),
 		[&](const material_t& material) {
-			return mesh_renderer_t<ShadingModel>{ material, std::forward<Args>(args)... };
+			return mesh_renderer_t<ShadingModel>{ model, material };
 		}
 	);
-
 }
 
 template<class ShadingModel>
@@ -44,6 +42,7 @@ void scene_renderer_t<ShadingModel>::render(const scene_view_t& view) {
 		const auto& meshes = view.meshes_by_material(i);
 		auto& renderer = m_renderers[i];
 		for(const auto& mesh : meshes) {
+			renderer.update_model_matrix(mesh.model_matrix);
 			renderer.render(mesh);
 		}
 	}
@@ -55,6 +54,7 @@ void scene_renderer_t<ShadingModel>::render(const scene_view_t& view, const glpp
 		const auto& meshes = view.meshes_by_material(i);
 		auto& renderer = m_renderers[i];
 		for(const auto& mesh : meshes) {
+			renderer.update_model_matrix(mesh.model_matrix);
 			renderer.render(mesh, camera);
 		}
 	}
