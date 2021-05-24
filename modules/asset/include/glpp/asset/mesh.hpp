@@ -16,9 +16,9 @@ struct mesh_t {
 
 	using model_t = glpp::core::render::indexed_model_t<vertex_description_t>;
 
-	model_t model;
-	glm::mat4 model_matrix;
-	unsigned int material_index;
+	model_t model {};
+	glm::mat4 model_matrix { 1.0f };
+	unsigned int material_index { 0 };
 };
 
 }
