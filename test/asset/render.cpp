@@ -171,61 +171,69 @@ TEST_CASE("mesh render test", "[asset] [system] [xorg]") {
     }
 }
 
-// TEST_CASE("scene", "[asset] [system] [xorg]") {
-//     constexpr auto width = 1;
-//     constexpr auto height = 1;
-//     context_t<window_driver_t> context(width, height);
-//     const glm::vec3 clear_color { 1.0f };
-//     glClearColor(clear_color.r, clear_color.g, clear_color.b, 1.0f);
-//     glClear(GL_COLOR_BUFFER_BIT);
-//     const auto white_screen = context.swap_buffer();
-//     REQUIRE(white_screen == image_t<glm::vec3>(width, height, clear_color));
+TEST_CASE("scene renderer test", "[asset] [system] [xorg]") {
+    constexpr auto width = 3;
+    constexpr auto height = 3;
+    context_t<window_driver_t> context(width, height);
+    const glm::vec3 clear_color { 1.0f };
+    glClearColor(clear_color.r, clear_color.g, clear_color.b, 1.0f);
+    glClear(GL_COLOR_BUFFER_BIT);
+    const auto white_screen = context.swap_buffer();
+    REQUIRE(white_screen == image_t<glm::vec3>(width, height, clear_color));
 
-//     constexpr auto default_material = 0;
-//     scene_t scene;
+    constexpr auto default_material = 0;
+    scene_t scene;
     
-//     scene.materials.emplace_back(material_t{ "default_material" });
+    glpp::core::render::camera_t cam;
+    cam.position.z = 1.0f;
+    cam.fov = 45.0f;
+    scene.cameras.emplace_back(cam);
+
+    scene.materials.emplace_back(material_t{ "default_material" });
     
-//     scene.meshes.emplace_back(
-//         mesh_t{
-//             mesh_t::model_t {
-//                 {
-//                     mesh_t::vertex_description_t{
-//                         {-1.0f, -1.0f, 0.0f}, // pos
-//                         {0.0f,   0.0f, 1.0f}, // normal
-//                         {0.0f,   0.0f}        // uv
-//                     },
-//                     mesh_t::vertex_description_t{
-//                         {1.0f,   1.0f, 0.0f}, // pos
-//                         {0.0f,   0.0f, 1.0f}, // normal
-//                         {1.0f,   1.0f}        // uv
-//                     },
-//                     mesh_t::vertex_description_t{
-//                         {-1.0f,  1.0f, 0.0f}, // pos
-//                         {0.0f,   0.0f, 1.0f}, // normal
-//                         {0.0f,   1.0f}        // uv
-//                     },
-//                     mesh_t::vertex_description_t{
-//                         {-1.0f, -1.0f, 0.0f}, // pos
-//                         {0.0f,   0.0f, 1.0f}, // normal
-//                         {1.0f,   0.0f}        // uv
-//                     },
-//                 },
-//                 {
-//                     0, 1, 2,
-//                     0, 3, 2
-//                 }
+    scene.meshes.emplace_back(
+        mesh_t{
+            mesh_t::model_t {
+                {
+                    mesh_t::vertex_description_t{
+                        {-1.0f, -1.0f, 0.0f}, // pos
+                        {0.0f,   0.0f, 1.0f}, // normal
+                        {0.0f,   0.0f}        // uv
+                    },
+                    mesh_t::vertex_description_t{
+                        {1.0f,   1.0f, 0.0f}, // pos
+                        {0.0f,   0.0f, 1.0f}, // normal
+                        {1.0f,   1.0f}        // uv
+                    },
+                    mesh_t::vertex_description_t{
+                        {-1.0f,  1.0f, 0.0f}, // pos
+                        {0.0f,   0.0f, 1.0f}, // normal
+                        {0.0f,   1.0f}        // uv
+                    },
+                    mesh_t::vertex_description_t{
+                        {1.0f, -1.0f, 0.0f},  // pos
+                        {0.0f,   0.0f, 1.0f}, // normal
+                        {1.0f,   0.0f}        // uv
+                    },
+                },
+                {
+                    0, 1, 2,
+                    0, 3, 1
+                }
                
-//             },
-//             glm::mat4(1.0f),
-//             default_material
-//         }       
-//     );
+            },
+            glm::mat4(1.0f),
+            default_material
+        }       
+    );
 
-//     render::scene_view_t view { scene };
+    SECTION("normal renderer") {
+        render::scene_view_t view { scene };
+        render::scene_renderer_t renderer { shading::normal_t{}, scene };
+        renderer.render(view, scene.cameras.front());
+        const auto normal_screen = context.swap_buffer();
+        REQUIRE( (normal_screen == image_t{ width, height, glm::vec3{.5, .5, 1} }).epsilon(0.05) );
+    }
 
-//     render::scene_renderer_t<shading::normal_t> renderer { scene };
-//     renderer.render(view);
-//     const auto normal_screen = context.swap_buffer();
-//     REQUIRE( normal_screen == image_t{ width, height, glm::vec3{0, 0, 1} } );
-// }
+
+}
