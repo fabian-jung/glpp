@@ -6,7 +6,7 @@
 #include <iostream>
 #include <string_view>
 #include <sstream>
-
+#include <glpp/gl/context.hpp>
 namespace glpp::system {
 
 void error_handler(GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length, const GLchar* message, const void* userParam)
@@ -70,6 +70,9 @@ window_t::window_t(unsigned int width, unsigned int height, const std::string& n
 		throw std::runtime_error("Could not create window.");
 	}
 
+	// load dynamic opengl functions
+	glpp::init(&glfwGetProcAddress);
+	
 	//Check GL context
 	GLint glMajor = 0;
 	GLint glMinor = 0;
@@ -83,12 +86,6 @@ window_t::window_t(unsigned int width, unsigned int height, const std::string& n
 	const GLubyte* version = glGetString (GL_VERSION); // version as a string
 	std::cout << "Renderer: " << renderer << std::endl;
 	std::cout << "OpenGL version supported " << version << std::endl;
-
-	// start GLEW extension handler
-	glewExperimental = GL_TRUE;
-	if(glewInit() != GLEW_OK) {
-		throw std::runtime_error("OpenGL functions could not be loaded.");
-	};
 
 	// Set up Gl Stuff
 #ifndef NDEBUG

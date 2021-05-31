@@ -8,6 +8,8 @@ if(${enable_unit_test})
 add_subdirectory(test)
 endif()
 
+add_subdirectory(gl)
+
 add_subdirectory(core)
 
 if(${enable_asset})
