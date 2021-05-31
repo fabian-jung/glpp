@@ -1,6 +1,6 @@
 #pragma once
 
-#include "glpp/core/glpp.hpp"
+#include "glpp/gl.hpp"
 #include "buffer.hpp"
 #include "attribute_properties.hpp"
 #include <algorithm>

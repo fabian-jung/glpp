@@ -1,6 +1,5 @@
 #pragma once
 
-#include "core/glpp.hpp"
 #include "core/object/attribute_properties.hpp"
 #include "core/object/buffer.hpp"
 #include "core/object/shader.hpp"

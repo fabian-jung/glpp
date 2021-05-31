@@ -1,4 +1,4 @@
-#include "glpp/core/glpp.hpp"
+#include "glpp/gl.hpp"
 
 #include <iostream>
 

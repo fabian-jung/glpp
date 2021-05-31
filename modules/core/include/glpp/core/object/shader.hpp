@@ -1,6 +1,6 @@
 #pragma once
 
-#include "glpp/core/glpp.hpp"
+#include "glpp/gl.hpp"
 #include "glpp/core/object.hpp"
 #include "glpp/core/object/texture.hpp"
 #include <glm/glm.hpp>

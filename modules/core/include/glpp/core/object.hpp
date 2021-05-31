@@ -1,6 +1,5 @@
 #pragma once
 
-#include "glpp.hpp"
 #include <cassert>
 namespace glpp::core {
 

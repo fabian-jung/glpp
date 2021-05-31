@@ -1,6 +1,6 @@
 #pragma once
 
-#include "glpp/core/glpp.hpp"
+#include "glpp/gl.hpp"
 #include <glm/glm.hpp>
 
 namespace glpp::core::object {

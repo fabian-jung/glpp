@@ -6,7 +6,7 @@
 #include <ostream>
 #include <typeinfo>
 #include <glm/gtx/string_cast.hpp>
-#include <glpp/core/glpp.hpp>
+#include <glpp/gl/constants.hpp>
 #include <glpp/core/object/attribute_properties.hpp>
 #include <functional>
 

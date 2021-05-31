@@ -1,11 +1,8 @@
 #pragma once
 
-#define GLFW_INCLUDE_NONE
-
 #include <string>
 
-#include <glpp/core/glpp.hpp>
-#include <GL/glew.h>
+#include <glpp/gl.hpp>
 #include <GLFW/glfw3.h>
 #include <map>
 #include <glm/glm.hpp>
