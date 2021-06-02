@@ -10,7 +10,7 @@ TEST_CASE("mesh render test", "[asset] [system] [xorg]") {
     constexpr auto width = 2;
     constexpr auto height = 2;
 
-    context_t<window_driver_t> context(width, height);
+    context_t<offscreen_driver_t> context(width, height);
     const glm::vec3 clear_color { 0.0f };
     glClearColor(clear_color.r, clear_color.g, clear_color.b, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
@@ -174,7 +174,7 @@ TEST_CASE("mesh render test", "[asset] [system] [xorg]") {
 TEST_CASE("scene renderer test", "[asset] [system] [xorg]") {
     constexpr auto width = 3;
     constexpr auto height = 3;
-    context_t<window_driver_t> context(width, height);
+    context_t<offscreen_driver_t> context(width, height);
     const glm::vec3 clear_color { 1.0f };
     glClearColor(clear_color.r, clear_color.g, clear_color.b, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT);
