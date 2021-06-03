@@ -1,0 +1,25 @@
+name: Ubuntu Platform Test
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+env:
+  BUILD_TYPE: Release
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    
+    - name: Pull ubuntu runtime container
+      run: |
+        docker pull docker.io/gitfabianj/glpp-ubuntu:latest
+        
+    - name: build and test
+      run: |
+        docker run --mount src="$(pwd)",target=/glpp,type=bind,readonly gitfabianj/glpp-ubuntu:latest test
