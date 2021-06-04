@@ -1,12 +1,14 @@
 #!/bin/bash
 
+Xvfb :0 &
+export DISPLAY=:0
+
 info_fn() {
 	uname -a
 }
 
 build_fn() {
 	echo "build stage"
-	mkdir /build
 	cd /build
 	cmake /glpp
 	make -j
