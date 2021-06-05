@@ -1,4 +1,7 @@
-# glpp
+<p align="center">
+  <img width="500" src="glpp.svg">
+</p>
+
 
 ![GitHub Workflow Status (branch)](https://img.shields.io/github/workflow/status/fabian-jung/glpp/Ubuntu%20Platform%20Test/master?label=build&logo=Github%20Actions&logoColor=%23ffffff)
 ![GitHub Workflow Status (branch)](https://img.shields.io/github/workflow/status/fabian-jung/glpp/Ubuntu%20Platform%20Test/master?label=checks&logo=Github%20Actions&logoColor=%23ffffff)
