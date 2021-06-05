@@ -3,6 +3,7 @@
 #include "glpp/core/object.hpp"
 #include "glpp/gl/constants.hpp"
 #include "glpp/gl/functions.hpp"
+#include <vector>
 
 namespace glpp::core::object {
 
@@ -51,11 +52,17 @@ public:
 
 	void bind() const;
 
+	std::vector<T> read() const;
+	void read(T* data) const;
+
+	size_t size() const ;
+
 private:
 	GLuint create();
 	static void destroy(GLuint id);
 
 	buffer_target_t m_target;
+	size_t m_size = 0;
 };
 
 /*
@@ -79,7 +86,8 @@ buffer_t<T>::buffer_t(buffer_target_t target, const T* data, size_t size, buffer
 		create(),
 		destroy
 	),
-	m_target(target)
+	m_target(target),
+	m_size(size)
 {
 	glNamedBufferData(
 		id(),
@@ -104,6 +112,24 @@ GLuint buffer_t<T>::create() {
 template <class T>
 void buffer_t<T>::destroy(GLuint id) {
 	glDeleteBuffers(1, &id);
+}
+
+template <class T>
+std::vector<T> buffer_t<T>::read() const {
+	std::vector<T> result;
+	result.resize(m_size/sizeof(T));
+	read(result.data());
+	return result;
+}
+
+template <class T>
+void buffer_t<T>::read(T* data) const {
+	glGetNamedBufferSubData(id(), 0, m_size, data);
+}
+
+template <class T>
+size_t buffer_t<T>::size() const {
+	return m_size;
 }
 
 }
