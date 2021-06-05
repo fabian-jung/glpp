@@ -1,6 +1,8 @@
 #pragma once
 
 #include <cassert>
+#include <glpp/gl/types.hpp>
+
 namespace glpp::core {
 
 template <class destructor_t = void (*)(GLuint)>
