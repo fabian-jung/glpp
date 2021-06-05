@@ -146,6 +146,8 @@ struct gl_context_t {
 
     gl_context_t() = default;
 
+    void enable_throw();
+
     template <class Function>
     void for_each(Function&& fun);
 
@@ -218,6 +220,22 @@ R"(
 #include <glpp/gl/constants.hpp>
 #include <glpp/gl/functions.hpp>
 #include <glpp/gl/context.hpp>
+#include <stdexcept>
+namespace glpp::gl {
+
+void gl_context_t::enable_throw() {
+
+    for_each([](auto& fn, const char* name, int) {
+        if(!fn) {
+            fn = [name, fn](auto... values) -> decltype(fn(values...)) {
+                throw std::runtime_error(std::string(name)+" is not loaded into runtime.");
+            };
+        }
+    });
+
+}
+
+}
 )";
 }
 
