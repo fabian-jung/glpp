@@ -1,6 +1,8 @@
 #pragma once
 
 #include "glpp/core/object.hpp"
+#include "glpp/gl/constants.hpp"
+#include "glpp/gl/functions.hpp"
 
 namespace glpp::core::object {
 
@@ -38,6 +40,13 @@ class buffer_t : public object_t<> {
 public:
 
 	buffer_t();
+
+	buffer_t(const buffer_t& cpy) = delete;
+	buffer_t(buffer_t&& mov) noexcept = default;
+	
+	buffer_t& operator=(const buffer_t& cpy) = delete;
+	buffer_t& operator=(buffer_t&& mov) noexcept = default;
+	
 	buffer_t(buffer_target_t target, const T* data, size_t size, buffer_usage_t usage);
 
 	void bind() const;
