@@ -1,5 +1,12 @@
 # glpp
 
+![GitHub Workflow Status (branch)](https://img.shields.io/github/workflow/status/fabian-jung/glpp/Ubuntu%20Platform%20Test/master?label=build&logo=Github%20Actions&logoColor=%23ffffff)
+![GitHub Workflow Status (branch)](https://img.shields.io/github/workflow/status/fabian-jung/glpp/Ubuntu%20Platform%20Test/master?label=checks&logo=Github%20Actions&logoColor=%23ffffff)
+![GitHub top language](https://img.shields.io/github/languages/top/fabian-jung/glpp?logo=C%2B%2B)
+![Lines of code](https://img.shields.io/tokei/lines/github/fabian-jung/glpp?logo=LibreOffice)
+![GitHub](https://img.shields.io/github/license/fabian-jung/glpp?color=blue)
+![Platform](https://img.shields.io/badge/platform-arch%20%7C%20debian%20%7C%20ubuntu-blue)
+
 This is a thin wrapper library for modern OpenGL in C++. All of its functions and classes can be used in conjunction with native
 OpenGL calls. For a quick dive into the library you can check out the examples or read the documentation provided below.
 
