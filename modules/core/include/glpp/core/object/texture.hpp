@@ -54,7 +54,7 @@ public:
 	texture_t(
 		const size_t& width,
 		const size_t& height,
-		image_format_t format,
+		image_format_t format = image_format_t::rgb_8,
 		const clamp_mode_t& clamp_mode = clamp_mode_t::repeat,
 		const filter_mode_t& filter = filter_mode_t::linear,
 		const mipmap_mode_t& mipmap_mode = mipmap_mode_t::none,
