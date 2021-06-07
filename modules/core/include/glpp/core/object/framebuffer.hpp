@@ -25,6 +25,12 @@ public:
 	framebuffer_t(size_t widht, size_t height);
 	explicit framebuffer_t(std::initializer_list<std::pair<const texture_t&, attachment_t>> list);
 
+	framebuffer_t(const framebuffer_t& cpy) = delete;
+	framebuffer_t(framebuffer_t&& mov) = default;
+
+	framebuffer_t& operator=(const framebuffer_t& cpy) = delete;
+	framebuffer_t& operator=(framebuffer_t&& mov) = default;
+
 	void attach(const texture_t& texture, attachment_t attatchment);
 	void bind(framebuffer_target_t target = framebuffer_target_t::read_and_write);
 
