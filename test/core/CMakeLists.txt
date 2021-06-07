@@ -5,6 +5,7 @@ set(CORE_TESTS
     ${CMAKE_CURRENT_LIST_DIR}/attribute_properties.cpp
     ${CMAKE_CURRENT_LIST_DIR}/image.cpp
     ${CMAKE_CURRENT_LIST_DIR}/buffer.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/framebuffer.cpp
     ${CMAKE_CURRENT_LIST_DIR}/texture.cpp
 )
 
