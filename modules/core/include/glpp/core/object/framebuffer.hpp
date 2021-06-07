@@ -61,6 +61,7 @@ image_t<T> framebuffer_t::pixel_read(size_t x, size_t y) const {
 template <class T>
 image_t<T> framebuffer_t::pixel_read(size_t x, size_t y, size_t width, size_t height) const {
 	image_t<T> result(width, height);
+	glNamedFramebufferReadBuffer(id(), GL_COLOR_ATTACHMENT0);
 	glReadPixels(x, y, width, height, static_cast<GLenum>(result.format()), result.type(), result.data());
 	return result;
 }
