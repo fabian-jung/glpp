@@ -31,25 +31,25 @@ add_custom_command(
 
 find_package(OpenGL REQUIRED COMPONENTS OpenGL)
 
-add_library(glpp_gl)
-add_library(glpp::gl ALIAS glpp_gl)
+add_library(gl)
+add_library(glpp::gl ALIAS gl)
 
 option(glew_enabled "Load dynamic opengl functions with glew (experimental feature, untested)" OFF)
 
-target_include_directories(glpp_gl PUBLIC
+target_include_directories(gl PUBLIC
     $<BUILD_INTERFACE:${GLPP_GL_ROOT}/include>
     $<INSTALL_INTERFACE:/usr/local/include>
 )
-target_compile_definitions(glpp_gl PUBLIC -DGLFW_INCLUDE_NONE)
+target_compile_definitions(gl PUBLIC -DGLFW_INCLUDE_NONE)
 
 if(${glew_enabled})
     find_package(GLEW REQUIRED)
-    target_link_libraries(glpp_gl PUBLIC GLEW OpenGL::OpenGL)
-    target_compile_definitions(glpp_gl PUBLIC -DWITH_GLEW)
+    target_link_libraries(gl PUBLIC GLEW OpenGL::OpenGL)
+    target_compile_definitions(gl PUBLIC -DWITH_GLEW)
 elseif()  
-    target_link_libraries(glpp_gl PRIVATE OpenGL::OpenGL)
+    target_link_libraries(gl PRIVATE OpenGL::OpenGL)
 endif()
-target_sources(glpp_gl PRIVATE 
+target_sources(gl PRIVATE 
     ${GLPP_GL_ROOT}/src/context.cpp
     ${GLPP_GL_ROOT}/src/functions.cpp
     ${GLPP_GL_ROOT}/src/gl.cpp
