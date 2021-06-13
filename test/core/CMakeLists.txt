@@ -8,6 +8,7 @@ set(CORE_TESTS
     ${CMAKE_CURRENT_LIST_DIR}/framebuffer.cpp
     ${CMAKE_CURRENT_LIST_DIR}/texture.cpp
     ${CMAKE_CURRENT_LIST_DIR}/shader.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/shader_program.cpp
 )
 
 if(${enable_unit_test})
