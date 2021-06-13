@@ -312,7 +312,7 @@ void shader_program_t::uniform_setter_t::set_value(const glm::dmat4* begin, cons
 	glUniformMatrix4dv(location, size, false, glm::value_ptr(*begin));
 }
 
-void shader_program_t::use() {
+void shader_program_t::use() const {
 	glUseProgram(id());
 }
 
@@ -322,6 +322,13 @@ void shader_program_t::attatch(const shader_t& shader) {
 
 void shader_program_t::link() {
 	glLinkProgram(id());
+	int success;
+	char info_log[512];
+	glGetProgramiv(id(), GL_LINK_STATUS, &success);
+	if(!success) {
+		glGetProgramInfoLog(id(), sizeof(info_log), NULL, info_log);
+		throw std::runtime_error(info_log);
+	}
 }
 
 void shader_program_t::destroy(GLuint id) {

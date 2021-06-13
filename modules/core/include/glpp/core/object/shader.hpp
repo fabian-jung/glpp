@@ -32,6 +32,9 @@ private:
 class shader_program_t : public object_t<> {
 public:
 
+	void attatch(const shader_t& shader);
+	void link();
+
 	template <class... shader_t>
 	explicit shader_program_t(const shader_t&... shader);
 
@@ -46,7 +49,8 @@ public:
 	template <class texture_slot_iterator>
 	void set_texture_array(const char* name, const texture_slot_iterator begin, const texture_slot_iterator end);
 
-	void use();
+	void use() const;
+
 private:
 
 	class uniform_setter_t {
@@ -63,8 +67,6 @@ private:
 		GLint location;
 	};
 
-	void attatch(const shader_t& shader);
-	void link();
 	static void destroy(GLuint id);
 };
 
@@ -82,13 +84,6 @@ shader_program_t::shader_program_t(const shader_t&... shader) :
 	if constexpr(sizeof...(shader_t) > 0) {
 		(attatch(shader), ...);
 		link();
-		int success;
-		char info_log[512];
-		glGetProgramiv(id(), GL_LINK_STATUS, &success);
-		if(!success) {
-			glGetProgramInfoLog(id(), sizeof(info_log), NULL, info_log);
-			throw std::runtime_error(info_log);
-		}
 	}
 }
 
