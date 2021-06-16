@@ -55,16 +55,18 @@ public:
 	{
 		static_assert(sizeof...(T) > 0, "Trying to initialise view without attributes");
 		size_t index = 0;
-		(m_vao.attach(
-			m_buffer,
+		constexpr auto binding = 0u;
+		m_vao.bind_buffer(m_buffer, binding);
+		(m_vao.attach_buffer(
+			binding,
 			index++,
-			sizeof(attribute_description_t)/*-sizeof(T)*/,
 			glpp::core::object::attribute_properties<T>::elements_per_vertex,
 			glpp::core::object::attribute_properties<T>::type,
 			offset(attributes)
 		), ...);
 		if constexpr(model_traits_t::instanced()) {
 			m_vao.bind(); // TODO
+			m_vao.bind(); 
 			m_indicies = glpp::core::object::buffer_t<GLuint>(
 				glpp::core::object::buffer_target_t::element_array_buffer,
 				model_traits<model_t>::indicies(model).data(),
@@ -93,7 +95,7 @@ private:
 	void draw_instanced(size_t count) const;
 
 	template <class T>
-	static constexpr void* offset(T attribute_description_t::* attr);
+	static constexpr GLintptr offset(T attribute_description_t::* attr);
 
 	glpp::core::object::vertex_array_t m_vao;
 	size_t m_size;
@@ -130,8 +132,8 @@ void view_t<Model, primitive>::draw_instanced(size_t count) const {
 
 template <class Model, view_primitives_t primitive>
 template <class T>
-constexpr void* view_t<Model, primitive>::offset(T attribute_description_t::* attr) {
-	return reinterpret_cast<void*>(
+constexpr GLintptr view_t<Model, primitive>::offset(T attribute_description_t::* attr) {
+	return reinterpret_cast<GLintptr>(
 		&(reinterpret_cast<attribute_description_t*>(0)->*attr)
 	);
 }
