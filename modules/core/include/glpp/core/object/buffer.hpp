@@ -57,6 +57,8 @@ public:
 
 	size_t size() const ;
 
+	buffer_target_t target() const;
+
 private:
 	GLuint create();
 	static void destroy(GLuint id);
@@ -131,5 +133,11 @@ template <class T>
 size_t buffer_t<T>::size() const {
 	return m_size;
 }
+
+template <class T>
+buffer_target_t buffer_t<T>::target() const {
+	return m_target;
+}
+
 
 }
