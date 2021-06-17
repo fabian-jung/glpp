@@ -19,4 +19,4 @@ set(glpp-files
 )
 target_sources(core PRIVATE ${glpp-files})
 set_target_properties(core PROPERTIES PUBLIC_HEADER "${glpp-header}")
-target_compile_features(core PUBLIC cxx_std_17)
+target_compile_features(core PUBLIC cxx_std_20)
