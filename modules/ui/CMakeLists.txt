@@ -12,4 +12,4 @@ set(glpp-ui-files
     ${CMAKE_CURRENT_LIST_DIR}/src/widget.cpp
 )
 target_sources(ui PRIVATE ${glpp-ui-files})
-target_compile_features(ui PUBLIC cxx_std_17)
+target_compile_features(ui PUBLIC cxx_std_20)

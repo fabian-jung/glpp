@@ -13,4 +13,4 @@ set(glpp-text-files
     ${CMAKE_CURRENT_LIST_DIR}/src/writer.cpp
 )
 target_sources(text PRIVATE ${glpp-text-files})
-target_compile_features(text PUBLIC cxx_std_17)
+target_compile_features(text PUBLIC cxx_std_20)

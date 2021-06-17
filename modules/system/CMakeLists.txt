@@ -14,4 +14,4 @@ set(glpp-system-files
     ${CMAKE_CURRENT_LIST_DIR}/src/window.cpp
 )
 target_sources(system PRIVATE ${glpp-system-files})
-target_compile_features(system PUBLIC cxx_std_17)
+target_compile_features(system PUBLIC cxx_std_20)

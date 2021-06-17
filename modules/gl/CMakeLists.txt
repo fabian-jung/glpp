@@ -7,7 +7,7 @@ target_sources(glpp_context_generator PUBLIC
     ${CMAKE_CURRENT_LIST_DIR}/bin/generator.cpp
 )
 target_include_directories(glpp_context_generator PUBLIC ${CMAKE_CURRENT_LIST_DIR}/include)
-target_compile_features(glpp_context_generator PUBLIC cxx_std_17)
+target_compile_features(glpp_context_generator PUBLIC cxx_std_20)
 
 set(GLPP_GL_ROOT "${CMAKE_BINARY_DIR}/vendor/glpp/modules/gl")
 file(MAKE_DIRECTORY ${GLPP_GL_ROOT})
