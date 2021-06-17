@@ -24,7 +24,7 @@ public:
 	template <class T>
 	void bind_buffer(
 		const buffer_t<T>& buffer,
-		GLuint binding_point,
+		GLuint binding_point = 0,
 		size_t stride = sizeof(T)
 	);
 
@@ -76,7 +76,11 @@ void vertex_array_t::bind_buffer(
 	GLuint binding_point,
 	size_t stride
 ) {
-	glVertexArrayVertexBuffer(id(), binding_point, buffer.id(), 0, stride);
+	if(buffer.target() == buffer_target_t::element_array_buffer) {
+		glVertexArrayElementBuffer(id(), buffer.id());
+	} else {
+		glVertexArrayVertexBuffer(id(), binding_point, buffer.id(), 0, stride);
+	}
 }
 
 template <class T>
