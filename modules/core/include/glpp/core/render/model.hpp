@@ -25,6 +25,9 @@ struct model_traits<model_t<Attribute_Description>> {
 	}
 };
 
+template<class T>
+concept InstancedModel = model_traits<T>::instanced();
+
 template <class Attribute_Description, class Index = GLuint>
 struct indexed_model_t {
 	model_t<Attribute_Description> verticies;
@@ -38,7 +41,8 @@ template <class Attribute_Description, class Index>
 struct model_traits<indexed_model_t<Attribute_Description, Index>> {
 
 	using attribute_description_t = Attribute_Description;
-
+	using index_t = Index;
+	
 	constexpr static size_t buffer_count() { return 1; }
 	constexpr static bool instanced() { return true; }
 
