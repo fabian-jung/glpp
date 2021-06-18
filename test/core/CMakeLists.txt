@@ -11,6 +11,7 @@ set(CORE_TESTS
     ${CMAKE_CURRENT_LIST_DIR}/shader.cpp
     ${CMAKE_CURRENT_LIST_DIR}/shader_program.cpp
     ${CMAKE_CURRENT_LIST_DIR}/view.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/renderer.cpp
 )
 
 if(${enable_unit_test})
