@@ -38,16 +38,28 @@ public:
 	template <class... shader_t>
 	explicit shader_program_t(const shader_t&... shader);
 
+	GLint uniform_location(const GLchar* name) const;
+
 	template <class Value>
 	void set_uniform(const char* name, const Value& value);
 
 	template <class Value>
+	void set_uniform(GLint location, const Value& value);
+	
+	template <class Value>
 	void set_uniform_array(const char* name, const Value* begin, const size_t size);
 
+	template <class Value>
+	void set_uniform_array(GLint location, const Value* begin, const size_t size);
+
 	void set_texture(const char* name, const texture_slot_t& texture);
+	void set_texture(GLint location, const texture_slot_t& texture);
 
 	template <class texture_slot_iterator>
 	void set_texture_array(const char* name, const texture_slot_iterator begin, const texture_slot_iterator end);
+
+	template <class texture_slot_iterator>
+	void set_texture_array(GLint location, const texture_slot_iterator begin, const texture_slot_iterator end);
 
 	void use() const;
 
@@ -55,7 +67,7 @@ private:
 
 	class uniform_setter_t {
 	public:
-		uniform_setter_t(GLint location);
+		uniform_setter_t(GLuint program, GLint location);
 
 		template <class T>
 		void set_value(const T& value);
@@ -64,6 +76,7 @@ private:
 		void set_value(const T* begin, const size_t size);
 
 	private:
+		GLuint program;
 		GLint location;
 	};
 
@@ -87,30 +100,38 @@ shader_program_t::shader_program_t(const shader_t&... shader) :
 	}
 }
 
-
 template <class Value>
 void shader_program_t::set_uniform(const char* name, const Value& value) {
-	use();
-	auto location = glGetUniformLocation(id(), name);
-	uniform_setter_t setter(location);
+	set_uniform(uniform_location(name), value);
+}
+
+template <class Value>
+void shader_program_t::set_uniform(GLint location, const Value& value) {
+	uniform_setter_t setter(id(), location);
 	setter.set_value(value);
 }
 
 template <class Value>
 void shader_program_t::set_uniform_array(const char* name, const Value* value, const size_t size) {
-	use();
-	auto location = glGetUniformLocation(id(), name);
-	uniform_setter_t setter(location);
+	set_uniform_array(uniform_location(name), value, size);
+}
+
+template <class Value>
+void shader_program_t::set_uniform_array(GLint location, const Value* value, const size_t size) {
+	uniform_setter_t setter(id(), location);
 	setter.set_value(value, size);
 }
 
-
 template <class texture_slot_iterator>
 void shader_program_t::set_texture_array(const char* name, const texture_slot_iterator begin, const texture_slot_iterator end) {
+	set_texture_array(uniform_location(name), begin, end);
+}
+
+template <class texture_slot_iterator>
+void shader_program_t::set_texture_array(GLint location, const texture_slot_iterator begin, const texture_slot_iterator end) {
 	const auto size = std::distance(begin, end);
 	use();
-	auto location = glGetUniformLocation(id(), name);
-	uniform_setter_t setter(location);
+	uniform_setter_t setter(id(), location);
 	if constexpr(std::is_integral_v<std::remove_pointer_t<texture_slot_iterator>>) {
 		setter.set_value(begin, size);
 	} else {
