@@ -97,14 +97,14 @@ TEST_CASE("shader_program_t set_uniform", "[core][unit]") {
 
     context.glCreateProgram = []() -> GLuint { return 42; };
     context.glDeleteProgram = [](auto...) {};
-    context.glUseProgram = [](auto...) {};
     context.glGetUniformLocation = [](GLuint prog, const GLchar* name) -> GLint {
         REQUIRE(prog == 42);
         REQUIRE(std::strcmp(name, "test") == 0);
         return 1337;
     };
-    context.glUniform3fv = [&call_use](GLint pos, GLsizei count, const GLfloat* values) {
+    context.glProgramUniform3fv = [&call_use](GLuint prog, GLint pos, GLsizei count, const GLfloat* values) {
         ++call_use;
+        REQUIRE(prog == 42);
         REQUIRE(pos == 1337);
         REQUIRE(count == 1);
         REQUIRE(values[0] == 1.0f);

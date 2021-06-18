@@ -60,256 +60,266 @@ void shader_t::destroy(GLuint id) {
 	glDeleteShader(id);
 }
 
-shader_program_t::uniform_setter_t::uniform_setter_t(GLint location) :
+shader_program_t::uniform_setter_t::uniform_setter_t(GLuint program, GLint location) :
+	program(program),
 	location(location)
 {}
 
+
+GLint shader_program_t::uniform_location(const char* name) const {
+	return glGetUniformLocation(id(), name);
+}
+
 void shader_program_t::set_texture(const char* name, const texture_slot_t& slot) {
-	set_uniform(name, slot.id());
+	set_texture(uniform_location(name), slot);
+}
+
+void shader_program_t::set_texture(GLint location, const texture_slot_t& slot) {
+	set_uniform(location, slot.id());
 }
 
 template <>
 void shader_program_t::uniform_setter_t::set_value(const bool& b) {
 	GLint v = b;
-	glUniform1i(location, v);
+	glProgramUniform1i(program, location, v);
 }
 
 template <>
 void shader_program_t::uniform_setter_t::set_value(const glm::bvec2& vec) {
 	const glm::ivec2 values = vec;
-	glUniform2iv(location, 1, glm::value_ptr(values));
+	glProgramUniform2iv(program, location, 1, glm::value_ptr(values));
 }
 
 template <>
 void shader_program_t::uniform_setter_t::set_value(const glm::bvec3& vec) {
 	const glm::ivec2 values = vec;
-	glUniform3iv(location, 1, glm::value_ptr(values));
+	glProgramUniform3iv(program, location, 1, glm::value_ptr(values));
 }
 
 template <>
 void shader_program_t::uniform_setter_t::set_value(const glm::bvec4& vec) {
 	const glm::ivec2 values = vec;
-	glUniform4iv(location, 1, glm::value_ptr(values));
+	glProgramUniform4iv(program, location, 1, glm::value_ptr(values));
 }
 
 template <>
 void shader_program_t::uniform_setter_t::set_value(const float* begin, const size_t size) {
-	glUniform1fv(location, size, begin);
+	glProgramUniform1fv(program, location, size, begin);
 }
 
 template <>
 void shader_program_t::uniform_setter_t::set_value(const float& f) {
-	glUniform1f(location, f);
+	glProgramUniform1f(program, location, f);
 }
 
 template <>
 void shader_program_t::uniform_setter_t::set_value(const glm::vec2& vec) {
-	glUniform2fv(location, 1, glm::value_ptr(vec));
+	glProgramUniform2fv(program, location, 1, glm::value_ptr(vec));
 }
 
 template <>
 void shader_program_t::uniform_setter_t::set_value(const glm::vec2* begin, const size_t size) {
-	glUniform2fv(location, size, glm::value_ptr(*begin));
+	glProgramUniform2fv(program, location, size, glm::value_ptr(*begin));
 }
 
 template <>
 void shader_program_t::uniform_setter_t::set_value(const glm::vec3& vec) {
-	glUniform3fv(location, 1, glm::value_ptr(vec));
+	glProgramUniform3fv(program, location, 1, glm::value_ptr(vec));
 }
 
 template <>
 void shader_program_t::uniform_setter_t::set_value(const glm::vec3* begin, const size_t size) {
-	glUniform3fv(location, size, glm::value_ptr(*begin));
+	glProgramUniform3fv(program, location, size, glm::value_ptr(*begin));
 }
 
 template <>
 void shader_program_t::uniform_setter_t::set_value(const glm::vec4& vec) {
-	glUniform4fv(location, 1, glm::value_ptr(vec));
+	glProgramUniform4fv(program, location, 1, glm::value_ptr(vec));
 }
 
 template <>
 void shader_program_t::uniform_setter_t::set_value(const glm::vec4* begin, const size_t size) {
-	glUniform4fv(location, size, glm::value_ptr(*begin));
+	glProgramUniform4fv(program, location, size, glm::value_ptr(*begin));
 }
 
 template <>
 void shader_program_t::uniform_setter_t::set_value(const double& d) {
-	glUniform1d(location, d);
+	glProgramUniform1d(program, location, d);
 }
 
 template <>
 void shader_program_t::uniform_setter_t::set_value(const double* begin, const size_t size) {
-	glUniform1dv(location, size, begin);
+	glProgramUniform1dv(program, location, size, begin);
 }
 
 template <>
 void shader_program_t::uniform_setter_t::set_value(const glm::dvec2& vec) {
-	glUniform2dv(location, 1, glm::value_ptr(vec));
+	glProgramUniform2dv(program, location, 1, glm::value_ptr(vec));
 }
 
 template <>
 void shader_program_t::uniform_setter_t::set_value(const glm::dvec2* begin, const size_t size) {
-	glUniform2dv(location, size, glm::value_ptr(*begin));
+	glProgramUniform2dv(program, location, size, glm::value_ptr(*begin));
 }
 
 template <>
 void shader_program_t::uniform_setter_t::set_value(const glm::dvec3& vec) {
-	glUniform3dv(location, 1, glm::value_ptr(vec));
+	glProgramUniform3dv(program, location, 1, glm::value_ptr(vec));
 }
 
 template <>
 void shader_program_t::uniform_setter_t::set_value(const glm::dvec3* begin, const size_t size) {
-	glUniform3dv(location, size, glm::value_ptr(*begin));
+	glProgramUniform3dv(program, location, size, glm::value_ptr(*begin));
 }
 
 template <>
 void shader_program_t::uniform_setter_t::set_value(const glm::dvec4& vec) {
-	glUniform4dv(location, 1, glm::value_ptr(vec));
+	glProgramUniform4dv(program, location, 1, glm::value_ptr(vec));
 }
 
 template <>
 void shader_program_t::uniform_setter_t::set_value(const glm::dvec4* begin, const size_t size) {
-	glUniform4dv(location, size, glm::value_ptr(*begin));
+	glProgramUniform4dv(program, location, size, glm::value_ptr(*begin));
 }
 
 template <>
 void shader_program_t::uniform_setter_t::set_value(const GLint* begin, const size_t size) {
-	glUniform1iv(location, size, begin);
+	glProgramUniform1iv(program, location, size, begin);
 }
 
 template <>
 void shader_program_t::uniform_setter_t::set_value(const GLint& i) {
-	glUniform1i(location, i);
+	glProgramUniform1i(program, location, i);
 }
 
 template <>
 void shader_program_t::uniform_setter_t::set_value(const glm::ivec2& vec) {
-	glUniform2iv(location, 1, glm::value_ptr(vec));
+	glProgramUniform2iv(program, location, 1, glm::value_ptr(vec));
 }
 
 template <>
 void shader_program_t::uniform_setter_t::set_value(const glm::ivec2* begin, const size_t size) {
-	glUniform2iv(location, size, glm::value_ptr(*begin));
+	glProgramUniform2iv(program, location, size, glm::value_ptr(*begin));
 }
 
 template <>
 void shader_program_t::uniform_setter_t::set_value(const glm::ivec3& vec) {
-	glUniform3iv(location, 1, glm::value_ptr(vec));
+	glProgramUniform3iv(program, location, 1, glm::value_ptr(vec));
 }
 
 template <>
 void shader_program_t::uniform_setter_t::set_value(const glm::ivec3* begin, const size_t size) {
-	glUniform3iv(location, size, glm::value_ptr(*begin));
+	glProgramUniform3iv(program, location, size, glm::value_ptr(*begin));
 }
 
 template <>
 void shader_program_t::uniform_setter_t::set_value(const glm::ivec4& vec) {
-	glUniform4iv(location, 1, glm::value_ptr(vec));
+	glProgramUniform4iv(program, location, 1, glm::value_ptr(vec));
 }
 
 template <>
 void shader_program_t::uniform_setter_t::set_value(const glm::ivec4* begin, const size_t size) {
-	glUniform4iv(location, size, glm::value_ptr(*begin));
+	glProgramUniform4iv(program, location, size, glm::value_ptr(*begin));
 }
 
 template <>
 void shader_program_t::uniform_setter_t::set_value(const GLuint& i) {
-	glUniform1ui(location, i);
+	glProgramUniform1ui(program, location, i);
 }
 
 template <>
 void shader_program_t::uniform_setter_t::set_value(const GLuint* begin, const size_t size) {
-	glUniform1uiv(location, size, begin);
+	glProgramUniform1uiv(program, location, size, begin);
 }
 
 template <>
 void shader_program_t::uniform_setter_t::set_value(const glm::uvec2& vec) {
-	glUniform2uiv(location, 1, glm::value_ptr(vec));
+	glProgramUniform2uiv(program, location, 1, glm::value_ptr(vec));
 }
 
 template <>
 void shader_program_t::uniform_setter_t::set_value(const glm::uvec2* begin, const size_t size) {
-	glUniform2uiv(location, size, glm::value_ptr(*begin));
+	glProgramUniform2uiv(program, location, size, glm::value_ptr(*begin));
 }
 
 template <>
 void shader_program_t::uniform_setter_t::set_value(const glm::uvec3& vec) {
-	glUniform3uiv(location, 1, glm::value_ptr(vec));
+	glProgramUniform3uiv(program, location, 1, glm::value_ptr(vec));
 }
 
 template <>
 void shader_program_t::uniform_setter_t::set_value(const glm::uvec3* begin, const size_t size) {
-	glUniform3uiv(location, size, glm::value_ptr(*begin));
+	glProgramUniform3uiv(program, location, size, glm::value_ptr(*begin));
 }
 
 template <>
 void shader_program_t::uniform_setter_t::set_value(const glm::uvec4& vec) {
-	glUniform4uiv(location, 1, glm::value_ptr(vec));
+	glProgramUniform4uiv(program, location, 1, glm::value_ptr(vec));
 }
 
 template <>
 void shader_program_t::uniform_setter_t::set_value(const glm::uvec4* begin, const size_t size) {
-	glUniform4uiv(location, size, glm::value_ptr(*begin));
+	glProgramUniform4uiv(program, location, size, glm::value_ptr(*begin));
 }
 
 template <>
 void shader_program_t::uniform_setter_t::set_value(const glm::mat2& mat) {
-	glUniformMatrix2fv(location, 1, false, glm::value_ptr(mat));
+	glProgramUniformMatrix2fv(program, location, 1, false, glm::value_ptr(mat));
 }
 
 template <>
 void shader_program_t::uniform_setter_t::set_value(const glm::mat2* begin, const size_t size) {
-	glUniformMatrix2fv(location, size, false, glm::value_ptr(*begin));
+	glProgramUniformMatrix2fv(program, location, size, false, glm::value_ptr(*begin));
 }
 
 template <>
 void shader_program_t::uniform_setter_t::set_value(const glm::mat3& mat) {
-	glUniformMatrix3fv(location, 1, false, glm::value_ptr(mat));
+	glProgramUniformMatrix3fv(program, location, 1, false, glm::value_ptr(mat));
 }
 
 template <>
 void shader_program_t::uniform_setter_t::set_value(const glm::mat3* begin, const size_t size) {
-	glUniformMatrix3fv(location, size, false, glm::value_ptr(*begin));
+	glProgramUniformMatrix3fv(program, location, size, false, glm::value_ptr(*begin));
 }
 
 template <>
 void shader_program_t::uniform_setter_t::set_value(const glm::mat4& mat) {
-	glUniformMatrix4fv(location, 1, false, glm::value_ptr(mat));
+	glProgramUniformMatrix4fv(program, location, 1, false, glm::value_ptr(mat));
 }
 
 template <>
 void shader_program_t::uniform_setter_t::set_value(const glm::mat4* begin, const size_t size) {
-	glUniformMatrix4fv(location, size, false, glm::value_ptr(*begin));
+	glProgramUniformMatrix4fv(program, location, size, false, glm::value_ptr(*begin));
 }
 
 template <>
 void shader_program_t::uniform_setter_t::set_value(const glm::dmat2& mat) {
-	glUniformMatrix2dv(location, 1, false, glm::value_ptr(mat));
+	glProgramUniformMatrix2dv(program, location, 1, false, glm::value_ptr(mat));
 }
 
 template <>
 void shader_program_t::uniform_setter_t::set_value(const glm::dmat2* begin, const size_t size) {
-	glUniformMatrix2dv(location, size, false, glm::value_ptr(*begin));
+	glProgramUniformMatrix2dv(program, location, size, false, glm::value_ptr(*begin));
 }
 
 template <>
 void shader_program_t::uniform_setter_t::set_value(const glm::dmat3& mat) {
-	glUniformMatrix3dv(location, 1, false, glm::value_ptr(mat));
+	glProgramUniformMatrix3dv(program, location, 1, false, glm::value_ptr(mat));
 }
 
 template <>
 void shader_program_t::uniform_setter_t::set_value(const glm::dmat3* begin, const size_t size) {
-	glUniformMatrix3dv(location, size, false, glm::value_ptr(*begin));
+	glProgramUniformMatrix3dv(program, location, size, false, glm::value_ptr(*begin));
 }
 
 template <>
 void shader_program_t::uniform_setter_t::set_value(const glm::dmat4& mat) {
-	glUniformMatrix4dv(location, 1, false, glm::value_ptr(mat));
+	glProgramUniformMatrix4dv(program, location, 1, false, glm::value_ptr(mat));
 }
 
 template <>
 void shader_program_t::uniform_setter_t::set_value(const glm::dmat4* begin, const size_t size) {
-	glUniformMatrix4dv(location, size, false, glm::value_ptr(*begin));
+	glProgramUniformMatrix4dv(program, location, size, false, glm::value_ptr(*begin));
 }
 
 void shader_program_t::use() const {
