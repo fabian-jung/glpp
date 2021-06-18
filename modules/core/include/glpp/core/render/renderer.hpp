@@ -53,7 +53,7 @@ public:
 
 private:
 	glpp::core::object::shader_program_t m_shader;
-	std::unordered_map<size_t, std::string> m_uniform_map;
+	std::unordered_map<size_t, GLint> m_uniform_map;
 	std::unordered_map<std::string, object::texture_slot_t> m_texture_slots;
 };
 
@@ -89,21 +89,21 @@ void renderer_t<uniform_description_t>::render_instanced(const view_t& view, siz
 template <class uniform_description_t>
 template <class T>
 void renderer_t<uniform_description_t>::set_uniform_name(T uniform_description_t::* uniform, std::string name) {
-	m_uniform_map[detail::get_offset(uniform)] = std::move(name);
+	m_uniform_map[detail::get_offset(uniform)] = m_shader.uniform_location(name.c_str());
 }
 
 template <class uniform_description_t>
 template <class T>
 void renderer_t<uniform_description_t>::set_uniform(T uniform_description_t::* uniform, const T& value) {
-	const auto& name = m_uniform_map[detail::get_offset(uniform)];
-	m_shader.set_uniform(name.c_str(), value);
+	const auto& location = m_uniform_map[detail::get_offset(uniform)];
+	m_shader.set_uniform(location, value);
 }
 
 template <class uniform_description_t>
 template <class T>
 void renderer_t<uniform_description_t>::set_uniform_array(T uniform_description_t::* uniform, const T* value, const size_t size) {
-	const auto& name = m_uniform_map[detail::get_offset(uniform)];
-	m_shader.set_uniform_array(name.c_str(), value, size);
+	const auto& location = m_uniform_map[detail::get_offset(uniform)];
+	m_shader.set_uniform_array(location, value, size);
 }
 
 template <class uniform_description_t>
