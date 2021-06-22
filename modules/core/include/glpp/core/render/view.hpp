@@ -137,7 +137,15 @@ template <class Model, view_primitives_t primitive>
 void view_t<Model, primitive>::draw() const {
 	m_vao.bind();
 	if constexpr(model_traits_t::instanced()) {
-		glDrawElements(static_cast<GLenum>(primitive), m_size, GL_UNSIGNED_INT, 0);
+		using index_t = model_traits<Model>::index_t;
+		constexpr auto index_enum = object::attribute_properties<index_t>::type;
+		static_assert(
+			index_enum == GL_UNSIGNED_BYTE ||
+			index_enum == GL_UNSIGNED_SHORT ||
+			index_enum ==  GL_UNSIGNED_INT,
+			"Index type is required to be ubyte, ushort or uint."
+		);
+		glDrawElements(static_cast<GLenum>(primitive), m_size, index_enum, 0);
 	} else {
 		glDrawArrays(static_cast<GLenum>(primitive), 0, m_size);
 	}
@@ -147,7 +155,15 @@ template <class Model, view_primitives_t primitive>
 void view_t<Model, primitive>::draw_instanced(size_t count) const {
 	m_vao.bind();
 	if constexpr(model_traits_t::instanced()) {
-		glDrawElementsInstanced(static_cast<GLenum>(primitive), m_size, GL_UNSIGNED_INT, 0, count);
+		using index_t = model_traits<Model>::index_t;
+		constexpr auto index_enum = object::attribute_properties<index_t>::type;
+		static_assert(
+			index_enum == GL_UNSIGNED_BYTE ||
+			index_enum == GL_UNSIGNED_SHORT ||
+			index_enum ==  GL_UNSIGNED_INT,
+			"Index type is required to be ubyte, ushort or uint."
+		);
+		glDrawElementsInstanced(static_cast<GLenum>(primitive), m_size, index_enum, 0, count);
 	} else {
 		glDrawArraysInstanced(static_cast<GLenum>(primitive), 0, m_size, count);
 	}
