@@ -20,16 +20,16 @@ TEST_CASE("Reading and Writing of images", "[image][unit][filesystem]") {
         DYNAMIC_SECTION("testing " << extention) {
             const auto filename = seed+"test_image."+extention;
 
-             if(std::filesystem::exists(filename)) {
-                std::filesystem::remove(filename);
-            }
+            REQUIRE(!std::filesystem::exists(filename));
+
             const image_t write {2, 2, {
                 glm::vec3(0.0, 0.0, 0.0), glm::vec3(1.0, 0.0, 0.0),
                 glm::vec3(0.0, 1.0, 0.0), glm::vec3(0.0, 0.0, 1.0)
             }};
             write.write(filename.c_str());
-            const image_t<glm::vec3>  load(filename.c_str());
+            const image_t<glm::vec3> load(filename.c_str());
             std::filesystem::remove(filename);
+            REQUIRE(!std::filesystem::exists(filename));
             REQUIRE((write == load).epsilon(0.05));
         }
     }
