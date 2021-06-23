@@ -79,9 +79,9 @@ offscreen_driver_t::offscreen_driver_t() {
     glCreateFramebuffers(1, &id);
     /* clear the color buffer */
 
-    glClearColor(1.0, 1.0, 0.0, 1.0);
-    // glClear(GL_COLOR_BUFFER_BIT);
-    // glFlush();
+    glClearColor(0.0, 0.0, 0.0, 1.0);
+    glClear(GL_COLOR_BUFFER_BIT);
+    glFlush();
 
     // eglSwapBuffers(display, surface);
 }
