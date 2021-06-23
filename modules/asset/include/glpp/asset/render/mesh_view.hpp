@@ -11,19 +11,9 @@ public:
 	using model_t = mesh_t::model_t;
 	using view_t = glpp::core::render::view_t<model_t>;
 
-	explicit mesh_view_t(const mesh_t& mesh) :
-		model_matrix(mesh.model_matrix),
-		m_view(
-			mesh.model,
-			&vertex_description_t::position,
-			&vertex_description_t::normal,
-			&vertex_description_t::tex
-		)
-	{}
+	explicit mesh_view_t(const mesh_t& mesh);
 
-	const view_t& view() const {
-		return m_view;
-	}
+	const view_t& view() const;
 
 	glm::mat4 model_matrix;
 
