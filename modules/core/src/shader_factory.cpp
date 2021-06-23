@@ -4,12 +4,16 @@
 
 namespace glpp::core::object{
 
+shader_factory_t::shader_factory_t(std::ifstream&& code_template) :
+	m_code(std::istreambuf_iterator<char>(code_template), std::istreambuf_iterator<char>())
+{}
+
 shader_factory_t::shader_factory_t(std::ifstream& code_template) :
 	m_code(std::istreambuf_iterator<char>(code_template), std::istreambuf_iterator<char>())
 {}
 
-shader_factory_t::shader_factory_t(std::ifstream code_template) :
-	m_code(std::istreambuf_iterator<char>(code_template), std::istreambuf_iterator<char>())
+shader_factory_t::shader_factory_t(const std::stringstream& code_template) :
+	m_code(code_template.str())
 {}
 
 shader_factory_t::shader_factory_t(std::string code_template) :
@@ -57,6 +61,11 @@ shader_factory_t& shader_factory_t::set(std::string_view key, const T& value)
 	return *this;
 }
 
+shader_factory_t& shader_factory_t::set(std::string_view key, const char* value) {
+	set(key, std::string_view(value));
+	return *this;
+}
+
 template shader_factory_t& shader_factory_t::set(std::string_view key, const float& value);
 template shader_factory_t& shader_factory_t::set(std::string_view key, const double& value);
 template shader_factory_t& shader_factory_t::set(std::string_view key, const std::string& value);
@@ -65,6 +74,14 @@ template shader_factory_t& shader_factory_t::set(std::string_view key, const glm
 template shader_factory_t& shader_factory_t::set(std::string_view key, const glm::vec2& value);
 template shader_factory_t& shader_factory_t::set(std::string_view key, const glm::vec3& value);
 template shader_factory_t& shader_factory_t::set(std::string_view key, const glm::vec4& value);
+template shader_factory_t& shader_factory_t::set(std::string_view key, const glm::ivec1& value);
+template shader_factory_t& shader_factory_t::set(std::string_view key, const glm::ivec2& value);
+template shader_factory_t& shader_factory_t::set(std::string_view key, const glm::ivec3& value);
+template shader_factory_t& shader_factory_t::set(std::string_view key, const glm::ivec4& value);
+template shader_factory_t& shader_factory_t::set(std::string_view key, const glm::uvec1& value);
+template shader_factory_t& shader_factory_t::set(std::string_view key, const glm::uvec2& value);
+template shader_factory_t& shader_factory_t::set(std::string_view key, const glm::uvec3& value);
+template shader_factory_t& shader_factory_t::set(std::string_view key, const glm::uvec4& value);
 template shader_factory_t& shader_factory_t::set(std::string_view key, const glm::dvec1& value);
 template shader_factory_t& shader_factory_t::set(std::string_view key, const glm::dvec2& value);
 template shader_factory_t& shader_factory_t::set(std::string_view key, const glm::dvec3& value);
