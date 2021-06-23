@@ -3,9 +3,7 @@ add_library(glpp::asset ALIAS asset)
 
 set(glpp-asset-files
     ${CMAKE_CURRENT_LIST_DIR}/src/scene.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/src/importer.cpp
     ${CMAKE_CURRENT_LIST_DIR}/src/light.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/src/mesh.cpp
     ${CMAKE_CURRENT_LIST_DIR}/src/mesh_view.cpp
     ${CMAKE_CURRENT_LIST_DIR}/src/scene_view.cpp
     ${CMAKE_CURRENT_LIST_DIR}/src/depth.cpp
