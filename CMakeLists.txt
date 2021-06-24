@@ -41,6 +41,7 @@ install(EXPORT glppConfig NAMESPACE glpp:: FILE glppTargets.cmake NAMESPACE glpp
 install(FILES glppConfig.cmake DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/glpp)
 install(FILES modules/asset/BlenderExport.cmake DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/glpp)
 install(DIRECTORY ${CMAKE_BINARY_DIR}/vendor/glpp/modules/gl/include/glpp DESTINATION include FILES_MATCHING PATTERN "*.h*")
+install(DIRECTORY ${CMAKE_BINARY_DIR}/vendor/boost_pfr/include/boost DESTINATION include FILES_MATCHING PATTERN "*.h*")
 install(DIRECTORY modules/core/include/glpp DESTINATION include FILES_MATCHING PATTERN "*.h*")
 install(DIRECTORY modules/image/include/glpp DESTINATION cmakincludee FILES_MATCHING PATTERN "*.h*")
 install(DIRECTORY modules/system/include/glpp DESTINATION include FILES_MATCHING PATTERN "*.h*")
