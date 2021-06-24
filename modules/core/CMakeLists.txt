@@ -1,3 +1,5 @@
+add_subdirectory(vendor)
+
 add_library(core STATIC)
 add_library(glpp::core ALIAS core)
 target_include_directories(core PUBLIC
