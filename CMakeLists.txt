@@ -36,7 +36,7 @@ add_custom_target(format
 )
 
 include(GNUInstallDirs)
-install(TARGETS catch_main gl core system stb image testing asset EXPORT glppConfig LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR} )
+install(TARGETS Boost_pfr catch_main gl core system stb image testing asset EXPORT glppConfig LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR} )
 install(EXPORT glppConfig NAMESPACE glpp:: FILE glppTargets.cmake NAMESPACE glpp:: DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/glpp EXPORT_LINK_INTERFACE_LIBRARIES)
 install(FILES glppConfig.cmake DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/glpp)
 install(FILES modules/asset/BlenderExport.cmake DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/glpp)
