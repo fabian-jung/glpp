@@ -1,8 +1,5 @@
 #!/bin/bash
 
-#init virtual screen
-export DISPLAY=:0
-
 #force failure on first error
 set -e
 
