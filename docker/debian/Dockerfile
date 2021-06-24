@@ -11,6 +11,8 @@ RUN apt-get install -y cmake make ninja-build git blender
 
 RUN mkdir /glpp
 RUN mkdir /build
+RUN mkdir /test
+RUN mkdir -p /install/path
 
 WORKDIR /
 
