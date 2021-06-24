@@ -7,7 +7,7 @@ target_include_directories(core PUBLIC
     $<INSTALL_INTERFACE:/usr/local/include>
 )
 
-target_link_libraries(core PUBLIC glpp::gl)
+target_link_libraries(core PUBLIC glpp::gl Boost::pfr)
 
 set(glpp-files
     ${CMAKE_CURRENT_LIST_DIR}/src/camera.cpp
