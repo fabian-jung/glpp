@@ -89,11 +89,7 @@ public:
 
 	void update() {
 		view = glpp::core::render::view_t {
-			model,
-			&vertex_description_t::pos,
-			&vertex_description_t::tex,
-			&vertex_description_t::tex_id,
-			&vertex_description_t::tint
+			model
 		};
 		renderer = {
 			glpp::core::object::shader_t(

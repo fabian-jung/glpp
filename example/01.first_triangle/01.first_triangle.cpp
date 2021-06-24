@@ -89,11 +89,7 @@ int main(
 		glm::vec3{0.0, 1.0, 0.0}
 	);
 
-	render::view_t view(
-		model,
-		&vertex_description_t::position,
-		&vertex_description_t::color
-	);
+	render::view_t view(model);
 
 	glClearColor(0.5,0.0,0.0,1.0);
 	window.enter_main_loop([&]() {

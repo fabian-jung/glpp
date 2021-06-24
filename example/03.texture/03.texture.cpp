@@ -73,9 +73,7 @@ int main(__attribute__((unused)) int argc, __attribute__((unused)) char* argv[])
 	renderer.set_texture("texture_one" , texture_unit_one);
 
 	glpp::core::render::view_t view(
-		model,
-		&vertex_description_t::position,
-		&vertex_description_t::tex
+		model
 	);
 
 	glClearColor(0.2,0.2,0.2,1.0);

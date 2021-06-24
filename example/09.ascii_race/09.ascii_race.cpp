@@ -126,9 +126,7 @@ private:
 					glpp::text::vertical_alignment_t::top
 				},
 				s
-			),
-			&glpp::text::writer_t::vertex_description_t::position,
-			&glpp::text::writer_t::vertex_description_t::tex
+			)
 		};
 		m_renderer.render(view);
 	}

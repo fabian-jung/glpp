@@ -91,9 +91,7 @@ int main(__attribute__((unused)) int argc, __attribute__((unused)) char* argv[])
 		texture_slot_t tex_slot = texture.bind_to_texture_slot();
 		texture_slot_t level_tex_slot = mh.level_texture().bind_to_texture_slot();
 		view_t<quad_model_t> view{
-			quad_model_t{{glm::vec2(1.0/mh.level().width(), 1.0/mh.level().height()), glm::vec2(2.0/mh.level().width(), 2.0/mh.level().height())}},
-			&vertex_description_t::position,
-			&vertex_description_t::tex
+			quad_model_t{{glm::vec2(1.0/mh.level().width(), 1.0/mh.level().height()), glm::vec2(2.0/mh.level().width(), 2.0/mh.level().height())}}
 		};
 	} tile;
 	tile.renderer.set_uniform_name(&tile_uniform_t::bounds, "bounds");
@@ -109,9 +107,7 @@ int main(__attribute__((unused)) int argc, __attribute__((unused)) char* argv[])
 		texture_t texture{image_t<glm::vec3>("Slider.png")};
 		texture_slot_t tex_slot = texture.bind_to_texture_slot();
 		view_t<quad_model_t> view{
-			quad_model_t{{glm::vec2(0, 0), glm::vec2(mh.slider_width(), 0.05)}},
-			&vertex_description_t::position,
-			&vertex_description_t::tex
+			quad_model_t{{glm::vec2(0, 0), glm::vec2(mh.slider_width(), 0.05)}}
 		};
 	} slider;
 	slider.renderer.set_uniform_name(&position_t::position, "position");
@@ -126,9 +122,7 @@ int main(__attribute__((unused)) int argc, __attribute__((unused)) char* argv[])
 		texture_t texture{image_t<glm::vec3>("Ball.png")};
 		texture_slot_t tex_slot = texture.bind_to_texture_slot();
 		view_t<quad_model_t> view{
-			quad_model_t{{glm::vec2(0.0, 0.0), glm::vec2(mh.size(), mh.size())}},
-			&vertex_description_t::position,
-			&vertex_description_t::tex
+			quad_model_t{{glm::vec2(0.0, 0.0), glm::vec2(mh.size(), mh.size())}}
 		};
 	} ball;
 	ball.renderer.set_uniform_name(&position_t::position, "position");

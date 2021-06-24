@@ -203,7 +203,7 @@ TEST_CASE("texture render test", "[core][system][xorg]") {
         {glm::vec3( -1,  1, 0 ), glm::vec2( 0, 1 )}
     };
 
-    const view_t view { model, &vertex_description_t::pos, &vertex_description_t::uv };
+    const view_t view { model };
 
     renderer_t renderer{
         shader_t(
