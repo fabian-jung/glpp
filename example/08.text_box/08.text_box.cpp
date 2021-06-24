@@ -33,9 +33,7 @@ int main() {
 	);
 
 	glpp::core::render::view_t view {
-		model,
-		&glpp::text::writer_t::vertex_description_t::position,
-		&glpp::text::writer_t::vertex_description_t::tex
+		model
 	};
 
 	window.enter_main_loop([&]() {

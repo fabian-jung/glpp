@@ -24,9 +24,7 @@ int main() {
 				glpp::text::vertical_alignment_t::center
 			},
 			std::string("Hello World!")
-		),
-		&glpp::text::writer_t::vertex_description_t::position,
-		&glpp::text::writer_t::vertex_description_t::tex
+		)
 	};
 
 	glClearColor(0.2, 0.2, 0.2, 1.0);

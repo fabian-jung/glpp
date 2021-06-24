@@ -77,8 +77,7 @@ int main(__attribute__((unused)) int argc, __attribute__((unused)) char* argv[])
 	);
 
 	glpp::core::render::view_t view(
-		model,
-		&vertex_description_t::position
+		model
 	);
 
 	window.input_handler().set_keyboard_action(key_t::r, action_t::press, [&](int) {

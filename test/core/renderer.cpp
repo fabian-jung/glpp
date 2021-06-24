@@ -163,7 +163,7 @@ TEST_CASE("renderer_t render screen-quad", "[core][render][xorg]") {
             {glm::vec3( 0, 1, 0 )}
         };
         
-        const view_t view { model, &vertex_description_t::pos };
+        const view_t view { model };
         renderer.render(view);
     }
 
@@ -178,7 +178,7 @@ TEST_CASE("renderer_t render screen-quad", "[core][render][xorg]") {
                 0, 1, 2, 0, 3, 2
             }
         };
-        const view_t view { model, &vertex_description_t::pos };
+        const view_t view { model };
         renderer.render(view);    
     }
     
@@ -193,7 +193,7 @@ TEST_CASE("renderer_t render screen-quad", "[core][render][xorg]") {
                 0, 1, 2, 0, 3, 2
             }
         };
-        const view_t view { model, &vertex_description_t::pos };
+        const view_t view { model };
         renderer.render(view);    
     }
 
@@ -208,7 +208,7 @@ TEST_CASE("renderer_t render screen-quad", "[core][render][xorg]") {
                 0, 1, 2, 0, 3, 2
             }
         };
-        const view_t view { model, &vertex_description_t::pos };
+        const view_t view { model };
         renderer.render(view);    
     }
     const auto result = context.swap_buffer();
@@ -278,7 +278,7 @@ TEST_CASE("renderer_t set_uniform render test", "[core][render][xorg]") {
         {glm::vec3( 0, 1, 0 )}
     };
     
-    const view_t view { model, &vertex_description_t::pos };
+    const view_t view { model };
     renderer.render(view);
     
     const auto result = context.swap_buffer();

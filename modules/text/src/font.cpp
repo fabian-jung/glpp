@@ -132,8 +132,7 @@ glpp::core::object::texture_t font_t::init_texture() const {
 	};
 
 	glpp::core::render::view_t view {
-		model,
-		&vertex_description_t::pos
+		model
 	};
 
 	struct uniform_description_t {

@@ -91,9 +91,7 @@ int main(
 	renderer.set_uniform_name(&scene_uniform_description_t::mvp, "mvp");
 
 	render::view_t view(
-		cube_model_t{{std::make_pair(glm::vec3{0,0,0}, glm::vec3{2, 2, 2})}},
-		&vertex_description_t::position,
-		&vertex_description_t::norm
+		cube_model_t{{std::make_pair(glm::vec3{0,0,0}, glm::vec3{2, 2, 2})}}
 	);
 
 	glClearColor(0.2,0.2,0.2,1.0);

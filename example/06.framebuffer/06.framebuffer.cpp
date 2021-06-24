@@ -58,17 +58,13 @@ int main(
 		cube_model_t{
 			{{0,0,0},  {2,2,2}},
 			{{0,-1,0},  {20,0,20}}
-		},
-		&cube_vertex_description_t::position,
-		&cube_vertex_description_t::norm
+		}
 	);
 
 	render::view_t screen_quad{
 		quad_model_t{
 			{{0,0}, {2, 2}}
-		},
-		&quad_vertex_description_t::position,
-		&quad_vertex_description_t::tex
+		}
 	};
 
 	glClearColor(0.2,0.2,0.2,1.0);
