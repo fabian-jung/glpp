@@ -14,6 +14,8 @@ RUN update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-11 50
 
 RUN mkdir /glpp
 RUN mkdir /build
+RUN mkdir /test
+RUN mkdir -p /install/path
 
 WORKDIR /
 
