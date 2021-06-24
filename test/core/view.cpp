@@ -172,6 +172,36 @@ TEST_CASE("view_t construction and destruction", "[core][unit]") {
         REQUIRE(call_set_buffer_data == 2);
     }
 
+    SECTION("Non instanced view without buffer specification") {
+        {
+            view_t view { model_data };
+
+            const view_t view2 = std::move(view);
+        }
+        REQUIRE(call_create_buffer == 1);
+        REQUIRE(call_delete_buffer == 1);
+        REQUIRE(call_set_buffer_data == 1);
+
+    }
+
+    SECTION("Instanced view without buffer specification") {
+        {
+            instanced = true;
+            view_t view {
+                indexed_model_t { 
+                    model_data,
+                    indicies
+                }
+            };
+
+            const view_t view2 = std::move(view);
+        }
+
+        REQUIRE(call_create_buffer == 2);
+        REQUIRE(call_delete_buffer == 2);
+        REQUIRE(call_set_buffer_data == 2);
+    }
+
     REQUIRE(call_create_vao == 1);
     REQUIRE(call_delete_vao == 1);
 
