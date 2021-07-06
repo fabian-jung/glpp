@@ -16,7 +16,7 @@ build_fn() {
 }
 
 test_fn() {
-	ctest
+	ctest --output-on-failure
 }
 
 install_fn() {
@@ -48,7 +48,7 @@ EOF
 	cd build
 	cmake ..  -DCMAKE_CXX_COMPILER="$CXX" -DCMAKE_C_COMPILER="$CC"
 	make -j
-	ctest
+	ctest --output-on-failure
 }
 
 if [[ "$2" == "clang" ]]; then
