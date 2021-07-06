@@ -40,7 +40,7 @@ if(EXISTS ${blender_executable})
             COMMENT "Generate FBX ${CMAKE_CURRENT_BINARY_DIR}/${blend_base}.${format}"
             MAIN_DEPENDENCY ${blend_file}
         )
-        add_custom_target(${blend_base}.${format} DEPENDS ${output_path})
-        add_dependencies(blender_converter ${blend_base}.${format})
+        add_custom_target(${blend_base}.${format}.target DEPENDS ${output_path})
+        add_dependencies(blender_converter ${blend_base}.${format}.target)
     endfunction()
 endif()
