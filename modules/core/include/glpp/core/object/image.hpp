@@ -325,8 +325,8 @@ constexpr image_t<T>::image_t(const image_t<U>& conv) :
 		conv.begin(),
 		conv.end(),
 		begin(),
-		[](auto u) {
-			if constexpr (std::is_arithmetic_v<decltype(u)>) {
+		[](U u) {
+			if constexpr (std::is_arithmetic_v<U>) {
 				return convert_pixel_format<U, T>(u);
 			} else {
 				T result;

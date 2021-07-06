@@ -32,39 +32,44 @@ public:
 
 private:
 	bool armed = false;
-	auto init_child(Child c) {
-		return mouse_action_t {
-			std::move(c),
-			[&](mouse_event_t::press_t, glm::vec2){
-				armed = true;
-				press(child());
-			},
-			[&](mouse_event_t::release_t, glm::vec2){
-				if(armed) {
-					action();
-					release(child());
-				}
-			},
-			[&](mouse_event_t::enter_t, glm::vec2){
-				if(!armed) {
-					enter(child());
-				}
-			},
-			[&](mouse_event_t::exit_t, glm::vec2){
-				if(!armed) {
-					exit(child());
-				}
-			},
-			[&](mouse_event_t::remote_release_t) {
-				if(armed) {
-					release(child());
-					exit(child());
-				}
-			}
-		};
-	}
 
-	using child_t = decltype(std::declval<button_t>().init_child(std::declval<Child>()));
+	struct action_t {
+		button_t& button;
+		bool armed = false;
+
+		void operator()(mouse_event_t::press_t, glm::vec2){
+			armed = true;
+			button.press(button.child());
+		}
+
+		void operator()(mouse_event_t::release_t, glm::vec2){
+			if(armed) {
+				button.action();
+				button.release(button.child());
+			}
+		}
+
+		void operator()(mouse_event_t::enter_t, glm::vec2){
+			if(!armed) {
+				button.enter(button.child());
+			}
+		}
+
+		void operator()(mouse_event_t::exit_t, glm::vec2){
+			if(!armed) {
+				button.exit(button.child());
+			}
+		}
+
+		void operator()(mouse_event_t::remote_release_t) {
+			if(armed) {
+				button.release(button.child());
+				button.exit(button.child());
+			}
+		}
+	};
+
+	using child_t = mouse_action_t<Child, action_t>;
 	child_t m_child;
 
 public:
@@ -74,7 +79,7 @@ public:
 		exit(cpy.exit),
 		press(cpy.press),
 		release(cpy.release),
-		m_child(init_child(cpy.child()))
+		m_child(cpy.child(), action_t{*this})
 	{}
 
 	button_t(
@@ -90,7 +95,7 @@ public:
 		exit(std::move(exit)),
 		press(std::move(press)),
 		release(std::move(release)),
-		m_child(init_child(std::move(c)))
+		m_child(std::move(c), action_t{*this})
 	{}
 
 	using base_t = decltype(m_child);

@@ -33,6 +33,7 @@ find_package(OpenGL REQUIRED COMPONENTS OpenGL)
 
 add_library(gl)
 add_library(glpp::gl ALIAS gl)
+target_compile_features(gl PUBLIC cxx_std_20)
 
 option(glew_enabled "Load dynamic opengl functions with glew (experimental feature, untested)" OFF)
 

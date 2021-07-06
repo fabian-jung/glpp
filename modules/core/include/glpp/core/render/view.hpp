@@ -43,7 +43,16 @@ struct view_base_t<Model> {
 	glpp::core::object::vertex_array_t m_vao;
 	glpp::core::object::buffer_t<index_t> m_indicies;
 	
-	explicit view_base_t(const Model& model);
+	explicit view_base_t(const Model& model) :
+		m_indicies(
+			glpp::core::object::buffer_target_t::element_array_buffer,
+			m_traits::indicies(model).data(),
+			m_traits::indicies(model).size()*sizeof(index_t),
+			glpp::core::object::buffer_usage_t::static_draw
+		)
+	{
+		m_vao.bind_buffer(m_indicies);
+	}
 
 };
 
@@ -102,17 +111,17 @@ view_t(const Model& model, T model_traits<Model>::attribute_description_t::* ...
  * Implementation
  */
 
-template <InstancedModel Model>
-view_base_t<Model>::view_base_t(const Model& model) :
-	m_indicies(
-		glpp::core::object::buffer_target_t::element_array_buffer,
-		m_traits::indicies(model).data(),
-		m_traits::indicies(model).size()*sizeof(index_t),
-		glpp::core::object::buffer_usage_t::static_draw
-	)
-{
-	m_vao.bind_buffer(m_indicies);
-}
+// template <InstancedModel Model>
+// view_base_t<Model>::view_base_t(const Model& model) :
+// 	m_indicies(
+// 		glpp::core::object::buffer_target_t::element_array_buffer,
+// 		m_traits::indicies(model).data(),
+// 		m_traits::indicies(model).size()*sizeof(index_t),
+// 		glpp::core::object::buffer_usage_t::static_draw
+// 	)
+// {
+// 	m_vao.bind_buffer(m_indicies);
+// }
 
 template <class Model, view_primitives_t primitive>
 template <class model_t, class... T>
@@ -147,7 +156,7 @@ template <class Model, view_primitives_t primitive>
 void view_t<Model, primitive>::draw() const {
 	m_vao.bind();
 	if constexpr(model_traits_t::instanced()) {
-		using index_t = model_traits<Model>::index_t;
+		using index_t = typename model_traits<Model>::index_t;
 		constexpr auto index_enum = object::attribute_properties<index_t>::type;
 		static_assert(
 			index_enum == GL_UNSIGNED_BYTE ||
@@ -165,7 +174,7 @@ template <class Model, view_primitives_t primitive>
 void view_t<Model, primitive>::draw_instanced(size_t count) const {
 	m_vao.bind();
 	if constexpr(model_traits_t::instanced()) {
-		using index_t = model_traits<Model>::index_t;
+		using index_t = typename model_traits<Model>::index_t;
 		constexpr auto index_enum = object::attribute_properties<index_t>::type;
 		static_assert(
 			index_enum == GL_UNSIGNED_BYTE ||
@@ -190,11 +199,18 @@ constexpr GLintptr view_t<Model, primitive>::offset(T attribute_description_t::*
 template <class Model, view_primitives_t primitive>
 template <size_t N>
 constexpr GLintptr view_t<Model, primitive>::offset() {
-	return reinterpret_cast<GLintptr>(
-		&(boost::pfr::get<N>(
-			*reinterpret_cast<attribute_description_t*>(0)
-		))
-	);
+	constexpr attribute_description_t attrib {};
+
+	return 
+		reinterpret_cast<GLintptr>(
+			&(boost::pfr::get<N>(attrib))
+		) -
+		reinterpret_cast<GLintptr>(&attrib);
+	// return reinterpret_cast<GLintptr>(
+	// 	&(boost::pfr::get<N>(
+	// 		*reinterpret_cast<attribute_description_t*>(0)
+	// 	))
+	// );
 }
 
 template <class Model, view_primitives_t primitive>
