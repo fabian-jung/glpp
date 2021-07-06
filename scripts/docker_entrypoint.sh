@@ -5,12 +5,13 @@ export DISPLAY=:0
 
 info_fn() {
 	uname -a
+	echo "CC=$CC, CXX=$CXX"
 }
 
 build_fn() {
 	echo "build stage"
 	cd /build
-	cmake /glpp
+	cmake /glpp -DCMAKE_CXX_COMPILER="$CXX" -DCMAKE_C_COMPILER="$CC"
 	make -j
 }
 
@@ -45,10 +46,19 @@ EOF
 	mkdir build
 
 	cd build
-	cmake ..
+	cmake ..  -DCMAKE_CXX_COMPILER="$CXX" -DCMAKE_C_COMPILER="$CC"
 	make -j
 	ctest
 }
+
+if [[ "$2" == "clang" ]]; then
+	CC="clang";
+	CXX="clang++";
+else
+	CC="gcc";
+	CXX="g++";
+fi
+
 
 if [[ "$1" == "info" ]]; then
 	info_fn
