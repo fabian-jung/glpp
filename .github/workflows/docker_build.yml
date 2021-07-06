@@ -1,0 +1,41 @@
+name: Docker build pipeline
+
+on:
+  schedule:
+    - cron: 0 2 * * 1
+
+  pull_request:
+    branches: [ master ]
+    paths:
+      - 'docker/**'
+      - '.github/workflows/docker_build.yml'
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        os: [ubuntu]
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Log in to the Container registry
+        uses: docker/login-action@f054a8b539a109f9f41c372932f1ae047eff08c9
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
+        with:
+          context: docker/${{ matrix.os }}
+          push: true
+          tags:  ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}/build-${{ matrix.os }}
+          # labels: ${{ steps.meta.outputs.labels }}
