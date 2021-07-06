@@ -34,6 +34,9 @@ struct indexed_model_t {
 	std::vector<Index> indicies;
 };
 
+template <class Attribute_Description, class Index>
+indexed_model_t(model_t<Attribute_Description>, std::vector<Index>) -> indexed_model_t<Attribute_Description, Index>;
+
 template <class Attribute_Description>
 model_traits(const model_t<Attribute_Description>&) -> model_traits<model_t<Attribute_Description>>;
 
