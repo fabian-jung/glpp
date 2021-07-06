@@ -13,13 +13,18 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
+    strategy:
+      matrix:
+        compiler: [gcc, clang]
+        os: [ubuntu]
+        
     steps:
     - uses: actions/checkout@v2
     
     - name: Pull ubuntu runtime container
       run: |
-        docker pull docker.io/gitfabianj/glpp-ubuntu:latest
+        docker pull docker.io/gitfabianj/glpp-${{ matrix.os }}:latest
         
     - name: build and test
       run: |
-        docker run --mount src="$(pwd)",target=/glpp,type=bind,readonly gitfabianj/glpp-ubuntu:latest test
+        docker run --mount src="$(pwd)",target=/glpp,type=bind,readonly gitfabianj/glpp-ubuntu:latest test ${{ matrix.compiler }}
