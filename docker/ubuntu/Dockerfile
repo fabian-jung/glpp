@@ -14,7 +14,7 @@ RUN apt-get install -y git
 RUN apt-get install -y libglapi-mesa
 
 # Install dependencies
-RUN apt-get install -y libglfw3-dev libglew-dev libglm-dev catch2 libassimp-dev libfreetype-dev libboost-dev pkgconf
+RUN apt-get install -y libglfw3-dev libglew-dev libglm-dev catch2 libassimp-dev libfreetype-dev libfmt-dev libboost-dev pkgconf
 RUN apt-get install -y blender
 RUN apt-get install -y cmake make ninja-build git
 
