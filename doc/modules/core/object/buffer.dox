@@ -1,0 +1,95 @@
+/**
+\file glpp/core/object/buffer.hpp
+@brief A Documented file.
+*/
+
+/**
+@brief todo buffer_target_t
+
+Detailed todo buffer_target_t
+@enum glpp::core::object::buffer_target_t
+*/
+
+/**
+@brief todo buffer_usage_t
+
+Detailed todo buffer_usage_t
+@enum glpp::core::object::buffer_usage_t
+*/
+
+
+/**
+@brief brief description of buffer_t
+
+Detailed description of buffer_t
+@class glpp::core::object::buffer_t
+*/
+
+
+/**
+@brief Default constructor of buffer_t
+
+Detailed description of buffer_t
+
+@fn glpp::core::object::buffer_t::buffer_t()
+*/
+
+/**
+@brief buffer_t is non copyable.
+@fn glpp::core::object::buffer_t::buffer_t(const buffer_t& cpy) = delete;
+*/
+
+/**
+@brief buffer_t is non copyable.
+@fn	glpp::core::object::buffer_t::buffer_t& glpp::core::object::buffer_t::operator=(const buffer_t& cpy) = delete;
+*/
+
+/**
+@brief move constructor
+Constructs a buffer_t object using contents of mov. After move the mov object is in an invalid state. All access other then destruction and reassignment will be undefined behaviour.
+@fn	glpp::core::object::buffer_t::buffer_t(glpp::core::object::buffer_t&& mov) noexcept = default;
+*/
+
+/**
+@brief move assignment
+Assign a buffer_t object using contents of mov. After move the mov object is in an invalid state. All access other then destruction and reassignment will be undefined behaviour.
+@return Reference to itself.
+@fn	glpp::core::object::buffer_t& glpp::core::object::buffer_t::operator=(glpp::core::object::buffer_t&& mov) noexcept = default;
+*/
+
+/**
+@brief move assignment operator
+@fn	glpp::core::object::buffer_t::buffer_t(glpp::core::object::buffer_target_t target, const T* data, size_t size, glpp::core::object::buffer_usage_t usage);
+*/	
+	
+/**
+@brief bind buffer
+Bind buffer to active vertex array object in the OpenGL state machiene.
+@fn	void glpp::core::object::buffer_t::bind() const;
+*/
+	
+/**
+@brief Read values from the buffer
+Get the values saved in the buffer from the GPU back to CPU memory.
+@return std::vector<T> of values
+@fn	std::vector<T> glpp::core::object::buffer_t::read() const;
+*/
+	
+/**
+@brief Read values from the buffer
+Get the values saved in the buffer from the GPU back to CPU memory.
+@param [out] data location where the values are copied to. The provided memory location must be at least size() elements long.
+@fn	void glpp::core::object::buffer_t::read(T* data) const;
+*/
+
+/**
+@brief Number of elements in buffer.
+@return Number of elements saved in buffer.
+@fn	size_t glpp::core::object::buffer_t::size() const ;
+*/
+
+/**
+@brief returns the buffer target of the underlying OpenGL buffer.
+@return buffer target
+@fn	glpp::core::object::buffer_target_t glpp::core::object::buffer_t::target() const;
+*/

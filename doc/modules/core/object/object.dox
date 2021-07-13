@@ -1,0 +1,5 @@
+/**
+@defgroup object glpp::core::object
+@namespace glpp::core::object
+glpp::core::object namespace
+*/
