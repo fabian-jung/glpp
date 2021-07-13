@@ -51,6 +51,13 @@ EOF
 	ctest --output-on-failure
 }
 
+build_doc() {
+	echo "build documentation"
+	cd /build
+	cmake /glpp -DCMAKE_CXX_COMPILER="$CXX" -DCMAKE_C_COMPILER="$CC"
+	make doc
+}
+
 if [[ "$2" == "clang" ]]; then
 	CC="clang";
 	CXX="clang++";
@@ -69,7 +76,8 @@ elif [[ "$1" == "test" ]]; then
 	test_fn
 	install_fn
 	post_install_test_fn
-
+elif [[ "$1" == "doc" ]]; then
+	build_doc
 elif [[ "$1" == "bash" ]]; then
 	/bin/bash
 else

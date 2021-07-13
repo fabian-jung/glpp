@@ -35,6 +35,11 @@ add_custom_target(format
 	COMMAND clang-format -i ${GLPP_FORMAT_SET}
 )
 
+add_custom_target(doc
+	COMMAND poxy ${CMAKE_SOURCE_DIR}
+	WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
+)
+
 include(GNUInstallDirs)
 install(TARGETS Boost_pfr catch_main gl core system stb image testing asset EXPORT glppConfig LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR} )
 install(EXPORT glppConfig NAMESPACE glpp:: FILE glppTargets.cmake NAMESPACE glpp:: DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/glpp EXPORT_LINK_INTERFACE_LIBRARIES)
