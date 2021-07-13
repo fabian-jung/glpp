@@ -1,0 +1,68 @@
+# this is a config file for Poxy - a Doxygen + m.css front-end written in Python.
+# https://github.com/marzer/poxy
+
+name              = 'glpp'
+author            = 'Fabian Jung'
+description       = 'An OpenGL Wrapper library for modern C++.'
+cpp               = 20
+github            = 'fabian-jung/glpp'
+private_repo      = false
+license           = [ 'MIT', 'https://github.com/fabian-jung/glpp/blob/master/LICENSE' ]
+show_includes     = false
+logo              = 'doc/images/favicon-dark.svg'
+favicon           = 'doc/images/favicon.svg'
+navbar            = [ 'namespaces', 'annotated' ]
+theme             = 'dark'
+# extra_files       = [
+#    'images/banner_small.png',
+#    'images/badge-awesome.svg',
+#    'images/badge-TOML.svg',
+#    'images/badge-C++20.svg'
+#]
+
+
+
+[warnings]
+enabled           = true
+treat_as_errors   = false
+undocumented      = true
+
+
+
+[sources]
+paths             = [ 'doc/pages' ]
+recursive_paths   = [ 'modules', 'doc/modules' ]
+patterns          = [ '*.h', '*.hpp', '*.dox' ]
+# strip_paths       = [ '../include' ]
+
+
+
+[images]
+paths             = [ 'doc/images' ]
+
+# [macros]
+# [meta_tags]
+# [code_blocks]
+
+[badges]
+'1. C++20'        = [
+    'badge-C++20.svg',
+    'https://en.cppreference.com/w/cpp/compiler_support'
+ ]
+'2. TOML v1.0.0'  = [
+    'badge-TOML.svg',
+    'https://toml.io/en/v1.0.0'
+]
+'3. Github Actions'     = [
+    'https://img.shields.io/github/workflow/status/fabian-jung/glpp/Ubuntu%20Platform%20Test/master?label=build&logo=Github%20Actions&logoColor=%23ffffff',
+    'https://github.com/fabian-jung/glpp/actions'
+]
+
+[autolinks]
+'(?:toml::)?parse[_ ]results?'      = 'classtoml_1_1parse__result.html'
+'(?:toml::)?parse[_ ]errors?'       = 'classtoml_1_1parse__error.html'
+'(?:toml::)?node[_ ]views?'         = 'classtoml_1_1node__view.html'
+'(?:toml::)?json[_ ]formatters?'    = 'classtoml_1_1json__formatter.html'
+'(?:toml::)?default[_ ]formatters?' = 'classtoml_1_1default__formatter.html'
+'(?:toml::)?source[_ ]positions?'   = 'structtoml_1_1source__position.html'
+'(?:toml::)?source[_ ]regions?'     = 'structtoml_1_1source__region.html'
