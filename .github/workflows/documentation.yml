@@ -22,10 +22,11 @@ jobs:
         
     - name: build
       run: |
-        docker run --mount src="$(pwd)",target=/glpp,type=bind,readonly ghcr.io/fabian-jung/glpp/build-ubuntu:latest doc
+        mkdir build
+        docker run --mount src="$(pwd)",target=/glpp,type=bind,readonly --mount src="$(pwd)/build",target=/build,type=bind ghcr.io/fabian-jung/glpp/build-ubuntu:latest doc
     
     - name: deploy
-      run: |
-        echo "not implemented"
-        
-
+      uses: JamesIves/github-pages-deploy-action@4.1.4
+      with:
+        branch: gh-pages
+        folder: build/html
