@@ -1,0 +1,31 @@
+/**
+
+\mainpage glpp
+\tableofcontents
+
+ \section mainpage-features Features
+ - feature 1
+ - feature 2
+ - feature 3
+
+ \section mainpage-example Basic examples
+
+ \subsection mainpage-example-first first example
+
+lorem ipsum
+
+ \cpp
+ #include <iostream>
+
+ int main(int argc, char** argv)
+ {
+    std::cout << "Hello World!" << std::endl;
+ 	return 0;
+ }
+
+ \ecpp
+
+ \see
+ 	- glpp::core::object::buffer_t
+
+*/
