@@ -34,4 +34,4 @@ jobs:
         
     - name: build and test
       run: |
-        docker run --mount src="$(pwd)",target=/glpp,type=bind,readonly gitfabianj/glpp-ubuntu:latest test ${{ matrix.compiler }}
+        docker run --mount src="$(pwd)",target=/glpp,type=bind,readonly ghcr.io/fabian-jung/glpp/build-${{ matrix.os }}:latest test ${{ matrix.compiler }}
