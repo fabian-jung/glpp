@@ -22,7 +22,7 @@ jobs:
         
     - name: build
       run: |
-        docker run --mount src="$(pwd)",target=/glpp,type=bind,readonly gitfabianj/glpp-ubuntu:latest doc
+        docker run --mount src="$(pwd)",target=/glpp,type=bind,readonly ghcr.io/fabian-jung/glpp/build-ubuntu:latest doc
     
     - name: deploy
       run: |
