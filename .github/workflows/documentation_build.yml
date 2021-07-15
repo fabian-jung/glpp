@@ -1,0 +1,22 @@
+name: Documentation build
+on:
+  pull_request:
+    branches: [ master ]
+
+env:
+  BUILD_TYPE: Release
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    
+    - name: Pull ubuntu runtime container
+      run: |
+        docker pull ghcr.io/fabian-jung/glpp/build-ubuntu:latest
+        
+    - name: build
+      run: |
+        docker run --mount src="$(pwd)",target=/glpp,type=bind ghcr.io/fabian-jung/glpp/build-ubuntu:latest doc

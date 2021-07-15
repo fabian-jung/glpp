@@ -1,9 +1,7 @@
-name: Documentation build and deploy
+name: Documentation deploy
 
 on:
   push:
-    branches: [ master ]
-  pull_request:
     branches: [ master ]
 
 env:
@@ -14,7 +12,8 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
+    - name: Check out repository
+      uses: actions/checkout@v2
     
     - name: Pull ubuntu runtime container
       run: |
@@ -24,6 +23,7 @@ jobs:
       run: |
         mkdir build
         docker run --mount src="$(pwd)",target=/glpp,type=bind --mount src="$(pwd)/build",target=/build,type=bind ghcr.io/fabian-jung/glpp/build-ubuntu:latest doc
+        sudo rm build/html/glpp.tagfile.xml
     
     - name: deploy
       uses: JamesIves/github-pages-deploy-action@4.1.4
