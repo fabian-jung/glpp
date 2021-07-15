@@ -1,0 +1,5 @@
+/**
+@defgroup render glpp::core::render
+@namespace glpp::core::render
+glpp::core::render namespace
+*/
