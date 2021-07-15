@@ -60,7 +60,7 @@
           <div class="m-doc-template">template&lt;class T = float&gt;</div>
           <span class="m-breadcrumb"><a href="namespaceglpp.html">glpp</a>::<wbr/></span><span class="m-breadcrumb"><a href="namespaceglpp_1_1core.html">core</a>::<wbr/></span><span class="m-breadcrumb"><a href="namespaceglpp_1_1core_1_1object.html">object</a>::<wbr/></span>buffer_t <span class="m-thin">class</span>
         </h1>
-        <p>brief description of <a class="m-doc" href="classglpp_1_1core_1_1object_1_1buffer__t.html">buffer_<wbr/>t</a></p>
+        <p>class for creating and managing buffers in OpenGL</p>
         <div class="m-block m-default poxy-toc">
           <h3>Contents</h3>
           <ul>
@@ -73,7 +73,7 @@
             </li>
           </ul>
         </div>
-<p>Detailed description of <a class="m-doc" href="classglpp_1_1core_1_1object_1_1buffer__t.html">buffer_<wbr/>t</a></p>
+<p><a class="m-doc" href="classglpp_1_1core_1_1object_1_1buffer__t.html">buffer_<wbr/>t</a> is a storage class for OpenGL buffers, that creates, owns and manages buffer objects.</p>
         <section id="typeless-methods">
           <h2><a href="#typeless-methods">Constructors, destructors, conversion operators</a></h2>
           <dl class="m-doc">
@@ -89,13 +89,13 @@
               <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ae16ac3c302a1651fa7676a7139a51948">buffer_t</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="classglpp_1_1core_1_1object_1_1buffer__t.html">buffer_<wbr/>t</a>&amp;&amp; mov) <span class="m-label m-flat m-info">defaulted</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>move constructor Constructs a <a class="m-doc" href="classglpp_1_1core_1_1object_1_1buffer__t.html">buffer_<wbr/>t</a> object using contents of mov. After move the mov object is in an invalid state. All access other then destruction and reassignment will be undefined behaviour.</dd>
-            <dt id="a166e2e31a956cc4059b8844bad7f2166">
-              <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a166e2e31a956cc4059b8844bad7f2166">buffer_t</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="namespaceglpp_1_1core_1_1object.html#a7678d15ca7407caa0697d8f6b83e9622">buffer_<wbr/>target_<wbr/>t</a> target,
+            <dt>
+              <span class="m-doc-wrap-bumper"><a class="m-doc" href="#a166e2e31a956cc4059b8844bad7f2166">buffer_t</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="namespaceglpp_1_1core_1_1object.html#a7678d15ca7407caa0697d8f6b83e9622">buffer_<wbr/>target_<wbr/>t</a> target,
               const T* data,
               <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> size,
               <a class="m-doc" href="namespaceglpp_1_1core_1_1object.html#ac0b071d09fc4d63897acc8867c3cafd5">buffer_<wbr/>usage_<wbr/>t</a> usage)</span>
             </dt>
-            <dd>move assignment operator</dd>
+            <dd>constructor for <a class="m-doc" href="classglpp_1_1core_1_1object_1_1buffer__t.html">buffer_<wbr/>t</a></dd>
           </dl>
         </section>
         <section id="pub-methods">
@@ -141,7 +141,43 @@
               <span class="m-doc-wrap-bumper"> glpp::<wbr/>core::<wbr/>object::<wbr/>buffer_t&lt;T&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a76272f293224d9d7f57bca9cd0e15453">buffer_t</a>(</span><span class="m-doc-wrap">)</span></span>
             </h3>
             <p>Default constructor of <a class="m-doc" href="classglpp_1_1core_1_1object_1_1buffer__t.html">buffer_<wbr/>t</a>.</p>
-<p>Detailed description of <a class="m-doc" href="classglpp_1_1core_1_1object_1_1buffer__t.html">buffer_<wbr/>t</a></p>
+<p>The default constructor will allocate an empty buffer in the OpenGL state machine for later use.</p>
+          </div></section>
+          <section class="m-doc-details" id="a166e2e31a956cc4059b8844bad7f2166"><div>
+            <h3>
+              <div class="m-doc-template">
+                template&lt;class T&gt;
+              </div>
+              <span class="m-doc-wrap-bumper"> glpp::<wbr/>core::<wbr/>object::<wbr/>buffer_t&lt;T&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a166e2e31a956cc4059b8844bad7f2166">buffer_t</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="namespaceglpp_1_1core_1_1object.html#a7678d15ca7407caa0697d8f6b83e9622">buffer_<wbr/>target_<wbr/>t</a> target,
+              const T* data,
+              <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> size,
+              <a class="m-doc" href="namespaceglpp_1_1core_1_1object.html#ac0b071d09fc4d63897acc8867c3cafd5">buffer_<wbr/>usage_<wbr/>t</a> usage)</span></span>
+            </h3>
+            <p>constructor for <a class="m-doc" href="classglpp_1_1core_1_1object_1_1buffer__t.html">buffer_<wbr/>t</a></p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">target</td>
+                  <td>[in] target type of the buffer</td>
+                </tr>
+                <tr>
+                  <td>data</td>
+                  <td>[in] pointer to buffer holding data, that should be sent to the gpu.</td>
+                </tr>
+                <tr>
+                  <td>size</td>
+                  <td>[in] size of data that should be sent to the gpu in bytes</td>
+                </tr>
+                <tr>
+                  <td>usage</td>
+                  <td>[in] usage hint for performance optimization by the gpu driver</td>
+                </tr>
+              </tbody>
+            </table>
+<p>This constructor will create a buffer object, set its properties and copies the data from cpu memory to gpu memory.</p>
           </div></section>
           <section class="m-doc-details" id="a98aa45fa1a23c6013a4838fcec91d580"><div>
             <h3>

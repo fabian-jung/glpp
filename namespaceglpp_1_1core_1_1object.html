@@ -79,59 +79,42 @@
               <div class="m-doc-template">template&lt;class T = float&gt;</div>
               class <a class="m-doc" href="classglpp_1_1core_1_1object_1_1buffer__t.html">buffer_t</a>
             </dt>
-            <dd>brief description of <a class="m-doc" href="classglpp_1_1core_1_1object_1_1buffer__t.html">buffer_<wbr/>t</a></dd>
+            <dd>class for creating and managing buffers in OpenGL</dd>
           </dl>
         </section>
         <section id="enum-members">
           <h2><a href="#enum-members">Enums</a></h2>
           <dl class="m-doc">
-            <dt id="79c79a1c8efa757b290e7e7c15c78137a9d861f5e5c2a00d71d0f99caccb0739">
-              <span class="m-doc-wrap-bumper">enum class <a class="m-doc" href="#a7678d15ca7407caa0697d8f6b83e9622">buffer_target_t</a>: GLenum { </span><span class="m-doc-wrap"><a class="m-doc-self" href="#79c79a1c8efa757b290e7e7c15c78137a9d861f5e5c2a00d71d0f99caccb0739">array_buffer</a> = GL_ARRAY_BUFFER,
-              <a class="m-doc-self" href="#79c79a1c8efa757b290e7e7c15c78137a9d861f5e5c2a00d71d0f99caccb0739">atomic_counter_buffer</a> = GL_ATOMIC_COUNTER_BUFFER,
-              <a class="m-doc-self" href="#79c79a1c8efa757b290e7e7c15c78137a9d861f5e5c2a00d71d0f99caccb0739">copy_read_buffer</a> = GL_COPY_READ_BUFFER,
-              <a class="m-doc-self" href="#79c79a1c8efa757b290e7e7c15c78137a9d861f5e5c2a00d71d0f99caccb0739">copy_write_buffer</a> = GL_COPY_WRITE_BUFFER,
-              <a class="m-doc-self" href="#79c79a1c8efa757b290e7e7c15c78137a9d861f5e5c2a00d71d0f99caccb0739">dispatch_indirect_buffer</a> = GL_DISPATCH_INDIRECT_BUFFER,
-              <a class="m-doc-self" href="#79c79a1c8efa757b290e7e7c15c78137a9d861f5e5c2a00d71d0f99caccb0739">draw_indirect_buffer</a> = GL_DRAW_INDIRECT_BUFFER,
-              <a class="m-doc-self" href="#79c79a1c8efa757b290e7e7c15c78137a9d861f5e5c2a00d71d0f99caccb0739">element_array_buffer</a> = GL_ELEMENT_ARRAY_BUFFER,
-              <a class="m-doc-self" href="#79c79a1c8efa757b290e7e7c15c78137a9d861f5e5c2a00d71d0f99caccb0739">pixel_pack_buffer</a> = GL_PIXEL_PACK_BUFFER,
-              <a class="m-doc-self" href="#79c79a1c8efa757b290e7e7c15c78137a9d861f5e5c2a00d71d0f99caccb0739">pixel_unpack_buffer</a> = GL_PIXEL_UNPACK_BUFFER,
-              <a class="m-doc-self" href="#79c79a1c8efa757b290e7e7c15c78137a9d861f5e5c2a00d71d0f99caccb0739">query_buffer</a> = GL_QUERY_BUFFER,
-              <a class="m-doc-self" href="#79c79a1c8efa757b290e7e7c15c78137a9d861f5e5c2a00d71d0f99caccb0739">shader_storage_buffer</a> = GL_SHADER_STORAGE_BUFFER,
-              <a class="m-doc-self" href="#79c79a1c8efa757b290e7e7c15c78137a9d861f5e5c2a00d71d0f99caccb0739">texture_buffer</a> = GL_TEXTURE_BUFFER,
-              <a class="m-doc-self" href="#79c79a1c8efa757b290e7e7c15c78137a9d861f5e5c2a00d71d0f99caccb0739">transform_feedback_buffer</a> = GL_TRANSFORM_FEEDBACK_BUFFER,
-              <a class="m-doc-self" href="#79c79a1c8efa757b290e7e7c15c78137a9d861f5e5c2a00d71d0f99caccb0739">uniform_buffer</a> = GL_UNIFORM_BUFFER }</span>
+            <dt id="a7678d15ca7407caa0697d8f6b83e9622">
+              <span class="m-doc-wrap-bumper">enum class <a class="m-doc-self" href="#a7678d15ca7407caa0697d8f6b83e9622">buffer_target_t</a>: GLenum { </span><span class="m-doc-wrap"><a class="m-doc-self" href="#a7678d15ca7407caa0697d8f6b83e9622">array_buffer</a> = GL_ARRAY_BUFFER,
+              <a class="m-doc-self" href="#a7678d15ca7407caa0697d8f6b83e9622">atomic_counter_buffer</a> = GL_ATOMIC_COUNTER_BUFFER,
+              <a class="m-doc-self" href="#a7678d15ca7407caa0697d8f6b83e9622">copy_read_buffer</a> = GL_COPY_READ_BUFFER,
+              <a class="m-doc-self" href="#a7678d15ca7407caa0697d8f6b83e9622">copy_write_buffer</a> = GL_COPY_WRITE_BUFFER,
+              <a class="m-doc-self" href="#a7678d15ca7407caa0697d8f6b83e9622">dispatch_indirect_buffer</a> = GL_DISPATCH_INDIRECT_BUFFER,
+              <a class="m-doc-self" href="#a7678d15ca7407caa0697d8f6b83e9622">draw_indirect_buffer</a> = GL_DRAW_INDIRECT_BUFFER,
+              <a class="m-doc-self" href="#a7678d15ca7407caa0697d8f6b83e9622">element_array_buffer</a> = GL_ELEMENT_ARRAY_BUFFER,
+              <a class="m-doc-self" href="#a7678d15ca7407caa0697d8f6b83e9622">pixel_pack_buffer</a> = GL_PIXEL_PACK_BUFFER,
+              <a class="m-doc-self" href="#a7678d15ca7407caa0697d8f6b83e9622">pixel_unpack_buffer</a> = GL_PIXEL_UNPACK_BUFFER,
+              <a class="m-doc-self" href="#a7678d15ca7407caa0697d8f6b83e9622">query_buffer</a> = GL_QUERY_BUFFER,
+              <a class="m-doc-self" href="#a7678d15ca7407caa0697d8f6b83e9622">shader_storage_buffer</a> = GL_SHADER_STORAGE_BUFFER,
+              <a class="m-doc-self" href="#a7678d15ca7407caa0697d8f6b83e9622">texture_buffer</a> = GL_TEXTURE_BUFFER,
+              <a class="m-doc-self" href="#a7678d15ca7407caa0697d8f6b83e9622">transform_feedback_buffer</a> = GL_TRANSFORM_FEEDBACK_BUFFER,
+              <a class="m-doc-self" href="#a7678d15ca7407caa0697d8f6b83e9622">uniform_buffer</a> = GL_UNIFORM_BUFFER }</span>
             </dt>
-            <dd>todo buffer_target_t</dd>
-            <dt id="02ce1fe474718489459e78bb7228dbb28c868fe8255e0b7011ae7cd1f47a63ab">
-              <span class="m-doc-wrap-bumper">enum class <a class="m-doc" href="#ac0b071d09fc4d63897acc8867c3cafd5">buffer_usage_t</a>: GLenum { </span><span class="m-doc-wrap"><a class="m-doc-self" href="#02ce1fe474718489459e78bb7228dbb28c868fe8255e0b7011ae7cd1f47a63ab">stream_draw</a> = GL_STREAM_DRAW,
-              <a class="m-doc-self" href="#02ce1fe474718489459e78bb7228dbb28c868fe8255e0b7011ae7cd1f47a63ab">stream_read</a> = GL_STREAM_READ,
-              <a class="m-doc-self" href="#02ce1fe474718489459e78bb7228dbb28c868fe8255e0b7011ae7cd1f47a63ab">stream_copy</a> = GL_STREAM_COPY,
-              <a class="m-doc-self" href="#02ce1fe474718489459e78bb7228dbb28c868fe8255e0b7011ae7cd1f47a63ab">static_draw</a> = GL_STATIC_DRAW,
-              <a class="m-doc-self" href="#02ce1fe474718489459e78bb7228dbb28c868fe8255e0b7011ae7cd1f47a63ab">static_read</a> = GL_STATIC_READ,
-              <a class="m-doc-self" href="#02ce1fe474718489459e78bb7228dbb28c868fe8255e0b7011ae7cd1f47a63ab">static_copy</a> = GL_STATIC_COPY,
-              <a class="m-doc-self" href="#02ce1fe474718489459e78bb7228dbb28c868fe8255e0b7011ae7cd1f47a63ab">dynamic_draw</a> = GL_DYNAMIC_DRAW,
-              <a class="m-doc-self" href="#02ce1fe474718489459e78bb7228dbb28c868fe8255e0b7011ae7cd1f47a63ab">dynamic_read</a> = GL_DYNAMIC_READ,
-              <a class="m-doc-self" href="#02ce1fe474718489459e78bb7228dbb28c868fe8255e0b7011ae7cd1f47a63ab">dynamic_copy</a> = GL_DYNAMIC_COPY }</span>
+            <dd>strong typed enumeration type for buffer targets</dd>
+            <dt id="ac0b071d09fc4d63897acc8867c3cafd5">
+              <span class="m-doc-wrap-bumper">enum class <a class="m-doc-self" href="#ac0b071d09fc4d63897acc8867c3cafd5">buffer_usage_t</a>: GLenum { </span><span class="m-doc-wrap"><a class="m-doc-self" href="#ac0b071d09fc4d63897acc8867c3cafd5">stream_draw</a> = GL_STREAM_DRAW,
+              <a class="m-doc-self" href="#ac0b071d09fc4d63897acc8867c3cafd5">stream_read</a> = GL_STREAM_READ,
+              <a class="m-doc-self" href="#ac0b071d09fc4d63897acc8867c3cafd5">stream_copy</a> = GL_STREAM_COPY,
+              <a class="m-doc-self" href="#ac0b071d09fc4d63897acc8867c3cafd5">static_draw</a> = GL_STATIC_DRAW,
+              <a class="m-doc-self" href="#ac0b071d09fc4d63897acc8867c3cafd5">static_read</a> = GL_STATIC_READ,
+              <a class="m-doc-self" href="#ac0b071d09fc4d63897acc8867c3cafd5">static_copy</a> = GL_STATIC_COPY,
+              <a class="m-doc-self" href="#ac0b071d09fc4d63897acc8867c3cafd5">dynamic_draw</a> = GL_DYNAMIC_DRAW,
+              <a class="m-doc-self" href="#ac0b071d09fc4d63897acc8867c3cafd5">dynamic_read</a> = GL_DYNAMIC_READ,
+              <a class="m-doc-self" href="#ac0b071d09fc4d63897acc8867c3cafd5">dynamic_copy</a> = GL_DYNAMIC_COPY }</span>
             </dt>
-            <dd>todo buffer_usage_t</dd>
+            <dd>strong typed enumeration type for buffer usage</dd>
           </dl>
-        </section>
-        <section>
-          <h2>Enum documentation</h2>
-          <section class="m-doc-details" id="a7678d15ca7407caa0697d8f6b83e9622"><div>
-            <h3>
-              enum class glpp::<wbr/>core::<wbr/>object::<wbr/><a class="m-doc-self" href="#a7678d15ca7407caa0697d8f6b83e9622">buffer_target_t</a>: GLenum
-            </h3>
-            <p>todo buffer_target_t</p>
-<p>Detailed todo buffer_target_t</p>
-          </div></section>
-          <section class="m-doc-details" id="ac0b071d09fc4d63897acc8867c3cafd5"><div>
-            <h3>
-              enum class glpp::<wbr/>core::<wbr/>object::<wbr/><a class="m-doc-self" href="#ac0b071d09fc4d63897acc8867c3cafd5">buffer_usage_t</a>: GLenum
-            </h3>
-            <p>todo buffer_usage_t</p>
-<p>Detailed todo buffer_usage_t</p>
-          </div></section>
         </section>
       </div>
     </div>
