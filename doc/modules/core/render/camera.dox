@@ -1,0 +1,131 @@
+/**
+\file glpp/core/render/camera.hpp
+@brief A Documented file.
+*/
+
+/**
+@brief Class for calulation of mvp-matricies.
+
+The camera_t class is a data structure used to calculate model-view-projection matricies. It recrates
+a virtual camera that can be placed and oriented in global space. With its position, orientation and
+other state a mvp matrics can be calculated. The orientation is represented by a quaternion to prevent
+gimbal locking the camera.
+
+@class glpp::core::render::camera_t
+*/
+
+/**
+@brief position of the camera in global space
+@var glpp::core::render::camera_t::position
+*/
+
+/**
+@brief orientation of the camera
+
+Rotation of the camera from its native orientation. The native orientation is facing 
+in the -z direction, with +y facing up.
+
+@var glpp::core::render::camera_t::orientation
+*/
+
+/**
+@brief field of view of the camera
+
+Field of view of the view frustum in degrees.
+
+@var glpp::core::render::camera_t::fov
+*/
+
+/**
+@brief near clipping plane of the view frustum
+
+Distance of the near clipping plane from position in the direction of the view vector, measured in global units.
+
+@var glpp::core::render::camera_t::near_plane
+*/
+
+/**
+@brief far clipping plane of the view frustum
+
+Distance of the far clipping plane from position in the direction of the view vector, measured in global units.
+
+@var glpp::core::render::camera_t::far_plane
+*/
+
+/**
+@brief aspect ratio of the view frustum
+
+Aspect ratio of the view frustum (width / height). Should be set equal to the aspect ratio of the active
+framebuffer to prevent distortion.
+
+@var glpp::core::render::camera_t::aspect_ratio
+*/
+
+/**
+@brief calculate model-view-projection matrix
+
+Calculate the model-view-projection matrix for a specific mesh. The model matrix of the mesh is passed as first parameter.
+The mvp matrix transform local space coordinates of the mesh to clip space. If no model matrix is passed
+global space will be transformed into clip space.
+
+@fn glpp::core::render::camera_t::mvp
+@param [in] model_matrix transformation matrix of a mesh.
+@return Model-view-projection matrix to transform global space coordinations to clip space.
+*/
+
+/**
+@brief  default constructor of camera_t
+
+Constructs a camera_t object with sane default values for all parameters.
+@fn glpp::core::render::camera_t::camera_t()
+*/
+
+/**
+@brief move constructor
+@fn glpp::core::render::camera_t::camera_t(camera_t&& mov)
+*/
+
+/**
+@brief copy constructor
+@fn glpp::core::render::camera_t::camera_t(const camera_t& cpy)
+*/
+
+/**
+@brief move assignment operator
+@fn glpp::core::render::camera_t::camera_t& glpp::core::render::camera_t::operator=(camera_t&& mov)
+*/
+
+/**
+@brief copy assignment operator
+@fn glpp::core::render::camera_t::camera_t& glpp::core::render::camera_t::operator=(const camera_t& cpy)
+*/
+
+/**
+@brief value intialisation constructor using position and orientation.
+
+Constructs a camera_t from a position, orientation and additional parameters.
+
+@fn glpp::core::render::camera_t::camera_t(glm::vec3 position, glm::quat orientation, float fov, float near_plane, float far_plane, float aspect_ratio)
+@param position [in] position of the origin of the view frustum. The origin is outside of the rendered frustum volume.
+@param orientation [in] orientation of the frustum
+@param fov [in] field of view
+@param near_plane [in] distance of the near plane from the origin. Must be greater than zero.
+@param far_plane [in] distance of the far plane from the origin. Must be greater than near_plane.
+@param aspect_ratio [in] aspect ratio of the view frustum
+*/
+
+/**
+@brief value intialisation constructor using position, look_at and up vectors.
+
+Constructs a camera_t from a position, look_at and up vector and additional parameters. The orientation
+of the camera is derived from the look_at and up vectors.
+
+@fn glpp::core::render::camera_t::camera_t(glm::vec3 position, glm::vec3 look_at, glm::vec3 up, float fov, float near_plane, float far_plane, float aspect_ratio)
+@param position [in] position of the origin of the view frustum. The origin is outside of the rendered frustum volume.
+@param look_at [in] vector from the position to the center of the view frustum. Must have a length greater than zero.
+@param up [in] vector in the up direction of the view frustum. Must have a length greater than zero and orthogonal to look_at.
+@param fov [in] field of view
+@param near_plane [in] distance of the near plane from the origin. Must be greater than zero.
+@param far_plane [in] distance of the far plane from the origin. Must be greater than near_plane.
+@param aspect_ratio [in] aspect ratio of the view frustum
+*/
