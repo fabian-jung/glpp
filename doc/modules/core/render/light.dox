@@ -1,0 +1,17 @@
+/**
+\file glpp/core/render/light.hpp
+@brief A Documented file.
+*/
+
+
+/**
+@brief A simple datastructure to represent a light source
+
+@class glpp::core::render::light_t
+*/
+
+
+/**
+@brief position vector of the light source
+@var glpp::core::render::light_t::positon
+*/
