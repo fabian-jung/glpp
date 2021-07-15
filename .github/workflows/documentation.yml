@@ -23,7 +23,7 @@ jobs:
     - name: build
       run: |
         mkdir build
-        docker run --mount src="$(pwd)",target=/glpp,type=bind,readonly --mount src="$(pwd)/build",target=/build,type=bind ghcr.io/fabian-jung/glpp/build-ubuntu:latest doc
+        docker run --mount src="$(pwd)",target=/glpp,type=bind --mount src="$(pwd)/build",target=/build,type=bind ghcr.io/fabian-jung/glpp/build-ubuntu:latest doc
     
     - name: deploy
       uses: JamesIves/github-pages-deploy-action@4.1.4

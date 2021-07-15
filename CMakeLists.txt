@@ -35,9 +35,14 @@ add_custom_target(format
 	COMMAND clang-format -i ${GLPP_FORMAT_SET}
 )
 
+ADD_CUSTOM_TARGET(doc_tagfile_link
+	COMMAND ${CMAKE_COMMAND} -E create_symlink ${CMAKE_SOURCE_DIR}/glpp.tagfile.xml ${CMAKE_BINARY_DIR}/glpp.tagfile.xml
+)
+
 add_custom_target(doc
 	COMMAND poxy ${CMAKE_SOURCE_DIR}
 	WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
+	DEPENDS doc_tagfile_link
 )
 
 include(GNUInstallDirs)
