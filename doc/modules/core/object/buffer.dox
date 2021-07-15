@@ -4,24 +4,21 @@
 */
 
 /**
-@brief todo buffer_target_t
-
-Detailed todo buffer_target_t
+@brief strong typed enumeration type for buffer targets
 @enum glpp::core::object::buffer_target_t
 */
 
 /**
-@brief todo buffer_usage_t
-
-Detailed todo buffer_usage_t
+@brief strong typed enumeration type for buffer usage
 @enum glpp::core::object::buffer_usage_t
 */
 
 
 /**
-@brief brief description of buffer_t
+@brief class for creating and managing buffers in OpenGL
 
-Detailed description of buffer_t
+buffer_t is a storage class for OpenGL buffers, that creates, owns and manages buffer objects.
+
 @class glpp::core::object::buffer_t
 */
 
@@ -29,7 +26,7 @@ Detailed description of buffer_t
 /**
 @brief Default constructor of buffer_t
 
-Detailed description of buffer_t
+The default constructor will allocate an empty buffer in the OpenGL state machine for later use.
 
 @fn glpp::core::object::buffer_t::buffer_t()
 */
@@ -58,8 +55,15 @@ Assign a buffer_t object using contents of mov. After move the mov object is in 
 */
 
 /**
-@brief move assignment operator
+@brief constructor for buffer_t
+
+This constructor will create a buffer object, set its properties and copies the data from cpu memory to gpu memory.
+
 @fn	glpp::core::object::buffer_t::buffer_t(glpp::core::object::buffer_target_t target, const T* data, size_t size, glpp::core::object::buffer_usage_t usage);
+@param target [in] target type of the buffer
+@param data [in] pointer to buffer holding data, that should be sent to the gpu.
+@param size [in] size of data that should be sent to the gpu in bytes
+@param usage [in] usage hint for performance optimization by the gpu driver
 */	
 	
 /**
