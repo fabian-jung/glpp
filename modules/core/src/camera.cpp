@@ -8,7 +8,7 @@ glpp::core::render::camera_t::camera_t(
 	float near_plane,
 	float far_plane,
 	float aspect_ratio
-) :
+) noexcept :
 	position(position),
 	orientation(orientation),
 	fov(fov),
@@ -44,7 +44,7 @@ glpp::core::render::camera_t::camera_t(
 	float near_plane,
 	float far_plane,
 	float aspect_ratio
-) :
+) noexcept  :
 	position(position),
 	orientation(orientationFromLookAt(glm::normalize(lookAt-position), glm::normalize(up-position))),
 	fov(fov),
