@@ -22,7 +22,7 @@ enum class framebuffer_target_t : GLenum {
 class framebuffer_t : public object_t<> {
 public:
 
-	framebuffer_t(size_t widht, size_t height);
+	framebuffer_t(size_t width, size_t height);
 	explicit framebuffer_t(std::initializer_list<std::pair<const texture_t&, attachment_t>> list);
 
 	framebuffer_t(const framebuffer_t& cpy) = delete;
