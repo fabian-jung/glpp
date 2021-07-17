@@ -1,0 +1,39 @@
+/**
+\file glpp/core/object/attribute_properties.hpp
+@brief A Documented file.
+*/
+
+/**
+@brief OpenGL type trait helper
+
+The attribute_properties type trait can be used to determine OpenGL related attributes
+of native types. Glpp ships the with overloads for the following types:
+- scalar types
+    - GLfloat, float
+    - GLdouble, double
+    - GLint, std::int32_t
+    - GLuint, std::uint32_t
+    - GLshort, std::int16_t
+    - GLushort, std::uint16_t
+    - GLbyte, std::int8_t
+    - GLubyte, std::uint8_t
+- vector types with value_type matching a scalar type
+    - glm::tvec2
+    - glm::tvec3
+    - glm::tvec4
+    
+Glpp attribute_properties can be extended for use with custom types, 
+by providing an partial or full template specialisation of attribute_properties implementing
+the following interface:
+\cpp
+template <T>
+struct attribute_properties {
+	typedef value_type; // equal to T for scalar types and base type for vector types
+	static constexpr GLenum type; // The GLenum value corresponding to value_type
+	static constexpr size_t elements_per_vertex; // equal to 1 for scalar types or the number of vector elements
+};
+\ecpp
+
+
+@class glpp::core::object::attribute_properties
+*/
