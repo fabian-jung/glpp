@@ -1,0 +1,153 @@
+/**
+\file glpp/core/object/framebuffer.hpp
+@brief A Documented file.
+*/
+
+/**
+@brief strong typed enumeration type for framebuffer attachments
+@enum glpp::core::object::attachment_t
+*/
+
+/**
+@brief strong typed enumeration type for framebuffer targets
+@enum glpp::core::object::framebuffer_target_t
+*/
+
+/**
+@brief class for creating and managing framebuffers in OpenGL
+
+framebuffer_t is a storage class for OpenGL framebuffers, that creates, owns and manages framebuffers objects.
+Framebuffers can be used to render to textures or copy rendered frames to cpu memory.
+
+@class glpp::core::object::framebuffer_t
+*/
+
+/**
+@brief constructor
+
+Create an empty framebuffer with no texture attatchments.
+
+@fn glpp::core::object::framebuffer_t::framebuffer_t(size_t width, size_t height)
+@param width [in] width of framebuffer in pixels
+@param height [in] height of framebuffer in pixels
+*/
+
+/**
+@brief constructor
+
+Create an empty framebuffer with a list of texture attatchents. The width and height of the
+framebuffer is deduced from the textures that shall be attatched. All textures must have
+the same width and height.
+
+@fn glpp::core::object::framebuffer_t::framebuffer_t(std::initializer_list<std::pair<const texture_t&, attachment_t>> list)
+@param list [in] list of texture attatchments
+*/
+
+/**
+@brief copy constructor
+
+Framebuffer objects are not copy-constructible.
+
+@fn glpp::core::object::framebuffer_t::framebuffer_t(const framebuffer_t& cpy)
+*/
+
+/**
+@brief copy assignment operator
+
+Framebuffer objects are not copy-assignable.
+
+@fn glpp::core::object::framebuffer_t::framebuffer_t& glpp::core::object::framebuffer_t::operator=(const framebuffer_t& cpy)
+*/
+
+/**
+@brief move constructor
+
+Framebuffer objects are move-constructible. Constructs a framebuffer_t object using contents
+of mov. After move the mov object is in an invalid state. All access other then
+destruction and reassignment will be undefined behaviour.
+
+@fn glpp::core::object::framebuffer_t::framebuffer_t(framebuffer_t&& mov)
+*/
+
+/**
+@brief move assignment operator
+
+Framebuffer objects are move-assignable. Constructs a framebuffer_t object using contents
+of mov. After move the mov object is in an invalid state. All access other then
+destruction and reassignment will be undefined behaviour.
+
+@fn glpp::core::object::framebuffer_t::framebuffer_t& glpp::core::object::framebuffer_t::operator=(framebuffer_t&& mov)
+*/
+
+/**
+@brief attatch texture to framebuffer
+
+This functions will attatch a texture object to the framebuffer. Following rendering to this framebuffer
+will render the contents of the specified attatchment into the texture object. Width and height of 
+the attatched texture must match the width and height of the framebuffer.
+
+@fn void glpp::core::object::framebuffer_t::attach(const texture_t& texture, attachment_t attatchment)
+@param texture [in] texture object that shall be attatched
+@param attatchment [in] channel which shall be rendered to texture
+*/
+
+/**
+@brief bind framebuffer
+
+Bind framebuffer to OpenGL context. If write or read_and_write is used as target, 
+all following draw calls will be rendered into this framebuffer object or 
+into assigned texture objects.
+
+@fn void glpp::core::object::framebuffer_t::bind(framebuffer_target_t target)
+@param target [in] target hint
+*/
+
+/**
+@brief get width
+
+@fn size_t glpp::core::object::framebuffer_t::width()
+@return width of framebuffer in pixels
+*/
+
+/**
+@brief get height
+
+@fn size_t glpp::core::object::framebuffer_t::height()
+@return height of framebuffer in pixels
+*/
+
+/**
+@brief bind default framebuffer
+
+Make default framebuffer active. If write or read_and_write is passed as target, following 
+draw calls will be rendered to the screen.
+
+@fn size_t glpp::core::object::framebuffer_t::bind_default_framebuffer(framebuffer_target_t target = framebuffer_target_t::read_and_write)
+@param target [in] target that shall be bound
+*/
+
+/**
+@brief copy contents of framebuffer to cpu memory
+
+This function will copy a subimage of the framebuffer into cpu memory. [x, y] are the left and top border. 
+The subimage will be widht and height pixels wide. x+widht must be smaller or equal to the widht of the 
+framebuffer. y+height must be smaller or equal to the height of the framebuffer.
+
+@overload image_t<T> glpp::core::object::framebuffer_t::pixel_read(size_t x, size_t y) const
+@param x [in] left border of rendered screen
+@param y [in] bottom border of rendered screen
+*/
+
+/**
+@brief copy contents of framebuffer to cpu memory
+
+This function will copy a subimage of the framebuffer into cpu memory. [x, y] are the left and top border. 
+The subimage will be widht and height pixels wide. x+widht must be smaller or equal to the widht of the 
+framebuffer. y+height must be smaller or equal to the height of the framebuffer.
+
+@overload image_t<T> glpp::core::object::framebuffer_t::pixel_read(size_t x, size_t y, size_t width, size_t height) const
+@param x [in] left border of rendered screen
+@param y [in] bottom border of rendered screen
+@param width [in] width of rendered screen
+@param height [in] height of rendered screen
+*/
