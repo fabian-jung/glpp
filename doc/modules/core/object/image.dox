@@ -1,0 +1,317 @@
+/**
+\file glpp/core/object/image.hpp
+@brief A Documented file.
+*/
+
+/**
+@brief strong typed enum to represent different pixel formats
+
+This enum is consumed by texture_t to specify the pixel format. The values mostly represent the
+equivalent OpenGL pixel formats. One exception is image_format_t::preferred, which has no corresponding
+OpenGL pixel format and can be used in the construction of texture_t when using an image_t for construction
+and the internal pixel format of the image_t shall be used by the texture_t.
+
+@enum glpp::core::object::image_format_t
+*/
+
+/**
+@brief storage class for image data in cpu memory.
+
+The image_t can be used to load and store images from disk to cpu memory. The internal pixel format is specified by
+the template parameter T. Scalar arithmetic types and vector types from the glm library can be used for T.
+
+@class glpp::core::object::image_t
+@tparam T pixel format
+*/
+
+/**
+@brief type alias value_type
+@typedef glpp::core::object::image_t::value_type
+*/
+
+/**
+@brief iterator type
+@typedef glpp::core::object::image_t::iterator
+*/
+
+
+/**
+@brief const iterator type
+@typedef glpp::core::object::image_t::const_iterator
+*/
+
+/**
+@brief default constructor
+
+The default constructor will create an empty image with the dimensions [0, 0].
+
+@fn glpp::core::object::image_t::image_t()
+*/
+
+/**
+@brief copy constructor
+
+The image_t type is copy-constructible.
+
+@fn glpp::core::object::image_t::image_t(const image_t& cpy)
+*/
+
+/**
+@brief move constructor
+
+The image_t type is move-constructible. The image_t will be constructed with the contents of mov. The mov object
+is in an invalid state after the call of the constructor.
+
+@fn glpp::core::object::image_t::image_t(image_t&& mov)
+*/
+
+/**
+@brief copy assigment operator
+
+The image_t type is copy-assignable.
+
+@fn glpp::core::object::image_t& glpp::core::object::image_t::operator=(const image_t& cpy)
+*/
+
+/**
+@brief move assignment operator
+
+The image_t type is move-assignable. The image_t will be constructed with the contents of mov. The mov object
+is in an invalid state after the call of the move assignment operator.
+
+@fn glpp::core::object::image_t& glpp::core::object::image_t::operator=(image_t&& mov)
+*/
+
+/**
+@brief conversion operator
+
+The convertion operator will initialise the image_t with the contents of conv. The pixel values of conv will be
+converted according to the pixel format of conv [U] to the pixel format of the image_t [T].
+
+@fn glpp::core::object::image_t::image_t(const image_t<U>& conv)
+@param conv [in] image_t object to get pixel values and dimensions from
+*/
+
+/**
+@brief constructor with dimensions
+
+This constructor will initialise a image_t with the dimensions of [width, height] and zero values for the pixels values.
+
+@fn glpp::core::object::image_t::image_t(size_t width, size_t height)
+@param width [in] new width of image_t
+@param height [in] new height of image_t
+*/
+
+/**
+@brief constructor with dimensions and default value
+
+This constructor will initialise a image_t with the dimensions of [width, height] and pixels values matching the value parameter.
+
+@fn glpp::core::object::image_t::image_t(size_t width, size_t height, const value_type value)
+@param width [in] new width of image_t
+@param height [in] new height of image_t
+@param value [in] default value for pixel data
+*/
+
+/**
+@brief constructor with dimensions and pointer to buffer
+
+This constructor will initialise a image_t with the dimensions of [width, height]. The pixel data will be
+copied from the position pointed to by begin.
+
+@fn glpp::core::object::image_t::image_t(size_t width, size_t height, const value_type* begin)
+@param width [in] new width of image_t
+@param height [in] new height of image_t
+@param begin [in] pointer to pixel data
+*/
+
+/**
+@brief constructor with dimensions and initializer_list
+
+This constructor will initialise a image_t with the dimensions of [width, height]. The pixel data will be 
+copied from the initializer_list init_list
+
+@fn glpp::core::object::image_t::image_t(size_t width, size_t height, std::initializer_list<T> init_list)
+@param width [in] new width of image_t
+@param height [in] new height of image_t
+@param init_list [in] initializer_list with values
+*/
+
+/**
+@brief constructor with dimensions and generic container reference
+
+This constructor will initialise a image_t with the dimensions of [width, height]. The pixel data will be 
+copied from a range or forward iteratable container.
+
+@fn glpp::core::object::image_t::image_t(size_t width, size_t height, const Range& range)
+@param width [in] new width of image_t
+@param height [in] new height of image_t
+@param range [in] container with pixel data
+*/
+
+/**
+@brief constructor with dimensions and iterator range
+
+This constructor will initialise a image_t with the dimensions of [width, height]. The pixel data will be 
+copied from the range between begin and end, including begin and excluding end.
+
+@fn glpp::core::object::image_t::image_t(size_t width, size_t height, const Iterator& begin, const Iterator& end)
+@param width [in] new width of image_t
+@param height [in] new height of image_t
+@param begin [in] begin of init range
+@param end [in] end of init range
+*/
+
+/**
+@brief construct image_t from file
+
+This constructor will load a image from file. The width and height is fetched from the file. 
+If the pixel format of the file does not match the one of the image_t template parameter, the 
+pixel data will be converted. To use this function it is required to link against glpp::image.
+
+@fn glpp::core::object::image_t::image_t(const char* filename)
+@param filename [in] name or path of file to load
+*/
+
+/**
+@brief load an image from file
+
+This function will load a image from file and overwrite the members of this class. The width and height is fetched from the file. 
+If the pixel format of the file does not match the one of the image_t template parameter, the 
+pixel data will be converted. To use this function it is required to link against glpp::image.
+
+@fn void glpp::core::object::image_t::load(const char* filename)
+@param filename [in] name or path of file to load
+*/
+
+/**
+@brief write image to file
+
+This function will write the contents of this class to a file. To use this function it is required to link against glpp::image.
+
+@fn void glpp::core::object::image_t::write(const char* filename)
+@param filename [in] name or path of file to write
+*/
+
+/**
+@brief get width
+@fn size_t glpp::core::object::image_t::width()
+*/
+
+/**
+@brief get height
+@fn size_t glpp::core::object::image_t::height()
+*/
+
+/**
+@brief pointer to pixel data
+
+Returns a pointer to the underlying memory of the pixel data.
+
+@fn T* glpp::core::object::image_t::data()
+*/
+
+/**
+@brief pointer to pixel data
+
+Returns a pointer to the underlying memory of the pixel data.
+
+@fn const T* glpp::core::object::image_t::data() const
+*/
+
+/**
+@brief get size
+@fn size_t glpp::core::object::image_t::size()
+*/
+
+/**
+@brief get pixel 
+
+Get reference the data of a single pixel.
+
+@fn value_type& glpp::core::object::image_t::get(size_t x, size_t y)
+@param x [in] x coordinate of pixel to fetch
+@param y [in] y coordinate of pixel to fetch
+*/
+
+
+/**
+@brief get pixel 
+
+Get reference the data of a single pixel. This function will perform bounds checking and 
+throw if x and y are no valid coordinates with respect to the image.
+
+@fn value_type& glpp::core::object::image_t::at(size_t x, size_t y)
+@param x [in] x coordinate of pixel to fetch
+@param y [in] y coordinate of pixel to fetch
+*/
+
+/**
+@brief get pixel 
+
+Get reference the data of a single pixel.
+
+@fn const value_type& glpp::core::object::image_t::get(size_t x, size_t y) const
+@param x [in] x coordinate of pixel to fetch
+@param y [in] y coordinate of pixel to fetch*/
+
+
+/**
+@brief get pixel 
+
+Get reference the data of a single pixel. This function will perform bounds checking and 
+throw if x and y are no valid coordinates with respect to the image.
+
+@fn const value_type& glpp::core::object::image_t::at(size_t x, size_t y) const
+@param x [in] x coordinate of pixel to fetch
+@param y [in] y coordinate of pixel to fetch*/
+
+/**
+@brief get iterator to pixel data
+
+Returns random access iterator to the first pixel in the image.
+@fn iterator glpp::core::object::image_t::begin()
+*/
+
+/**
+@brief get iterator to end of pixel data
+
+Returns iterator referring to the past-the-end pixel of the image.
+@fn iterator glpp::core::object::image_t::end()
+*/
+
+/**
+@brief get iterator to pixel data
+
+Returns random access iterator to the first pixel in the image.
+@fn const_iterator glpp::core::object::image_t::begin() const
+*/
+
+/**
+@brief get iterator to end of pixel data
+
+Returns iterator referring to the past-the-end pixel of the image.
+@fn const_iterator glpp::core::object::image_t::end() const
+*/
+
+/**
+@brief get number of color channels
+
+Returns the number of color channels present in the picture. Can be 1, 2, 3 or 4.
+
+@fn int glpp::core::object::image_t::channels() const
+*/
+
+/**
+@brief get image format
+
+Returns the format description value of the used pixel format.
+@fn image_format_t glpp::core::object::image_t::format() const
+*/
+
+/**
+@brief get base type
+
+Returns the OpenGL specifier for the base type of the pixel format.
+@fn GLenum glpp::core::object::image_t::type() const
+*/
