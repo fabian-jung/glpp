@@ -13,7 +13,7 @@
 namespace glpp::core::object {
 
 enum class image_format_t : GLenum {
-	prefered        = 0,
+	preferred        = 0,
 	red             = GL_RED,
 	rg              = GL_RG,
 	rgb             = GL_RGB,

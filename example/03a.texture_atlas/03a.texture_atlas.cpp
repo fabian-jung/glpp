@@ -73,7 +73,7 @@ int main(__attribute__((unused)) int argc, __attribute__((unused)) char* argv[])
 		glpp::core::object::image_t<glm::vec3>(
 			"smiley.png"
 		),             
-		glpp::core::object::image_format_t::prefered,
+		glpp::core::object::image_format_t::preferred,
 		glpp::core::object::clamp_mode_t::clamp_to_edge,
 		glpp::core::object::filter_mode_t::linear
 	);
