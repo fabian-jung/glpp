@@ -103,7 +103,7 @@ glpp::core::object::texture_t font_t::init_texture() const {
 
 	core::object::texture_t result {
 		core::object::image_t<std::uint8_t>(m_atlas_size.x, m_atlas_size.y),
-		core::object::image_format_t::prefered,
+		core::object::image_format_t::preferred,
 		core::object::clamp_mode_t::clamp_to_edge,
 		core::object::filter_mode_t::linear,
 		core::object::mipmap_mode_t::none,
@@ -181,7 +181,7 @@ glpp::core::object::texture_t font_t::init_texture() const {
 					static_cast<size_t>(glyph.size.y*vertical_resolution),
 					pixbuf
 				},
-				core::object::image_format_t::prefered,
+				core::object::image_format_t::preferred,
 				core::object::clamp_mode_t::clamp_to_edge
 			};
 			auto slot = glyph_texture.bind_to_texture_slot();

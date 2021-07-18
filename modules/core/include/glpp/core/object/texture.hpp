@@ -64,7 +64,7 @@ public:
 	template <class T>
 	texture_t(
 		const image_t<T>& image,
-		image_format_t format = image_format_t::prefered,
+		image_format_t format = image_format_t::preferred,
 		const clamp_mode_t& clamp_mode = clamp_mode_t::repeat,
 		const filter_mode_t& filter = filter_mode_t::linear,
 		const mipmap_mode_t& mipmap_mode = mipmap_mode_t::none,
@@ -76,7 +76,7 @@ public:
 	template <class T>
 	void update(
 		const T* pixels,
-		image_format_t format = image_format_t::prefered
+		image_format_t format = image_format_t::preferred
 	);
 
 	template <class T>
@@ -86,7 +86,7 @@ public:
 		size_t width,
 		size_t height,
 		const T* pixels,
-		image_format_t format = image_format_t::prefered
+		image_format_t format = image_format_t::preferred
 	);
 
 	template <class T>
@@ -136,7 +136,7 @@ private:
 namespace detail {
 template <class T>
 constexpr auto resolve_format(image_format_t format, const image_t<T>& image) {
-	if(format == image_format_t::prefered) {
+	if(format == image_format_t::preferred) {
 		switch(image.channels()) {
 			case 1:
 				return image_format_t::red_8;
@@ -260,7 +260,7 @@ void texture_t::update(
 		throw std::runtime_error("Unable to convert sized internal format to base internal format.");
 	};
 
-	if(format == image_format_t::prefered) format = static_cast<image_format_t>(base_internal_format(m_format));
+	if(format == image_format_t::preferred) format = static_cast<image_format_t>(base_internal_format(m_format));
 	constexpr int level_of_detail = 0;
 	glTextureSubImage2D(
 		id(),

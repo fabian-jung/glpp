@@ -65,7 +65,7 @@ int main(__attribute__((unused)) int argc, __attribute__((unused)) char* argv[])
 // 				glm::vec3(0.0, 0.0, 1.0), glm::vec3(0.0, 1.0, 1.0)
 // 			}
 		),
-		glpp::core::object::image_format_t::prefered,
+		glpp::core::object::image_format_t::preferred,
 		glpp::core::object::clamp_mode_t::clamp_to_edge,
 		glpp::core::object::filter_mode_t::linear
 	);
