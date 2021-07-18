@@ -1,0 +1,837 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8"/>
+  <title>glpp::core::object::image_t class | glpp An OpenGL Wrapper library for modern C++.</title>
+  <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,400i,600,600i%7CSource+Code+Pro:400,400i,600" rel="stylesheet"/>
+  <link href="m-dark+documentation.compiled.css" rel="stylesheet"/>
+  <link href="favicon.svg" rel="icon" type="image/svg+xml"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <meta content="#22272e" name="theme-color"/>
+  <meta content="glpp" name="twitter:title"/>
+  <meta content="glpp" property="og:title"/>
+  <meta content="glpp" itemprop="name"/>
+  <meta content="Fabian Jung" name="author"/>
+  <meta content="Fabian Jung" property="article:author"/>
+  <meta content="An OpenGL Wrapper library for modern C++." name="description"/>
+  <meta content="An OpenGL Wrapper library for modern C++." name="twitter:description"/>
+  <meta content="An OpenGL Wrapper library for modern C++." property="og:description"/>
+  <meta content="An OpenGL Wrapper library for modern C++." itemprop="description"/>
+  <meta content="telephone=no" name="format-detection"/>
+  <meta content="Poxy v0.4.5" name="generator"/>
+  <meta content="no-referrer-when-downgrade" name="referrer"/>
+  <link href="poxy-0.4.5.css" rel="stylesheet"/>
+  <link href="poxy-0.4.5-dark.css" rel="stylesheet"/>
+  <script src="poxy-0.4.5.js"></script>
+</head>
+<body>
+<header><nav id="navigation">
+  <div class="m-container">
+    <div class="m-row">
+      <a class="m-col-t-8 m-col-m-none m-left-m" href="index.html" id="m-navbar-brand"><img alt="" src="favicon-dark.svg"/>glpp <span class="m-thin">An OpenGL Wrapper library for modern C++.</span></a>
+      <div class="m-col-t-4 m-hide-m m-text-right m-nopadr">
+        <a class="m-doc-search-icon" href="#search" onclick="return showSearch()" title="Search"><svg style="height: 0.9rem;" viewBox="0 0 16 16">
+          <path d="m6 0c-3.31 0-6 2.69-6 6 0 3.31 2.69 6 6 6 1.49 0 2.85-0.541 3.89-1.44-0.0164 0.338 0.147 0.759 0.5 1.15l3.22 3.79c0.552 0.614 1.45 0.665 2 0.115 0.55-0.55 0.499-1.45-0.115-2l-3.79-3.22c-0.392-0.353-0.812-0.515-1.15-0.5 0.895-1.05 1.44-2.41 1.44-3.89 0-3.31-2.69-6-6-6zm0 1.56a4.44 4.44 0 0 1 4.44 4.44 4.44 4.44 0 0 1-4.44 4.44 4.44 4.44 0 0 1-4.44-4.44 4.44 4.44 0 0 1 4.44-4.44z" id="m-doc-search-icon-path"></path>
+        </svg></a>
+        <a href="#navigation" id="m-navbar-show" title="Show navigation"></a>
+        <a href="#" id="m-navbar-hide" title="Hide navigation"></a>
+      </div>
+      <div class="m-col-t-12 m-show-m m-col-m-none m-right-m" id="m-navbar-collapse">
+        <div class="m-row">
+          <ol class="m-col-t-6 m-col-m-none">
+            <li><a href="namespaces.html">Namespaces</a></li>
+            <li><a href="annotated.html">Classes</a></li>
+          </ol>
+          <ol class="m-col-t-6 m-col-m-none" start="3">
+            <li><a class="github poxy-external" href="https://github.com/fabian-jung/glpp/" target="_blank">Github</a></li>
+            <li class="m-show-m"><a class="m-doc-search-icon" href="#search" onclick="return showSearch()" title="Search"><svg style="height: 0.9rem;" viewBox="0 0 16 16">
+              <use href="#m-doc-search-icon-path"></use>
+            </svg></a></li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</nav></header>
+<main><article>
+  <div class="m-container m-container-inflatable">
+    <div class="m-row">
+      <div class="m-col-l-10 m-push-l-1">
+        <h1>
+          <div class="m-doc-template">template&lt;class T&gt;</div>
+          <span class="m-breadcrumb"><a href="namespaceglpp.html">glpp</a>::<wbr/></span><span class="m-breadcrumb"><a href="namespaceglpp_1_1core.html">core</a>::<wbr/></span><span class="m-breadcrumb"><a href="namespaceglpp_1_1core_1_1object.html">object</a>::<wbr/></span>image_t <span class="m-thin">class</span>
+        </h1>
+        <p>storage class for image data in cpu memory.</p>
+        <table class="m-table m-fullwidth m-flat">
+          <thead>
+            <tr><th colspan="2">Template parameters</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td style="width: 1%">T</td>
+              <td>pixel format</td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="m-block m-default poxy-toc">
+          <h3>Contents</h3>
+          <ul>
+            <li>
+              Reference
+              <ul>
+                <li><a href="#pub-types">Public types</a></li>
+                <li><a href="#typeless-methods">Constructors, destructors, conversion operators</a></li>
+                <li><a href="#pub-methods">Public functions</a></li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+<p>The <a class="m-doc" href="classglpp_1_1core_1_1object_1_1image__t.html">image_<wbr/>t</a> can be used to load and store images from disk to cpu memory. The internal pixel format is specified by the template parameter T. Scalar arithmetic types and vector types from the glm library can be used for T.</p>
+        <section id="pub-types">
+          <h2><a href="#pub-types">Public types</a></h2>
+          <dl class="m-doc">
+            <dt id="a2bfff16d4f2ed556230ce0c9e846d0a3">
+              using <a class="m-doc-self" href="#a2bfff16d4f2ed556230ce0c9e846d0a3">const_iterator</a> = typename <a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/container/vector.html" target="_blank">std::<wbr/>vector</a>&lt;<a class="m-doc" href="classglpp_1_1core_1_1object_1_1image__t.html#af67f8252e7d2a4eb970dfc695f82909e">value_<wbr/>type</a>&gt;::<a class="m-doc" href="classglpp_1_1core_1_1object_1_1image__t.html#a2bfff16d4f2ed556230ce0c9e846d0a3">const_<wbr/>iterator</a>
+            </dt>
+            <dd>const iterator type</dd>
+            <dt id="a84e2a31b756154132852ec36d635f5d8">
+              using <a class="m-doc-self" href="#a84e2a31b756154132852ec36d635f5d8">iterator</a> = typename <a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/container/vector.html" target="_blank">std::<wbr/>vector</a>&lt;<a class="m-doc" href="classglpp_1_1core_1_1object_1_1image__t.html#af67f8252e7d2a4eb970dfc695f82909e">value_<wbr/>type</a>&gt;::<a class="m-doc" href="classglpp_1_1core_1_1object_1_1image__t.html#a84e2a31b756154132852ec36d635f5d8">iterator</a>
+            </dt>
+            <dd>iterator type</dd>
+            <dt id="af67f8252e7d2a4eb970dfc695f82909e">
+              using <a class="m-doc-self" href="#af67f8252e7d2a4eb970dfc695f82909e">value_type</a> = T
+            </dt>
+            <dd>type alias value_type</dd>
+          </dl>
+        </section>
+        <section id="typeless-methods">
+          <h2><a href="#typeless-methods">Constructors, destructors, conversion operators</a></h2>
+          <dl class="m-doc">
+            <dt>
+              <span class="m-doc-wrap-bumper"><a class="m-doc" href="#a1a82a53f2b4453935436c8af6aac321f">image_t</a>(</span><span class="m-doc-wrap">) <span class="m-label m-flat m-info">defaulted</span> <span class="m-label m-flat m-primary">constexpr</span></span>
+            </dt>
+            <dd>default constructor</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper"><a class="m-doc" href="#a0ddcb596435db431ec537c08e102db3a">image_t</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="classglpp_1_1core_1_1object_1_1image__t.html">image_<wbr/>t</a>&amp; cpy) <span class="m-label m-flat m-info">defaulted</span> <span class="m-label m-flat m-info">explicit</span>  <span class="m-label m-flat m-primary">constexpr</span></span>
+            </dt>
+            <dd>copy constructor</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper"><a class="m-doc" href="#a76ef3405136d69a0fc722b103bacef47">image_t</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="classglpp_1_1core_1_1object_1_1image__t.html">image_<wbr/>t</a>&amp;&amp; mov) <span class="m-label m-flat m-info">defaulted</span> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>move constructor</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;class U&gt;</div>
+              <span class="m-doc-wrap-bumper"><a class="m-doc" href="#a528b791509ec62637f999a6f31b07da7">image_t</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="classglpp_1_1core_1_1object_1_1image__t.html">image_<wbr/>t</a>&lt;U&gt;&amp; conv) <span class="m-label m-flat m-info">explicit</span>  <span class="m-label m-flat m-primary">constexpr</span></span>
+            </dt>
+            <dd>conversion operator</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper"><a class="m-doc" href="#a797b95db5f7bbb5dadac82363ef57002">image_t</a>(</span><span class="m-doc-wrap"><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> width,
+              <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> height) <span class="m-label m-flat m-primary">constexpr</span></span>
+            </dt>
+            <dd>constructor with dimensions</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper"><a class="m-doc" href="#a1a02ef87fd937cba0ebf1d6956a1341d">image_t</a>(</span><span class="m-doc-wrap"><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> width,
+              <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> height,
+              const <a class="m-doc" href="classglpp_1_1core_1_1object_1_1image__t.html#af67f8252e7d2a4eb970dfc695f82909e">value_<wbr/>type</a> value) <span class="m-label m-flat m-primary">constexpr</span></span>
+            </dt>
+            <dd>constructor with dimensions and default value</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper"><a class="m-doc" href="#afe41a0d3a97606c4b239aaf0c6b38a08">image_t</a>(</span><span class="m-doc-wrap"><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> width,
+              <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> height,
+              const <a class="m-doc" href="classglpp_1_1core_1_1object_1_1image__t.html#af67f8252e7d2a4eb970dfc695f82909e">value_<wbr/>type</a>* begin) <span class="m-label m-flat m-primary">constexpr</span></span>
+            </dt>
+            <dd>constructor with dimensions and pointer to buffer</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper"><a class="m-doc" href="#a3b996de307c3cb5a33c9a8786dc93185">image_t</a>(</span><span class="m-doc-wrap"><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> width,
+              <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> height,
+              <a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/utility/initializer_list.html" target="_blank">std::<wbr/>initializer_list</a>&lt;T&gt; init_list) <span class="m-label m-flat m-primary">constexpr</span></span>
+            </dt>
+            <dd>constructor with dimensions and initializer_list</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;class Range, <a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/types/enable_if.html" target="_blank">std::<wbr/>enable_if_t</a>&lt;<a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/types/is_same.html" target="_blank">std::<wbr/>is_same_v</a>&lt;typename Range::value_type, <a class="m-doc" href="classglpp_1_1core_1_1object_1_1image__t.html#af67f8252e7d2a4eb970dfc695f82909e">value_<wbr/>type</a>&gt;, int&gt; = 0&gt;</div>
+              <span class="m-doc-wrap-bumper"><a class="m-doc" href="#a0ebea4965b2435305607e3c590b6ed4d">image_t</a>(</span><span class="m-doc-wrap"><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> width,
+              <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> height,
+              const Range&amp; range) <span class="m-label m-flat m-primary">constexpr</span></span>
+            </dt>
+            <dd>constructor with dimensions and generic container reference</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;class Iterator, <a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/types/enable_if.html" target="_blank">std::<wbr/>enable_if_t</a>&lt;<a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/types/is_same.html" target="_blank">std::<wbr/>is_same_v</a>&lt;typename <a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/iterator/iterator_traits.html" target="_blank">std::<wbr/>iterator_traits</a>&lt;Iterator&gt;::<a class="m-doc" href="classglpp_1_1core_1_1object_1_1image__t.html#af67f8252e7d2a4eb970dfc695f82909e">value_<wbr/>type</a>, <a class="m-doc" href="classglpp_1_1core_1_1object_1_1image__t.html#af67f8252e7d2a4eb970dfc695f82909e">value_<wbr/>type</a>&gt;, int&gt; = 0&gt;</div>
+              <span class="m-doc-wrap-bumper"><a class="m-doc" href="#ade3feec473bc5894d3943a3b10681965">image_t</a>(</span><span class="m-doc-wrap"><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> width,
+              <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> height,
+              const Iterator&amp; begin,
+              const Iterator&amp; end) <span class="m-label m-flat m-primary">constexpr</span></span>
+            </dt>
+            <dd>constructor with dimensions and iterator range</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper"><a class="m-doc" href="#a238b60033ba5eb9cbffab05d96bc738c">image_t</a>(</span><span class="m-doc-wrap">const char* filename)</span>
+            </dt>
+            <dd>construct <a class="m-doc" href="classglpp_1_1core_1_1object_1_1image__t.html">image_<wbr/>t</a> from file</dd>
+          </dl>
+        </section>
+        <section id="pub-methods">
+          <h2><a href="#pub-methods">Public functions</a></h2>
+          <dl class="m-doc">
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#a3c59e0dbc5a40d07974e3f79523e7745">at</a>(</span><span class="m-doc-wrap"><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> x,
+              <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> y) -&gt; <a class="m-doc" href="classglpp_1_1core_1_1object_1_1image__t.html#af67f8252e7d2a4eb970dfc695f82909e">value_<wbr/>type</a>&amp; <span class="m-label m-flat m-primary">constexpr</span></span>
+            </dt>
+            <dd>get pixel</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#aae7571ad242f06d24bd637b0cb9a4f17">at</a>(</span><span class="m-doc-wrap"><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> x,
+              <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> y) const -&gt; const <a class="m-doc" href="classglpp_1_1core_1_1object_1_1image__t.html#af67f8252e7d2a4eb970dfc695f82909e">value_<wbr/>type</a>&amp; <span class="m-label m-flat m-primary">constexpr</span></span>
+            </dt>
+            <dd>get pixel</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#a582ba23ab81cb30d27c79c2d490eaa7c">begin</a>(</span><span class="m-doc-wrap">) -&gt; <a class="m-doc" href="classglpp_1_1core_1_1object_1_1image__t.html#a84e2a31b756154132852ec36d635f5d8">iterator</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>get iterator to pixel data</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#a263309df0d27d787411b676b3879cee7">begin</a>(</span><span class="m-doc-wrap">) const -&gt; <a class="m-doc" href="classglpp_1_1core_1_1object_1_1image__t.html#a2bfff16d4f2ed556230ce0c9e846d0a3">const_<wbr/>iterator</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>get iterator to pixel data</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#a1043103ffe9f3a8d9968f38146f66d9e">channels</a>(</span><span class="m-doc-wrap">) const -&gt; int <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>get number of color channels</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#a9ca3f4bc46ae84363237eb0245b685cd">data</a>(</span><span class="m-doc-wrap">) -&gt; T* <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>pointer to pixel data</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ad8e1bb5b8ad20f8ccd4015fb318211f5">data</a>(</span><span class="m-doc-wrap">) const -&gt; const T* <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>pointer to pixel data</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#a82fae05605232e2e2cee9d2299f3ed8f">end</a>(</span><span class="m-doc-wrap">) -&gt; <a class="m-doc" href="classglpp_1_1core_1_1object_1_1image__t.html#a84e2a31b756154132852ec36d635f5d8">iterator</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>get iterator to end of pixel data</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#aee11ae14d39fddf4da60eea6c530706d">end</a>(</span><span class="m-doc-wrap">) const -&gt; <a class="m-doc" href="classglpp_1_1core_1_1object_1_1image__t.html#a2bfff16d4f2ed556230ce0c9e846d0a3">const_<wbr/>iterator</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>get iterator to end of pixel data</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#af13ffeaa02d8c78ed62df91aa62f8c86">format</a>(</span><span class="m-doc-wrap">) const -&gt; <a class="m-doc" href="namespaceglpp_1_1core_1_1object.html#a8e02caa982a701d285f609043009cc12">image_<wbr/>format_<wbr/>t</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>get image format</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#a7f2389df0d72dc08855b450c8cd20990">get</a>(</span><span class="m-doc-wrap"><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> x,
+              <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> y) -&gt; <a class="m-doc" href="classglpp_1_1core_1_1object_1_1image__t.html#af67f8252e7d2a4eb970dfc695f82909e">value_<wbr/>type</a>&amp; <span class="m-label m-flat m-primary">constexpr</span></span>
+            </dt>
+            <dd>get pixel</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#a7daa346fe880edf6f4a9c7dc3131177c">get</a>(</span><span class="m-doc-wrap"><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> x,
+              <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> y) const -&gt; const <a class="m-doc" href="classglpp_1_1core_1_1object_1_1image__t.html#af67f8252e7d2a4eb970dfc695f82909e">value_<wbr/>type</a>&amp; <span class="m-label m-flat m-primary">constexpr</span></span>
+            </dt>
+            <dd>get pixel</dd>
+            <dt id="a283b3b6b7a3181f613d25a1fecefb4ce">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a283b3b6b7a3181f613d25a1fecefb4ce">height</a>(</span><span class="m-doc-wrap">) const -&gt; <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>get height</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">void <a class="m-doc" href="#ae4d3cd1bca1f82d3f6221582228f2adf">load</a>(</span><span class="m-doc-wrap">const char* filename)</span>
+            </dt>
+            <dd>load an image from file</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#af466ebf706f32ab2e5077e91afe9c4a0">operator=</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="classglpp_1_1core_1_1object_1_1image__t.html">image_<wbr/>t</a>&amp; cpy) -&gt; <a class="m-doc" href="classglpp_1_1core_1_1object_1_1image__t.html">image_<wbr/>t</a>&amp; <span class="m-label m-flat m-info">defaulted</span> <span class="m-label m-flat m-primary">constexpr</span></span>
+            </dt>
+            <dd>copy assigment operator</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ab3b4281c65e58512269913a737fe4bb6">operator=</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="classglpp_1_1core_1_1object_1_1image__t.html">image_<wbr/>t</a>&amp;&amp; mov) -&gt; <a class="m-doc" href="classglpp_1_1core_1_1object_1_1image__t.html">image_<wbr/>t</a>&amp; <span class="m-label m-flat m-info">defaulted</span> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>move assignment operator</dd>
+            <dt id="a5e4736322f71d5e08fb9ccb660178c4a">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a5e4736322f71d5e08fb9ccb660178c4a">size</a>(</span><span class="m-doc-wrap">) const -&gt; <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>get size</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#a3f59cdad996bcdf77bed03aa4fad43be">type</a>(</span><span class="m-doc-wrap">) const -&gt; GLenum <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>get base type</dd>
+            <dt id="a6f5e02de7d8fc7b0749a3d48bc069372">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a6f5e02de7d8fc7b0749a3d48bc069372">width</a>(</span><span class="m-doc-wrap">) const -&gt; <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>get width</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">void <a class="m-doc" href="#ae4065f026c4c2faec9879d235b088064">write</a>(</span><span class="m-doc-wrap">const char* filename) const</span>
+            </dt>
+            <dd>write image to file</dd>
+          </dl>
+        </section>
+        <section>
+          <h2>Function documentation</h2>
+          <section class="m-doc-details" id="a1a82a53f2b4453935436c8af6aac321f"><div>
+            <h3>
+              <div class="m-doc-template">
+                template&lt;class T&gt;
+              </div>
+              <span class="m-doc-wrap-bumper"> glpp::<wbr/>core::<wbr/>object::<wbr/>image_t&lt;T&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a1a82a53f2b4453935436c8af6aac321f">image_t</a>(</span><span class="m-doc-wrap">) <span class="m-label m-info">defaulted</span> <span class="m-label m-primary">constexpr</span></span></span>
+            </h3>
+            <p>default constructor</p>
+<p>The default constructor will create an empty image with the dimensions [0, 0].</p>
+          </div></section>
+          <section class="m-doc-details" id="a0ddcb596435db431ec537c08e102db3a"><div>
+            <h3>
+              <div class="m-doc-template">
+                template&lt;class T&gt;
+              </div>
+              <span class="m-doc-wrap-bumper"> glpp::<wbr/>core::<wbr/>object::<wbr/>image_t&lt;T&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a0ddcb596435db431ec537c08e102db3a">image_t</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="classglpp_1_1core_1_1object_1_1image__t.html">image_<wbr/>t</a>&amp; cpy) <span class="m-label m-info">explicit</span>  <span class="m-label m-info">defaulted</span> <span class="m-label m-primary">constexpr</span></span></span>
+            </h3>
+            <p>copy constructor</p>
+<p>The <a class="m-doc" href="classglpp_1_1core_1_1object_1_1image__t.html">image_<wbr/>t</a> type is copy-constructible.</p>
+          </div></section>
+          <section class="m-doc-details" id="a76ef3405136d69a0fc722b103bacef47"><div>
+            <h3>
+              <div class="m-doc-template">
+                template&lt;class T&gt;
+              </div>
+              <span class="m-doc-wrap-bumper"> glpp::<wbr/>core::<wbr/>object::<wbr/>image_t&lt;T&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a76ef3405136d69a0fc722b103bacef47">image_t</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="classglpp_1_1core_1_1object_1_1image__t.html">image_<wbr/>t</a>&amp;&amp; mov) <span class="m-label m-info">defaulted</span> <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+            </h3>
+            <p>move constructor</p>
+<p>The <a class="m-doc" href="classglpp_1_1core_1_1object_1_1image__t.html">image_<wbr/>t</a> type is move-constructible. The <a class="m-doc" href="classglpp_1_1core_1_1object_1_1image__t.html">image_<wbr/>t</a> will be constructed with the contents of mov. The mov object is in an invalid state after the call of the constructor.</p>
+          </div></section>
+          <section class="m-doc-details" id="a528b791509ec62637f999a6f31b07da7"><div>
+            <h3>
+              <div class="m-doc-template">
+                template&lt;class T&gt;<br/>
+template&lt;class U&gt;
+              </div>
+              <span class="m-doc-wrap-bumper"> glpp::<wbr/>core::<wbr/>object::<wbr/>image_t&lt;T&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a528b791509ec62637f999a6f31b07da7">image_t</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="classglpp_1_1core_1_1object_1_1image__t.html">image_<wbr/>t</a>&lt;U&gt;&amp; conv) <span class="m-label m-info">explicit</span>  <span class="m-label m-primary">constexpr</span></span></span>
+            </h3>
+            <p>conversion operator</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">conv</td>
+                  <td>[in] <a class="m-doc" href="classglpp_1_1core_1_1object_1_1image__t.html">image_<wbr/>t</a> object to get pixel values and dimensions from</td>
+                </tr>
+              </tbody>
+            </table>
+<p>The convertion operator will initialise the <a class="m-doc" href="classglpp_1_1core_1_1object_1_1image__t.html">image_<wbr/>t</a> with the contents of conv. The pixel values of conv will be converted according to the pixel format of conv [U] to the pixel format of the <a class="m-doc" href="classglpp_1_1core_1_1object_1_1image__t.html">image_<wbr/>t</a> [T].</p>
+          </div></section>
+          <section class="m-doc-details" id="a797b95db5f7bbb5dadac82363ef57002"><div>
+            <h3>
+              <div class="m-doc-template">
+                template&lt;class T&gt;
+              </div>
+              <span class="m-doc-wrap-bumper"> glpp::<wbr/>core::<wbr/>object::<wbr/>image_t&lt;T&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a797b95db5f7bbb5dadac82363ef57002">image_t</a>(</span><span class="m-doc-wrap"><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> width,
+              <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> height) <span class="m-label m-primary">constexpr</span></span></span>
+            </h3>
+            <p>constructor with dimensions</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">width</td>
+                  <td>[in] new width of <a class="m-doc" href="classglpp_1_1core_1_1object_1_1image__t.html">image_<wbr/>t</a></td>
+                </tr>
+                <tr>
+                  <td>height</td>
+                  <td>[in] new height of <a class="m-doc" href="classglpp_1_1core_1_1object_1_1image__t.html">image_<wbr/>t</a></td>
+                </tr>
+              </tbody>
+            </table>
+<p>This constructor will initialise a <a class="m-doc" href="classglpp_1_1core_1_1object_1_1image__t.html">image_<wbr/>t</a> with the dimensions of [width, height] and zero values for the pixels values.</p>
+          </div></section>
+          <section class="m-doc-details" id="a1a02ef87fd937cba0ebf1d6956a1341d"><div>
+            <h3>
+              <div class="m-doc-template">
+                template&lt;class T&gt;
+              </div>
+              <span class="m-doc-wrap-bumper"> glpp::<wbr/>core::<wbr/>object::<wbr/>image_t&lt;T&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a1a02ef87fd937cba0ebf1d6956a1341d">image_t</a>(</span><span class="m-doc-wrap"><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> width,
+              <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> height,
+              const <a class="m-doc" href="classglpp_1_1core_1_1object_1_1image__t.html#af67f8252e7d2a4eb970dfc695f82909e">value_<wbr/>type</a> value) <span class="m-label m-primary">constexpr</span></span></span>
+            </h3>
+            <p>constructor with dimensions and default value</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">width</td>
+                  <td>[in] new width of <a class="m-doc" href="classglpp_1_1core_1_1object_1_1image__t.html">image_<wbr/>t</a></td>
+                </tr>
+                <tr>
+                  <td>height</td>
+                  <td>[in] new height of <a class="m-doc" href="classglpp_1_1core_1_1object_1_1image__t.html">image_<wbr/>t</a></td>
+                </tr>
+                <tr>
+                  <td>value</td>
+                  <td>[in] default value for pixel data</td>
+                </tr>
+              </tbody>
+            </table>
+<p>This constructor will initialise a <a class="m-doc" href="classglpp_1_1core_1_1object_1_1image__t.html">image_<wbr/>t</a> with the dimensions of [width, height] and pixels values matching the value parameter.</p>
+          </div></section>
+          <section class="m-doc-details" id="afe41a0d3a97606c4b239aaf0c6b38a08"><div>
+            <h3>
+              <div class="m-doc-template">
+                template&lt;class T&gt;
+              </div>
+              <span class="m-doc-wrap-bumper"> glpp::<wbr/>core::<wbr/>object::<wbr/>image_t&lt;T&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#afe41a0d3a97606c4b239aaf0c6b38a08">image_t</a>(</span><span class="m-doc-wrap"><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> width,
+              <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> height,
+              const <a class="m-doc" href="classglpp_1_1core_1_1object_1_1image__t.html#af67f8252e7d2a4eb970dfc695f82909e">value_<wbr/>type</a>* begin) <span class="m-label m-primary">constexpr</span></span></span>
+            </h3>
+            <p>constructor with dimensions and pointer to buffer</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">width</td>
+                  <td>[in] new width of <a class="m-doc" href="classglpp_1_1core_1_1object_1_1image__t.html">image_<wbr/>t</a></td>
+                </tr>
+                <tr>
+                  <td>height</td>
+                  <td>[in] new height of <a class="m-doc" href="classglpp_1_1core_1_1object_1_1image__t.html">image_<wbr/>t</a></td>
+                </tr>
+                <tr>
+                  <td>begin</td>
+                  <td>[in] pointer to pixel data</td>
+                </tr>
+              </tbody>
+            </table>
+<p>This constructor will initialise a <a class="m-doc" href="classglpp_1_1core_1_1object_1_1image__t.html">image_<wbr/>t</a> with the dimensions of [width, height]. The pixel data will be copied from the position pointed to by begin.</p>
+          </div></section>
+          <section class="m-doc-details" id="a3b996de307c3cb5a33c9a8786dc93185"><div>
+            <h3>
+              <div class="m-doc-template">
+                template&lt;class T&gt;
+              </div>
+              <span class="m-doc-wrap-bumper"> glpp::<wbr/>core::<wbr/>object::<wbr/>image_t&lt;T&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a3b996de307c3cb5a33c9a8786dc93185">image_t</a>(</span><span class="m-doc-wrap"><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> width,
+              <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> height,
+              <a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/utility/initializer_list.html" target="_blank">std::<wbr/>initializer_list</a>&lt;T&gt; init_list) <span class="m-label m-primary">constexpr</span></span></span>
+            </h3>
+            <p>constructor with dimensions and initializer_list</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">width</td>
+                  <td>[in] new width of <a class="m-doc" href="classglpp_1_1core_1_1object_1_1image__t.html">image_<wbr/>t</a></td>
+                </tr>
+                <tr>
+                  <td>height</td>
+                  <td>[in] new height of <a class="m-doc" href="classglpp_1_1core_1_1object_1_1image__t.html">image_<wbr/>t</a></td>
+                </tr>
+                <tr>
+                  <td>init_list</td>
+                  <td>[in] initializer_list with values</td>
+                </tr>
+              </tbody>
+            </table>
+<p>This constructor will initialise a <a class="m-doc" href="classglpp_1_1core_1_1object_1_1image__t.html">image_<wbr/>t</a> with the dimensions of [width, height]. The pixel data will be copied from the initializer_list init_list</p>
+          </div></section>
+          <section class="m-doc-details" id="a0ebea4965b2435305607e3c590b6ed4d"><div>
+            <h3>
+              <div class="m-doc-template">
+                template&lt;class T&gt;<br/>
+template&lt;class Range, <a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/types/enable_if.html" target="_blank">std::<wbr/>enable_if_t</a>&lt;<a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/types/is_same.html" target="_blank">std::<wbr/>is_same_v</a>&lt;typename Range::value_type, <a class="m-doc" href="classglpp_1_1core_1_1object_1_1image__t.html#af67f8252e7d2a4eb970dfc695f82909e">value_<wbr/>type</a>&gt;, int&gt; = 0&gt;
+              </div>
+              <span class="m-doc-wrap-bumper"> glpp::<wbr/>core::<wbr/>object::<wbr/>image_t&lt;T&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a0ebea4965b2435305607e3c590b6ed4d">image_t</a>(</span><span class="m-doc-wrap"><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> width,
+              <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> height,
+              const Range&amp; range) <span class="m-label m-primary">constexpr</span></span></span>
+            </h3>
+            <p>constructor with dimensions and generic container reference</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">width</td>
+                  <td>[in] new width of <a class="m-doc" href="classglpp_1_1core_1_1object_1_1image__t.html">image_<wbr/>t</a></td>
+                </tr>
+                <tr>
+                  <td>height</td>
+                  <td>[in] new height of <a class="m-doc" href="classglpp_1_1core_1_1object_1_1image__t.html">image_<wbr/>t</a></td>
+                </tr>
+                <tr>
+                  <td>range</td>
+                  <td>[in] container with pixel data</td>
+                </tr>
+              </tbody>
+            </table>
+<p>This constructor will initialise a <a class="m-doc" href="classglpp_1_1core_1_1object_1_1image__t.html">image_<wbr/>t</a> with the dimensions of [width, height]. The pixel data will be copied from a range or forward iteratable container.</p>
+          </div></section>
+          <section class="m-doc-details" id="ade3feec473bc5894d3943a3b10681965"><div>
+            <h3>
+              <div class="m-doc-template">
+                template&lt;class T&gt;<br/>
+template&lt;class Iterator, <a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/types/enable_if.html" target="_blank">std::<wbr/>enable_if_t</a>&lt;<a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/types/is_same.html" target="_blank">std::<wbr/>is_same_v</a>&lt;typename <a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/iterator/iterator_traits.html" target="_blank">std::<wbr/>iterator_traits</a>&lt;Iterator&gt;::<a class="m-doc" href="classglpp_1_1core_1_1object_1_1image__t.html#af67f8252e7d2a4eb970dfc695f82909e">value_<wbr/>type</a>, <a class="m-doc" href="classglpp_1_1core_1_1object_1_1image__t.html#af67f8252e7d2a4eb970dfc695f82909e">value_<wbr/>type</a>&gt;, int&gt; = 0&gt;
+              </div>
+              <span class="m-doc-wrap-bumper"> glpp::<wbr/>core::<wbr/>object::<wbr/>image_t&lt;T&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ade3feec473bc5894d3943a3b10681965">image_t</a>(</span><span class="m-doc-wrap"><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> width,
+              <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> height,
+              const Iterator&amp; begin,
+              const Iterator&amp; end) <span class="m-label m-primary">constexpr</span></span></span>
+            </h3>
+            <p>constructor with dimensions and iterator range</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">width</td>
+                  <td>[in] new width of <a class="m-doc" href="classglpp_1_1core_1_1object_1_1image__t.html">image_<wbr/>t</a></td>
+                </tr>
+                <tr>
+                  <td>height</td>
+                  <td>[in] new height of <a class="m-doc" href="classglpp_1_1core_1_1object_1_1image__t.html">image_<wbr/>t</a></td>
+                </tr>
+                <tr>
+                  <td>begin</td>
+                  <td>[in] begin of init range</td>
+                </tr>
+                <tr>
+                  <td>end</td>
+                  <td>[in] end of init range</td>
+                </tr>
+              </tbody>
+            </table>
+<p>This constructor will initialise a <a class="m-doc" href="classglpp_1_1core_1_1object_1_1image__t.html">image_<wbr/>t</a> with the dimensions of [width, height]. The pixel data will be copied from the range between begin and end, including begin and excluding end.</p>
+          </div></section>
+          <section class="m-doc-details" id="a238b60033ba5eb9cbffab05d96bc738c"><div>
+            <h3>
+              <div class="m-doc-template">
+                template&lt;class T&gt;
+              </div>
+              <span class="m-doc-wrap-bumper"> glpp::<wbr/>core::<wbr/>object::<wbr/>image_t&lt;T&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a238b60033ba5eb9cbffab05d96bc738c">image_t</a>(</span><span class="m-doc-wrap">const char* filename)</span></span>
+            </h3>
+            <p>construct <a class="m-doc" href="classglpp_1_1core_1_1object_1_1image__t.html">image_<wbr/>t</a> from file</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">filename</td>
+                  <td>[in] name or path of file to load</td>
+                </tr>
+              </tbody>
+            </table>
+<p>This constructor will load a image from file. The width and height is fetched from the file. If the pixel format of the file does not match the one of the <a class="m-doc" href="classglpp_1_1core_1_1object_1_1image__t.html">image_<wbr/>t</a> template parameter, the pixel data will be converted. To use this function it is required to link against glpp::image.</p>
+          </div></section>
+          <section class="m-doc-details" id="a3c59e0dbc5a40d07974e3f79523e7745"><div>
+            <h3>
+              <div class="m-doc-template">
+                template&lt;class T&gt;
+              </div>
+              <span class="m-doc-wrap-bumper"><a class="m-doc" href="classglpp_1_1core_1_1object_1_1image__t.html#af67f8252e7d2a4eb970dfc695f82909e">value_<wbr/>type</a>&amp; glpp::<wbr/>core::<wbr/>object::<wbr/>image_t&lt;T&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a3c59e0dbc5a40d07974e3f79523e7745">at</a>(</span><span class="m-doc-wrap"><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> x,
+              <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> y) <span class="m-label m-primary">constexpr</span></span></span>
+            </h3>
+            <p>get pixel</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">x</td>
+                  <td>[in] x coordinate of pixel to fetch</td>
+                </tr>
+                <tr>
+                  <td>y</td>
+                  <td>[in] y coordinate of pixel to fetch</td>
+                </tr>
+              </tbody>
+            </table>
+<p>Get reference the data of a single pixel. This function will perform bounds checking and throw if x and y are no valid coordinates with respect to the image.</p>
+          </div></section>
+          <section class="m-doc-details" id="aae7571ad242f06d24bd637b0cb9a4f17"><div>
+            <h3>
+              <div class="m-doc-template">
+                template&lt;class T&gt;
+              </div>
+              <span class="m-doc-wrap-bumper">const <a class="m-doc" href="classglpp_1_1core_1_1object_1_1image__t.html#af67f8252e7d2a4eb970dfc695f82909e">value_<wbr/>type</a>&amp; glpp::<wbr/>core::<wbr/>object::<wbr/>image_t&lt;T&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#aae7571ad242f06d24bd637b0cb9a4f17">at</a>(</span><span class="m-doc-wrap"><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> x,
+              <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> y) const <span class="m-label m-primary">constexpr</span></span></span>
+            </h3>
+            <p>get pixel</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">x</td>
+                  <td>[in] x coordinate of pixel to fetch</td>
+                </tr>
+                <tr>
+                  <td>y</td>
+                  <td>[in] y coordinate of pixel to fetch</td>
+                </tr>
+              </tbody>
+            </table>
+<p>Get reference the data of a single pixel. This function will perform bounds checking and throw if x and y are no valid coordinates with respect to the image.</p>
+          </div></section>
+          <section class="m-doc-details" id="a582ba23ab81cb30d27c79c2d490eaa7c"><div>
+            <h3>
+              <div class="m-doc-template">
+                template&lt;class T&gt;
+              </div>
+              <span class="m-doc-wrap-bumper"><a class="m-doc" href="classglpp_1_1core_1_1object_1_1image__t.html#a84e2a31b756154132852ec36d635f5d8">iterator</a> glpp::<wbr/>core::<wbr/>object::<wbr/>image_t&lt;T&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a582ba23ab81cb30d27c79c2d490eaa7c">begin</a>(</span><span class="m-doc-wrap">) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+            </h3>
+            <p>get iterator to pixel data</p>
+<p>Returns random access iterator to the first pixel in the image.</p>
+          </div></section>
+          <section class="m-doc-details" id="a263309df0d27d787411b676b3879cee7"><div>
+            <h3>
+              <div class="m-doc-template">
+                template&lt;class T&gt;
+              </div>
+              <span class="m-doc-wrap-bumper"><a class="m-doc" href="classglpp_1_1core_1_1object_1_1image__t.html#a2bfff16d4f2ed556230ce0c9e846d0a3">const_<wbr/>iterator</a> glpp::<wbr/>core::<wbr/>object::<wbr/>image_t&lt;T&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a263309df0d27d787411b676b3879cee7">begin</a>(</span><span class="m-doc-wrap">) const <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+            </h3>
+            <p>get iterator to pixel data</p>
+<p>Returns random access iterator to the first pixel in the image.</p>
+          </div></section>
+          <section class="m-doc-details" id="a1043103ffe9f3a8d9968f38146f66d9e"><div>
+            <h3>
+              <div class="m-doc-template">
+                template&lt;class T&gt;
+              </div>
+              <span class="m-doc-wrap-bumper">int glpp::<wbr/>core::<wbr/>object::<wbr/>image_t&lt;T&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a1043103ffe9f3a8d9968f38146f66d9e">channels</a>(</span><span class="m-doc-wrap">) const <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+            </h3>
+            <p>get number of color channels</p>
+<p>Returns the number of color channels present in the picture. Can be 1, 2, 3 or 4.</p>
+          </div></section>
+          <section class="m-doc-details" id="a9ca3f4bc46ae84363237eb0245b685cd"><div>
+            <h3>
+              <div class="m-doc-template">
+                template&lt;class T&gt;
+              </div>
+              <span class="m-doc-wrap-bumper">T* glpp::<wbr/>core::<wbr/>object::<wbr/>image_t&lt;T&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a9ca3f4bc46ae84363237eb0245b685cd">data</a>(</span><span class="m-doc-wrap">) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+            </h3>
+            <p>pointer to pixel data</p>
+<p>Returns a pointer to the underlying memory of the pixel data.</p>
+          </div></section>
+          <section class="m-doc-details" id="ad8e1bb5b8ad20f8ccd4015fb318211f5"><div>
+            <h3>
+              <div class="m-doc-template">
+                template&lt;class T&gt;
+              </div>
+              <span class="m-doc-wrap-bumper">const T* glpp::<wbr/>core::<wbr/>object::<wbr/>image_t&lt;T&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ad8e1bb5b8ad20f8ccd4015fb318211f5">data</a>(</span><span class="m-doc-wrap">) const <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+            </h3>
+            <p>pointer to pixel data</p>
+<p>Returns a pointer to the underlying memory of the pixel data.</p>
+          </div></section>
+          <section class="m-doc-details" id="a82fae05605232e2e2cee9d2299f3ed8f"><div>
+            <h3>
+              <div class="m-doc-template">
+                template&lt;class T&gt;
+              </div>
+              <span class="m-doc-wrap-bumper"><a class="m-doc" href="classglpp_1_1core_1_1object_1_1image__t.html#a84e2a31b756154132852ec36d635f5d8">iterator</a> glpp::<wbr/>core::<wbr/>object::<wbr/>image_t&lt;T&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a82fae05605232e2e2cee9d2299f3ed8f">end</a>(</span><span class="m-doc-wrap">) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+            </h3>
+            <p>get iterator to end of pixel data</p>
+<p>Returns iterator referring to the past-the-end pixel of the image.</p>
+          </div></section>
+          <section class="m-doc-details" id="aee11ae14d39fddf4da60eea6c530706d"><div>
+            <h3>
+              <div class="m-doc-template">
+                template&lt;class T&gt;
+              </div>
+              <span class="m-doc-wrap-bumper"><a class="m-doc" href="classglpp_1_1core_1_1object_1_1image__t.html#a2bfff16d4f2ed556230ce0c9e846d0a3">const_<wbr/>iterator</a> glpp::<wbr/>core::<wbr/>object::<wbr/>image_t&lt;T&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#aee11ae14d39fddf4da60eea6c530706d">end</a>(</span><span class="m-doc-wrap">) const <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+            </h3>
+            <p>get iterator to end of pixel data</p>
+<p>Returns iterator referring to the past-the-end pixel of the image.</p>
+          </div></section>
+          <section class="m-doc-details" id="af13ffeaa02d8c78ed62df91aa62f8c86"><div>
+            <h3>
+              <div class="m-doc-template">
+                template&lt;class T&gt;
+              </div>
+              <span class="m-doc-wrap-bumper"><a class="m-doc" href="namespaceglpp_1_1core_1_1object.html#a8e02caa982a701d285f609043009cc12">image_<wbr/>format_<wbr/>t</a> glpp::<wbr/>core::<wbr/>object::<wbr/>image_t&lt;T&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#af13ffeaa02d8c78ed62df91aa62f8c86">format</a>(</span><span class="m-doc-wrap">) const <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+            </h3>
+            <p>get image format</p>
+<p>Returns the format description value of the used pixel format.</p>
+          </div></section>
+          <section class="m-doc-details" id="a7f2389df0d72dc08855b450c8cd20990"><div>
+            <h3>
+              <div class="m-doc-template">
+                template&lt;class T&gt;
+              </div>
+              <span class="m-doc-wrap-bumper"><a class="m-doc" href="classglpp_1_1core_1_1object_1_1image__t.html#af67f8252e7d2a4eb970dfc695f82909e">value_<wbr/>type</a>&amp; glpp::<wbr/>core::<wbr/>object::<wbr/>image_t&lt;T&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a7f2389df0d72dc08855b450c8cd20990">get</a>(</span><span class="m-doc-wrap"><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> x,
+              <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> y) <span class="m-label m-primary">constexpr</span></span></span>
+            </h3>
+            <p>get pixel</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">x</td>
+                  <td>[in] x coordinate of pixel to fetch</td>
+                </tr>
+                <tr>
+                  <td>y</td>
+                  <td>[in] y coordinate of pixel to fetch</td>
+                </tr>
+              </tbody>
+            </table>
+<p>Get reference the data of a single pixel.</p>
+          </div></section>
+          <section class="m-doc-details" id="a7daa346fe880edf6f4a9c7dc3131177c"><div>
+            <h3>
+              <div class="m-doc-template">
+                template&lt;class T&gt;
+              </div>
+              <span class="m-doc-wrap-bumper">const <a class="m-doc" href="classglpp_1_1core_1_1object_1_1image__t.html#af67f8252e7d2a4eb970dfc695f82909e">value_<wbr/>type</a>&amp; glpp::<wbr/>core::<wbr/>object::<wbr/>image_t&lt;T&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a7daa346fe880edf6f4a9c7dc3131177c">get</a>(</span><span class="m-doc-wrap"><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> x,
+              <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> y) const <span class="m-label m-primary">constexpr</span></span></span>
+            </h3>
+            <p>get pixel</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">x</td>
+                  <td>[in] x coordinate of pixel to fetch</td>
+                </tr>
+                <tr>
+                  <td>y</td>
+                  <td>[in] y coordinate of pixel to fetch</td>
+                </tr>
+              </tbody>
+            </table>
+<p>Get reference the data of a single pixel.</p>
+          </div></section>
+          <section class="m-doc-details" id="ae4d3cd1bca1f82d3f6221582228f2adf"><div>
+            <h3>
+              <div class="m-doc-template">
+                template&lt;class T&gt;
+              </div>
+              <span class="m-doc-wrap-bumper">void glpp::<wbr/>core::<wbr/>object::<wbr/>image_t&lt;T&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ae4d3cd1bca1f82d3f6221582228f2adf">load</a>(</span><span class="m-doc-wrap">const char* filename)</span></span>
+            </h3>
+            <p>load an image from file</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">filename</td>
+                  <td>[in] name or path of file to load</td>
+                </tr>
+              </tbody>
+            </table>
+<p>This function will load a image from file and overwrite the members of this class. The width and height is fetched from the file. If the pixel format of the file does not match the one of the <a class="m-doc" href="classglpp_1_1core_1_1object_1_1image__t.html">image_<wbr/>t</a> template parameter, the pixel data will be converted. To use this function it is required to link against glpp::image.</p>
+          </div></section>
+          <section class="m-doc-details" id="af466ebf706f32ab2e5077e91afe9c4a0"><div>
+            <h3>
+              <div class="m-doc-template">
+                template&lt;class T&gt;
+              </div>
+              <span class="m-doc-wrap-bumper"><a class="m-doc" href="classglpp_1_1core_1_1object_1_1image__t.html">image_<wbr/>t</a>&amp; glpp::<wbr/>core::<wbr/>object::<wbr/>image_t&lt;T&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#af466ebf706f32ab2e5077e91afe9c4a0">operator=</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="classglpp_1_1core_1_1object_1_1image__t.html">image_<wbr/>t</a>&amp; cpy) <span class="m-label m-info">defaulted</span> <span class="m-label m-primary">constexpr</span></span></span>
+            </h3>
+            <p>copy assigment operator</p>
+<p>The <a class="m-doc" href="classglpp_1_1core_1_1object_1_1image__t.html">image_<wbr/>t</a> type is copy-assignable.</p>
+          </div></section>
+          <section class="m-doc-details" id="ab3b4281c65e58512269913a737fe4bb6"><div>
+            <h3>
+              <div class="m-doc-template">
+                template&lt;class T&gt;
+              </div>
+              <span class="m-doc-wrap-bumper"><a class="m-doc" href="classglpp_1_1core_1_1object_1_1image__t.html">image_<wbr/>t</a>&amp; glpp::<wbr/>core::<wbr/>object::<wbr/>image_t&lt;T&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ab3b4281c65e58512269913a737fe4bb6">operator=</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="classglpp_1_1core_1_1object_1_1image__t.html">image_<wbr/>t</a>&amp;&amp; mov) <span class="m-label m-info">defaulted</span> <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+            </h3>
+            <p>move assignment operator</p>
+<p>The <a class="m-doc" href="classglpp_1_1core_1_1object_1_1image__t.html">image_<wbr/>t</a> type is move-assignable. The <a class="m-doc" href="classglpp_1_1core_1_1object_1_1image__t.html">image_<wbr/>t</a> will be constructed with the contents of mov. The mov object is in an invalid state after the call of the move assignment operator.</p>
+          </div></section>
+          <section class="m-doc-details" id="a3f59cdad996bcdf77bed03aa4fad43be"><div>
+            <h3>
+              <div class="m-doc-template">
+                template&lt;class T&gt;
+              </div>
+              <span class="m-doc-wrap-bumper">GLenum glpp::<wbr/>core::<wbr/>object::<wbr/>image_t&lt;T&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a3f59cdad996bcdf77bed03aa4fad43be">type</a>(</span><span class="m-doc-wrap">) const <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+            </h3>
+            <p>get base type</p>
+<p>Returns the OpenGL specifier for the base type of the pixel format.</p>
+          </div></section>
+          <section class="m-doc-details" id="ae4065f026c4c2faec9879d235b088064"><div>
+            <h3>
+              <div class="m-doc-template">
+                template&lt;class T&gt;
+              </div>
+              <span class="m-doc-wrap-bumper">void glpp::<wbr/>core::<wbr/>object::<wbr/>image_t&lt;T&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ae4065f026c4c2faec9879d235b088064">write</a>(</span><span class="m-doc-wrap">const char* filename) const</span></span>
+            </h3>
+            <p>write image to file</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">filename</td>
+                  <td>[in] name or path of file to write</td>
+                </tr>
+              </tbody>
+            </table>
+<p>This function will write the contents of this class to a file. To use this function it is required to link against glpp::image.</p>
+          </div></section>
+        </section>
+      </div>
+    </div>
+  </div>
+</article></main>
+<div class="m-doc-search" id="search">
+  <a href="#!" onclick="return hideSearch()"></a>
+  <div class="m-container">
+    <div class="m-row">
+      <div class="m-col-m-8 m-push-m-2">
+        <div class="m-doc-search-header m-text m-small">
+          <div><span class="m-label m-default">Tab</span> / <span class="m-label m-default">T</span> to search, <span class="m-label m-default">Esc</span> to close</div>
+          <div id="search-symbolcount">…</div>
+        </div>
+        <div class="m-doc-search-content">
+          <form>
+            <input autocomplete="off" autofocus="autofocus" disabled="disabled" id="search-input" name="q" placeholder="Loading …" spellcheck="false" type="search"/>
+          </form>
+          <noscript class="m-text m-danger m-text-center">Unlike everything else in the docs, the search functionality <em>requires</em> JavaScript.</noscript>
+          <div class="m-text m-dim m-text-center" id="search-help">
+            <p class="m-noindent">Search for symbols, directories, files, pages or
+            modules. You can omit any prefix from the symbol or file path; adding a
+            <code>:</code> or <code>/</code> suffix lists all members of given symbol or
+            directory.</p>
+            <p class="m-noindent">Use <span class="m-label m-dim">↓</span>
+            / <span class="m-label m-dim">↑</span> to navigate through the list,
+            <span class="m-label m-dim">Enter</span> to go.
+            <span class="m-label m-dim">Tab</span> autocompletes common prefix, you can
+            copy a link to the result using <span class="m-label m-dim">⌘</span>
+            <span class="m-label m-dim">L</span> while <span class="m-label m-dim">⌘</span>
+            <span class="m-label m-dim">M</span> produces a Markdown link.</p>
+          </div>
+          <div class="m-text m-warning m-text-center" id="search-notfound">Sorry, nothing was found.</div>
+          <ul id="search-results"></ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="search-v1.js"></script>
+<script async="async" src="searchdata-v1.js"></script>
+<footer><nav>
+  <div class="m-container">
+    <div class="m-row">
+      <div class="m-col-l-10 m-push-l-1">
+        
+    <a class="poxy-external" href="https://github.com/fabian-jung/glpp/" target="_blank">Github</a>
+     • <a class="poxy-external" href="https://github.com/fabian-jung/glpp/issues" target="_blank">Report an issue</a>
+     • <a class="poxy-external" href="https://github.com/fabian-jung/glpp/blob/master/LICENSE" target="_blank">License</a>
+     • <a download="" href="glpp.tagfile.xml" target="_blank" type="text/xml">Doxygen tagfile</a>
+    <br/><br/>
+    Site generated using <a class="poxy-external" href="https://github.com/marzer/poxy/" target="_blank">Poxy</a>
+
+      </div>
+    </div>
+  </div>
+</nav></footer>
+
+
+</body></html>

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en"><head>
   <meta charset="utf-8"/>
-  <title>glpp::core::object namespace | glpp An OpenGL Wrapper library for modern C++.</title>
+  <title>modules/core/include/glpp/core/object/image.hpp file | glpp An OpenGL Wrapper library for modern C++.</title>
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,400i,600,600i%7CSource+Code+Pro:400,400i,600" rel="stylesheet"/>
   <link href="m-dark+documentation.compiled.css" rel="stylesheet"/>
   <link href="favicon.svg" rel="icon" type="image/svg+xml"/>
@@ -57,41 +57,39 @@
     <div class="m-row">
       <div class="m-col-l-10 m-push-l-1">
         <h1>
-          <span class="m-breadcrumb"><a href="namespaceglpp.html">glpp</a>::<wbr/></span><span class="m-breadcrumb"><a href="namespaceglpp_1_1core.html">core</a>::<wbr/></span>object <span class="m-thin">namespace</span>
+          <span class="m-breadcrumb"><span>modules</span>/</span><span class="m-breadcrumb"><span>core</span>/</span><span class="m-breadcrumb"><span>include</span>/</span><span class="m-breadcrumb"><span>glpp</span>/</span><span class="m-breadcrumb"><span>core</span>/</span><span class="m-breadcrumb"><span>object</span>/</span>image.hpp <span class="m-thin">file</span>
         </h1>
+        <p>A Documented file.</p>
         <div class="m-block m-default poxy-toc">
           <h3>Contents</h3>
           <ul>
             <li>
               Reference
               <ul>
+                <li><a href="#namespaces">Namespaces</a></li>
                 <li><a href="#nested-classes">Classes</a></li>
                 <li><a href="#enum-members">Enums</a></li>
               </ul>
             </li>
           </ul>
         </div>
-<p><a class="m-doc" href="namespaceglpp_1_1core_1_1object.html">glpp::<wbr/>core::<wbr/>object</a> namespace</p>
+        <section id="namespaces">
+          <h2><a href="#namespaces">Namespaces</a></h2>
+          <dl class="m-doc">
+            <dt>namespace <a class="m-doc" href="namespaceglpp.html">glpp</a></dt>
+            <dd></dd>
+            <dt>namespace <a class="m-doc" href="namespaceglpp_1_1core.html">glpp::core</a></dt>
+            <dd></dd>
+            <dt>namespace <a class="m-doc" href="namespaceglpp_1_1core_1_1object.html">glpp::core::object</a></dt>
+            <dd></dd>
+          </dl>
+        </section>
         <section id="nested-classes">
           <h2><a href="#nested-classes">Classes</a></h2>
           <dl class="m-doc">
             <dt>
               <div class="m-doc-template">template&lt;class T&gt;</div>
-              class <a class="m-doc" href="structglpp_1_1core_1_1object_1_1attribute__properties.html">attribute_properties</a>
-            </dt>
-            <dd>OpenGL type trait helper.</dd>
-            <dt>
-              <div class="m-doc-template">template&lt;class T = float&gt;</div>
-              class <a class="m-doc" href="classglpp_1_1core_1_1object_1_1buffer__t.html">buffer_t</a>
-            </dt>
-            <dd>class for creating and managing buffers in OpenGL</dd>
-            <dt>
-              class <a class="m-doc" href="classglpp_1_1core_1_1object_1_1framebuffer__t.html">framebuffer_t</a>
-            </dt>
-            <dd>class for creating and managing framebuffers in OpenGL</dd>
-            <dt>
-              <div class="m-doc-template">template&lt;class T&gt;</div>
-              class <a class="m-doc" href="classglpp_1_1core_1_1object_1_1image__t.html">image_t</a>
+              class <a class="m-doc" href="classglpp_1_1core_1_1object_1_1image__t.html">glpp::core::object::image_t</a>
             </dt>
             <dd>storage class for image data in cpu memory.</dd>
           </dl>
@@ -99,50 +97,8 @@
         <section id="enum-members">
           <h2><a href="#enum-members">Enums</a></h2>
           <dl class="m-doc">
-            <dt id="a34ef4109ea94df06aa9b8aa13ee10221">
-              <span class="m-doc-wrap-bumper">enum class <a class="m-doc-self" href="#a34ef4109ea94df06aa9b8aa13ee10221">attachment_t</a>: GLenum { </span><span class="m-doc-wrap"><a class="m-doc-self" href="#a34ef4109ea94df06aa9b8aa13ee10221">color</a> = GL_COLOR_ATTACHMENT0,
-              <a class="m-doc-self" href="#a34ef4109ea94df06aa9b8aa13ee10221">depth</a> = GL_DEPTH_ATTACHMENT,
-              <a class="m-doc-self" href="#a34ef4109ea94df06aa9b8aa13ee10221">stencil</a> = GL_STENCIL_ATTACHMENT,
-              <a class="m-doc-self" href="#a34ef4109ea94df06aa9b8aa13ee10221">depth_stencil</a> = GL_DEPTH_STENCIL_ATTACHMENT }</span>
-            </dt>
-            <dd>strong typed enumeration type for framebuffer attachments</dd>
-            <dt id="a7678d15ca7407caa0697d8f6b83e9622">
-              <span class="m-doc-wrap-bumper">enum class <a class="m-doc-self" href="#a7678d15ca7407caa0697d8f6b83e9622">buffer_target_t</a>: GLenum { </span><span class="m-doc-wrap"><a class="m-doc-self" href="#a7678d15ca7407caa0697d8f6b83e9622">array_buffer</a> = GL_ARRAY_BUFFER,
-              <a class="m-doc-self" href="#a7678d15ca7407caa0697d8f6b83e9622">atomic_counter_buffer</a> = GL_ATOMIC_COUNTER_BUFFER,
-              <a class="m-doc-self" href="#a7678d15ca7407caa0697d8f6b83e9622">copy_read_buffer</a> = GL_COPY_READ_BUFFER,
-              <a class="m-doc-self" href="#a7678d15ca7407caa0697d8f6b83e9622">copy_write_buffer</a> = GL_COPY_WRITE_BUFFER,
-              <a class="m-doc-self" href="#a7678d15ca7407caa0697d8f6b83e9622">dispatch_indirect_buffer</a> = GL_DISPATCH_INDIRECT_BUFFER,
-              <a class="m-doc-self" href="#a7678d15ca7407caa0697d8f6b83e9622">draw_indirect_buffer</a> = GL_DRAW_INDIRECT_BUFFER,
-              <a class="m-doc-self" href="#a7678d15ca7407caa0697d8f6b83e9622">element_array_buffer</a> = GL_ELEMENT_ARRAY_BUFFER,
-              <a class="m-doc-self" href="#a7678d15ca7407caa0697d8f6b83e9622">pixel_pack_buffer</a> = GL_PIXEL_PACK_BUFFER,
-              <a class="m-doc-self" href="#a7678d15ca7407caa0697d8f6b83e9622">pixel_unpack_buffer</a> = GL_PIXEL_UNPACK_BUFFER,
-              <a class="m-doc-self" href="#a7678d15ca7407caa0697d8f6b83e9622">query_buffer</a> = GL_QUERY_BUFFER,
-              <a class="m-doc-self" href="#a7678d15ca7407caa0697d8f6b83e9622">shader_storage_buffer</a> = GL_SHADER_STORAGE_BUFFER,
-              <a class="m-doc-self" href="#a7678d15ca7407caa0697d8f6b83e9622">texture_buffer</a> = GL_TEXTURE_BUFFER,
-              <a class="m-doc-self" href="#a7678d15ca7407caa0697d8f6b83e9622">transform_feedback_buffer</a> = GL_TRANSFORM_FEEDBACK_BUFFER,
-              <a class="m-doc-self" href="#a7678d15ca7407caa0697d8f6b83e9622">uniform_buffer</a> = GL_UNIFORM_BUFFER }</span>
-            </dt>
-            <dd>strong typed enumeration type for buffer targets</dd>
-            <dt id="ac0b071d09fc4d63897acc8867c3cafd5">
-              <span class="m-doc-wrap-bumper">enum class <a class="m-doc-self" href="#ac0b071d09fc4d63897acc8867c3cafd5">buffer_usage_t</a>: GLenum { </span><span class="m-doc-wrap"><a class="m-doc-self" href="#ac0b071d09fc4d63897acc8867c3cafd5">stream_draw</a> = GL_STREAM_DRAW,
-              <a class="m-doc-self" href="#ac0b071d09fc4d63897acc8867c3cafd5">stream_read</a> = GL_STREAM_READ,
-              <a class="m-doc-self" href="#ac0b071d09fc4d63897acc8867c3cafd5">stream_copy</a> = GL_STREAM_COPY,
-              <a class="m-doc-self" href="#ac0b071d09fc4d63897acc8867c3cafd5">static_draw</a> = GL_STATIC_DRAW,
-              <a class="m-doc-self" href="#ac0b071d09fc4d63897acc8867c3cafd5">static_read</a> = GL_STATIC_READ,
-              <a class="m-doc-self" href="#ac0b071d09fc4d63897acc8867c3cafd5">static_copy</a> = GL_STATIC_COPY,
-              <a class="m-doc-self" href="#ac0b071d09fc4d63897acc8867c3cafd5">dynamic_draw</a> = GL_DYNAMIC_DRAW,
-              <a class="m-doc-self" href="#ac0b071d09fc4d63897acc8867c3cafd5">dynamic_read</a> = GL_DYNAMIC_READ,
-              <a class="m-doc-self" href="#ac0b071d09fc4d63897acc8867c3cafd5">dynamic_copy</a> = GL_DYNAMIC_COPY }</span>
-            </dt>
-            <dd>strong typed enumeration type for buffer usage</dd>
-            <dt id="a079be400fbf33f1abf573e6e96008041">
-              <span class="m-doc-wrap-bumper">enum class <a class="m-doc-self" href="#a079be400fbf33f1abf573e6e96008041">framebuffer_target_t</a>: GLenum { </span><span class="m-doc-wrap"><a class="m-doc-self" href="#a079be400fbf33f1abf573e6e96008041">read</a> = GL_READ_FRAMEBUFFER,
-              <a class="m-doc-self" href="#a079be400fbf33f1abf573e6e96008041">write</a> = GL_DRAW_FRAMEBUFFER,
-              <a class="m-doc-self" href="#a079be400fbf33f1abf573e6e96008041">read_and_write</a> = GL_FRAMEBUFFER }</span>
-            </dt>
-            <dd>strong typed enumeration type for framebuffer targets</dd>
             <dt id="12091e925e148a95ace7925b8a6dbdb5eee649830a58d70d98c66fc9728c5f41">
-              <span class="m-doc-wrap-bumper">enum class <a class="m-doc" href="#a8e02caa982a701d285f609043009cc12">image_format_t</a>: GLenum { </span><span class="m-doc-wrap"><a class="m-doc-self" href="#12091e925e148a95ace7925b8a6dbdb5eee649830a58d70d98c66fc9728c5f41">preferred</a> = 0,
+              <span class="m-doc-wrap-bumper">enum class <a class="m-doc" href="namespaceglpp_1_1core_1_1object.html#a8e02caa982a701d285f609043009cc12">image_format_t</a>: GLenum { </span><span class="m-doc-wrap"><a class="m-doc-self" href="#12091e925e148a95ace7925b8a6dbdb5eee649830a58d70d98c66fc9728c5f41">preferred</a> = 0,
               <a class="m-doc-self" href="#12091e925e148a95ace7925b8a6dbdb5eee649830a58d70d98c66fc9728c5f41">red</a> = GL_RED,
               <a class="m-doc-self" href="#12091e925e148a95ace7925b8a6dbdb5eee649830a58d70d98c66fc9728c5f41">rg</a> = GL_RG,
               <a class="m-doc-self" href="#12091e925e148a95ace7925b8a6dbdb5eee649830a58d70d98c66fc9728c5f41">rgb</a> = GL_RGB,
@@ -227,16 +183,6 @@
             </dt>
             <dd>strong typed enum to represent different pixel formats</dd>
           </dl>
-        </section>
-        <section>
-          <h2>Enum documentation</h2>
-          <section class="m-doc-details" id="a8e02caa982a701d285f609043009cc12"><div>
-            <h3>
-              enum class glpp::<wbr/>core::<wbr/>object::<wbr/><a class="m-doc-self" href="#a8e02caa982a701d285f609043009cc12">image_format_t</a>: GLenum
-            </h3>
-            <p>strong typed enum to represent different pixel formats</p>
-<p>This enum is consumed by texture_t to specify the pixel format. The values mostly represent the equivalent OpenGL pixel formats. One exception is image_format_t::preferred, which has no corresponding OpenGL pixel format and can be used in the construction of texture_t when using an <a class="m-doc" href="classglpp_1_1core_1_1object_1_1image__t.html">image_<wbr/>t</a> for construction and the internal pixel format of the <a class="m-doc" href="classglpp_1_1core_1_1object_1_1image__t.html">image_<wbr/>t</a> shall be used by the texture_t.</p>
-          </div></section>
         </section>
       </div>
     </div>
