@@ -1,0 +1,201 @@
+/**
+\file glpp/core/object/shader.hpp
+@brief A Documented file.
+*/
+
+/**
+@brief strong typed enum that represents different shader types
+@enum glpp::core::object::shader_type_t
+*/
+
+/**
+@brief  class for creating and managing shaders in OpenGL
+
+shader_t is a storage class for OpenGL shaders. It will load and compile the
+shader source on construction. The shader_t object can be destructed after the 
+shader is linked into a shader_program_t to potentially save resources on the gpu.
+
+@class glpp::core::object::shader_t
+*/
+
+/**
+@brief  class for creating and managing shader programs in OpenGL
+
+shader_program_t is a storage class for OpenGL shader programs, that creates, owns and manages buffer objects.
+
+@class glpp::core::object::shader_program_t
+*/
+
+/**
+@brief constructor
+
+Constructs a shader_t from shader_type_t and a const string reference. The constructor Will 
+throw, if code is not valid GLSL.
+
+@fn glpp::core::object::shader_t::shader_t(shader_type_t type, const std::string& code)
+@param type [in] shader type
+@param code [in] shader code
+*/
+
+
+/**
+@brief constructor
+
+Constructs a shader_t from shader_type_t and a istream reference. The constructor Will 
+throw, if the contents of code is not valid GLSL.
+
+@fn glpp::core::object::shader_t::shader_t(shader_type_t type, std::istream& code)
+@param type [in] shader type
+@param code [in] shader code
+*/
+
+
+/**
+@brief constructor
+
+Constructs a shader_t from shader_type_t and a istream rvalue-reference. The constructor Will 
+throw, if the contents of code is not valid GLSL.
+
+@fn glpp::core::object::shader_t::shader_t(shader_type_t type, std::istream&& code)
+@param type [in] shader type
+@param code [in] shader code
+*/
+
+/**
+@brief attatch shader_t to shader_shader_program_t
+
+This method will attatch shader as a new shader stage to the shader_program_t. The shader_t object can
+safely be destructed after attatchment without invalidation the shader_program_t.
+
+@fn void glpp::core::object::shader_program_t::attatch(const glpp::core::object::shader_t& shader)
+@param shader [in] shader stage that shall be attatched to the shader program
+*/
+
+/**
+@brief link shader program
+
+This function will link all attatched shaders to one pipeline. It will throw if the attatched shaders
+are not sufficient to create a valild shader pipeline.
+
+@fn void glpp::core::object::shader_program_t::link()
+*/
+
+/**
+@brief constructor
+
+Construct a shader_program_t from a list of shaders. The shaders will be attatched and linked by
+the constructor call. After construction the shader_program_t is ready to be used for rendering.
+
+@fn glpp::core::object::shader_program_t::shader_program_t(const shader_t&... shader)
+*/
+
+/**
+@brief get uniform location of a uniform inside the shader program
+
+This member will return the location of a named uniform. 
+This function requires a shader_program_t with attatched and linked shaders.
+
+@fn GLint glpp::core::object::shader_program_t::uniform_location(const GLchar* name) const
+@param name [in] name of the uniform
+@return uniform location
+*/
+
+/**
+@brief set uniform
+
+Sets the value of a uniform. The uniform is identified by name. The type of value can be a scalar-,
+vector- or matrix type from the glm library.
+
+@fn void glpp::core::object::shader_program_t::set_uniform(const char* name, const Value& value)
+@param name [in] name of the uniform to be set
+@param value [in] value that shall be set to the uniform
+*/
+
+/**
+@brief set uniform
+
+Sets the value of a uniform. The uniform is identified by location. The type of value can be a scalar-,
+vector- or matrix type from the glm library.
+
+@fn void glpp::core::object::shader_program_t::set_uniform(GLint location, const Value& value)
+@param location [in] location of the uniform to be set
+@param value [in] value that shall be set to the uniform
+*/
+
+/**
+@brief set uniform array
+
+Sets the value of a uniform array. The uniform array is identified by name. The value_type of the provided range can be a scalar-,
+vector- or matrix type from the glm library. The range may or may not be contiguously in memory, but a non contiguous range
+will require an additonal allocation and copy of the values.
+
+@fn void glpp::core::object::shader_program_t::set_uniform_array(const char* name, const Value* begin, const size_t size)
+@param name [in] name of the uniform to be set
+@param begin [in] begin of the value range
+@param size [in] number of elements of value range
+*/
+
+/**
+@brief set uniform array
+
+Sets the value of a uniform array. The uniform array is identified by location. The value_type of the provided range can be a scalar-,
+vector- or matrix type from the glm library. The range may or may not be contiguously in memory, but a non contiguous range
+will require an additonal allocation and copy of the values.
+
+@fn void glpp::core::object::shader_program_t::set_uniform_array(GLint location, const Value* begin, const size_t size)
+@param location [in] location of the uniform to be set
+@param begin [in] begin of the value range
+@param size [in] number of elements of value range
+*/
+
+/**
+@brief set texture sampler to use a specific texture unit
+
+This function will set a texture sampler in the shader programm to use a specific texture slot/texture unit.
+
+@fn void glpp::core::object::shader_program_t::set_texture(const char* name, const glpp::core::object::texture_slot_t& texture)
+@param name [in] name of texture in the shader code
+@param texture [in] texture slot that shall be used
+*/
+
+/**
+@brief set texture sampler to use a specific texture unit
+
+This function will set a texture sampler in the shader programm to use a specific texture slot/texture unit.
+
+@fn void glpp::core::object::shader_program_t::set_texture(GLint location, const glpp::core::object::texture_slot_t& texture)
+@param location [in] location of the texture in the shader program
+@param texture [in] texture slot object of the texture that shall be bound
+*/
+
+/**
+@brief set texture sampler array to use specific texture units
+
+This function will set a 
+texture sampler array in the shader programm to use specific texture slots/texture units.
+
+@fn void glpp::core::object::shader_program_t::set_texture_array(const char* name, const texture_slot_iterator begin, const texture_slot_iterator end)
+@param name [in] name of texture in the shader code
+@param begin [in] begin of the texture slot range
+@param end [in] end of the texture slot range
+*/
+
+/**
+@brief set texture sampler array to use specific texture units
+
+This function will set a texture sampler array in the shader programm to use specific texture slots/texture units.
+
+@fn void glpp::core::object::shader_program_t::set_texture_array(GLint location, const texture_slot_iterator begin, const texture_slot_iterator end)
+@param location [in] location of the texture in the shader program
+@param begin [in] begin of the texture slot range
+@param end [in] end of the texture slot range
+*/
+
+/**
+@brief Make shader program active
+
+Bind this shader program to the global OpenGL state-machine state. Following draw calls will use 
+the shaders and uniforms linked to this shader_program_t object.
+
+@fn void glpp::core::object::shader_program_t::use() const
+*/
