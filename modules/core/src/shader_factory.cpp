@@ -66,6 +66,10 @@ shader_factory_t& shader_factory_t::set(std::string_view key, const char* value)
 	return *this;
 }
 
+std::string shader_factory_t::code() const {
+	return m_code;
+}
+
 template shader_factory_t& shader_factory_t::set(std::string_view key, const float& value);
 template shader_factory_t& shader_factory_t::set(std::string_view key, const double& value);
 template shader_factory_t& shader_factory_t::set(std::string_view key, const std::string& value);
