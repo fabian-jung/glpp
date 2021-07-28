@@ -1,0 +1,110 @@
+/**
+\file glpp/core/object/shader_factory.hpp
+@brief A Documented file.
+*/
+
+/**
+@brief  helper class for preprocessing shader code
+
+shader_factory_t is a helper class for the generation of GLSL shader code. It's man use is 
+text substitution for values that shall be compiled into the shader code. It also helps you
+with the generation of shader code to with texture atlases, since there is no standard GLSL feature
+for it.
+
+@class glpp::core::object::shader_factory_t
+*/
+
+/**
+@brief constructor
+
+Construct shader_factory_t from file with a istream handle.
+
+@fn glpp::core::object::shader_factory_t::shader_factory_t(std::ifstream& file)
+*/
+
+/**
+@brief constructor
+
+Construct shader_factory_t from file with a istream handle.
+
+@fn glpp::core::object::shader_factory_t::shader_factory_t(std::ifstream&& file)
+*/
+
+/**
+@brief constructor
+
+Construct shader_factory_t from file with a stringstream.
+
+@fn glpp::core::object::shader_factory_t::shader_factory_t(const std::stringstream& sstream)
+*/
+
+/**
+@brief constructor
+
+Construct shader_factory_t from file with a string.
+ 
+@fn glpp::core::object::shader_factory_t::shader_factory_t(std::string code_template)
+*/
+
+/**
+@brief copy constructor
+
+shader_factory_t is copy constructible. 
+
+@fn glpp::core::object::shader_factory_t::shader_factory_t(const shader_factory_t& cpy)
+*/
+
+/**
+@brief copy assignment operator
+
+shader_factory_t is copy assignable. 
+
+@fn glpp::core::object::shader_factory_t& glpp::core::object::shader_factory_t::operator=(const shader_factory_t& cpy)
+*/
+
+/**
+@brief move constructor
+
+shader_factory_t is move constructible. 
+
+@fn glpp::core::object::shader_factory_t::shader_factory_t(shader_factory_t&& mov)
+*/
+
+/**
+@brief move assignment operator
+
+shader_factory_t is move assignable.
+
+@fn glpp::core::object::shader_factory_t& glpp::core::object::shader_factory_t::operator=(shader_factory_t&& mov)
+*/
+
+/**
+@brief overwrite substring in code
+
+This method is used to overwrite a substring of the code with a value.
+
+@fn glpp::core::object::shader_factory_t& glpp::core::object::shader_factory_t::set(std::string_view key, const T& value)
+@param key [in] key that shall be replaced
+@param value [in] value that is transformed into a string and then replaces the key in the code
+@return reference to the shader_factory_t
+*/
+
+/**
+@brief overwrite substring in code
+
+This method is used to overwrite a substring of the code with a string.
+
+@fn glpp::core::object::shader_factory_t& glpp::core::object::shader_factory_t::set(std::string_view key, const char* value)
+@param key [in] key that shall be replaced
+@param value [in] value that replaces the key in the code
+@return reference to the shader_factory_t
+*/
+
+/**
+@brief get processed code back
+
+Returns the resulting code after all replacements happend.
+
+@fn std::string glpp::core::object::shader_factory_t::code()
+@return generated code
+*/
