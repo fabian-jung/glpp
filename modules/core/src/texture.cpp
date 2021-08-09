@@ -4,12 +4,12 @@
 namespace glpp::core::object {
 
 texture_t::texture_t(
-	const size_t& width,
-	const size_t& height,
+	const size_t width,
+	const size_t height,
 	image_format_t format,
-	const clamp_mode_t& clamp_mode,
-	const filter_mode_t& filter,
-	const mipmap_mode_t& mipmap_mode,
+	const clamp_mode_t clamp_mode,
+	const filter_mode_t filter,
+	const mipmap_mode_t mipmap_mode,
 	std::array<texture_channel_t, 4> swizzle_mask
 ) :
 	object_t<>(init(), destroy),
@@ -17,6 +17,10 @@ texture_t::texture_t(
 	m_height(height),
 	m_format(static_cast<GLenum>(format))
 {
+	if(format == image_format_t::preferred) {
+		throw std::runtime_error("image_format_t::preferred can not be used in this overload of the constructor.");
+	}
+
 	glTextureParameteri(id(), GL_TEXTURE_WRAP_S, static_cast<GLenum>(clamp_mode));
 	glTextureParameteri(id(), GL_TEXTURE_WRAP_T, static_cast<GLenum>(clamp_mode));
 
@@ -82,6 +86,15 @@ size_t texture_t::width() const {
 
 size_t texture_t::height() const {
 	return m_height;
+}
+
+texture_slot_t::texture_slot_t(const texture_t& texture) :
+	m_id(next_free_id())
+{
+	if(id() >= max_texture_units()) {
+		throw std::runtime_error("Trying to bind texture unit to an invalid offset.");
+	}
+	units[id()] = std::numeric_limits<int>::max();
 }
 
 texture_slot_t::texture_slot_t(const texture_t& texture) :
