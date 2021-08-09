@@ -48,16 +48,16 @@ public:
 	texture_t(texture_t&& mov) = default;
 	texture_t& operator=(texture_t&& mov) = default;
 
-	texture_t(const texture_t& mov) = delete;
-	texture_t& operator=(const texture_t& mov) = delete;
+	texture_t(const texture_t& cpy) = delete;
+	texture_t& operator=(const texture_t& cpy) = delete;
 
 	texture_t(
-		const size_t& width,
-		const size_t& height,
+		const size_t width,
+		const size_t height,
 		image_format_t format = image_format_t::rgb_8,
-		const clamp_mode_t& clamp_mode = clamp_mode_t::repeat,
-		const filter_mode_t& filter = filter_mode_t::linear,
-		const mipmap_mode_t& mipmap_mode = mipmap_mode_t::none,
+		const clamp_mode_t clamp_mode = clamp_mode_t::repeat,
+		const filter_mode_t filter = filter_mode_t::linear,
+		const mipmap_mode_t mipmap_mode = mipmap_mode_t::none,
 		std::array<texture_channel_t, 4> swizzle_mask = {texture_channel_t::red, texture_channel_t::green, texture_channel_t::blue, texture_channel_t::alpha}
 	);
 
@@ -65,9 +65,9 @@ public:
 	texture_t(
 		const image_t<T>& image,
 		image_format_t format = image_format_t::preferred,
-		const clamp_mode_t& clamp_mode = clamp_mode_t::repeat,
-		const filter_mode_t& filter = filter_mode_t::linear,
-		const mipmap_mode_t& mipmap_mode = mipmap_mode_t::none,
+		const clamp_mode_t clamp_mode = clamp_mode_t::repeat,
+		const filter_mode_t filter = filter_mode_t::linear,
+		const mipmap_mode_t mipmap_mode = mipmap_mode_t::none,
 		std::array<texture_channel_t, 4> swizzle_mask = {texture_channel_t::red, texture_channel_t::green, texture_channel_t::blue, texture_channel_t::alpha}
 	);
 
@@ -114,7 +114,10 @@ private:
 
 class texture_slot_t {
 public:
+
+	texture_slot_t();
 	texture_slot_t(const texture_t& texture);
+
 	texture_slot_t(texture_slot_t&& mov);
 	texture_slot_t& operator=(texture_slot_t&& mov);
 
@@ -156,9 +159,9 @@ template <class T>
 texture_t::texture_t(
 	const image_t<T>& image,
 	image_format_t format,
-	const clamp_mode_t& clamp_mode,
-	const filter_mode_t& filter,
-	const mipmap_mode_t& mipmap_mode,
+	const clamp_mode_t clamp_mode,
+	const filter_mode_t filter,
+	const mipmap_mode_t mipmap_mode,
 	std::array<texture_channel_t, 4> swizzle_mask
 ) :
 	texture_t(image.width(), image.height(), detail::resolve_format(format, image), clamp_mode, filter, mipmap_mode, swizzle_mask)
