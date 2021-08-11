@@ -1,0 +1,122 @@
+/**
+\file glpp/core/object/vertex_array.hpp
+@brief A Documented file.
+*/
+
+/**
+@brief class for creating and managing vertex arrays in OpenGL
+
+vertex_array_t is a storage class for OpenGL vertex arrays, that creates, owns and manages vertex arrays objects.
+
+@class glpp::core::object::vertex_array_t
+*/
+
+/**
+@brief default constructor
+
+The default constructor will create an empty vertex array object for later use.
+
+@fn glpp::core::object::vertex_array_t::vertex_array_t()
+*/
+
+/**
+@brief copy constructor
+
+vertex_array_t is not copy constructible.
+
+@fn glpp::core::object::vertex_array_t::vertex_array_t(const vertex_array_t& cpy)
+*/
+
+/**
+@brief move constructor
+
+vertex_array_t is move constructible. mov is invalid after completed move construction.
+
+@fn glpp::core::object::vertex_array_t::vertex_array_t(vertex_array_t&& mov)
+*/
+
+/**
+@brief copy assignment operator
+
+vertex_array_t is not copy assignable.
+
+@fn glpp::core::object::vertex_array_t::vertex_array_t& glpp::core::object::vertex_array_t::operator=(const vertex_array_t& cpy)
+*/
+
+/**
+@brief move assignment operator.
+
+vertex_array_t is move assignable. mov is invalid after completed move operation.
+
+@fn glpp::core::object::vertex_array_t::vertex_array_t& glpp::core::object::vertex_array_t::operator=(vertex_array_t&& mov)
+*/
+
+/**
+@brief bind vertex array object to OpenGL context
+
+This function will bind the underlying vao of the OpenGL state machiene. After completion of the bind following 
+buffer operations will be bound to this vertex array object.
+
+@fn void glpp::core::object::vertex_array_t::bind()
+*/
+
+/**
+@brief bind a buffer object to a specified binding point
+
+This member function will bind a buffer object to the vertex array object. After binding the format of the data must be specified
+with a call to attach_buffer. If no control over binding_point or the internal data layout is needed, the attach member function
+should be used over the bind_buffer/attatch_buffer approach.
+
+@fn void glpp::core::object::vertex_array_t::bind_buffer(const buffer_t<T>& buffer, GLuint binding_point, size_t stride)
+@param buffer [in] buffer that shall be bound
+@param binding_point [in] binding point the buffer shall be bound to. This param has no effect on the binding of index buffers.
+@param stride [in] distance of elements inside the buffer . This param has no effect on the binding of index buffers.
+*/
+
+/**
+@brief enable vertex attribute and specify attribute format of a bound buffer
+
+After completion of bind_buffer the vertex attribute is not fully initialised and activated. Therefore a call to attatch_buffer 
+is needed. This function will enable the vertex attribute and specify the internal attribute format. If no control over
+binding_point or the internal data layout is needed, the attach member function should be used over the
+bind_buffer/attatch_buffer approach.
+
+@fn void glpp::core::object::vertex_array_t::attach_buffer(GLuint binding_point, GLuint index, GLuint elements_per_vertex, GLenum type, GLintptr offset, bool normalized)
+@param binding_point [in] binding point of bound buffer.
+@param index [in] index of the vertex attribute that shall be linked to the buffer.
+@param elements_per_vertex [in] elements per vertex. Must be 1, 2, 3 or 4.
+@param type [in] base type
+@param offset [in] offset of the first vertex from the beginning of the buffer.
+@param normalized [in] specify if integral types shall be interpreted as normalized values. This parameter has no effect if base type is a floating point type.
+*/
+
+/**
+@brief attach a buffer object to the vertex array object.
+
+This function will bind and attach a buffer object. 
+
+@fn void glpp::core::object::vertex_array_t::attach(const buffer_t<T>& buffer, GLuint index, GLuint binding_point, size_t stride, GLuint elements_per_vertex, GLenum type, GLintptr offset, bool normalized)
+@param buffer [in] buffer that shall be bound
+@param index [in] index of the vertex attribute that shall be linked to the buffer.
+@param binding_point [in] binding point the buffer shall be bound to. This param has no effect on the binding of index buffers.
+@param stride [in] distance of elements inside the buffer . This param has no effect on the binding of index buffers.
+@param elements_per_vertex [in] elements per vertex. Must be 1, 2, 3 or 4.
+@param type [in] base type
+@param offset [in] offset of the first vertex from the beginning of the buffer.
+@param normalized [in] specify if integral types shall be interpreted as normalized values. This parameter has no effect if base type is a floating point type.
+*/
+
+/**
+@brief attach a buffer object to the vertex array object.
+
+This function will bind and attach a buffer object. This overload will use the attribute index provided as binding point. 
+
+@fn void glpp::core::object::vertex_array_t::attach(const buffer_t<T>& buffer, GLuint index, size_t stride, GLuint elements_per_vertex, GLenum type, GLintptr offset, bool normalized)
+@param buffer [in] buffer that shall be bound
+@param index [in] index of the vertex attribute that shall be linked to the buffer.
+@param stride [in] distance of elements inside the buffer . This param has no effect on the binding of index buffers.
+@param elements_per_vertex [in] elements per vertex. Must be 1, 2, 3 or 4.
+@param type [in] base type
+@param offset [in] offset of the first vertex from the beginning of the buffer.
+@param normalized [in] specify if integral types shall be interpreted as normalized values. This parameter has no effect if base type is a floating point type.
+*/
