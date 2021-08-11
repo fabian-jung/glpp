@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en"><head>
   <meta charset="utf-8"/>
-  <title>glpp An OpenGL Wrapper library for modern C++.</title>
+  <title>modules/core/include/glpp/core/object/shader.hpp file | glpp An OpenGL Wrapper library for modern C++.</title>
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,400i,600,600i%7CSource+Code+Pro:400,400i,600" rel="stylesheet"/>
   <link href="m-dark+documentation.compiled.css" rel="stylesheet"/>
   <link href="favicon.svg" rel="icon" type="image/svg+xml"/>
@@ -19,12 +19,6 @@
   <meta content="telephone=no" name="format-detection"/>
   <meta content="Poxy v0.4.5" name="generator"/>
   <meta content="no-referrer-when-downgrade" name="referrer"/>
-  <script type="application/ld+json">{
-    "@context": "https://schema.org",
-    "@type": "Article",
-    "dateModified": "2021-08-11T17:37:37+00:00",
-    "headline": "glpp An OpenGL Wrapper library for modern C++."
-}</script>
   <link href="poxy-0.4.5.css" rel="stylesheet"/>
   <link href="poxy-0.4.5-dark.css" rel="stylesheet"/>
   <script src="poxy-0.4.5.js"></script>
@@ -63,27 +57,60 @@
     <div class="m-row">
       <div class="m-col-l-10 m-push-l-1">
         <h1>
-          glpp
+          <span class="m-breadcrumb"><span>modules</span>/</span><span class="m-breadcrumb"><span>core</span>/</span><span class="m-breadcrumb"><span>include</span>/</span><span class="m-breadcrumb"><span>glpp</span>/</span><span class="m-breadcrumb"><span>core</span>/</span><span class="m-breadcrumb"><span>object</span>/</span>shader.hpp <span class="m-thin">file</span>
         </h1>
+        <p>A Documented file.</p>
         <div class="m-block m-default poxy-toc">
           <h3>Contents</h3>
           <ul>
-            <li><a href="#mainpage-features">Features</a></li>
             <li>
-              <a href="#mainpage-example">Basic examples</a>
+              Reference
               <ul>
-                <li><a href="#mainpage-example-first">first example</a></li>
+                <li><a href="#namespaces">Namespaces</a></li>
+                <li><a href="#nested-classes">Classes</a></li>
+                <li><a href="#enum-members">Enums</a></li>
               </ul>
             </li>
           </ul>
         </div>
-<section id="mainpage-features"><h2><a href="#mainpage-features">Features</a></h2><ul><li>feature 1</li><li>feature 2</li><li>feature 3</li></ul></section><section id="mainpage-example"><h2><a href="#mainpage-example">Basic examples</a></h2><section id="mainpage-example-first"><h3><a href="#mainpage-example-first">first example</a></h3><p>lorem ipsum</p><pre class="m-code"><span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span>
-
-<span class="k">int</span> <span class="nf">main</span><span class="p">(</span><span class="k">int</span> <span class="n">argc</span><span class="p">,</span> <span class="k">char</span><span class="o">**</span> <span class="n">argv</span><span class="p">)</span>
-<span class="p">{</span>
-   <span class="ns">std</span><span class="o">::</span><span class="ut">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"Hello World!"</span> <span class="o">&lt;&lt;</span> <span class="ns">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
-   <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
-<span class="p">}</span></pre><aside class="m-note m-default"><h4>See also</h4><ul><li><a class="m-doc" href="classglpp_1_1core_1_1object_1_1buffer__t.html">glpp::<wbr/>core::<wbr/>object::<wbr/>buffer_t</a></li></ul></aside></section></section>
+        <section id="namespaces">
+          <h2><a href="#namespaces">Namespaces</a></h2>
+          <dl class="m-doc">
+            <dt>namespace <a class="m-doc" href="namespaceglpp.html">glpp</a></dt>
+            <dd></dd>
+            <dt>namespace <a class="m-doc" href="namespaceglpp_1_1core.html">glpp::core</a></dt>
+            <dd></dd>
+            <dt>namespace <a class="m-doc" href="namespaceglpp_1_1core_1_1object.html">glpp::core::object</a></dt>
+            <dd></dd>
+          </dl>
+        </section>
+        <section id="nested-classes">
+          <h2><a href="#nested-classes">Classes</a></h2>
+          <dl class="m-doc">
+            <dt>
+              class <a class="m-doc" href="classglpp_1_1core_1_1object_1_1shader__t.html">glpp::core::object::shader_t</a>
+            </dt>
+            <dd>class for creating and managing shaders in OpenGL</dd>
+            <dt>
+              class <a class="m-doc" href="classglpp_1_1core_1_1object_1_1shader__program__t.html">glpp::core::object::shader_program_t</a>
+            </dt>
+            <dd>class for creating and managing shader programs in OpenGL</dd>
+          </dl>
+        </section>
+        <section id="enum-members">
+          <h2><a href="#enum-members">Enums</a></h2>
+          <dl class="m-doc">
+            <dt id="3af66bb288256a8dc52843399187319bd4f1b065eb8f1d0f7690ad98b8e1692d">
+              <span class="m-doc-wrap-bumper">enum class <a class="m-doc" href="namespaceglpp_1_1core_1_1object.html#a03f451c9e6a32003361987101ced71d1">shader_type_t</a>: GLenum { </span><span class="m-doc-wrap"><a class="m-doc-self" href="#3af66bb288256a8dc52843399187319bd4f1b065eb8f1d0f7690ad98b8e1692d">compute</a> = GL_COMPUTE_SHADER,
+              <a class="m-doc-self" href="#3af66bb288256a8dc52843399187319bd4f1b065eb8f1d0f7690ad98b8e1692d">vertex</a> = GL_VERTEX_SHADER,
+              <a class="m-doc-self" href="#3af66bb288256a8dc52843399187319bd4f1b065eb8f1d0f7690ad98b8e1692d">tess_control</a> = GL_TESS_CONTROL_SHADER,
+              <a class="m-doc-self" href="#3af66bb288256a8dc52843399187319bd4f1b065eb8f1d0f7690ad98b8e1692d">tess_eval</a> = GL_TESS_EVALUATION_SHADER,
+              <a class="m-doc-self" href="#3af66bb288256a8dc52843399187319bd4f1b065eb8f1d0f7690ad98b8e1692d">geometry</a> = GL_GEOMETRY_SHADER,
+              <a class="m-doc-self" href="#3af66bb288256a8dc52843399187319bd4f1b065eb8f1d0f7690ad98b8e1692d">fragment</a> = GL_FRAGMENT_SHADER }</span>
+            </dt>
+            <dd>strong typed enum that represents different shader types</dd>
+          </dl>
+        </section>
       </div>
     </div>
   </div>

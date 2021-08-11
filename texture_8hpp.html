@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en"><head>
   <meta charset="utf-8"/>
-  <title>glpp An OpenGL Wrapper library for modern C++.</title>
+  <title>modules/core/include/glpp/core/object/texture.hpp file | glpp An OpenGL Wrapper library for modern C++.</title>
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,400i,600,600i%7CSource+Code+Pro:400,400i,600" rel="stylesheet"/>
   <link href="m-dark+documentation.compiled.css" rel="stylesheet"/>
   <link href="favicon.svg" rel="icon" type="image/svg+xml"/>
@@ -19,12 +19,6 @@
   <meta content="telephone=no" name="format-detection"/>
   <meta content="Poxy v0.4.5" name="generator"/>
   <meta content="no-referrer-when-downgrade" name="referrer"/>
-  <script type="application/ld+json">{
-    "@context": "https://schema.org",
-    "@type": "Article",
-    "dateModified": "2021-08-11T17:37:37+00:00",
-    "headline": "glpp An OpenGL Wrapper library for modern C++."
-}</script>
   <link href="poxy-0.4.5.css" rel="stylesheet"/>
   <link href="poxy-0.4.5-dark.css" rel="stylesheet"/>
   <script src="poxy-0.4.5.js"></script>
@@ -63,27 +57,78 @@
     <div class="m-row">
       <div class="m-col-l-10 m-push-l-1">
         <h1>
-          glpp
+          <span class="m-breadcrumb"><span>modules</span>/</span><span class="m-breadcrumb"><span>core</span>/</span><span class="m-breadcrumb"><span>include</span>/</span><span class="m-breadcrumb"><span>glpp</span>/</span><span class="m-breadcrumb"><span>core</span>/</span><span class="m-breadcrumb"><span>object</span>/</span>texture.hpp <span class="m-thin">file</span>
         </h1>
+        <p>A Documented file.</p>
         <div class="m-block m-default poxy-toc">
           <h3>Contents</h3>
           <ul>
-            <li><a href="#mainpage-features">Features</a></li>
             <li>
-              <a href="#mainpage-example">Basic examples</a>
+              Reference
               <ul>
-                <li><a href="#mainpage-example-first">first example</a></li>
+                <li><a href="#namespaces">Namespaces</a></li>
+                <li><a href="#nested-classes">Classes</a></li>
+                <li><a href="#enum-members">Enums</a></li>
               </ul>
             </li>
           </ul>
         </div>
-<section id="mainpage-features"><h2><a href="#mainpage-features">Features</a></h2><ul><li>feature 1</li><li>feature 2</li><li>feature 3</li></ul></section><section id="mainpage-example"><h2><a href="#mainpage-example">Basic examples</a></h2><section id="mainpage-example-first"><h3><a href="#mainpage-example-first">first example</a></h3><p>lorem ipsum</p><pre class="m-code"><span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span>
-
-<span class="k">int</span> <span class="nf">main</span><span class="p">(</span><span class="k">int</span> <span class="n">argc</span><span class="p">,</span> <span class="k">char</span><span class="o">**</span> <span class="n">argv</span><span class="p">)</span>
-<span class="p">{</span>
-   <span class="ns">std</span><span class="o">::</span><span class="ut">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"Hello World!"</span> <span class="o">&lt;&lt;</span> <span class="ns">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
-   <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
-<span class="p">}</span></pre><aside class="m-note m-default"><h4>See also</h4><ul><li><a class="m-doc" href="classglpp_1_1core_1_1object_1_1buffer__t.html">glpp::<wbr/>core::<wbr/>object::<wbr/>buffer_t</a></li></ul></aside></section></section>
+        <section id="namespaces">
+          <h2><a href="#namespaces">Namespaces</a></h2>
+          <dl class="m-doc">
+            <dt>namespace <a class="m-doc" href="namespaceglpp.html">glpp</a></dt>
+            <dd></dd>
+            <dt>namespace <a class="m-doc" href="namespaceglpp_1_1core.html">glpp::core</a></dt>
+            <dd></dd>
+            <dt>namespace <a class="m-doc" href="namespaceglpp_1_1core_1_1object.html">glpp::core::object</a></dt>
+            <dd></dd>
+          </dl>
+        </section>
+        <section id="nested-classes">
+          <h2><a href="#nested-classes">Classes</a></h2>
+          <dl class="m-doc">
+            <dt>
+              class <a class="m-doc" href="classglpp_1_1core_1_1object_1_1texture__t.html">glpp::core::object::texture_t</a>
+            </dt>
+            <dd>storage class for OpenGL textures</dd>
+            <dt>
+              class <a class="m-doc" href="classglpp_1_1core_1_1object_1_1texture__slot__t.html">glpp::core::object::texture_slot_t</a>
+            </dt>
+            <dd>helper class representing a binding of a texture object to a texture unit</dd>
+          </dl>
+        </section>
+        <section id="enum-members">
+          <h2><a href="#enum-members">Enums</a></h2>
+          <dl class="m-doc">
+            <dt id="f9988c73758744bd562a21989d4b6ca949abc3178ee46b077b65659fcd71504a">
+              <span class="m-doc-wrap-bumper">enum class <a class="m-doc" href="namespaceglpp_1_1core_1_1object.html#aef5838b5fb1a06779f7893d1cc1297dc">clamp_mode_t</a>: GLenum { </span><span class="m-doc-wrap"><a class="m-doc-self" href="#f9988c73758744bd562a21989d4b6ca949abc3178ee46b077b65659fcd71504a">repeat</a> = GL_REPEAT,
+              <a class="m-doc-self" href="#f9988c73758744bd562a21989d4b6ca949abc3178ee46b077b65659fcd71504a">mirrored_repeat</a> = GL_MIRRORED_REPEAT,
+              <a class="m-doc-self" href="#f9988c73758744bd562a21989d4b6ca949abc3178ee46b077b65659fcd71504a">clamp_to_edge</a> = GL_CLAMP_TO_EDGE,
+              <a class="m-doc-self" href="#f9988c73758744bd562a21989d4b6ca949abc3178ee46b077b65659fcd71504a">clamp_to_border</a> = GL_CLAMP_TO_BORDER }</span>
+            </dt>
+            <dd>strong typed enumeration for texture clamping modes</dd>
+            <dt id="c62fedc10281bfe053ecb77224a18c63daf408094951f541fcfa9d399075eafe">
+              <span class="m-doc-wrap-bumper">enum class <a class="m-doc" href="namespaceglpp_1_1core_1_1object.html#a3ec2ffd0911e54e6f3bd3ed1b4a8cf8a">filter_mode_t</a>: GLenum { </span><span class="m-doc-wrap"><a class="m-doc-self" href="#c62fedc10281bfe053ecb77224a18c63daf408094951f541fcfa9d399075eafe">nearest</a> = GL_NEAREST,
+              <a class="m-doc-self" href="#c62fedc10281bfe053ecb77224a18c63daf408094951f541fcfa9d399075eafe">linear</a> = GL_LINEAR }</span>
+            </dt>
+            <dd>strong typed enumeration for texture filter modes</dd>
+            <dt id="ab50b46a68b63af5142db6f02441f8eb961d6abf3e75c9fe812474899e14033e">
+              <span class="m-doc-wrap-bumper">enum class <a class="m-doc" href="namespaceglpp_1_1core_1_1object.html#afffc6d2ee500bde4e643529babb51bab">mipmap_mode_t</a> { </span><span class="m-doc-wrap"><a class="m-doc-self" href="#ab50b46a68b63af5142db6f02441f8eb961d6abf3e75c9fe812474899e14033e">none</a>,
+              <a class="m-doc-self" href="#ab50b46a68b63af5142db6f02441f8eb961d6abf3e75c9fe812474899e14033e">nearest</a>,
+              <a class="m-doc-self" href="#ab50b46a68b63af5142db6f02441f8eb961d6abf3e75c9fe812474899e14033e">linear</a> }</span>
+            </dt>
+            <dd>strong typed enumeration for texture filter mipmap modes</dd>
+            <dt id="456ce0960c149c3befb9f24e827746505cc6dac7a6140e0bddab6b9bc0c4c33b">
+              <span class="m-doc-wrap-bumper">enum class <a class="m-doc" href="namespaceglpp_1_1core_1_1object.html#a1305db2c420c3b83172375e4c4bc508d">texture_channel_t</a>: GLenum { </span><span class="m-doc-wrap"><a class="m-doc-self" href="#456ce0960c149c3befb9f24e827746505cc6dac7a6140e0bddab6b9bc0c4c33b">red</a> = GL_RED,
+              <a class="m-doc-self" href="#456ce0960c149c3befb9f24e827746505cc6dac7a6140e0bddab6b9bc0c4c33b">green</a> = GL_GREEN,
+              <a class="m-doc-self" href="#456ce0960c149c3befb9f24e827746505cc6dac7a6140e0bddab6b9bc0c4c33b">blue</a> = GL_BLUE,
+              <a class="m-doc-self" href="#456ce0960c149c3befb9f24e827746505cc6dac7a6140e0bddab6b9bc0c4c33b">alpha</a> = GL_ALPHA,
+              <a class="m-doc-self" href="#456ce0960c149c3befb9f24e827746505cc6dac7a6140e0bddab6b9bc0c4c33b">zero</a> = GL_ZERO,
+              <a class="m-doc-self" href="#456ce0960c149c3befb9f24e827746505cc6dac7a6140e0bddab6b9bc0c4c33b">one</a> = GL_ONE }</span>
+            </dt>
+            <dd>strong typed enumeration for texture channels</dd>
+          </dl>
+        </section>
       </div>
     </div>
   </div>

@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8"/>
+  <title>glpp::core::object::vertex_array_t class | glpp An OpenGL Wrapper library for modern C++.</title>
+  <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,400i,600,600i%7CSource+Code+Pro:400,400i,600" rel="stylesheet"/>
+  <link href="m-dark+documentation.compiled.css" rel="stylesheet"/>
+  <link href="favicon.svg" rel="icon" type="image/svg+xml"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <meta content="#22272e" name="theme-color"/>
+  <meta content="glpp" name="twitter:title"/>
+  <meta content="glpp" property="og:title"/>
+  <meta content="glpp" itemprop="name"/>
+  <meta content="Fabian Jung" name="author"/>
+  <meta content="Fabian Jung" property="article:author"/>
+  <meta content="An OpenGL Wrapper library for modern C++." name="description"/>
+  <meta content="An OpenGL Wrapper library for modern C++." name="twitter:description"/>
+  <meta content="An OpenGL Wrapper library for modern C++." property="og:description"/>
+  <meta content="An OpenGL Wrapper library for modern C++." itemprop="description"/>
+  <meta content="telephone=no" name="format-detection"/>
+  <meta content="Poxy v0.4.5" name="generator"/>
+  <meta content="no-referrer-when-downgrade" name="referrer"/>
+  <link href="poxy-0.4.5.css" rel="stylesheet"/>
+  <link href="poxy-0.4.5-dark.css" rel="stylesheet"/>
+  <script src="poxy-0.4.5.js"></script>
+</head>
+<body>
+<header><nav id="navigation">
+  <div class="m-container">
+    <div class="m-row">
+      <a class="m-col-t-8 m-col-m-none m-left-m" href="index.html" id="m-navbar-brand"><img alt="" src="favicon-dark.svg"/>glpp <span class="m-thin">An OpenGL Wrapper library for modern C++.</span></a>
+      <div class="m-col-t-4 m-hide-m m-text-right m-nopadr">
+        <a class="m-doc-search-icon" href="#search" onclick="return showSearch()" title="Search"><svg style="height: 0.9rem;" viewBox="0 0 16 16">
+          <path d="m6 0c-3.31 0-6 2.69-6 6 0 3.31 2.69 6 6 6 1.49 0 2.85-0.541 3.89-1.44-0.0164 0.338 0.147 0.759 0.5 1.15l3.22 3.79c0.552 0.614 1.45 0.665 2 0.115 0.55-0.55 0.499-1.45-0.115-2l-3.79-3.22c-0.392-0.353-0.812-0.515-1.15-0.5 0.895-1.05 1.44-2.41 1.44-3.89 0-3.31-2.69-6-6-6zm0 1.56a4.44 4.44 0 0 1 4.44 4.44 4.44 4.44 0 0 1-4.44 4.44 4.44 4.44 0 0 1-4.44-4.44 4.44 4.44 0 0 1 4.44-4.44z" id="m-doc-search-icon-path"></path>
+        </svg></a>
+        <a href="#navigation" id="m-navbar-show" title="Show navigation"></a>
+        <a href="#" id="m-navbar-hide" title="Hide navigation"></a>
+      </div>
+      <div class="m-col-t-12 m-show-m m-col-m-none m-right-m" id="m-navbar-collapse">
+        <div class="m-row">
+          <ol class="m-col-t-6 m-col-m-none">
+            <li><a href="namespaces.html">Namespaces</a></li>
+            <li><a href="annotated.html">Classes</a></li>
+          </ol>
+          <ol class="m-col-t-6 m-col-m-none" start="3">
+            <li><a class="github poxy-external" href="https://github.com/fabian-jung/glpp/" target="_blank">Github</a></li>
+            <li class="m-show-m"><a class="m-doc-search-icon" href="#search" onclick="return showSearch()" title="Search"><svg style="height: 0.9rem;" viewBox="0 0 16 16">
+              <use href="#m-doc-search-icon-path"></use>
+            </svg></a></li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</nav></header>
+<main><article>
+  <div class="m-container m-container-inflatable">
+    <div class="m-row">
+      <div class="m-col-l-10 m-push-l-1">
+        <h1>
+          <span class="m-breadcrumb"><a href="namespaceglpp.html">glpp</a>::<wbr/></span><span class="m-breadcrumb"><a href="namespaceglpp_1_1core.html">core</a>::<wbr/></span><span class="m-breadcrumb"><a href="namespaceglpp_1_1core_1_1object.html">object</a>::<wbr/></span>vertex_array_t <span class="m-thin">class</span>
+        </h1>
+        <p>class for creating and managing vertex arrays in OpenGL</p>
+        <div class="m-block m-default poxy-toc">
+          <h3>Contents</h3>
+          <ul>
+            <li>
+              Reference
+              <ul>
+                <li><a href="#typeless-methods">Constructors, destructors, conversion operators</a></li>
+                <li><a href="#pub-methods">Public functions</a></li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+<p><a class="m-doc" href="classglpp_1_1core_1_1object_1_1vertex__array__t.html">vertex_<wbr/>array_<wbr/>t</a> is a storage class for OpenGL vertex arrays, that creates, owns and manages vertex arrays objects.</p>
+        <section id="typeless-methods">
+          <h2><a href="#typeless-methods">Constructors, destructors, conversion operators</a></h2>
+          <dl class="m-doc">
+            <dt>
+              <span class="m-doc-wrap-bumper"><a class="m-doc" href="#a3dd00409cf40934705d1d4312e8bb14f">vertex_array_t</a>(</span><span class="m-doc-wrap">)</span>
+            </dt>
+            <dd>default constructor</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper"><a class="m-doc" href="#a72e3b97be37915e39a7a666ca47a7055">vertex_array_t</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="classglpp_1_1core_1_1object_1_1vertex__array__t.html">vertex_<wbr/>array_<wbr/>t</a>&amp;&amp; mov) <span class="m-label m-flat m-info">defaulted</span></span>
+            </dt>
+            <dd>move constructor</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper"><a class="m-doc" href="#a6aefee2278cf2caa5aa5310bd8bcc09a">vertex_array_t</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="classglpp_1_1core_1_1object_1_1vertex__array__t.html">vertex_<wbr/>array_<wbr/>t</a>&amp; cpy) <span class="m-label m-flat m-danger">deleted</span></span>
+            </dt>
+            <dd>copy constructor</dd>
+          </dl>
+        </section>
+        <section id="pub-methods">
+          <h2><a href="#pub-methods">Public functions</a></h2>
+          <dl class="m-doc">
+            <dt>
+              <div class="m-doc-template">template&lt;class T&gt;</div>
+              <span class="m-doc-wrap-bumper">void <a class="m-doc" href="#a74547e4886fdef4f3dc4e8c69a6c9d54">attach</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="classglpp_1_1core_1_1object_1_1buffer__t.html">buffer_<wbr/>t</a>&lt;T&gt;&amp; buffer,
+              GLuint index,
+              GLuint binding_point,
+              <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> stride = 0,
+              GLuint elements_per_vertex = <a class="m-doc" href="structglpp_1_1core_1_1object_1_1attribute__properties.html">attribute_<wbr/>properties</a>&lt;T&gt;::elements_per_vertex,
+              GLenum type = <a class="m-doc" href="structglpp_1_1core_1_1object_1_1attribute__properties.html">attribute_<wbr/>properties</a>&lt;T&gt;::type,
+              GLintptr offset = 0,
+              bool normalized = false)</span>
+            </dt>
+            <dd>attach a buffer object to the vertex array object.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;class T&gt;</div>
+              <span class="m-doc-wrap-bumper">void <a class="m-doc" href="#a3c4bec42f1d5a0931121f6a92b1b12c3">attach</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="classglpp_1_1core_1_1object_1_1buffer__t.html">buffer_<wbr/>t</a>&lt;T&gt;&amp; buffer,
+              GLuint index,
+              <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> stride = 0,
+              GLuint elements_per_vertex = <a class="m-doc" href="structglpp_1_1core_1_1object_1_1attribute__properties.html">attribute_<wbr/>properties</a>&lt;T&gt;::elements_per_vertex,
+              GLenum type = <a class="m-doc" href="structglpp_1_1core_1_1object_1_1attribute__properties.html">attribute_<wbr/>properties</a>&lt;T&gt;::type,
+              GLintptr offset = 0,
+              bool normalized = false)</span>
+            </dt>
+            <dd>attach a buffer object to the vertex array object.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">void <a class="m-doc" href="#abeea558c0abdec53392ff3616e6255d3">attach_buffer</a>(</span><span class="m-doc-wrap">GLuint binding_point,
+              GLuint index,
+              GLuint elements_per_vertex,
+              GLenum type,
+              GLintptr offset = 0,
+              bool normalized = false)</span>
+            </dt>
+            <dd>enable vertex attribute and specify attribute format of a bound buffer</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">void <a class="m-doc" href="#aa4f195ef7bb132e163c2d83ab63b8b0a">bind</a>(</span><span class="m-doc-wrap">) const</span>
+            </dt>
+            <dd>bind vertex array object to OpenGL context</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;class T&gt;</div>
+              <span class="m-doc-wrap-bumper">void <a class="m-doc" href="#a90c5beecbcb2ae3690ce55de04d86034">bind_buffer</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="classglpp_1_1core_1_1object_1_1buffer__t.html">buffer_<wbr/>t</a>&lt;T&gt;&amp; buffer,
+              GLuint binding_point = 0,
+              <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> stride = sizeof(T))</span>
+            </dt>
+            <dd>bind a buffer object to a specified binding point</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#a1e1189a14801a894fd15cc6c71eb1730">operator=</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="classglpp_1_1core_1_1object_1_1vertex__array__t.html">vertex_<wbr/>array_<wbr/>t</a>&amp;&amp; mov) -&gt; <a class="m-doc" href="classglpp_1_1core_1_1object_1_1vertex__array__t.html">vertex_<wbr/>array_<wbr/>t</a>&amp; <span class="m-label m-flat m-info">defaulted</span></span>
+            </dt>
+            <dd>move assignment operator.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ae4d3c8a767866bf32ed7da5374d80289">operator=</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="classglpp_1_1core_1_1object_1_1vertex__array__t.html">vertex_<wbr/>array_<wbr/>t</a>&amp; cpy) -&gt; <a class="m-doc" href="classglpp_1_1core_1_1object_1_1vertex__array__t.html">vertex_<wbr/>array_<wbr/>t</a>&amp; <span class="m-label m-flat m-danger">deleted</span></span>
+            </dt>
+            <dd>copy assignment operator</dd>
+          </dl>
+        </section>
+        <section>
+          <h2>Function documentation</h2>
+          <section class="m-doc-details" id="a3dd00409cf40934705d1d4312e8bb14f"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper"> glpp::<wbr/>core::<wbr/>object::<wbr/>vertex_array_t::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a3dd00409cf40934705d1d4312e8bb14f">vertex_array_t</a>(</span><span class="m-doc-wrap">)</span></span>
+            </h3>
+            <p>default constructor</p>
+<p>The default constructor will create an empty vertex array object for later use.</p>
+          </div></section>
+          <section class="m-doc-details" id="a72e3b97be37915e39a7a666ca47a7055"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper"> glpp::<wbr/>core::<wbr/>object::<wbr/>vertex_array_t::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a72e3b97be37915e39a7a666ca47a7055">vertex_array_t</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="classglpp_1_1core_1_1object_1_1vertex__array__t.html">vertex_<wbr/>array_<wbr/>t</a>&amp;&amp; mov) <span class="m-label m-info">defaulted</span></span></span>
+            </h3>
+            <p>move constructor</p>
+<p><a class="m-doc" href="classglpp_1_1core_1_1object_1_1vertex__array__t.html">vertex_<wbr/>array_<wbr/>t</a> is move constructible. mov is invalid after completed move construction.</p>
+          </div></section>
+          <section class="m-doc-details" id="a6aefee2278cf2caa5aa5310bd8bcc09a"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper"> glpp::<wbr/>core::<wbr/>object::<wbr/>vertex_array_t::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a6aefee2278cf2caa5aa5310bd8bcc09a">vertex_array_t</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="classglpp_1_1core_1_1object_1_1vertex__array__t.html">vertex_<wbr/>array_<wbr/>t</a>&amp; cpy) <span class="m-label m-danger">deleted</span></span></span>
+            </h3>
+            <p>copy constructor</p>
+<p><a class="m-doc" href="classglpp_1_1core_1_1object_1_1vertex__array__t.html">vertex_<wbr/>array_<wbr/>t</a> is not copy constructible.</p>
+          </div></section>
+          <section class="m-doc-details" id="a74547e4886fdef4f3dc4e8c69a6c9d54"><div>
+            <h3>
+              <div class="m-doc-template">
+                template&lt;class T&gt;
+              </div>
+              <span class="m-doc-wrap-bumper">void glpp::<wbr/>core::<wbr/>object::<wbr/>vertex_array_t::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a74547e4886fdef4f3dc4e8c69a6c9d54">attach</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="classglpp_1_1core_1_1object_1_1buffer__t.html">buffer_<wbr/>t</a>&lt;T&gt;&amp; buffer,
+              GLuint index,
+              GLuint binding_point,
+              <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> stride = 0,
+              GLuint elements_per_vertex = <a class="m-doc" href="structglpp_1_1core_1_1object_1_1attribute__properties.html">attribute_<wbr/>properties</a>&lt;T&gt;::elements_per_vertex,
+              GLenum type = <a class="m-doc" href="structglpp_1_1core_1_1object_1_1attribute__properties.html">attribute_<wbr/>properties</a>&lt;T&gt;::type,
+              GLintptr offset = 0,
+              bool normalized = false)</span></span>
+            </h3>
+            <p>attach a buffer object to the vertex array object.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">buffer</td>
+                  <td>[in] buffer that shall be bound</td>
+                </tr>
+                <tr>
+                  <td>index</td>
+                  <td>[in] index of the vertex attribute that shall be linked to the buffer.</td>
+                </tr>
+                <tr>
+                  <td>binding_point</td>
+                  <td>[in] binding point the buffer shall be bound to. This param has no effect on the binding of index buffers.</td>
+                </tr>
+                <tr>
+                  <td>stride</td>
+                  <td>[in] distance of elements inside the buffer . This param has no effect on the binding of index buffers.</td>
+                </tr>
+                <tr>
+                  <td>elements_per_vertex</td>
+                  <td>[in] elements per vertex. Must be 1, 2, 3 or 4.</td>
+                </tr>
+                <tr>
+                  <td>type</td>
+                  <td>[in] base type</td>
+                </tr>
+                <tr>
+                  <td>offset</td>
+                  <td>[in] offset of the first vertex from the beginning of the buffer.</td>
+                </tr>
+                <tr>
+                  <td>normalized</td>
+                  <td>[in] specify if integral types shall be interpreted as normalized values. This parameter has no effect if base type is a floating point type.</td>
+                </tr>
+              </tbody>
+            </table>
+<p>This function will bind and attach a buffer object.</p>
+          </div></section>
+          <section class="m-doc-details" id="a3c4bec42f1d5a0931121f6a92b1b12c3"><div>
+            <h3>
+              <div class="m-doc-template">
+                template&lt;class T&gt;
+              </div>
+              <span class="m-doc-wrap-bumper">void glpp::<wbr/>core::<wbr/>object::<wbr/>vertex_array_t::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a3c4bec42f1d5a0931121f6a92b1b12c3">attach</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="classglpp_1_1core_1_1object_1_1buffer__t.html">buffer_<wbr/>t</a>&lt;T&gt;&amp; buffer,
+              GLuint index,
+              <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> stride = 0,
+              GLuint elements_per_vertex = <a class="m-doc" href="structglpp_1_1core_1_1object_1_1attribute__properties.html">attribute_<wbr/>properties</a>&lt;T&gt;::elements_per_vertex,
+              GLenum type = <a class="m-doc" href="structglpp_1_1core_1_1object_1_1attribute__properties.html">attribute_<wbr/>properties</a>&lt;T&gt;::type,
+              GLintptr offset = 0,
+              bool normalized = false)</span></span>
+            </h3>
+            <p>attach a buffer object to the vertex array object.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">buffer</td>
+                  <td>[in] buffer that shall be bound</td>
+                </tr>
+                <tr>
+                  <td>index</td>
+                  <td>[in] index of the vertex attribute that shall be linked to the buffer.</td>
+                </tr>
+                <tr>
+                  <td>stride</td>
+                  <td>[in] distance of elements inside the buffer . This param has no effect on the binding of index buffers.</td>
+                </tr>
+                <tr>
+                  <td>elements_per_vertex</td>
+                  <td>[in] elements per vertex. Must be 1, 2, 3 or 4.</td>
+                </tr>
+                <tr>
+                  <td>type</td>
+                  <td>[in] base type</td>
+                </tr>
+                <tr>
+                  <td>offset</td>
+                  <td>[in] offset of the first vertex from the beginning of the buffer.</td>
+                </tr>
+                <tr>
+                  <td>normalized</td>
+                  <td>[in] specify if integral types shall be interpreted as normalized values. This parameter has no effect if base type is a floating point type.</td>
+                </tr>
+              </tbody>
+            </table>
+<p>This function will bind and attach a buffer object. This overload will use the attribute index provided as binding point.</p>
+          </div></section>
+          <section class="m-doc-details" id="abeea558c0abdec53392ff3616e6255d3"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">void glpp::<wbr/>core::<wbr/>object::<wbr/>vertex_array_t::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#abeea558c0abdec53392ff3616e6255d3">attach_buffer</a>(</span><span class="m-doc-wrap">GLuint binding_point,
+              GLuint index,
+              GLuint elements_per_vertex,
+              GLenum type,
+              GLintptr offset = 0,
+              bool normalized = false)</span></span>
+            </h3>
+            <p>enable vertex attribute and specify attribute format of a bound buffer</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">binding_point</td>
+                  <td>[in] binding point of bound buffer.</td>
+                </tr>
+                <tr>
+                  <td>index</td>
+                  <td>[in] index of the vertex attribute that shall be linked to the buffer.</td>
+                </tr>
+                <tr>
+                  <td>elements_per_vertex</td>
+                  <td>[in] elements per vertex. Must be 1, 2, 3 or 4.</td>
+                </tr>
+                <tr>
+                  <td>type</td>
+                  <td>[in] base type</td>
+                </tr>
+                <tr>
+                  <td>offset</td>
+                  <td>[in] offset of the first vertex from the beginning of the buffer.</td>
+                </tr>
+                <tr>
+                  <td>normalized</td>
+                  <td>[in] specify if integral types shall be interpreted as normalized values. This parameter has no effect if base type is a floating point type.</td>
+                </tr>
+              </tbody>
+            </table>
+<p>After completion of bind_buffer the vertex attribute is not fully initialised and activated. Therefore a call to attatch_buffer is needed. This function will enable the vertex attribute and specify the internal attribute format. If no control over binding_point or the internal data layout is needed, the attach member function should be used over the bind_buffer/attatch_buffer approach.</p>
+          </div></section>
+          <section class="m-doc-details" id="aa4f195ef7bb132e163c2d83ab63b8b0a"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">void glpp::<wbr/>core::<wbr/>object::<wbr/>vertex_array_t::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#aa4f195ef7bb132e163c2d83ab63b8b0a">bind</a>(</span><span class="m-doc-wrap">) const</span></span>
+            </h3>
+            <p>bind vertex array object to OpenGL context</p>
+<p>This function will bind the underlying vao of the OpenGL state machiene. After completion of the bind following buffer operations will be bound to this vertex array object.</p>
+          </div></section>
+          <section class="m-doc-details" id="a90c5beecbcb2ae3690ce55de04d86034"><div>
+            <h3>
+              <div class="m-doc-template">
+                template&lt;class T&gt;
+              </div>
+              <span class="m-doc-wrap-bumper">void glpp::<wbr/>core::<wbr/>object::<wbr/>vertex_array_t::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a90c5beecbcb2ae3690ce55de04d86034">bind_buffer</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="classglpp_1_1core_1_1object_1_1buffer__t.html">buffer_<wbr/>t</a>&lt;T&gt;&amp; buffer,
+              GLuint binding_point = 0,
+              <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> stride = sizeof(T))</span></span>
+            </h3>
+            <p>bind a buffer object to a specified binding point</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">buffer</td>
+                  <td>[in] buffer that shall be bound</td>
+                </tr>
+                <tr>
+                  <td>binding_point</td>
+                  <td>[in] binding point the buffer shall be bound to. This param has no effect on the binding of index buffers.</td>
+                </tr>
+                <tr>
+                  <td>stride</td>
+                  <td>[in] distance of elements inside the buffer . This param has no effect on the binding of index buffers.</td>
+                </tr>
+              </tbody>
+            </table>
+<p>This member function will bind a buffer object to the vertex array object. After binding the format of the data must be specified with a call to attach_buffer. If no control over binding_point or the internal data layout is needed, the attach member function should be used over the bind_buffer/attatch_buffer approach.</p>
+          </div></section>
+          <section class="m-doc-details" id="a1e1189a14801a894fd15cc6c71eb1730"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper"><a class="m-doc" href="classglpp_1_1core_1_1object_1_1vertex__array__t.html">vertex_<wbr/>array_<wbr/>t</a>&amp; glpp::<wbr/>core::<wbr/>object::<wbr/>vertex_array_t::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a1e1189a14801a894fd15cc6c71eb1730">operator=</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="classglpp_1_1core_1_1object_1_1vertex__array__t.html">vertex_<wbr/>array_<wbr/>t</a>&amp;&amp; mov) <span class="m-label m-info">defaulted</span></span></span>
+            </h3>
+            <p>move assignment operator.</p>
+<p><a class="m-doc" href="classglpp_1_1core_1_1object_1_1vertex__array__t.html">vertex_<wbr/>array_<wbr/>t</a> is move assignable. mov is invalid after completed move operation.</p>
+          </div></section>
+          <section class="m-doc-details" id="ae4d3c8a767866bf32ed7da5374d80289"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper"><a class="m-doc" href="classglpp_1_1core_1_1object_1_1vertex__array__t.html">vertex_<wbr/>array_<wbr/>t</a>&amp; glpp::<wbr/>core::<wbr/>object::<wbr/>vertex_array_t::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ae4d3c8a767866bf32ed7da5374d80289">operator=</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="classglpp_1_1core_1_1object_1_1vertex__array__t.html">vertex_<wbr/>array_<wbr/>t</a>&amp; cpy) <span class="m-label m-danger">deleted</span></span></span>
+            </h3>
+            <p>copy assignment operator</p>
+<p><a class="m-doc" href="classglpp_1_1core_1_1object_1_1vertex__array__t.html">vertex_<wbr/>array_<wbr/>t</a> is not copy assignable.</p>
+          </div></section>
+        </section>
+      </div>
+    </div>
+  </div>
+</article></main>
+<div class="m-doc-search" id="search">
+  <a href="#!" onclick="return hideSearch()"></a>
+  <div class="m-container">
+    <div class="m-row">
+      <div class="m-col-m-8 m-push-m-2">
+        <div class="m-doc-search-header m-text m-small">
+          <div><span class="m-label m-default">Tab</span> / <span class="m-label m-default">T</span> to search, <span class="m-label m-default">Esc</span> to close</div>
+          <div id="search-symbolcount">…</div>
+        </div>
+        <div class="m-doc-search-content">
+          <form>
+            <input autocomplete="off" autofocus="autofocus" disabled="disabled" id="search-input" name="q" placeholder="Loading …" spellcheck="false" type="search"/>
+          </form>
+          <noscript class="m-text m-danger m-text-center">Unlike everything else in the docs, the search functionality <em>requires</em> JavaScript.</noscript>
+          <div class="m-text m-dim m-text-center" id="search-help">
+            <p class="m-noindent">Search for symbols, directories, files, pages or
+            modules. You can omit any prefix from the symbol or file path; adding a
+            <code>:</code> or <code>/</code> suffix lists all members of given symbol or
+            directory.</p>
+            <p class="m-noindent">Use <span class="m-label m-dim">↓</span>
+            / <span class="m-label m-dim">↑</span> to navigate through the list,
+            <span class="m-label m-dim">Enter</span> to go.
+            <span class="m-label m-dim">Tab</span> autocompletes common prefix, you can
+            copy a link to the result using <span class="m-label m-dim">⌘</span>
+            <span class="m-label m-dim">L</span> while <span class="m-label m-dim">⌘</span>
+            <span class="m-label m-dim">M</span> produces a Markdown link.</p>
+          </div>
+          <div class="m-text m-warning m-text-center" id="search-notfound">Sorry, nothing was found.</div>
+          <ul id="search-results"></ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="search-v1.js"></script>
+<script async="async" src="searchdata-v1.js"></script>
+<footer><nav>
+  <div class="m-container">
+    <div class="m-row">
+      <div class="m-col-l-10 m-push-l-1">
+        
+    <a class="poxy-external" href="https://github.com/fabian-jung/glpp/" target="_blank">Github</a>
+     • <a class="poxy-external" href="https://github.com/fabian-jung/glpp/issues" target="_blank">Report an issue</a>
+     • <a class="poxy-external" href="https://github.com/fabian-jung/glpp/blob/master/LICENSE" target="_blank">License</a>
+     • <a download="" href="glpp.tagfile.xml" target="_blank" type="text/xml">Doxygen tagfile</a>
+    <br/><br/>
+    Site generated using <a class="poxy-external" href="https://github.com/marzer/poxy/" target="_blank">Poxy</a>
+
+      </div>
+    </div>
+  </div>
+</nav></footer>
+
+
+</body></html>

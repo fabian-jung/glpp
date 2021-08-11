@@ -94,6 +94,30 @@
               class <a class="m-doc" href="classglpp_1_1core_1_1object_1_1image__t.html">image_t</a>
             </dt>
             <dd>storage class for image data in cpu memory.</dd>
+            <dt>
+              class <a class="m-doc" href="classglpp_1_1core_1_1object_1_1shader__factory__t.html">shader_factory_t</a>
+            </dt>
+            <dd>helper class for preprocessing shader code</dd>
+            <dt>
+              class <a class="m-doc" href="classglpp_1_1core_1_1object_1_1shader__program__t.html">shader_program_t</a>
+            </dt>
+            <dd>class for creating and managing shader programs in OpenGL</dd>
+            <dt>
+              class <a class="m-doc" href="classglpp_1_1core_1_1object_1_1shader__t.html">shader_t</a>
+            </dt>
+            <dd>class for creating and managing shaders in OpenGL</dd>
+            <dt>
+              class <a class="m-doc" href="classglpp_1_1core_1_1object_1_1texture__slot__t.html">texture_slot_t</a>
+            </dt>
+            <dd>helper class representing a binding of a texture object to a texture unit</dd>
+            <dt>
+              class <a class="m-doc" href="classglpp_1_1core_1_1object_1_1texture__t.html">texture_t</a>
+            </dt>
+            <dd>storage class for OpenGL textures</dd>
+            <dt>
+              class <a class="m-doc" href="classglpp_1_1core_1_1object_1_1vertex__array__t.html">vertex_array_t</a>
+            </dt>
+            <dd>class for creating and managing vertex arrays in OpenGL</dd>
           </dl>
         </section>
         <section id="enum-members">
@@ -135,6 +159,18 @@
               <a class="m-doc-self" href="#ac0b071d09fc4d63897acc8867c3cafd5">dynamic_copy</a> = GL_DYNAMIC_COPY }</span>
             </dt>
             <dd>strong typed enumeration type for buffer usage</dd>
+            <dt id="aef5838b5fb1a06779f7893d1cc1297dc">
+              <span class="m-doc-wrap-bumper">enum class <a class="m-doc-self" href="#aef5838b5fb1a06779f7893d1cc1297dc">clamp_mode_t</a>: GLenum { </span><span class="m-doc-wrap"><a class="m-doc-self" href="#aef5838b5fb1a06779f7893d1cc1297dc">repeat</a> = GL_REPEAT,
+              <a class="m-doc-self" href="#aef5838b5fb1a06779f7893d1cc1297dc">mirrored_repeat</a> = GL_MIRRORED_REPEAT,
+              <a class="m-doc-self" href="#aef5838b5fb1a06779f7893d1cc1297dc">clamp_to_edge</a> = GL_CLAMP_TO_EDGE,
+              <a class="m-doc-self" href="#aef5838b5fb1a06779f7893d1cc1297dc">clamp_to_border</a> = GL_CLAMP_TO_BORDER }</span>
+            </dt>
+            <dd>strong typed enumeration for texture clamping modes</dd>
+            <dt id="a3ec2ffd0911e54e6f3bd3ed1b4a8cf8a">
+              <span class="m-doc-wrap-bumper">enum class <a class="m-doc-self" href="#a3ec2ffd0911e54e6f3bd3ed1b4a8cf8a">filter_mode_t</a>: GLenum { </span><span class="m-doc-wrap"><a class="m-doc-self" href="#a3ec2ffd0911e54e6f3bd3ed1b4a8cf8a">nearest</a> = GL_NEAREST,
+              <a class="m-doc-self" href="#a3ec2ffd0911e54e6f3bd3ed1b4a8cf8a">linear</a> = GL_LINEAR }</span>
+            </dt>
+            <dd>strong typed enumeration for texture filter modes</dd>
             <dt id="a079be400fbf33f1abf573e6e96008041">
               <span class="m-doc-wrap-bumper">enum class <a class="m-doc-self" href="#a079be400fbf33f1abf573e6e96008041">framebuffer_target_t</a>: GLenum { </span><span class="m-doc-wrap"><a class="m-doc-self" href="#a079be400fbf33f1abf573e6e96008041">read</a> = GL_READ_FRAMEBUFFER,
               <a class="m-doc-self" href="#a079be400fbf33f1abf573e6e96008041">write</a> = GL_DRAW_FRAMEBUFFER,
@@ -226,6 +262,30 @@
               <a class="m-doc-self" href="#12091e925e148a95ace7925b8a6dbdb5eee649830a58d70d98c66fc9728c5f41">s_8i</a> = GL_STENCIL_INDEX8 }</span>
             </dt>
             <dd>strong typed enum to represent different pixel formats</dd>
+            <dt id="afffc6d2ee500bde4e643529babb51bab">
+              <span class="m-doc-wrap-bumper">enum class <a class="m-doc-self" href="#afffc6d2ee500bde4e643529babb51bab">mipmap_mode_t</a> { </span><span class="m-doc-wrap"><a class="m-doc-self" href="#afffc6d2ee500bde4e643529babb51bab">none</a>,
+              <a class="m-doc-self" href="#afffc6d2ee500bde4e643529babb51bab">nearest</a>,
+              <a class="m-doc-self" href="#afffc6d2ee500bde4e643529babb51bab">linear</a> }</span>
+            </dt>
+            <dd>strong typed enumeration for texture filter mipmap modes</dd>
+            <dt id="a03f451c9e6a32003361987101ced71d1">
+              <span class="m-doc-wrap-bumper">enum class <a class="m-doc-self" href="#a03f451c9e6a32003361987101ced71d1">shader_type_t</a>: GLenum { </span><span class="m-doc-wrap"><a class="m-doc-self" href="#a03f451c9e6a32003361987101ced71d1">compute</a> = GL_COMPUTE_SHADER,
+              <a class="m-doc-self" href="#a03f451c9e6a32003361987101ced71d1">vertex</a> = GL_VERTEX_SHADER,
+              <a class="m-doc-self" href="#a03f451c9e6a32003361987101ced71d1">tess_control</a> = GL_TESS_CONTROL_SHADER,
+              <a class="m-doc-self" href="#a03f451c9e6a32003361987101ced71d1">tess_eval</a> = GL_TESS_EVALUATION_SHADER,
+              <a class="m-doc-self" href="#a03f451c9e6a32003361987101ced71d1">geometry</a> = GL_GEOMETRY_SHADER,
+              <a class="m-doc-self" href="#a03f451c9e6a32003361987101ced71d1">fragment</a> = GL_FRAGMENT_SHADER }</span>
+            </dt>
+            <dd>strong typed enum that represents different shader types</dd>
+            <dt id="a1305db2c420c3b83172375e4c4bc508d">
+              <span class="m-doc-wrap-bumper">enum class <a class="m-doc-self" href="#a1305db2c420c3b83172375e4c4bc508d">texture_channel_t</a>: GLenum { </span><span class="m-doc-wrap"><a class="m-doc-self" href="#a1305db2c420c3b83172375e4c4bc508d">red</a> = GL_RED,
+              <a class="m-doc-self" href="#a1305db2c420c3b83172375e4c4bc508d">green</a> = GL_GREEN,
+              <a class="m-doc-self" href="#a1305db2c420c3b83172375e4c4bc508d">blue</a> = GL_BLUE,
+              <a class="m-doc-self" href="#a1305db2c420c3b83172375e4c4bc508d">alpha</a> = GL_ALPHA,
+              <a class="m-doc-self" href="#a1305db2c420c3b83172375e4c4bc508d">zero</a> = GL_ZERO,
+              <a class="m-doc-self" href="#a1305db2c420c3b83172375e4c4bc508d">one</a> = GL_ONE }</span>
+            </dt>
+            <dd>strong typed enumeration for texture channels</dd>
           </dl>
         </section>
         <section>
@@ -235,7 +295,7 @@
               enum class glpp::<wbr/>core::<wbr/>object::<wbr/><a class="m-doc-self" href="#a8e02caa982a701d285f609043009cc12">image_format_t</a>: GLenum
             </h3>
             <p>strong typed enum to represent different pixel formats</p>
-<p>This enum is consumed by texture_t to specify the pixel format. The values mostly represent the equivalent OpenGL pixel formats. One exception is image_format_t::preferred, which has no corresponding OpenGL pixel format and can be used in the construction of texture_t when using an <a class="m-doc" href="classglpp_1_1core_1_1object_1_1image__t.html">image_<wbr/>t</a> for construction and the internal pixel format of the <a class="m-doc" href="classglpp_1_1core_1_1object_1_1image__t.html">image_<wbr/>t</a> shall be used by the texture_t.</p>
+<p>This enum is consumed by <a class="m-doc" href="classglpp_1_1core_1_1object_1_1texture__t.html">texture_<wbr/>t</a> to specify the pixel format. The values mostly represent the equivalent OpenGL pixel formats. One exception is image_format_t::preferred, which has no corresponding OpenGL pixel format and can be used in the construction of <a class="m-doc" href="classglpp_1_1core_1_1object_1_1texture__t.html">texture_<wbr/>t</a> when using an <a class="m-doc" href="classglpp_1_1core_1_1object_1_1image__t.html">image_<wbr/>t</a> for construction and the internal pixel format of the <a class="m-doc" href="classglpp_1_1core_1_1object_1_1image__t.html">image_<wbr/>t</a> shall be used by the <a class="m-doc" href="classglpp_1_1core_1_1object_1_1texture__t.html">texture_<wbr/>t</a>.</p>
           </div></section>
         </section>
       </div>
