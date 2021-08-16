@@ -1,0 +1,250 @@
+/**
+\file glpp/core/object/texture.hpp
+@brief A Documented file.
+*/
+
+/**
+@brief strong typed enumeration for texture clamping modes
+
+@enum glpp::core::object::clamp_mode_t
+*/
+
+/**
+@brief strong typed enumeration for texture filter modes
+
+@enum glpp::core::object::filter_mode_t
+*/
+
+/**
+@brief strong typed enumeration for texture filter mipmap modes
+
+@enum glpp::core::object::mipmap_mode_t
+*/
+
+/**
+@brief strong typed enumeration for texture channels
+
+@enum glpp::core::object::texture_channel_t
+*/
+
+/**
+@brief storage class for OpenGL textures
+
+texture_t is a storage class for OpenGL textures. It creates, owns and destroys the 
+related OpenGL texture object and provides a typesafe interface to corresponding
+the OpenGL calls.
+
+@class glpp::core::object::texture_t
+*/
+
+/**
+@brief helper class representing a binding of a texture object to a texture unit
+
+This class is a RAII wrapper for the binding of textures to texture units. It can
+be created with the conversion constructior or calling texture_t::bind_to_texture_slot().
+Upon destruction the binding will be released and the texture unit can be reused.
+The texture_slot_t class will keep track of the bound texture units. Changeing 
+the global state with plain OpenGL calls may lead to conflicts.
+
+@class glpp::core::object::texture_slot_t
+*/
+
+/**
+@brief move constructor
+
+texture_t is move constructible.
+
+@fn glpp::core::object::texture_t::texture_t(texture_t&& mov)
+*/
+
+/**
+@brief copy constructor
+
+texture_t is not copy constructible.
+
+@fn glpp::core::object::texture_t::texture_t(const texture_t& cpy)
+*/
+
+/**
+@brief move assignment operator
+
+texture_t is move assignable.
+
+@fn glpp::core::object::texture_t::texture_t& glpp::core::object::texture_t::operator=(texture_t&& mov)
+*/
+
+/**
+@brief copy assignment operator
+
+texture_t is not copy assignable.
+
+@fn glpp::core::object::texture_t::texture_t& glpp::core::object::texture_t::operator=(const texture_t& cpy)
+*/
+
+/**
+@brief constuct empty texture with given parameters
+
+This constructor will create an OpenGL texture object with the given parameters and allocate memory for
+the pixel data in the given format. The provided format parameter must not be equal to image_format_t::preferred
+in this constructor. The swizzle mask can be used to change the color channels in the glsl sampler.
+
+@fn glpp::core::object::texture_t::texture_t(const size_t width, const size_t height, image_format_t format, const clamp_mode_t clamp_mode, const filter_mode_t filter, const mipmap_mode_t mipmap_mode, std::array<texture_channel_t, 4> swizzle_mask)
+@param width [in] width of texture in pixels
+@param height [in] height of texture in pixels
+@param format [in] pixel format representation. format must not be image_format_t::preferred.
+@param clamp_mode [in] clamp mode of texture
+@param filter [in] filter mode of texture
+@param mipmap_mode [in] mipmap mode of texture
+@param swizzle_mask [in] swizzle mask of texture
+*/
+
+/**
+@brief constuct texture with given parameters from a image_t object
+
+This constructor will create an OpenGL texture object with the given parameters and allocate memory for
+the pixel data in the given format. The width and height of the texture will match the
+width and height of the image_t object. The pixel data will be copied to gpu memory from the image_t object.
+If the pixel format of the texture and the image_t do not match, the pixel data will be
+converted in the requested format. The swizzle mask can be used to change the color channels in the glsl sampler.
+
+@fn glpp::core::object::texture_t::texture_t(const image_t& image, image_format_t format, const clamp_mode_t clamp_mode, const filter_mode_t filter, const mipmap_mode_t mipmap_mode, std::array<texture_channel_t, 4> swizzle_mask)
+@param image [in] image_t object to construct a texture from.
+@param format [in] pixel format representation. If image_format_t::preferred is selected the pixel format of image_t will be used.
+@param clamp_mode [in] clamp mode of texture
+@param filter [in] filter mode of texture
+@param mipmap_mode [in] mipmap mode of texture
+@param swizzle_mask [in] swizzle mask of texture
+*/
+
+/**
+@brief bind texture to the next free texture unit
+
+This function will bind the texture to the next free texture unit. If there is
+no more free texture unit to bind to, the function will throw a std::runtime_error.
+
+@fn glpp::core::object::texture_t::bind_to_texture_slot()
+@return texture_slot_t object representing the binding
+*/
+
+/**
+@brief update pixel data of the whole texture
+
+This function will update the pixel data of the texture with the one provided as first argument.
+The pixel data given will be interpreted with the given pixel format.
+
+@fn glpp::core::object::texture_t::update(const T* pixels, image_format_t format)
+@param pixels [in] new pixel data
+@param format [in] format of provided pixel data
+*/
+
+/**
+@brief update pixel data of rectangular part of the texture
+
+This function will update the pixel data of the texture with the one provided as argument.
+The pixel data given will be interpreted with the given pixel format.
+
+@fn glpp::core::object::texture_t::update(size_t xoffset, size_t yoffset, size_t width, size_t height, const T* pixels, image_format_t format)
+@param xoffset [in] offset of the the subtexture from the left
+@param yoffset [in] offset of the subtexture from the top
+@param width [in] width of the subtexture
+@param height [in] height of the subtexture
+@param pixels [in] new pixel data
+@param format [in] format of provided pixel data
+*/
+
+/**
+@brief update pixel data of the whole texture
+
+This function will update the pixel data of the texture with the the pixel data of the 
+provided image_t object.
+
+@fn glpp::core::object::texture_t::update(const image_t& image)
+@param image [in] new pixel data
+*/
+
+/**
+@brief update pixel data of a part of the texture
+
+This function will update the pixel data of the texture with the the pixel data of the 
+provided image_t object.
+
+@fn glpp::core::object::texture_t::update(const image_t& image, size_t xoffset, size_t yoffset, size_t width, size_t height)
+@param image [in] new pixel data
+@param xoffset [in] offset of the the subtexture from the left
+@param yoffset [in] offset of the subtexture from the top
+@param width [in] width of the subtexture
+@param height [in] height of the subtexture
+*/
+
+/**
+@brief getter function for texture width
+
+@fn size_t glpp::core::object::texture_t::width()
+@return width of the texture in pixels
+*/
+
+/**
+@brief getter function for texture height
+
+@fn size_t glpp::core::object::texture_t::height()
+@return height of the texture in pixels
+*/
+
+/**
+@brief default constructor
+
+The default constructor will not bind a texture to a texture unit, but reserves
+a texture unit for manual usage. The id of this texture_slot can be used for
+manual initialisation.
+
+@fn glpp::core::object::texture_slot_t::texture_slot_t(const texture_t& texture)
+*/
+
+/**
+@brief conversion constructor
+
+This constructor will bind the texture to a texture unit and create a texture_slot_t object
+representing this binding. The texture may be destroyed while beeing bound,
+but reading from a slot after this will yield undefined results.
+
+@fn glpp::core::object::texture_slot_t::texture_slot_t(const texture_t& texture)
+*/
+
+/**
+@brief copy constructor
+
+texutre_slot_t is not copy constructible.
+
+@fn glpp::core::object::texture_slot_t::texture_slot_t(const texture_slot_t& cpy)
+*/
+
+/**
+@brief move constructor
+
+texutre_slot_t is move constructible.
+
+@fn glpp::core::object::texture_slot_t::texture_slot_t(texture_slot_t&& mov)
+*/
+
+/**
+@brief copy assignment operaotr
+
+texutre_slot_t is not copy assignable.
+
+@fn glpp::core::object::texture_slot_t& glpp::core::object::texture_slot_t::operator=(const texture_slot_t& cpy)
+*/
+
+/**
+@brief move assignment operaotr
+
+texutre_slot_t is move assignable.
+
+@fn glpp::core::object::texture_slot_t& glpp::core::object::texture_slot_t::operator=(texture_slot_t&& mov)
+*/
+
+/**
+@brief get id of corresponding texture unit
+
+@fn GLint glpp::core::object::texture_slot_t::id()
+@return texture unit id that is used
+*/

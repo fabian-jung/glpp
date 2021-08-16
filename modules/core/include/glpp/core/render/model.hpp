@@ -10,7 +10,7 @@ template <class Attribute_Description>
 using model_t = std::vector<Attribute_Description>;
 
 template <class Model>
-class model_traits {};
+class model_traits;
 
 template <class Attribute_Description>
 struct model_traits<model_t<Attribute_Description>> {
