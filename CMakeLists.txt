@@ -45,13 +45,11 @@ add_custom_target(doc
 	DEPENDS doc_tagfile_link
 )
 
-include(GNUInstallDirs)
-install(TARGETS Boost_pfr catch_main gl core system stb image testing asset EXPORT glppConfig LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR} )
-install(EXPORT glppConfig NAMESPACE glpp:: FILE glppTargets.cmake NAMESPACE glpp:: DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/glpp EXPORT_LINK_INTERFACE_LIBRARIES)
-install(FILES glppConfig.cmake DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/glpp)
-install(FILES modules/asset/BlenderExport.cmake DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/glpp)
+install(TARGETS catch_main gl core system stb image testing asset text EXPORT glppConfig LIBRARY DESTINATION lib)
+install(EXPORT glppConfig NAMESPACE glpp:: FILE glppTargets.cmake NAMESPACE glpp:: DESTINATION lib/cmake/glpp EXPORT_LINK_INTERFACE_LIBRARIES)
+install(FILES glppConfig.cmake DESTINATION lib/cmake/glpp)
+install(FILES modules/asset/BlenderExport.cmake DESTINATION lib/cmake/glpp)
 install(DIRECTORY ${CMAKE_BINARY_DIR}/vendor/glpp/modules/gl/include/glpp DESTINATION include FILES_MATCHING PATTERN "*.h*")
-install(DIRECTORY ${CMAKE_BINARY_DIR}/vendor/boost_pfr/include/boost DESTINATION include FILES_MATCHING PATTERN "*.h*")
 install(DIRECTORY modules/core/include/glpp DESTINATION include FILES_MATCHING PATTERN "*.h*")
 install(DIRECTORY modules/image/include/glpp DESTINATION cmakincludee FILES_MATCHING PATTERN "*.h*")
 install(DIRECTORY modules/system/include/glpp DESTINATION include FILES_MATCHING PATTERN "*.h*")

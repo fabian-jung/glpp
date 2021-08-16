@@ -20,7 +20,7 @@ jobs:
 
     strategy:
       matrix:
-        os: [ubuntu]
+        os: [ubuntu, debian, arch]
 
     steps:
       - uses: actions/checkout@v2
