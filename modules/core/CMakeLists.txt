@@ -1,5 +1,3 @@
-add_subdirectory(vendor)
-
 add_library(core STATIC)
 add_library(glpp::core ALIAS core)
 target_include_directories(core PUBLIC
@@ -7,7 +5,8 @@ target_include_directories(core PUBLIC
     $<INSTALL_INTERFACE:/usr/local/include>
 )
 
-target_link_libraries(core PUBLIC glpp::gl Boost::pfr)
+find_package(Boost REQUIRED)
+target_link_libraries(core PUBLIC glpp::gl Boost::headers)
 
 set(glpp-files
     ${CMAKE_CURRENT_LIST_DIR}/src/camera.cpp

@@ -13,7 +13,7 @@ RUN apt-get install -y clang
 RUN apt-get install -y xvfb libglapi-mesa
 
 # Install dependencies
-RUN apt-get install -y libglfw3-dev libglew-dev libglm-dev catch2 libassimp-dev libfreetype-dev pkgconf
+RUN apt-get install -y libglfw3-dev libglew-dev libglm-dev catch2 libassimp-dev libfreetype-dev libboost-dev pkgconf
 RUN apt-get install -y blender
 RUN apt-get install -y cmake make ninja-build git
 
