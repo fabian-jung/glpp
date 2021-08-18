@@ -23,7 +23,7 @@ endif()
 
 option(enable_examples "Build with example applications" ON)
 if(${enable_examples})
-add_subdirectory(example)
+	add_subdirectory(example)
 endif()
 
 file(GLOB_RECURSE GLPP_FORMAT_SET *.hpp *.cpp)
@@ -58,3 +58,5 @@ install(DIRECTORY modules/text/include/glpp DESTINATION include FILES_MATCHING P
 install(DIRECTORY modules/asset/include/glpp DESTINATION include FILES_MATCHING PATTERN "*.h*")
 install(DIRECTORY modules/asset/share DESTINATION share/glpp FILES_MATCHING PATTERN "*")
 install(DIRECTORY modules/ui/include/glpp DESTINATION include FILES_MATCHING PATTERN "*.h*")
+
+include(CPackLists.txt)

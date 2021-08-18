@@ -5,6 +5,12 @@ set(my-config-var @my-config-var@)
 
 # Same syntax as find_package
 find_dependency(OpenGL REQUIRED COMPONENTS OpenGL)
+find_dependency(Boost REQUIRED)
+find_dependency(Catch2 REQUIRED)
+
+include(CTest NO_POLICY_SCOPE)
+include(Catch NO_POLICY_SCOPE)
+include(ParseAndAddCatchTests)
 
 find_dependency(PkgConfig REQUIRED)
 pkg_search_module(GLFW REQUIRED glfw3)

@@ -1,7 +1,11 @@
 #!/bin/bash
 
+#init virtual screen
 Xvfb :0 &
 export DISPLAY=:0
+
+#force failure on first error
+set -e
 
 info_fn() {
 	uname -a
@@ -31,11 +35,6 @@ post_install_test_fn() {
 	    cmake_minimum_required(VERSION 3.16)
 		project(glpp-tests)
 
-		find_package(Catch2 REQUIRED)
-		include(CTest NO_POLICY_SCOPE)
-		include(Catch NO_POLICY_SCOPE)
-		include(ParseAndAddCatchTests)
-
 		find_package(glpp REQUIRED)
 
 		set(enable_unit_test TRUE)
@@ -58,6 +57,37 @@ build_doc() {
 	make doc
 }
 
+package() {
+	source /etc/os-release
+	if [[ "$ID" == "arch" ]]; then
+		# docker run \
+		# --mount src="$(pwd)",target=/glpp,type=bind \
+		# --mount src="$(pwd)/package",target=/output,type=bind 
+		# ghcr.io/fabian-jung/glpp/build-arch package
+		echo "packaging on arch"
+		cd /glpp/scripts
+		chmod a+rwx /build
+		sudo -u nobody makepkg BUILDDIR=/build PKGDEST=/build SRCDEST=/build --clean -f
+		cp /build/*.pkg.tar.zst /output
+	elif [[ "$ID" == "debian" ]]; then
+		# docker run \
+		# --mount src="$(pwd)",target=/glpp,type=bind \
+		# --mount src="$(pwd)/package",target=/output,type=bind 
+		# ghcr.io/fabian-jung/glpp/build-debian package
+		echo "packaging on debian"
+	elif [[ "$ID" == "ubuntu" ]]; then
+		# docker run \
+		# --mount src="$(pwd)",target=/glpp,type=bind \
+		# --mount src="$(pwd)/package",target=/output,type=bind 
+		# ghcr.io/fabian-jung/glpp/build-ubuntu package
+		echo "packaging on ubuntu"
+		build_fn
+		test_fn
+		make package
+		cp *.deb /output
+	fi
+}
+
 if [[ "$2" == "clang" ]]; then
 	CC="clang";
 	CXX="clang++";
@@ -78,6 +108,8 @@ elif [[ "$1" == "test" ]]; then
 	post_install_test_fn
 elif [[ "$1" == "doc" ]]; then
 	build_doc
+elif [[ "$1" == "package" ]]; then
+	package
 elif [[ "$1" == "bash" ]]; then
 	/bin/bash
 else
