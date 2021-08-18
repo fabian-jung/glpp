@@ -6,10 +6,8 @@
 # It requires the glpp package containing folder mounted to /package
 
 # Can be execuded with the following command in the glpp source directory:
-# docker run -v "$(pwd)":/glpp -it archlinux /glpp/scripts/package_test.sh
+# docker run -v "$(pwd)":/glpp -v "$(pwd)/package":/package -it archlinux /glpp/scripts/package_test.sh
 
-
-docker run -v "$(pwd)":/glpp -it archlinux /glpp/scripts/package_test.sh
 #force failure on first error
 set -e
 
