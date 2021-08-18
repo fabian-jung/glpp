@@ -3,6 +3,10 @@ ENV DEBIAN_FRONTEND=noninteractivefile:///home/fabian/projects/glpp/docker/ubunt
 ENV TZ=Europe/Berlin
 
 RUN apt-get update -y && apt-get upgrade -y && apt-get dist-upgrade -y
+RUN apt-get install -y software-properties-common
+RUN add-apt-repository -y ppa:mhier/libboost-latest
+
+RUN apt-get update -y
 RUN apt-get install -y apt-utils
 
 # Compiler
