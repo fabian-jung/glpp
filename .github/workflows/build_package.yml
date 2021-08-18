@@ -1,0 +1,39 @@
+name: Build platform package
+
+on:
+  schedule:
+    - cron: 0 2 * * 1
+
+  pull_request:
+    branches: [ master ]
+    paths:
+      - '.github/workflows/build_package.yml'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Check out repository
+      uses: actions/checkout@v2
+    
+    - name: build package
+      run: |
+        mkdir package
+        docker run \
+          --mount src="$(pwd)",target=/glpp,type=bind \
+          --mount src="$(pwd)/package",target=/output,type=bind \
+          ghcr.io/fabian-jung/glpp/build-arch package
+    
+    - name: test package on clean container
+      run: |
+        docker run \
+          -v "$(pwd)":/glpp \
+          -v "$(pwd)/package":/package \
+          archlinux /glpp/scripts/package_test.sh
+
+    - name: deploy package
+      uses: actions/upload-artifact@v2
+      with:
+        name: ArchLinux Package
+        path: package/*.pkg.tar.zst
