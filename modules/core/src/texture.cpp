@@ -94,15 +94,6 @@ texture_slot_t::texture_slot_t(const texture_t& texture) :
 	if(id() >= max_texture_units()) {
 		throw std::runtime_error("Trying to bind texture unit to an invalid offset.");
 	}
-	units[id()] = std::numeric_limits<int>::max();
-}
-
-texture_slot_t::texture_slot_t(const texture_t& texture) :
-	m_id(next_free_id())
-{
-	if(id() >= max_texture_units()) {
-		throw std::runtime_error("Trying to bind texture unit to an invalid offset.");
-	}
 	units[id()] = texture.id();
 	glBindTextureUnit(id(), texture.id());
 }

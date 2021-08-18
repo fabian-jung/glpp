@@ -69,10 +69,10 @@ public:
 	explicit view_t(const model_t& model, T attribute_description_t::* ...attributes);
 
 	view_t(view_t&& mov) noexcept = default;
-	view_t& operator=(view_t&&) noexcept = default;
+	view_t& operator=(view_t&& mov) noexcept = default;
 
-	view_t(const view_t& mov) = delete;
-	view_t& operator=(const view_t&) = delete;
+	view_t(const view_t& cpy) = delete;
+	view_t& operator=(const view_t& cpy) = delete;
 
 	auto size() const {
 		return m_size;
@@ -110,18 +110,6 @@ view_t(const Model& model, T model_traits<Model>::attribute_description_t::* ...
 /*
  * Implementation
  */
-
-// template <InstancedModel Model>
-// view_base_t<Model>::view_base_t(const Model& model) :
-// 	m_indicies(
-// 		glpp::core::object::buffer_target_t::element_array_buffer,
-// 		m_traits::indicies(model).data(),
-// 		m_traits::indicies(model).size()*sizeof(index_t),
-// 		glpp::core::object::buffer_usage_t::static_draw
-// 	)
-// {
-// 	m_vao.bind_buffer(m_indicies);
-// }
 
 template <class Model, view_primitives_t primitive>
 template <class model_t, class... T>
@@ -206,11 +194,6 @@ constexpr GLintptr view_t<Model, primitive>::offset() {
 			&(boost::pfr::get<N>(attrib))
 		) -
 		reinterpret_cast<GLintptr>(&attrib);
-	// return reinterpret_cast<GLintptr>(
-	// 	&(boost::pfr::get<N>(
-	// 		*reinterpret_cast<attribute_description_t*>(0)
-	// 	))
-	// );
 }
 
 template <class Model, view_primitives_t primitive>
