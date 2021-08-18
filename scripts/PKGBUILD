@@ -1,0 +1,30 @@
+# Maintainer: Fabian Jung <glpp@fabian-jung.info>
+
+pkgname=glpp
+pkgver=0.1
+pkgrel=1
+pkgdesc='C++ Wrapper Library for OpenGL'
+arch=('x86_64')
+url='https://github.com/fabian-jung/glpp'
+license=('MIT')
+depends=('gcc' 'glfw' 'glm' 'pkgconf' 'cmake' 'make' 'boost' 'assimp' 'freetype2' 'catch2')
+checkdepends=('blender')
+optdepends=('blender')
+
+build() {
+    cmake \
+        -B build \
+        -S /glpp \
+        -DCMAKE_BUILD_TYPE:STRING='RelWithDebInfo' \
+        -DCMAKE_CXX_COMPILER=g++ \
+        -DCMAKE_C_COMPILER=gcc
+    cmake --build build --parallel 32 --target all
+}
+
+check() {
+    cmake --build build --target test
+}
+
+package() {
+    cmake --install build --prefix "$pkgdir"/usr
+}

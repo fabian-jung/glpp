@@ -17,9 +17,10 @@ if(EXISTS ${blender_executable})
         message(STATUS "export_script: ${export_script}")
         find_file(
             export_script "${export_script_name}"
-            PATH ${CMAKE_CURRENT_SOURCE_DIR}/share
+            PATHS ${CMAKE_CURRENT_SOURCE_DIR}/share
             ${blender_export_scripts_dir}
             /usr/local/share/glpp/share
+            /usr/share/glpp/share
         )
         message(STATUS "export_script: ${export_script}")
         if(NOT EXISTS  ${export_script})
