@@ -7,7 +7,7 @@ RUN pacman --noconfirm -S sudo fakeroot
 RUN pacman --noconfirm -S gcc clang
 
 # Virtual xserver and mesa is needed for offscreen testing in CI
-RUN pacman --noconfirm -S xorg-server-xvfb mesa libva-mesa-driver
+RUN pacman --noconfirm -S mesa libva-mesa-driver
 
 # Required dependencies
 RUN pacman --noconfirm -S glfw glew glm catch2 assimp freetype2 pkgconf boost

@@ -1,5 +1,5 @@
 FROM ubuntu:rolling
-ENV DEBIAN_FRONTEND=noninteractivefile:///home/fabian/projects/glpp/docker/ubuntu/Dockerfile
+ENV DEBIAN_FRONTEND=noninteractive
 ENV TZ=Europe/Berlin
 
 RUN apt-get update -y && apt-get upgrade -y && apt-get dist-upgrade -y
@@ -8,14 +8,18 @@ RUN apt-get install -y apt-utils
 # Compiler
 RUN apt-get install -y gcc-11 g++-11
 RUN apt-get install -y clang
+RUN apt-get install -y git
 
 # Virtual X11
-RUN apt-get install -y xvfb libglapi-mesa
+RUN apt-get install -y libglapi-mesa
 
 # Install dependencies
 RUN apt-get install -y libglfw3-dev libglew-dev libglm-dev catch2 libassimp-dev libfreetype-dev libboost-dev pkgconf
 RUN apt-get install -y blender
 RUN apt-get install -y cmake make ninja-build git
+
+# Install boost pfr, since ubuntu ships with boost 1.74 and pfr got added  with 1.75
+RUN mkdir /temp && cd /temp && git clone https://github.com/boostorg/pfr.git && cp -r pfr/include/boost/* /usr/include/boost && cd / && rm -rf /temp
 
 # Documentation tools
 RUN apt-get install -y python3 pip doxygen

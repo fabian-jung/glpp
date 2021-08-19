@@ -5,10 +5,14 @@
 
 namespace glpp::test {
 
+enum class driver_t {
+    native,
+    mesa
+};
 class offscreen_driver_t {
 public:
     
-    offscreen_driver_t();
+    offscreen_driver_t(const driver_t driver = driver_t::mesa);
     ~offscreen_driver_t();
 
 private:
