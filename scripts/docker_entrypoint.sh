@@ -1,7 +1,6 @@
 #!/bin/bash
 
 #init virtual screen
-Xvfb :0 &
 export DISPLAY=:0
 
 #force failure on first error
