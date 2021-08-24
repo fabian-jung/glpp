@@ -4,7 +4,7 @@ add_library(image STATIC)
 add_library(glpp::image ALIAS image)
 target_include_directories(image PUBLIC
 	$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
-    $<INSTALL_INTERFACE:/usr/local/include>
+    $<INSTALL_INTERFACE:include>
 )
 target_link_libraries(image PUBLIC glpp::core)
 target_link_libraries(image PRIVATE stb)

@@ -5,7 +5,7 @@ add_library(system STATIC)
 add_library(glpp::system ALIAS system)
 target_include_directories(system PUBLIC
 	$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
-    $<INSTALL_INTERFACE:/usr/local/include>
+    $<INSTALL_INTERFACE:include>
 )
 target_include_directories(system PRIVATE ${GLFW_INCLUDE_DIRS})
 target_link_libraries(system PUBLIC  ${GLFW_LIBRARIES} glpp::core)

@@ -39,7 +39,7 @@ option(glew_enabled "Load dynamic opengl functions with glew (experimental featu
 
 target_include_directories(gl PUBLIC
     $<BUILD_INTERFACE:${GLPP_GL_ROOT}/include>
-    $<INSTALL_INTERFACE:/usr/local/include>
+    $<INSTALL_INTERFACE:include>
 )
 target_compile_definitions(gl PUBLIC -DGLFW_INCLUDE_NONE)
 

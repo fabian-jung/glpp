@@ -15,7 +15,7 @@ target_sources(asset PRIVATE ${glpp-asset-files})
 
 target_include_directories(asset PUBLIC
 	$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
-    $<INSTALL_INTERFACE:/usr/local/include>
+    $<INSTALL_INTERFACE:include>
 )
 
 set(CMAKE_POLICY_DEFAULT_CMP0012 NEW)

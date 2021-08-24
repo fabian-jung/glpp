@@ -13,20 +13,24 @@ info_fn() {
 
 build_fn() {
 	echo "build stage"
-	cd /build
-	cmake /glpp -DCMAKE_CXX_COMPILER="$CXX" -DCMAKE_C_COMPILER="$CC"
-	make -j
+	cmake \
+		-B /build \
+		-S /glpp  \
+		-DCMAKE_CXX_COMPILER="$CXX" \
+		-DCMAKE_C_COMPILER="$CC"
+		
+    cmake --build /build
 }
 
 test_fn() {
-	ctest --output-on-failure
+	echo "test stage"
+	cmake --build /build --target test
 }
 
-install_fn() {
-	make install
-}
-
-post_install_test_fn() {
+install_test() {
+	echo "install stage"
+	cmake --install /build --prefix $1
+	echo "post install test stage"
 	cd /test
 	cp -r /glpp/test .
 
@@ -44,9 +48,14 @@ EOF
 	mkdir build
 
 	cd build
-	cmake ..  -DCMAKE_CXX_COMPILER="$CXX" -DCMAKE_C_COMPILER="$CC"
+	if [[ "$2" == "WITH_PREFIX" ]]; then
+		cmake ..  -DCMAKE_CXX_COMPILER="$CXX" -DCMAKE_C_COMPILER="$CC" -DCMAKE_IGNORE_PATH=/glpp -DCMAKE_PREFIX_PATH=$1
+	else
+		cmake ..  -DCMAKE_CXX_COMPILER="$CXX" -DCMAKE_C_COMPILER="$CC" -DCMAKE_IGNORE_PATH=/glpp
+	fi
 	make -j
 	ctest --output-on-failure
+	rm -r `find $1 -type d -name "*glpp*"`
 }
 
 build_doc() {
@@ -103,8 +112,9 @@ elif [[ "$1" == "build" ]]; then
 elif [[ "$1" == "test" ]]; then
 	build_fn
 	test_fn
-	install_fn
-	post_install_test_fn
+	install_test /usr
+	install_test /usr/local
+	install_test /some/crazy/install/path WITH_PREFIX
 elif [[ "$1" == "doc" ]]; then
 	build_doc
 elif [[ "$1" == "package" ]]; then

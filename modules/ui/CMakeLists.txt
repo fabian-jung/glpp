@@ -2,7 +2,7 @@ add_library(ui STATIC)
 add_library(glpp::ui ALIAS ui)
 target_include_directories(ui PUBLIC
 	$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
-    $<INSTALL_INTERFACE:/usr/local/include>
+    $<INSTALL_INTERFACE:include>
 )
 target_link_libraries(ui PUBLIC glpp::core glpp::system glpp::text)
 set(glpp-ui-files

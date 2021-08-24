@@ -2,7 +2,7 @@ add_library(core STATIC)
 add_library(glpp::core ALIAS core)
 target_include_directories(core PUBLIC
 	$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
-    $<INSTALL_INTERFACE:/usr/local/include>
+    $<INSTALL_INTERFACE:include>
 )
 
 find_package(Boost REQUIRED)

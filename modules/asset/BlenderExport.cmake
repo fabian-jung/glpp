@@ -15,12 +15,14 @@ if(EXISTS ${blender_executable})
         message(STATUS "search ${CMAKE_CURRENT_LIST_DIR} for export script.")
         unset(export_script CACHE)
         message(STATUS "export_script: ${export_script}")
+        message(STATUS "glpp_DIR: ${glpp_DIR}")
+        message(STATUS "glpp_DIR: ${glpp_DIR}")
         find_file(
             export_script "${export_script_name}"
             PATHS ${CMAKE_CURRENT_SOURCE_DIR}/share
             ${blender_export_scripts_dir}
-            /usr/local/share/glpp/share
-            /usr/share/glpp/share
+            ${glpp_DIR}/share
+            ${glpp_DIR}/../../../share/glpp/share
         )
         message(STATUS "export_script: ${export_script}")
         if(NOT EXISTS  ${export_script})
