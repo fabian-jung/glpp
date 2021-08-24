@@ -1,4 +1,4 @@
-#include <glpp/test/offscreen_driver.hpp>
+#include <glpp/testing/offscreen_driver.hpp>
 #include <sstream>
 #include <stdexcept>
 #include <iostream>

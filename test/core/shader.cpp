@@ -1,7 +1,7 @@
 #include <catch2/catch.hpp>
 #include <glpp/core/object/shader.hpp>
 #include <glpp/gl/context.hpp>
-#include <glpp/test/context.hpp>
+#include <glpp/testing/context.hpp>
 #include <sstream>
 #include <cstring>
 

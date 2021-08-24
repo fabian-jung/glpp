@@ -5,7 +5,7 @@ option(enable_text "Build with the system module, for loading fonts and renderin
 option(enable_ui "Build with the ui module, for displaying widgets like buttons, frames and labels." ON)
 
 if(${enable_unit_test})
-add_subdirectory(test)
+add_subdirectory(testing)
 endif()
 
 add_subdirectory(gl)

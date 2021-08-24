@@ -1,6 +1,6 @@
 #include <catch2/catch.hpp>
 #include <glpp/asset.hpp>
-#include <glpp/test/context.hpp>
+#include <glpp/testing/context.hpp>
 
 using namespace glpp::asset;
 using namespace glpp::test;

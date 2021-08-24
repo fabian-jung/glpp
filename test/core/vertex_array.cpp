@@ -1,6 +1,6 @@
 #include <catch2/catch.hpp>
 #include <glpp/core/object/vertex_array.hpp>
-#include <glpp/test/context.hpp>
+#include <glpp/testing/context.hpp>
 #include <glpp/gl/context.hpp>
 
 using namespace glpp::core::object;
