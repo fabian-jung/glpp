@@ -4,7 +4,7 @@ add_library(text STATIC)
 add_library(glpp::text ALIAS text)
 target_include_directories(text PUBLIC
 	$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
-    $<INSTALL_INTERFACE:/usr/local/include>
+    $<INSTALL_INTERFACE:include>
 )
 target_link_libraries(text PUBLIC glpp::core Freetype::Freetype)
 set(glpp-text-files
