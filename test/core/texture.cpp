@@ -1,7 +1,7 @@
 #include <catch2/catch.hpp>
 #include <glpp/core/object/texture.hpp>
 #include <glpp/gl/context.hpp>
-#include <glpp/test/context.hpp>
+#include <glpp/testing/context.hpp>
 #include <glpp/core/render.hpp>
 
 using namespace glpp::core::object;

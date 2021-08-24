@@ -14,5 +14,5 @@ set(glpp-test-files
 target_sources(testing PRIVATE ${glpp-test-files})
 target_include_directories(testing PUBLIC
 	$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
-    $<INSTALL_INTERFACE:/usr/local/include>
+    $<INSTALL_INTERFACE:include>
 )
