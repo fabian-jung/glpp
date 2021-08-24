@@ -51,7 +51,7 @@ add_custom_target(doc
 	DEPENDS doc_tagfile_link
 )
 
-install(TARGETS catch_main gl core system stb image testing asset text EXPORT glppConfig LIBRARY DESTINATION lib)
+install(TARGETS catch_main gl core system stb image testing asset text EXPORT glppConfig DESTINATION lib/glpp)
 install(EXPORT glppConfig NAMESPACE glpp:: FILE glppTargets.cmake NAMESPACE glpp:: DESTINATION lib/cmake/glpp EXPORT_LINK_INTERFACE_LIBRARIES)
 install(FILES glppConfig.cmake DESTINATION lib/cmake/glpp)
 install(FILES modules/asset/BlenderExport.cmake DESTINATION lib/cmake/glpp)
