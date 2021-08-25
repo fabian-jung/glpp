@@ -122,9 +122,25 @@ window_t::window_t(unsigned int width, unsigned int height, const std::string& n
 	glPixelStorei(GL_UNPACK_ALIGNMENT, 1); // Disable byte-alignment restriction
 
 }
+
+window_t::window_t(window_t&& mov) :
+	m_width{mov.m_width},
+	m_height{mov.m_height},
+	m_version{mov.m_version},
+	m_name{std::move(mov.m_name)},
+	m_window{mov.m_window},
+	m_input_mode{mov.m_input_mode},
+	cursor_mode{mov.cursor_mode},
+	m_input_handler{std::move(mov.m_input_handler)}
+{
+	mov.m_window = nullptr;
+}
+
 window_t::~window_t()
 {
-	glfwDestroyWindow(m_window);
+	if(m_window != nullptr) {
+		glfwDestroyWindow(m_window);
+	}
 }
 
 struct glfw_context_t {
