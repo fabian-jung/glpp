@@ -44,6 +44,12 @@ public:
 		fullscreen_t Fullscreen = fullscreen_t::disabled
 	);
 
+	window_t(window_t&& mov);
+	window_t(const window_t& mov) = delete;
+
+	window_t& operator=(window_t&& mov);
+	window_t& operator=(const window_t& mov) = delete;
+
 	~window_t();
 
 	void set_cursor_mode(cursor_mode_t mode);
