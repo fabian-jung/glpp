@@ -176,6 +176,44 @@ TEST_CASE("framebuffer pixel_read", "[core][unit]") {
     REQUIRE(call_setup_fb == 1);
 }
 
+TEST_CASE("framebuffer_t check default framebuffer is not deleted", "[core][unit]") {
+    context.enable_throw();
+
+    auto call_read_pixels = 0;
+    context.glGetIntegerv = [](	GLenum value, GLint* data) {
+        REQUIRE(value == GL_SCISSOR_BOX);
+        data[2] = 12;
+        data[3] = 15;
+    };
+    context.glNamedFramebufferReadBuffer = [](GLuint framebuffer, GLenum mode) {
+        REQUIRE(framebuffer == 0);
+        REQUIRE(mode == GL_COLOR_ATTACHMENT0);
+    };
+    context.glReadPixels = [&call_read_pixels](
+        GLint x, GLint y, 
+        GLsizei width, GLsizei height, 
+        GLenum format, 
+        GLenum type, 
+        void* data
+    ) {
+        ++call_read_pixels;
+        REQUIRE(x == 0);
+        REQUIRE(y == 0);
+        REQUIRE(width == 12);
+        REQUIRE(height == 15);
+        REQUIRE(format == GL_RGB);
+        REQUIRE(type == GL_FLOAT);
+        REQUIRE(data != nullptr);
+    };
+    const framebuffer_t framebuffer = framebuffer_t::get_default_framebuffer();
+    REQUIRE(framebuffer.width() == 12);
+    REQUIRE(framebuffer.height() == 15);
+    const auto result = framebuffer.pixel_read();
+    REQUIRE(result.width() == 12);
+    REQUIRE(result.height() == 15);
+    REQUIRE(call_read_pixels == 1);
+}
+
 /* 
  * There are no render tests for framebuffer_t since they are the key component in
  * the test context and testing them against itself would be pointless.
