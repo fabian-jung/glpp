@@ -38,6 +38,7 @@ public:
 	size_t height() const;
 
 	static void bind_default_framebuffer(framebuffer_target_t target = framebuffer_target_t::read_and_write);
+	static framebuffer_t get_default_framebuffer();
 
 	template <class T = glm::vec3>
 	image_t<T> pixel_read(size_t x = 0, size_t y = 0) const;
@@ -46,6 +47,8 @@ public:
 	image_t<T> pixel_read(size_t x, size_t y, size_t width, size_t height) const;
 
 private:
+	framebuffer_t();
+	
 	GLuint create();
 	static void destroy(GLuint id);
 

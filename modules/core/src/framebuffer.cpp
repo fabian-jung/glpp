@@ -2,6 +2,16 @@
 
 namespace glpp::core::object {
 
+// Constructor to get handle on the default framebuffer
+framebuffer_t::framebuffer_t() :
+	object_t(0, [](GLuint){})
+{
+	std::array<GLint, 4> dims;
+	glGetIntegerv(GL_SCISSOR_BOX, dims.data());
+	m_width = dims[2];
+	m_height = dims[3];
+}
+
 framebuffer_t::framebuffer_t(size_t width, size_t height) :
 	object_t(
 		create(),
@@ -22,6 +32,10 @@ framebuffer_t::framebuffer_t(std::initializer_list<std::pair<const texture_t&, a
 	for(const auto& [texture, attachment] : list) {
 		attach(texture, attachment);
 	}
+}
+
+framebuffer_t framebuffer_t::get_default_framebuffer() {
+	return {};
 }
 
 GLuint framebuffer_t::create() {
