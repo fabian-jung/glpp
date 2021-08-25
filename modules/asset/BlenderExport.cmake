@@ -10,13 +10,7 @@ if(EXISTS ${blender_executable})
             message(FATAL_ERROR "File ${blend_file} not found.")
         endif()
         set(export_script_name "export.${format}.py")
-        message(STATUS "python script name: ${export_script_name}")
-
-        message(STATUS "search ${CMAKE_CURRENT_LIST_DIR} for export script.")
         unset(export_script CACHE)
-        message(STATUS "export_script: ${export_script}")
-        message(STATUS "glpp_DIR: ${glpp_DIR}")
-        message(STATUS "glpp_DIR: ${glpp_DIR}")
         find_file(
             export_script "${export_script_name}"
             PATHS ${CMAKE_CURRENT_SOURCE_DIR}/share
