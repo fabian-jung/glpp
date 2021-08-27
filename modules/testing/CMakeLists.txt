@@ -1,10 +1,8 @@
 add_library(catch_main STATIC catch_main.cpp)
 target_link_libraries(catch_main PUBLIC Catch2::Catch2)
 
-find_package(OpenGL REQUIRED COMPONENTS EGL)
-
 add_library(testing)
-target_link_libraries(testing PUBLIC catch_main glpp::gl glpp::core glpp::system OpenGL::EGL)
+target_link_libraries(testing PUBLIC catch_main glpp::gl glpp::core glpp::system)
 add_library(glpp::testing ALIAS testing)
 
 set(glpp-test-files
