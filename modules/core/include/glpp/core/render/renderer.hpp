@@ -131,8 +131,8 @@ void renderer_t<uniform_description_t>::set_texture_array(const char* name, cons
 
 template <class uniform_description_t>
 template <class AllocPolicy>
-void renderer_t<uniform_description_t>::set_texture_atlas(const char* name, const object::texture_atlas_slot_t<AllocPolicy>& texture_atlas) {
-	set_texture_array(name, texture_atlas);
+void renderer_t<uniform_description_t>::set_texture_atlas(const char* name, const object::texture_atlas_slot_t<AllocPolicy>& texture_atlas_slots) {
+	set_texture_array(name, texture_atlas_slots.storage);
 }
 
 }
