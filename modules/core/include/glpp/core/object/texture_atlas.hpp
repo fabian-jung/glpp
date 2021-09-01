@@ -78,7 +78,9 @@ public:
 		return fetch(name, key, fmt::format("vec2({}, {})", uv.x, uv.y));
 	}
 
-	texture_atlas_slot_t<AllocationPolicy> bind_to_texture_slot() const;
+	texture_atlas_slot_t<AllocationPolicy> bind_to_texture_slot() const {
+		return { m_alloc.slots() };
+	}
 
 private:
 
@@ -86,17 +88,11 @@ private:
 };
 
 template <class AllocationPolicy>
-class texture_atlas_slot_t {
-public:
-	explicit texture_atlas_slot_t(const typename AllocationPolicy::storage_t& storage);
-	explicit texture_atlas_slot_t(const texture_atlas_t<AllocationPolicy>& atlas);
+struct texture_atlas_slot_t {
 
-	auto begin() const;
-	auto end() const;
-
-private:
-	using slot_storage_t = typename AllocationPolicy::slot_storage_t;
-	slot_storage_t m_slots;
+	using storage_t = typename AllocationPolicy::slot_storage_t;
+	storage_t storage;
+	
 };
 
 

@@ -56,7 +56,7 @@ public:
 		}
 	}
 
-	slot_storage_t slots_from_storage() {
+	slot_storage_t slots() const {
 		slot_storage_t result;
 		std::transform(
 			m_storage.begin(),
