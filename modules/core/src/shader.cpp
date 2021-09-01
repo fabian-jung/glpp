@@ -5,6 +5,20 @@
 
 namespace glpp::core::object {
 
+std::string add_line_numbers(const std::string& code) {
+	std::string result;
+	auto line_begin = 0;
+	auto line_end = code.find('\n', line_begin);
+	size_t line_number = 1;
+	do {
+		const auto line = std::to_string(line_number)+':'+code.substr(line_begin, line_end - line_begin);
+		result += line+'\n';
+		++line_number;
+		line_begin = line_end+1;
+	} while((line_end = code.find('\n', line_begin)) != code.npos);
+	return result;
+}
+
 void shader_t::init(const std::string& code) {
 	if(code.size() == 0) throw std::runtime_error("Trying to compile shader with no code.");
 	auto* c_str = code.c_str();
@@ -16,7 +30,7 @@ void shader_t::init(const std::string& code) {
 	if(!success)
 	{
 		glGetShaderInfoLog(id(), sizeof(infoLog), nullptr, infoLog);
-		throw std::runtime_error(infoLog);
+		throw std::runtime_error(add_line_numbers(code)+'\n'+infoLog);
 	}
 }
 shader_t::shader_t(shader_type_t type, const std::string& code) :
