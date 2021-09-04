@@ -87,14 +87,13 @@ TEST_CASE("shader_t calls constructor and destructor", "[core][unit]") {
             std::strncpy(infoLog, error_msg.c_str(), error_msg.size());
         };
 
-        REQUIRE_THROWS_WITH(
+        REQUIRE_THROWS(
             shader_t(
                 shader_type_t::vertex,
                 std::stringstream(
                     code
                 )
-            ),
-            error_msg
+            )
         );
 
         REQUIRE(call_log == 1);

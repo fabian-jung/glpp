@@ -94,11 +94,11 @@ void unroll_tex_stack(core::object::shader_factory_t& factory, const texture_sta
 		}
 	};
 
-	factory.set("<tex_stack_declaration>", textures.declaration());
+	factory.set("<tex_stack_declaration>", textures.declaration("textures"));
 
 	std::string tex_stack_handling = "";
 	for(const auto& t : stack) {
-		tex_stack_handling += "FragColor "+to_string(t.op)+" "+std::to_string(t.strength)+"*"+textures.fetch(t.texture_key, "v_uv")+";\n";
+		tex_stack_handling += "FragColor "+to_string(t.op)+" "+std::to_string(t.strength)+"*"+textures.fetch("textures", t.texture_key, "v_uv")+";\n";
 	}
 
 	factory.set("<tex_stack_handling>", tex_stack_handling);
@@ -115,7 +115,7 @@ std::string flat_t<AllocPolicy>::fragment_shader_code(const material_t& material
 	in vec2 v_uv;
 	out vec4 FragColor;
 
-	<tex_stack_declaration>
+	<tex_stack_declaration>;
 
 	void main()
 	{
@@ -163,7 +163,7 @@ typename flat_t<AllocPolicy>::renderer_t flat_t<AllocPolicy>::renderer(const mat
 
 template <class AllocPolicy>
 void flat_t<AllocPolicy>::set_up(renderer_t& renderer, const core::object::texture_atlas_slot_t<AllocPolicy>& texture_slots) const {
-	renderer.set_texture_atlas(m_textures.declaration().c_str(), texture_slots);
+	renderer.set_texture_atlas("textures", texture_slots);
 }
 
 extern template class flat_t<core::object::texture_atlas::multi_policy_t>;
