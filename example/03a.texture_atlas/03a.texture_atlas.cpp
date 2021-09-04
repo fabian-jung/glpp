@@ -53,8 +53,8 @@ int main(__attribute__((unused)) int argc, __attribute__((unused)) char* argv[])
 
 
 	glpp::core::object::shader_factory_t fragment_shader_factory(std::ifstream("fragment.glsl"));
-	fragment_shader_factory.set("<texture_atlas>", texture_atlas.declaration());
-	fragment_shader_factory.set("<fetch>", texture_atlas.fetch(tid , "tex"));
+	fragment_shader_factory.set("<texture_atlas>", texture_atlas.declaration("textures"));
+	fragment_shader_factory.set("<fetch>", texture_atlas.fetch("textures", tid , "tex"));
 	std::cout << fragment_shader_factory.code() << std::endl;
 	glpp::core::render::renderer_t<scene_uniform_description_t> renderer {
 		glpp::core::object::shader_t(glpp::core::object::shader_type_t::vertex, std::ifstream("vertex.glsl")),
@@ -81,7 +81,7 @@ int main(__attribute__((unused)) int argc, __attribute__((unused)) char* argv[])
 	
 	// const auto texture_unit_one = texture_one.bind_to_texture_slot();
 	const auto ta_slot = texture_atlas.bind_to_texture_slot();
-	renderer.set_texture_atlas(texture_atlas.texture_id().c_str(), ta_slot);
+	renderer.set_texture_atlas("textures", ta_slot);
 
 	glpp::core::render::view_t view(
 		model

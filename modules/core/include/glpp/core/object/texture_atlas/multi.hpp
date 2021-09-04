@@ -75,7 +75,11 @@ public:
 	}
 
 	std::string declaration(const std::string_view name) const {
-		return fmt::format("uniform sampler2D {}[{}]", name, size());
+		if(size() > 0) {
+			return fmt::format("uniform sampler2D {}[{}]", name, size());
+		} else {
+			return "";
+		}
 	}
 
 	std::string fetch(const std::string_view name, const std::string_view key, const std::string_view uv) const {
