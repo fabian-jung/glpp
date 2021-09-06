@@ -7,6 +7,7 @@ set(my-config-var @my-config-var@)
 find_dependency(OpenGL REQUIRED COMPONENTS OpenGL)
 find_dependency(Boost REQUIRED)
 find_dependency(Catch2 REQUIRED)
+find_dependency(fmt REQUIRED)
 
 include(CTest NO_POLICY_SCOPE)
 include(Catch NO_POLICY_SCOPE)
