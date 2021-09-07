@@ -16,6 +16,7 @@ public:
 	using storage_t = std::map<key_t, texture_t>;
 	using slot_storage_t = std::vector<texture_slot_t>;
 	using swizzle_mask_t = std::array<texture_channel_t, 4>;
+	using key_storage_t = std::vector<key_t>;
 
 	multi_policy_t(
 		const image_format_t format = image_format_t::rgb_8,
@@ -31,8 +32,16 @@ public:
 		m_swizzle_mask(swizzle_mask)
 	{}
 
-	size_t size() const {
+	bool contains(const key_t key) const {
+		return m_storage.contains(key);
+	}
+
+	auto size() const {
 		return m_storage.size();
+	}
+
+	auto max_size() const {
+		return texture_slot_t::max_texture_units();
 	}
 
 	template <class PixelFormat>
@@ -94,8 +103,8 @@ public:
 		return key;
 	}
 
-	auto keys() const {
-		std::vector<key_t> result;
+	key_storage_t keys() const {
+		key_storage_t result;
 		std::transform(
 			m_storage.begin(),
 			m_storage.end(),
@@ -107,6 +116,7 @@ public:
 		);
 		return result;
 	}
+
 private:
 
 	image_format_t m_format;

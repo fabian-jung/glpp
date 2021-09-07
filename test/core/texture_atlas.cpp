@@ -15,12 +15,25 @@ TEST_CASE("texture_atlas_t alloc and free", "[core][unit]") {
 
     texture_atlas_t<texture_atlas::multi_policy_t> texture_atlas;
     REQUIRE(texture_atlas.keys().size() == 0);
+    REQUIRE(texture_atlas.keys().empty());
 
-    const auto key = texture_atlas.alloc();
+    const auto entry = texture_atlas.insert();
+    const auto key = entry.key();
+
+    REQUIRE(texture_atlas.size() == 1);
+    REQUIRE(!texture_atlas.empty());
     REQUIRE(texture_atlas.keys().size() == 1);
     REQUIRE(texture_atlas.keys().front() == key);
 
-    texture_atlas.free(key);
+    SECTION("Erase by  entry") {
+        texture_atlas.erase(entry);
+    }
+    SECTION("Erase by  key") {
+        texture_atlas.erase(key);
+    }
+
+    REQUIRE(texture_atlas.empty());
+    REQUIRE(texture_atlas.size() == 0);
     REQUIRE(texture_atlas.keys().size() == 0);
 }
 
@@ -28,8 +41,11 @@ TEST_CASE("texture_atlas_t bad alloc", "[core][unit]") {
     glpp::gl::context = glpp::gl::mock_context_t{};
 
     texture_atlas_t<texture_atlas::multi_policy_t> texture_atlas;
-    const auto key = texture_atlas.alloc();
-    REQUIRE_THROWS(texture_atlas.alloc(key));
+
+    SECTION("Double allocation") {
+        const auto entry = texture_atlas.insert();
+        REQUIRE_THROWS(texture_atlas.insert(entry.key()));
+    }
 }
 
 TEST_CASE("texture_atlas_t bad free", "[core][unit]") {
@@ -38,13 +54,13 @@ TEST_CASE("texture_atlas_t bad free", "[core][unit]") {
     texture_atlas_t<texture_atlas::multi_policy_t> texture_atlas;
 
     SECTION("Invalid free") {
-        REQUIRE_THROWS(texture_atlas.free(0));
+        REQUIRE_THROWS(texture_atlas.erase(texture_atlas_t<texture_atlas::multi_policy_t>::key_t{}));
     }
 
     SECTION("Double free") {
-        const auto key = texture_atlas.alloc();
-        texture_atlas.free(key);
-        REQUIRE_THROWS(texture_atlas.free(key));
+        const auto entry = texture_atlas.insert();
+        texture_atlas.erase(entry);
+        REQUIRE_THROWS(texture_atlas.erase(entry));
     }
 }
 
@@ -52,12 +68,14 @@ TEST_CASE("texture_atlas_t fetch", "[core][unit]") {
      glpp::gl::context = glpp::gl::mock_context_t{};
 
     texture_atlas_t<texture_atlas::multi_policy_t> texture_atlas;
-    const auto key0 = texture_atlas.alloc();
-    const auto key1 = texture_atlas.alloc();
-    const auto key2 = texture_atlas.alloc();
-    REQUIRE(texture_atlas.fetch("binding", key0, "uv") == "texture(binding[0], uv)");
-    REQUIRE(texture_atlas.fetch("binding", key1, "uv") == "texture(binding[1], uv)");
-    REQUIRE(texture_atlas.fetch("binding", key2, "uv") == "texture(binding[2], uv)");
+    std::array entries = {
+       texture_atlas.insert(),
+       texture_atlas.insert(),
+       texture_atlas.insert()
+    };
+    REQUIRE(entries[0].fetch("binding", "uv") == "texture(binding[0], uv)");
+    REQUIRE(entries[1].fetch("binding", "uv") == "texture(binding[1], uv)");
+    REQUIRE(entries[2].fetch("binding", "uv") == "texture(binding[2], uv)");
 }
 
 TEST_CASE("texture_atlas static selection render test", "[core][system][xorg]") {
@@ -92,11 +110,11 @@ TEST_CASE("texture_atlas static selection render test", "[core][system][xorg]") 
 
     texture_atlas_t<texture_atlas::multi_policy_t> texture_atlas;
     texture_atlas_t<texture_atlas::multi_policy_t> texture_atlas_2;
-    const std::array keys {
-        texture_atlas.alloc(references[0]),
-        texture_atlas.alloc(references[1]),
-        texture_atlas_2.alloc(references[2]),
-        texture_atlas_2.alloc(references[3])
+    const std::array entries {
+        texture_atlas.insert(references[0]),
+        texture_atlas.insert(references[1]),
+        texture_atlas_2.insert(references[2]),
+        texture_atlas_2.insert(references[3])
     };
     const auto slot = texture_atlas.bind_to_texture_slot();
     const auto slot_2 = texture_atlas_2.bind_to_texture_slot();
@@ -108,10 +126,10 @@ TEST_CASE("texture_atlas static selection render test", "[core][system][xorg]") 
 
     using namespace glpp::core::render;
     
-    for(auto i = 0u; i < keys.size(); ++i) {
-        const auto key = keys[i];
+    for(auto i = 0u; i < entries.size(); ++i) {
+        const auto entry = entries[i];
         const auto atlas = i<2 ? 0 : 1;
-        DYNAMIC_SECTION("Render subimage " << key) {
+        DYNAMIC_SECTION("Render subimage " << entry.key()) {
             const model_t<vertex_description_t> model {
                 {glm::vec3( -1, -1, 0 ), glm::vec2( 0, 0 )},
                 {glm::vec3(  1, -1, 0 ), glm::vec2( 1, 0 )},
@@ -152,7 +170,7 @@ TEST_CASE("texture_atlas static selection render test", "[core][system][xorg]") 
                         R"(
                         void main()
                         {
-                            FragColor = )" + texture_atlas.fetch("binding", key, "tex") +";"+
+                            FragColor = )" + entry.fetch("binding", "tex") +";"+
                     R"(
                         }
                     )"
@@ -167,7 +185,7 @@ TEST_CASE("texture_atlas static selection render test", "[core][system][xorg]") 
             renderer.render(view);
 
             const auto rendered = context.swap_buffer();
-            REQUIRE( (rendered == references[key]).epsilon(0.05f) );
+            REQUIRE( (rendered == references[entry.key()]).epsilon(0.05f) );
         }
     }
 }
@@ -203,11 +221,11 @@ TEST_CASE("texture_atlas dynamic selection render test", "[core][system][xorg]")
     };
 
     texture_atlas_t<texture_atlas::multi_policy_t> texture_atlas;
-    const std::array keys {
-        texture_atlas.alloc(references[0]),
-        texture_atlas.alloc(references[1]),
-        texture_atlas.alloc(references[2]),
-        texture_atlas.alloc(references[3])
+    const std::array entries {
+        texture_atlas.insert(references[0]),
+        texture_atlas.insert(references[1]),
+        texture_atlas.insert(references[2]),
+        texture_atlas.insert(references[3])
     };
     const auto slot = texture_atlas.bind_to_texture_slot();
 
@@ -218,7 +236,7 @@ TEST_CASE("texture_atlas dynamic selection render test", "[core][system][xorg]")
 
     using namespace glpp::core::render;
     
-    for(std::int32_t tex_id = 0u; tex_id < static_cast<std::int32_t>(keys.size()); ++tex_id) {
+    for(std::int32_t tex_id = 0u; tex_id < static_cast<std::int32_t>(entries.size()); ++tex_id) {
         DYNAMIC_SECTION("Render subimage " << tex_id) {
             const model_t<vertex_description_t> model {
                 {glm::vec3( -1, -1, 0 ), glm::vec2( 0, 0 )},
@@ -262,7 +280,7 @@ TEST_CASE("texture_atlas dynamic selection render test", "[core][system][xorg]")
                         R"(
                         void main()
                         {
-                            FragColor = )" + texture_atlas.fetch("binding", "tex_id", "tex") +";"+
+                            FragColor = )" + texture_atlas.dynamic_fetch("binding", "tex_id", "tex") +";"+
                     R"(
                         }
                     )"

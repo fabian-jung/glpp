@@ -7,17 +7,54 @@
 namespace glpp::core::object {
 
 template <class AllocationPolicy>
+class texture_atlas_t;
+
+template <class AllocationPolicy>
 class texture_atlas_slot_t;
+
+template <class AllocationPolicy>
+class texture_atlas_entry_t {
+public:
+	using key_t = typename AllocationPolicy::key_t;
+
+	texture_atlas_entry_t(texture_atlas_entry_t&& mov) = default;
+	texture_atlas_entry_t& operator=(texture_atlas_entry_t&& mov) = delete;
+
+	texture_atlas_entry_t(const texture_atlas_entry_t& cpy) = default;
+	texture_atlas_entry_t& operator=(const texture_atlas_entry_t& cpy) = delete;
+
+	template <class PixelFormat>
+	void update(const image_t<PixelFormat>& image);
+
+
+	template <class PixelFormat>
+	texture_atlas_entry_t& operator=(const image_t<PixelFormat>& image) {
+		m_alloc.update(key, image);
+		return *this;
+	}
+
+	std::string fetch(const std::string_view name, const std::string_view uv) const;
+	std::string fetch(const std::string_view name, const glm::vec2 uv) const;
+
+	operator bool() const;
+	key_t key() const;
+	bool valid() const;
+
+private:
+	texture_atlas_entry_t(const AllocationPolicy& alloc, const key_t key);
+
+	friend class texture_atlas_t<AllocationPolicy>;
+
+	const key_t m_key;
+	const AllocationPolicy& m_alloc;		
+};
 
 template <class AllocationPolicy>
 class texture_atlas_t {
 public:
 
 	template <class... Args>
-	texture_atlas_t(const Args... args) :
-		m_alloc(args...)
-	{}
-	
+	texture_atlas_t(const Args... args);
 	texture_atlas_t(texture_atlas_t&& mov) noexcept = default;
 	texture_atlas_t(const texture_atlas_t& cpy) = delete;
 	
@@ -26,61 +63,42 @@ public:
 	
 	using key_t = typename AllocationPolicy::key_t;
 	using key_hint_t = typename AllocationPolicy::key_hint_t;
+	using key_storage_t = typename AllocationPolicy::key_storage_t;
+
+	texture_atlas_entry_t<AllocationPolicy> operator[](const key_t key);
+
+	texture_atlas_entry_t<AllocationPolicy> at(const key_t key);
+	const texture_atlas_entry_t<AllocationPolicy> at(const key_t key) const;
+	
+	texture_atlas_entry_t<AllocationPolicy> get(const key_t key);
+	const texture_atlas_entry_t<AllocationPolicy> get(const key_t key) const;
+
+	bool contains(const key_t key) const;
+	bool empty() const;
+	size_t size() const;
+	size_t max_size() const;
+	key_storage_t keys() const;
+
+	texture_atlas_entry_t<AllocationPolicy> insert();
+	texture_atlas_entry_t<AllocationPolicy> insert(const key_hint_t key_hint);
 
 	template <class PixelFormat>
-	key_t alloc(const image_t<PixelFormat>& image) {
-		return alloc(m_alloc.first_free_key(), image);
-	}
+	texture_atlas_entry_t<AllocationPolicy> insert(const image_t<PixelFormat>& image);
 
 	template <class PixelFormat>
-	key_t alloc(const key_hint_t key, const image_t<PixelFormat>& image) {
-		return m_alloc.alloc(key, image);
-	}
+	texture_atlas_entry_t<AllocationPolicy> insert(const key_hint_t key, const image_t<PixelFormat>& image);
 
-	key_t alloc(const key_hint_t key_hint) {
-		return alloc(key_hint, image_t<glm::vec3>{1, 1});
-	}
+	void erase(const key_t key);
+	void erase(const texture_atlas_entry_t<AllocationPolicy> entry);
 
-	key_t alloc() {
-		return alloc(m_alloc.first_free_key());
-	}
+	std::string declaration(const std::string_view name) const;
 
-	template <class Image>
-	void update(const key_t key, const Image& image) {
-		m_alloc.update(key, image);
-	}
+	std::string dynamic_fetch(const std::string_view name, const std::string_view key, const std::string_view uv) const;
+	std::string dynamic_fetch(const std::string_view name, const std::string_view key, const glm::vec2 uv) const;
+	std::string fetch(const std::string_view name, const key_t key, const std::string_view uv) const;
+	std::string fetch(const std::string_view name, const key_t key, const glm::vec2 uv) const;
 
-	void free(const key_t key) {
-		m_alloc.free(key);
-	}
-
-	auto keys() const {
-		return m_alloc.keys();
-	}
-
-	std::string declaration(const std::string_view name) const {
-		return m_alloc.declaration(name);
-	}
-
-	std::string fetch(const std::string_view name, const key_t key, const std::string_view uv) const {
-		return fetch(name, std::to_string(key), uv);
-	}
-
-	std::string fetch(const std::string_view name, const std::string_view key, const std::string_view uv) const {
-		return m_alloc.fetch(name, key, uv);
-	}
-
-	std::string fetch(const std::string_view name, const key_t key, const glm::vec2 uv) const {
-		return fetch(name, std::to_string(key), uv);
-	}
-
-	std::string fetch(const std::string_view name, const std::string_view key, const glm::vec2 uv) const {
-		return fetch(name, key, fmt::format("vec2({}, {})", uv.x, uv.y));
-	}
-
-	texture_atlas_slot_t<AllocationPolicy> bind_to_texture_slot() const {
-		return { m_alloc.slots() };
-	}
+	texture_atlas_slot_t<AllocationPolicy> bind_to_texture_slot() const;
 
 private:
 
@@ -88,49 +106,60 @@ private:
 };
 
 template <class AllocationPolicy>
-struct texture_atlas_slot_t {
-
+class texture_atlas_slot_t {
+public:
 	using storage_t = typename AllocationPolicy::slot_storage_t;
-	storage_t storage;
+	using const_iterator_t = typename storage_t::const_iterator;
+
+
+	texture_atlas_slot_t(texture_atlas_slot_t&& mov) = default;
+	texture_atlas_slot_t& operator=(texture_atlas_slot_t&& mov) = default;
+
+	texture_atlas_slot_t(const texture_atlas_slot_t& cpy) = delete;
+	texture_atlas_slot_t& operator=(const texture_atlas_slot_t& cpy) = delete;
+
+	const_iterator_t begin() const;
+	const_iterator_t end() const;
 	
+private:
+	friend class texture_atlas_t<AllocationPolicy>;
+	texture_atlas_slot_t(storage_t storage);
+
+	storage_t m_storage;
 };
 
+template <class AllocationPolicy>
+template <class... Args>
+texture_atlas_t<AllocationPolicy>::texture_atlas_t(const Args... args) :
+	m_alloc(args...)
+{}
 
-// template <class AllocationPolicy>
-// texture_atlas_slot_t<AllocationPolicy> texture_atlas_t<AllocationPolicy>::bind_to_texture_slot() const {
-// 	return texture_atlas_slot_t<AllocationPolicy>{ m_storage };
-// }
+template <class AllocationPolicy>
+template <class PixelFormat>
+texture_atlas_entry_t<AllocationPolicy> texture_atlas_t<AllocationPolicy>::insert(const image_t<PixelFormat>& image) {
+	return insert(m_alloc.first_free_key(), image);
+}
 
-// template <class AllocationPolicy>
-// std::string texture_atlas_t<AllocationPolicy>::texture_id() const {
-// 	return m_namespace;
-// }
-
-// template <class AllocationPolicy>
-// texture_atlas_slot_t<AllocationPolicy>::texture_atlas_slot_t(const typename AllocationPolicy::storage_t& storage) :
-// 	m_slots(AllocationPolicy::slots_from_storage(storage))
-// {}
-
-// template <class AllocationPolicy>
-// texture_atlas_slot_t<AllocationPolicy>::texture_atlas_slot_t(const texture_atlas_t<AllocationPolicy>& atlas) :
-// 	texture_atlas_slot_t(atlas.bind_to_texture_slot())
-// {}
-
-// template <class AllocationPolicy>
-// auto texture_atlas_slot_t<AllocationPolicy>::begin() const {
-// 	return m_slots.begin();
-// }
-
-// template <class AllocationPolicy>
-// auto texture_atlas_slot_t<AllocationPolicy>::end() const {
-// 	return m_slots.end();
-// }
+template <class AllocationPolicy>
+template <class PixelFormat>
+texture_atlas_entry_t<AllocationPolicy> texture_atlas_t<AllocationPolicy>::insert(const key_hint_t key, const image_t<PixelFormat>& image) {
+	const auto allocated_key = m_alloc.alloc(key, image);
+	return {m_alloc, allocated_key};
+}
 
 // using freefloat_atlas_t = texture_atlas_t<texture_atlas::freefloat_policy_t>;
+// extern template class texture_atlas_entry_t<texture_atlas::freefloat_policy_t>;
+// extern template class texture_atlas_slot_t<texture_atlas::freefloat_policy_t>;
 // extern template class texture_atlas_t<texture_atlas::freefloat_policy_t>;
+
 // using grid_atlas_t = texture_atlas_t<texture_atlas::grid_policy_t>;
+// extern template class texture_atlas_entry_t<texture_atlas::grid_policy_t>;
+// extern template class texture_atlas_slot_t<texture_atlas::grid_policy_t>;
 // extern template class texture_atlas_t<texture_atlas::grid_policy_t>;
+
 using multi_atlas_t = texture_atlas_t<texture_atlas::multi_policy_t>;
+extern template class texture_atlas_entry_t<texture_atlas::multi_policy_t>;
+extern template class texture_atlas_slot_t<texture_atlas::multi_policy_t>;
 extern template class texture_atlas_t<texture_atlas::multi_policy_t>;
 
 }

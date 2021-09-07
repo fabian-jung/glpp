@@ -128,9 +128,10 @@ public:
 
 	GLint id() const;
 
+	static int max_texture_units();
+
 private:
 	int next_free_id();
-	int max_texture_units() const;
 
 	static std::vector<int> units;
 	GLint m_id;

@@ -141,8 +141,8 @@ TEST_CASE("mesh render test", "[asset] [system] [xorg]") {
             }
         };
 
-        const auto tex_key = 
-            texture_atlas.alloc(
+        const auto tex_entry = 
+            texture_atlas.insert(
                 texture_base_image
             );
         
@@ -151,7 +151,7 @@ TEST_CASE("mesh render test", "[asset] [system] [xorg]") {
 
         material.diffuse_textures.emplace_back(
             texture_stack_entry_t{
-                tex_key,
+                tex_entry.key(),
                 1.0f,
                 op_t::addition
             }

@@ -98,7 +98,7 @@ void unroll_tex_stack(core::object::shader_factory_t& factory, const texture_sta
 
 	std::string tex_stack_handling = "";
 	for(const auto& t : stack) {
-		tex_stack_handling += "FragColor "+to_string(t.op)+" "+std::to_string(t.strength)+"*"+textures.fetch("textures", t.texture_key, "v_uv")+";\n";
+		tex_stack_handling += "FragColor "+to_string(t.op)+" "+std::to_string(t.strength)+"*"+textures.get(t.texture_key).fetch("textures", "v_uv")+";\n";
 	}
 
 	factory.set("<tex_stack_handling>", tex_stack_handling);
