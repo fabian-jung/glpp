@@ -54,7 +54,7 @@ class texture_atlas_t {
 public:
 
 	template <class... Args>
-	texture_atlas_t(const Args... args);
+	explicit texture_atlas_t(const Args... args);
 	texture_atlas_t(texture_atlas_t&& mov) noexcept = default;
 	texture_atlas_t(const texture_atlas_t& cpy) = delete;
 	

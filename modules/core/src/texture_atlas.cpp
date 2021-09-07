@@ -30,7 +30,7 @@ std::string texture_atlas_entry_t<AllocPolicy>::fetch(const std::string_view nam
 }
 
 template <class AllocPolicy>
-texture_atlas_entry_t<AllocPolicy>::key_t texture_atlas_entry_t<AllocPolicy>::key() const {
+typename texture_atlas_entry_t<AllocPolicy>::key_t texture_atlas_entry_t<AllocPolicy>::key() const {
     return m_key;
 }
 
@@ -120,7 +120,7 @@ void texture_atlas_t<AllocPolicy>::erase(const texture_atlas_entry_t<AllocPolicy
 }
 
 template <class AllocPolicy>
-texture_atlas_t<AllocPolicy>::key_storage_t texture_atlas_t<AllocPolicy>::keys() const {
+typename texture_atlas_t<AllocPolicy>::key_storage_t texture_atlas_t<AllocPolicy>::keys() const {
     return m_alloc.keys();
 }
 
@@ -160,12 +160,12 @@ texture_atlas_slot_t<AllocationPolicy>::texture_atlas_slot_t(storage_t storage) 
 {}
 
 template <class AllocationPolicy>
-texture_atlas_slot_t<AllocationPolicy>::const_iterator_t texture_atlas_slot_t<AllocationPolicy>::begin() const {
+typename texture_atlas_slot_t<AllocationPolicy>::const_iterator_t texture_atlas_slot_t<AllocationPolicy>::begin() const {
     return m_storage.begin();
 }
 
 template <class AllocationPolicy>
-texture_atlas_slot_t<AllocationPolicy>::const_iterator_t texture_atlas_slot_t<AllocationPolicy>::end() const {
+typename texture_atlas_slot_t<AllocationPolicy>::const_iterator_t texture_atlas_slot_t<AllocationPolicy>::end() const {
     return m_storage.end();
 }
 

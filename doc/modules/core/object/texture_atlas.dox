@@ -1,0 +1,322 @@
+/**
+\file glpp/core/object/texture_atlas.hpp
+@brief A Documented file.
+*/
+
+/**
+@brief customizable container class for for textures
+
+texture_atlas_t is a container class for textures with identical access parameters. Static and dynamic access
+is possible. Static meaning the texture id of the fetched texture is known at shader compile time and dynamic
+meaning the texture id is provided by a shader variable. The layout of textures in graphic memory can be 
+customized with AllocationPolicy template parameter. 
+
+@class glpp::core::object::texture_atlas_t
+*/
+
+/**
+@brief move constructor
+
+texture_atlas_t is move constructible.
+
+@fn glpp::core::object::texture_atlas_t::texture_atlas_t(texture_atlas_t&& mov)
+*/
+
+/**
+@brief copy constructor
+
+texture_atlas_t is not copy constructible.
+
+@fn glpp::core::object::texture_atlas_t::texture_atlas_t(const texture_atlas_t& cpy)
+*/
+
+/**
+@brief move assignment operator
+
+texture_atlas_t is move assignable.
+
+@fn glpp::core::object::texture_atlas_t::texture_atlas_t& glpp::core::object::texture_atlas_t::operator=(texture_atlas_t&& mov)
+*/
+
+/**
+@brief copy assignment operator
+
+texture_atlas_t is not copy assignable.
+
+@fn glpp::core::object::texture_atlas_t::texture_atlas_t& glpp::core::object::texture_atlas_t::operator=(const texture_atlas_t& cpy)
+*/
+
+/**
+@brief key type to reference entries
+@typedef glpp::core::object::texture_atlas_t::key_t
+*/
+
+/**
+@brief key hint type for allocation in specific places
+@typedef glpp::core::object::texture_atlas_t::key_hint_t
+*/
+
+/**
+@brief key storage type
+@typedef glpp::core::object::texture_atlas_t::key_storage_t
+*/
+
+/**
+@brief constructor
+
+This is the constructor for texture_atlas_t. The arguments will be forwarded to the AllocationPolicy.
+Usually no parameters should be necessary to create a texture_atlas_t. If the AllocationPolicy does
+require parameters it will be documented with the policy.
+
+@fn glpp::core::object::texture_atlas_t::texture_atlas_t(const Args... args);
+@param args [in] paramets that will be passed to the AllocationPolicy on construction
+*/
+
+/**
+@brief random access operator
+
+This operator takes a key_t key and returns a texture_atlas_entry_t instance. This entry acts like 
+a reference wrapper to the requested texture entry. If key is not contained in the atlas a new element
+will be inserted and a texture_atlas_entry_t to this element will be returned.
+
+@fn glpp::core::object::texture_atlas_entry_t<AllocationPolicy> glpp::core::object::texture_atlas_t::operator[](const key_t key);
+@param key [in] key of texture that shall be accessed
+@return texture_atlas_entry_t instance that enables access to the requested entry
+*/
+
+/**
+@brief bounds checked access to entries
+
+This member function allows access to entries in the atlas. The function will check if the requested
+key is contained in the atlas before access. If the key does not exist an exception is thrown.
+
+@fn glpp::core::object::texture_atlas_entry_t<AllocationPolicy> glpp::core::object::texture_atlas_t::at(const key_t key);
+@param key [in] key of texture that shall be accessed
+@return texture_atlas_entry_t instance that enables access to the requested entry
+*/
+
+/**
+@brief bounds checked access to entries
+
+This member function allows access to entries in the atlas. The function will check if the requested
+key is contained in the atlas before access. If the key does not exist an exception is thrown.
+
+@fn const glpp::core::object::texture_atlas_entry_t<AllocationPolicy> glpp::core::object::texture_atlas_t::at(const key_t key) const;
+@param key [in] key of texture that shall be accessed
+@return texture_atlas_entry_t instance that enables access to the requested entry
+*/
+
+/**
+@brief access to entries
+
+This member function allows access to entries in the atlas. The function will NOT check if the 
+requested key is contained in the atlas before access. If the key does not exist, the returned 
+texture_atlas_entry_t will be invalid.
+
+@fn glpp::core::object::texture_atlas_entry_t<AllocationPolicy> glpp::core::object::texture_atlas_t::get(const key_t key);
+@param key [in] key of texture that shall be accessed
+@return texture_atlas_entry_t instance that enables access to the requested entry
+*/
+
+/**
+@brief access to entries
+
+This member function allows access to entries in the atlas. The function will NOT check if the 
+requested key is contained in the atlas before access. If the key does not exist, the returned 
+texture_atlas_entry_t will be invalid.
+@fn const glpp::core::object::texture_atlas_entry_t<AllocationPolicy> glpp::core::object::texture_atlas_t::get(const key_t key) const;
+@param key [in] key of texture that shall be accessed
+@return texture_atlas_entry_t instance that enables access to the requested entry
+*/
+
+/**
+@brief check if a given key is contained in the atlas
+
+Check whether a given key is contained in the texture atlas.
+
+@fn bool glpp::core::object::texture_atlas_t::contains(const key_t key) const;
+@param key [in] key that shall be checked
+@result true if key is contained, false if not.
+*/
+
+/**
+@brief check if atlas is empty
+
+This function if there are textures existant in this atlas. It's equivalent to the size() == 0.
+
+@fn bool glpp::core::object::texture_atlas_t::empty() const;
+@result True, if no textures are contained in the atlas. False otherwise.
+*/
+
+/**
+@brief size of texture atlas
+
+This function returns the count of entries/keys inside the texture atlas.
+
+@fn size_t glpp::core::object::texture_atlas_t::size() const;
+@result count of entries
+*/
+
+/**
+@brief maximum size of the texture atlas
+
+This function will return a theoretical maximum number of entries to the atlas. Depending on the 
+allocation policy provided it might or might not be possible to use the full amount of max_size().
+The multi_policy_t policy will most likely not allow for the full amount of entries, as that would 
+require all texture units to be free for this one texture atlas.
+
+@fn size_t glpp::core::object::texture_atlas_t::max_size() const;
+@result theoretical maximum of entries into a single instance of the texture atlas
+*/
+
+/**
+@brief get the key range of the texture atlas
+
+This member function will return an iteratable range of key_t with all keys, that are contained in
+the texture atlas.
+
+@fn glpp::core::object::texture_atlas_t::key_storage_t glpp::core::object::texture_atlas_t::keys() const;
+@result key range
+*/
+
+/**
+@brief insert element into atlas
+
+This member function will insert a new entry into the texture atlas. 
+
+@fn glpp::core::object::texture_atlas_entry_t<AllocationPolicy> glpp::core::object::texture_atlas_t::insert();
+@result texture_atlas_entry_t instance refering to the inserted entry
+*/
+
+/**
+@brief insert element into atlas
+
+This member function will insert a new entry into the texture atlas. Depending on the AllocationPolicy the
+key_hint parameter might or might not be ignored. Trying to allocate a key, that is already taken or invalid keys
+will throw an exception.
+
+@fn glpp::core::object::texture_atlas_entry_t<AllocationPolicy> glpp::core::object::texture_atlas_t::insert(const key_hint_t key_hint);
+@param key_hint [in] key that shall be allocated
+@result texture_atlas_entry_t instance refering to the inserted entry
+*/
+
+/**
+@brief insert element into atlas
+
+This member function will insert a new entry into the texture atlas. The entry will allocate a texture
+on construction and copy over the pixel data from image.
+
+@fn glpp::core::object::texture_atlas_entry_t<AllocationPolicy> glpp::core::object::texture_atlas_t::insert(const image_t<PixelFormat>& image);
+@param image [in] pixel data for the inserted texture
+@result texture_atlas_entry_t instance refering to the inserted entry
+*/
+
+/**
+@brief insert element into atlas
+
+This member function will insert a new entry into the texture atlas. This overload is a combination of the
+key_hint overload and the image_t overload. 
+
+@fn glpp::core::object::texture_atlas_entry_t<AllocationPolicy> glpp::core::object::texture_atlas_t::insert(const key_hint_t key, const image_t<PixelFormat>& image);
+@param image [in] pixel data for the inserted texture
+@param key [in] key that shall be allocated
+@result texture_atlas_entry_t instance refering to the inserted entry
+*/
+
+/**
+@brief erase entry from the texture atlas
+
+Erase an element with a given key from the texture atlas. This function will throw an exception,
+if the key is not contained in the atlas. texture_atlas_entry_t refering to the key will be invalidated.
+
+@fn void glpp::core::object::texture_atlas_t::erase(const key_t key);
+@param key [in] key of element that should be erased
+*/
+
+/**
+@brief erase entry from the texture atlas
+
+Erase an element with a given key from the texture atlas. This function will throw an exception,
+if the entry is invalid. The texture_atlas_entry_t provided and all other texture_atlas_entry_t that
+refer to the same key will be invalidated.
+
+@fn void glpp::core::object::texture_atlas_t::erase(const texture_atlas_entry_t<AllocationPolicy> entry);
+@param entry [in] entry that shall be erased
+*/
+
+/**
+@brief get declaration for shader compilation
+
+This function will return a GLSL declaration of zero, one or more texture samplers, that are necessary
+to fetch the pixel data from the texture entries in this texture atlas. The name parameter is used
+to specify the binding name of the shader atlas. Analog to texture_t the texture_atlas_t needs to 
+be bound to a renderer object via a name. This name is used to differenciate and identify different 
+texture atlases in one shader or across shader boundaries.
+
+@fn std::string glpp::core::object::texture_atlas_t::declaration(const std::string_view name) const;
+@param name [in] binding name of textur atlas in the shader code
+@result std::string with shadercode encoding the declaration of texture samplers
+*/
+
+/**
+@brief return string to fetch a texel inside shader code
+
+This function is basically the same as the normal fetch with the main difference, that a std::string_view
+is used to specify the key. This string_view can encode a constant value or a shader variable of type key_t.
+If a variable name is provided as key, this function can be used to dynamically fetch texels at shader
+run time.
+
+@fn std::string glpp::core::object::texture_atlas_t::dynamic_fetch(const std::string_view name, const std::string_view key, const std::string_view uv) const;
+@param name [in] name of the texture_atlas_t binding to the renderer
+@param key [in] either the name of a shader variable or a fixed value
+@param uv [in] either name of a shader variable of type vec2 or a vec2 value
+@result std::string with GLSL code
+*/
+
+/**
+@brief return string to fetch a texel inside shader code
+
+This function is basically the same as the normal fetch with the main difference, that a std::string_view
+is used to specify the key. This string_view can encode a constant value or a shader variable of type key_t.
+If a variable name is provided as key, this function can be used to dynamically fetch texels at shader
+run time. 
+
+@fn std::string glpp::core::object::texture_atlas_t::dynamic_fetch(const std::string_view name, const std::string_view key, const glm::vec2 uv) const;
+@param name [in] name of the texture_atlas_t binding to the renderer
+@param key [in] either the name of a shader variable or a fixed value
+@param uv [in] value for the uv coordinates that shall be fetched in the shader
+*/
+
+/**
+@brief return string to fetch a texel inside shader code
+
+This function will generate shader code, that can be used to fetch pixel values from a texture atlas.
+
+@fn std::string glpp::core::object::texture_atlas_t::fetch(const std::string_view name, const key_t key, const std::string_view uv) const;
+@param name [in] name of the texture_atlas_t binding to the renderer
+@param key [in] key of the texture entry that shall be fetched
+@param uv [in] either name of a shader variable of type vec2 or a vec2 value
+@result std::string with GLSL code
+*/
+
+/**
+@brief return string to fetch a texel inside shader code
+
+This function will generate shader code, that can be used to fetch pixel values from a texture atlas.
+
+@fn std::string glpp::core::object::texture_atlas_t::fetch(const std::string_view name, const key_t key, const glm::vec2 uv) const;
+@param name [in] name of the texture_atlas_t binding to the renderer
+@param key [in] key of the texture entry that shall be fetched
+@param uv [in] value for the uv coordinates that shall be fetched in the shader
+@result std::string with GLSL code
+*/
+
+/**
+@brief bind textures of the texture atlas next free texture units
+
+This function will bind the textures to the next free texture units. If there are
+no more free texture unit to bind to, the function will throw a std::runtime_error. 
+
+@fn glpp::core::object::texture_atlas_slot_t<AllocationPolicy> glpp::core::object::texture_atlas_t::bind_to_texture_slot() const;
+@return texture_atlas_slot_t object representing the bindings
+*/
