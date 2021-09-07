@@ -65,6 +65,7 @@ This function will generate shader code, that can be used to fetch pixel values 
 @fn std::string glpp::core::object::texture_atlas_entry_t::fetch(const std::string_view name, const std::string_view uv) const
 @param name [in] name of the texture_atlas_t binding to the renderer
 @param uv [in] either name of a shader variable of type vec2 or a vec2 value
+@result std::string with GLSL code
 */
 
 /**
@@ -75,6 +76,7 @@ This function will generate shader code, that can be used to fetch pixel values 
 @fn std::string glpp::core::object::texture_atlas_entry_t::fetch(const std::string_view name, const glm::vec2 uv) const
 @param name [in] name of the texture_atlas_t binding to the renderer
 @param uv [in] value for the uv coordinates that shall be fetched in the shader
+@result std::string with GLSL code
 */
 
 /**
