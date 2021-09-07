@@ -1,0 +1,72 @@
+/**
+@brief helper class representing a binding of a texture_atlas_t object to a texture unit
+
+This class is a RAII wrapper for the binding of all related textures of a texture_atlas_t object to texture units. It can
+be created by calling texture_atlas_t::bind_to_texture_slot().
+Upon destruction the binding will be released and the texture unit can be reused.
+The texture_atlas_slot_t class will keep track of the bound texture units. Changeing 
+the global state with plain OpenGL calls may lead to conflicts.
+
+@class glpp::core::object::texture_atlas_slot_t
+*/
+
+/**
+@brief move constructor
+
+texture_atlas_slot_t is move constructible.
+
+@fn glpp::core::object::texture_atlas_slot_t::texture_atlas_slot_t(texture_atlas_slot_t&& mov)
+*/
+
+/**
+@brief copy constructor
+
+texture_atlas_slot_t is not copy constructible.
+
+@fn glpp::core::object::texture_atlas_slot_t::texture_atlas_slot_t(const texture_atlas_slot_t& cpy)
+*/
+
+/**
+@brief move assignment operator
+
+texture_atlas_slot_t is move assignable.
+
+@fn glpp::core::object::texture_atlas_slot_t::texture_atlas_slot_t& glpp::core::object::texture_atlas_slot_t::operator=(texture_atlas_slot_t&& mov)
+*/
+
+/**
+@brief copy assignment operator
+
+texture_atlas_slot_t is not copy assignable.
+
+@fn glpp::core::object::texture_atlas_slot_t::texture_atlas_slot_t& glpp::core::object::texture_atlas_slot_t::operator=(const texture_atlas_slot_t& cpy)
+*/
+
+/**
+@brief storage type for individal texture slots of assiciated textures
+
+@typedef glpp::core::object::texture_atlas_slot_t::storage_t
+*/
+
+/**
+@brief const iterator type 
+
+@typedef glpp::core::object::texture_atlas_slot_t::const_iterator_t
+*/
+
+/**
+@brief returns iterator to first texture slot of the range of owned texture slots
+
+returns iterator to first texture slot of the range of owned texture slots
+
+@fn glpp::core::object::texture_atlas_slot_t::begin()
+*/
+
+
+/**
+@brief returns iterator to the texture slot following the last texture slot of the range of owned texture slots
+
+returns iterator to the texture slot following the last texture slot of the range of owned texture slots
+
+@fn glpp::core::object::texture_atlas_slot_t::end()
+*/
