@@ -4,10 +4,11 @@
 #include <fstream>
 #include <string_view>
 #include <unordered_map>
-
+#include <chrono>
 #include <iostream>
 
 struct scene_uniform_description_t{
+	float tex_id;
 };
 
 struct vertex_description_t {
@@ -40,26 +41,25 @@ namespace glpp::core::render {
 
 int main(__attribute__((unused)) int argc, __attribute__((unused)) char* argv[]) {
 
-	glpp::system::window_t window(800, 600, "texture", glpp::system::vsync_t::off);
-	window.set_input_mode(glpp::system::input_mode_t::wait);
-
+	glpp::system::window_t window(800, 600, "texture", glpp::system::vsync_t::on);
 
 	glpp::core::object::multi_atlas_t texture_atlas;
-	texture_atlas.alloc(glpp::core::object::image_t<glm::vec3>(1, 1, { glm::vec3(1.0,0,0)}));
-	texture_atlas.alloc(glpp::core::object::image_t<glm::vec3>("one.png"));
-	texture_atlas.alloc(glpp::core::object::image_t<glm::vec3>("two.png"));
-	const auto tid = texture_atlas.alloc(glpp::core::object::image_t<glm::vec3>("three.png"));
-	texture_atlas.alloc(glpp::core::object::image_t<glm::vec3>("four.png"));
+	texture_atlas.insert(glpp::core::object::image_t<glm::vec3>("one.png"));
+	texture_atlas.insert(glpp::core::object::image_t<glm::vec3>("two.png"));
+	texture_atlas.insert(glpp::core::object::image_t<glm::vec3>("three.png"));
+	texture_atlas.insert(glpp::core::object::image_t<glm::vec3>("four.png"));
 
 
 	glpp::core::object::shader_factory_t fragment_shader_factory(std::ifstream("fragment.glsl"));
 	fragment_shader_factory.set("<texture_atlas>", texture_atlas.declaration("textures"));
-	fragment_shader_factory.set("<fetch>", texture_atlas.fetch("textures", tid , "tex"));
+	fragment_shader_factory.set("<fetch1>", texture_atlas.dynamic_fetch("textures", "first_index", "tex"));
+	fragment_shader_factory.set("<fetch2>", texture_atlas.dynamic_fetch("textures", "second_index", "tex"));
 	std::cout << fragment_shader_factory.code() << std::endl;
 	glpp::core::render::renderer_t<scene_uniform_description_t> renderer {
 		glpp::core::object::shader_t(glpp::core::object::shader_type_t::vertex, std::ifstream("vertex.glsl")),
 		glpp::core::object::shader_t(glpp::core::object::shader_type_t::fragment, fragment_shader_factory.code())
 	};
+	renderer.set_uniform_name(&scene_uniform_description_t::tex_id, "tex_id");
 
 	model_t model;
 	model.add_quad(
@@ -88,7 +88,15 @@ int main(__attribute__((unused)) int argc, __attribute__((unused)) char* argv[])
 	);
 	
 	glClearColor(0.2,0.2,0.2,1.0);
+
+	using clock = std::chrono::high_resolution_clock;
+	const auto begin = clock::now();
+
 	window.enter_main_loop([&]() {
+		const auto now = clock::now();
+		const std::chrono::duration<float> duration = now-begin;
+		const auto time = duration.count()*.2f;
+		renderer.set_uniform(&scene_uniform_description_t::tex_id, time);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		renderer.render(view);
 	});

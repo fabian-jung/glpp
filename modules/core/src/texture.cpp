@@ -136,7 +136,7 @@ int max_texture_units_impl() {
 	return i;
 }
 
-int texture_slot_t::max_texture_units() const {
+int texture_slot_t::max_texture_units() {
 	static const int units = max_texture_units_impl();
 	return units;
 }
