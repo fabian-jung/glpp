@@ -1,0 +1,97 @@
+/**
+@brief helper class representing an entry of a texture_atlas_t object
+
+texture_atlas_entry_t is a proxy class for easy access to single texture entrys inside a texture_atlas_t object.
+They are created by the access member functions of texture_atlas_t. This class facilitates access to texture entries
+by owning a instance of a key_t. On access the entry will be fetched from the texture_atlas_t with the
+use of this key.
+
+@class glpp::core::object::texture_atlas_entry_t
+*/
+
+/**
+@brief key type of the assiciated texture_atlas_t
+
+@typedef glpp::core::object::texture_atlas_entry_t::key_t
+*/
+
+/**
+@brief move constructor
+
+texture_atlas_entry_t is move constructible.
+
+@fn glpp::core::object::texture_atlas_entry_t::texture_atlas_entry_t(texture_atlas_entry_t&& mov)
+*/
+
+/**
+@brief copy constructor
+
+texture_atlas_entry_t is copy constructible.
+
+@fn glpp::core::object::texture_atlas_entry_t::texture_atlas_entry_t(const texture_atlas_entry_t& cpy)
+*/
+
+/**
+@brief move assignment operator
+
+texture_atlas_entry_t is not move assignable.
+
+@fn glpp::core::object::texture_atlas_entry_t::texture_atlas_entry_t& glpp::core::object::texture_atlas_entry_t::operator=(texture_atlas_entry_t&& mov)
+*/
+
+/**
+@brief copy assignment operator
+
+texture_atlas_entry_t is not copy assignable.
+
+@fn glpp::core::object::texture_atlas_entry_t::texture_atlas_entry_t& glpp::core::object::texture_atlas_entry_t::operator=(const texture_atlas_entry_t& cpy)
+*/
+
+/**
+@brief update pixel data of a texture entry
+
+This function will overwrite the pixel data of the texture entry with the pixel data of the image parameter. 
+Resizing on update might not be possible with every AllocationPolicy policy.
+
+@fn void glpp::core::object::texture_atlas_entry_t::update(const image_t<PixelFormat>& image)
+@param image [in] new pixel data
+*/
+
+/**
+@brief return string to fetch a texel inside shader code
+
+This function will generate shader code, that can be used to fetch pixel values from a texture atlas.
+
+@fn std::string glpp::core::object::texture_atlas_entry_t::fetch(const std::string_view name, const std::string_view uv) const
+@param name [in] name of the texture_atlas_t binding to the renderer
+@param uv [in] either name of a shader variable of type vec2 or a vec2 value
+*/
+
+/**
+@brief return string to fetch a texel inside shader code
+
+This function will generate shader code, that can be used to fetch pixel values from a texture atlas.
+
+@fn std::string glpp::core::object::texture_atlas_entry_t::fetch(const std::string_view name, const glm::vec2 uv) const
+@param name [in] name of the texture_atlas_t binding to the renderer
+@param uv [in] value for the uv coordinates that shall be fetched in the shader
+*/
+
+/**
+@brief return key owned by texture_atlas_entry_t
+
+Texture entries in texture_atlas_t are identified by keys. This class facilitates access to texture entries
+by owning a instance of a key_t. On access the entry will be fetched from the texture_atlas_t with the
+use of this key.
+
+@fn key_t glpp::core::object::texture_atlas_entry_t::key() const
+*/
+
+/**
+@brief check if texture_entry_t object is still contained in the texture_atlas_t object
+
+A texture entry might be erased from the texture_atlas_t. This function checks if the key, that is owned
+by the instance of texture_entry_t is contained in the associated texture_atlas_t.
+
+@fn bool glpp::core::object::texture_atlas_entry_t::valid() const
+*/
