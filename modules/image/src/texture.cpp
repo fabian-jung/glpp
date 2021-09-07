@@ -10,7 +10,6 @@ namespace detail {
 
 stbi_image_t::stbi_image_t(const char* filename, int channels)
 {
-// 	stbi_set_flip_vertically_on_load(true);
 	m_storage = stbi_load(
 		filename,
 		&m_width,
@@ -18,6 +17,9 @@ stbi_image_t::stbi_image_t(const char* filename, int channels)
 		&m_channels,
 		channels
 	);
+	if(m_storage == nullptr) {
+		throw std::runtime_error(std::string("Image ")+filename+" could not be found or opened.");
+	} 
 	m_channels = channels;
 }
 
