@@ -24,7 +24,7 @@ public:
 		if(!m_gameover) {
 			auto pos = m_track.size() > 0 ? m_track.front() : 4;
 			if(m_track.size() == track_lines()) {
-				pos += 3*(static_cast<float>(rand())/RAND_MAX)-1;
+				pos += 3*(static_cast<float>(rand())/static_cast<float>(RAND_MAX))-1;
 				pos = std::clamp(pos, 0, static_cast<int>(track_width()-m_street.size()));
 				m_score += 10;
 				m_highscore = std::max(m_score, m_highscore);

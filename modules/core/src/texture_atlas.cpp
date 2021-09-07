@@ -6,7 +6,7 @@ namespace glpp::core::object
 template <class AllocPolicy>
 template <class PixelFormat>
 void texture_atlas_entry_t<AllocPolicy>::update(const image_t<PixelFormat>& image) {
-    m_alloc.update(key, image);
+    m_alloc.update(m_key, image);
 }
 
 /**

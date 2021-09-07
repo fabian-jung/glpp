@@ -1,7 +1,7 @@
 add_executable(
 	03a.texture_atlas 03a.texture_atlas.cpp
 )
-target_link_libraries(03a.texture_atlas PRIVATE glpp::core glpp::system glpp::image pthread)
+target_link_libraries(03a.texture_atlas PRIVATE glpp::core glpp::system glpp::image)
 
 set(03a.copy.files 
 	vertex.glsl

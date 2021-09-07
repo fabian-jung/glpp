@@ -29,7 +29,7 @@ public:
 
 	template <class PixelFormat>
 	texture_atlas_entry_t& operator=(const image_t<PixelFormat>& image) {
-		m_alloc.update(key, image);
+		m_alloc.update(m_key, image);
 		return *this;
 	}
 
