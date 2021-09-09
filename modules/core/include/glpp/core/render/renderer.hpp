@@ -95,14 +95,22 @@ void renderer_t<uniform_description_t>::set_uniform_name(T uniform_description_t
 template <class uniform_description_t>
 template <class T>
 void renderer_t<uniform_description_t>::set_uniform(T uniform_description_t::* uniform, const T& value) {
-	const auto& location = m_uniform_map[detail::get_offset(uniform)];
+	const auto location_it = m_uniform_map.find(detail::get_offset(uniform));
+	if(location_it == m_uniform_map.end()) {
+		throw std::runtime_error("Could find uniform name for this uniform. Add a call renderer_t::set_uniform_name before renderer_t::set_uniform.");
+	}
+	const auto location = location_it->second;
 	m_shader.set_uniform(location, value);
 }
 
 template <class uniform_description_t>
 template <class T>
 void renderer_t<uniform_description_t>::set_uniform_array(T uniform_description_t::* uniform, const T* value, const size_t size) {
-	const auto& location = m_uniform_map[detail::get_offset(uniform)];
+	const auto location_it = m_uniform_map.find(detail::get_offset(uniform));
+	if(location_it == m_uniform_map.end()) {
+		throw std::runtime_error("Could find uniform name for this uniform. Add a call renderer_t::set_uniform_name before renderer_t::set_uniform.");
+	}
+	const auto location = location_it->second;
 	m_shader.set_uniform_array(location, value, size);
 }
 
