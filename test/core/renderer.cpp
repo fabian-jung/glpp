@@ -35,6 +35,20 @@ TEST_CASE("renderer_t construction and destruction", "[core][unit]") {
     REQUIRE(call_delete == 1);
 }
 
+TEST_CASE("renderer_t set uniform throws if name is not set", "[core][unit]") {
+    context = mock_context_t{};
+
+    struct uniform_description_t{
+        float f;
+        float v;
+    };
+
+    renderer_t<uniform_description_t> renderer;
+    REQUIRE_THROWS(renderer.set_uniform(&uniform_description_t::f, 5.0f));
+    constexpr std::array vec { 1.0f, 2.0f, 3.0f, 4.0f };
+    REQUIRE_THROWS(renderer.set_uniform_array(&uniform_description_t::v, vec.data(), vec.size()));
+}
+
 TEST_CASE("renderer_t set uniform", "[core][unit]") {
     context = mock_context_t{};
     context.enable_logging(std::cout);
