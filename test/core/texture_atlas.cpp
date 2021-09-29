@@ -4,64 +4,90 @@
 #include <glpp/gl/context.hpp>
 #include <glpp/testing/context.hpp>
 
+#include <tuple>
+
 using namespace glpp::core::object;
 
+template <class Functor>
+void for_each_allocation_policy(Functor f) {
+    f(texture_atlas::multi_policy_t{});
+    f(texture_atlas::grid_policy_t{3, 3, 3, 3});
+}
+#include <iostream>
+
 TEST_CASE("texture_atlas_t construction and destruction", "[core][unit]") {
-    REQUIRE_NOTHROW(texture_atlas_t<texture_atlas::multi_policy_t>());   
+    for_each_allocation_policy(
+        [](auto policy){
+            REQUIRE_NOTHROW(texture_atlas_t(std::move(policy)));   
+        }
+    );
 }
 
 TEST_CASE("texture_atlas_t alloc and free", "[core][unit]") {
     glpp::gl::context = glpp::gl::mock_context_t{};
 
-    texture_atlas_t<texture_atlas::multi_policy_t> texture_atlas;
-    REQUIRE(texture_atlas.keys().size() == 0);
-    REQUIRE(texture_atlas.keys().empty());
+    for_each_allocation_policy(
+        [](auto policy){
+            texture_atlas_t texture_atlas(std::move(policy));
+            REQUIRE(texture_atlas.keys().size() == 0);
+            REQUIRE(texture_atlas.keys().empty());
 
-    const auto entry = texture_atlas.insert();
-    const auto key = entry.key();
+            const auto entry = texture_atlas.insert();
+            const auto key = entry.key();
 
-    REQUIRE(texture_atlas.size() == 1);
-    REQUIRE(!texture_atlas.empty());
-    REQUIRE(texture_atlas.keys().size() == 1);
-    REQUIRE(texture_atlas.keys().front() == key);
+            REQUIRE(texture_atlas.size() == 1);
+            REQUIRE(!texture_atlas.empty());
+            REQUIRE(texture_atlas.keys().size() == 1);
+            REQUIRE(texture_atlas.keys().front() == key);
 
-    SECTION("Erase by  entry") {
-        texture_atlas.erase(entry);
-    }
-    SECTION("Erase by  key") {
-        texture_atlas.erase(key);
-    }
+            DYNAMIC_SECTION("Erase by  entry") {
+                texture_atlas.erase(entry);
+                REQUIRE(texture_atlas.empty());
+                REQUIRE(texture_atlas.size() == 0);
+                REQUIRE(texture_atlas.keys().size() == 0);
+            }
 
-    REQUIRE(texture_atlas.empty());
-    REQUIRE(texture_atlas.size() == 0);
-    REQUIRE(texture_atlas.keys().size() == 0);
+            DYNAMIC_SECTION("Erase by  key") {
+                texture_atlas.erase(key);
+                REQUIRE(texture_atlas.empty());
+                REQUIRE(texture_atlas.size() == 0);
+                REQUIRE(texture_atlas.keys().size() == 0);
+            }
+        }
+    );
 }
 
 TEST_CASE("texture_atlas_t bad alloc", "[core][unit]") {
     glpp::gl::context = glpp::gl::mock_context_t{};
 
-    texture_atlas_t<texture_atlas::multi_policy_t> texture_atlas;
+    for_each_allocation_policy(
+        [](auto policy){
+            texture_atlas_t texture_atlas(std::move(policy));
 
-    SECTION("Double allocation") {
-        const auto entry = texture_atlas.insert();
-        REQUIRE_THROWS(texture_atlas.insert(entry.key()));
-    }
+            const auto entry = texture_atlas.insert();
+            REQUIRE_THROWS(texture_atlas.insert(entry.key()));
+        }
+    );
 }
 
 TEST_CASE("texture_atlas_t bad free", "[core][unit]") {
     glpp::gl::context = glpp::gl::mock_context_t{};
 
-    texture_atlas_t<texture_atlas::multi_policy_t> texture_atlas;
+    for_each_allocation_policy(
+        [](auto policy){
+            texture_atlas_t texture_atlas(std::move(policy));
 
-    SECTION("Invalid free") {
-        REQUIRE_THROWS(texture_atlas.erase(texture_atlas_t<texture_atlas::multi_policy_t>::key_t{}));
-    }
+            DYNAMIC_SECTION("Invalid free") {
+                REQUIRE_THROWS(texture_atlas.erase(typename decltype(texture_atlas)::key_t{}));
+            }
 
-    SECTION("Double free") {
-        const auto entry = texture_atlas.insert();
-        texture_atlas.erase(entry);
-        REQUIRE_THROWS(texture_atlas.erase(entry));
-    }
+            DYNAMIC_SECTION("Double free") {
+                const auto entry = texture_atlas.insert();
+                texture_atlas.erase(entry);
+                REQUIRE_THROWS(texture_atlas.erase(entry));
+            }
+        }
+    );
 }
 
 TEST_CASE("texture_atlas_t fetch", "[core][unit]") {

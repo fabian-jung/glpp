@@ -54,7 +54,7 @@ class texture_atlas_t {
 public:
 
 	template <class... Args>
-	explicit texture_atlas_t(const Args... args);
+	explicit texture_atlas_t(Args&&... args);
 	texture_atlas_t(texture_atlas_t&& mov) noexcept = default;
 	texture_atlas_t(const texture_atlas_t& cpy) = delete;
 	
@@ -62,8 +62,10 @@ public:
 	texture_atlas_t& operator=(const texture_atlas_t& cpy) = delete;
 	
 	using key_t = typename AllocationPolicy::key_t;
-	using key_hint_t = typename AllocationPolicy::key_hint_t;
+	using allocation_hint_t = typename AllocationPolicy::allocation_hint_t;
 	using key_storage_t = typename AllocationPolicy::key_storage_t;
+
+	constexpr key_t to_key(allocation_hint_t key_hit) const;
 
 	texture_atlas_entry_t<AllocationPolicy> operator[](const key_t key);
 
@@ -80,13 +82,17 @@ public:
 	key_storage_t keys() const;
 
 	texture_atlas_entry_t<AllocationPolicy> insert();
-	texture_atlas_entry_t<AllocationPolicy> insert(const key_hint_t key_hint);
+	texture_atlas_entry_t<AllocationPolicy> insert(const key_t key);
+	texture_atlas_entry_t<AllocationPolicy> insert(const allocation_hint_t allocation_hint);
 
 	template <class PixelFormat>
 	texture_atlas_entry_t<AllocationPolicy> insert(const image_t<PixelFormat>& image);
 
 	template <class PixelFormat>
-	texture_atlas_entry_t<AllocationPolicy> insert(const key_hint_t key, const image_t<PixelFormat>& image);
+	texture_atlas_entry_t<AllocationPolicy> insert(const key_t key, const image_t<PixelFormat>& image);
+
+	template <class PixelFormat>
+	texture_atlas_entry_t<AllocationPolicy> insert(const allocation_hint_t allocation_hint, const image_t<PixelFormat>& image);
 
 	void erase(const key_t key);
 	void erase(const texture_atlas_entry_t<AllocationPolicy> entry);
@@ -104,6 +110,9 @@ private:
 
 	AllocationPolicy m_alloc;		
 };
+
+template <class Policy>
+texture_atlas_t(Policy&&) -> texture_atlas_t<Policy>;
 
 template <class AllocationPolicy>
 class texture_atlas_slot_t {
@@ -130,8 +139,8 @@ private:
 
 template <class AllocationPolicy>
 template <class... Args>
-texture_atlas_t<AllocationPolicy>::texture_atlas_t(const Args... args) :
-	m_alloc(args...)
+texture_atlas_t<AllocationPolicy>::texture_atlas_t(Args&&... args) :
+	m_alloc(std::forward<Args>(args)...)
 {}
 
 template <class AllocationPolicy>
@@ -142,7 +151,7 @@ texture_atlas_entry_t<AllocationPolicy> texture_atlas_t<AllocationPolicy>::inser
 
 template <class AllocationPolicy>
 template <class PixelFormat>
-texture_atlas_entry_t<AllocationPolicy> texture_atlas_t<AllocationPolicy>::insert(const key_hint_t key, const image_t<PixelFormat>& image) {
+texture_atlas_entry_t<AllocationPolicy> texture_atlas_t<AllocationPolicy>::insert(const key_t key, const image_t<PixelFormat>& image) {
 	const auto allocated_key = m_alloc.alloc(key, image);
 	return {m_alloc, allocated_key};
 }
@@ -152,10 +161,10 @@ texture_atlas_entry_t<AllocationPolicy> texture_atlas_t<AllocationPolicy>::inser
 // extern template class texture_atlas_slot_t<texture_atlas::freefloat_policy_t>;
 // extern template class texture_atlas_t<texture_atlas::freefloat_policy_t>;
 
-// using grid_atlas_t = texture_atlas_t<texture_atlas::grid_policy_t>;
-// extern template class texture_atlas_entry_t<texture_atlas::grid_policy_t>;
-// extern template class texture_atlas_slot_t<texture_atlas::grid_policy_t>;
-// extern template class texture_atlas_t<texture_atlas::grid_policy_t>;
+using grid_atlas_t = texture_atlas_t<texture_atlas::grid_policy_t>;
+extern template class texture_atlas_entry_t<texture_atlas::grid_policy_t>;
+extern template class texture_atlas_slot_t<texture_atlas::grid_policy_t>;
+extern template class texture_atlas_t<texture_atlas::grid_policy_t>;
 
 using multi_atlas_t = texture_atlas_t<texture_atlas::multi_policy_t>;
 extern template class texture_atlas_entry_t<texture_atlas::multi_policy_t>;
