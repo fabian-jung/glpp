@@ -9,10 +9,13 @@
 
 namespace glpp::core::object::texture_atlas {
 
+class non_existant_t {
+	non_existant_t() = delete;
+};
 class multi_policy_t {
 public:
 	using key_t = std::uint32_t;
-	using key_hint_t = key_t;
+	using allocation_hint_t = non_existant_t;
 	using storage_t = std::map<key_t, texture_t>;
 	using slot_storage_t = std::vector<texture_slot_t>;
 	using swizzle_mask_t = std::array<texture_channel_t, 4>;
@@ -32,6 +35,12 @@ public:
 		m_swizzle_mask(swizzle_mask)
 	{}
 
+	multi_policy_t(const multi_policy_t& cpy) = delete;
+	multi_policy_t(multi_policy_t&& mov) noexcept = default;
+	
+	multi_policy_t& operator=(const multi_policy_t& cpy) = delete;
+	multi_policy_t& operator=(multi_policy_t&& mov) noexcept = default;
+	
 	bool contains(const key_t key) const {
 		return m_storage.contains(key);
 	}

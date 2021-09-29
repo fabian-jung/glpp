@@ -105,8 +105,8 @@ texture_atlas_entry_t<AllocPolicy> texture_atlas_t<AllocPolicy>::insert() {
 }
 
 template <class AllocPolicy>
-texture_atlas_entry_t<AllocPolicy> texture_atlas_t<AllocPolicy>::insert(const key_hint_t key_hint) {
-    return insert(key_hint, image_t<glm::vec3>{1, 1});
+texture_atlas_entry_t<AllocPolicy> texture_atlas_t<AllocPolicy>::insert(const key_t key) {
+    return insert(key, image_t<glm::vec3>{1, 1});
 }
 
 template <class AllocPolicy>
@@ -173,9 +173,9 @@ typename texture_atlas_slot_t<AllocationPolicy>::const_iterator_t texture_atlas_
 // template class texture_atlas_slot_t<texture_atlas::freefloat_policy_t>;
 // template class texture_atlas_t<texture_atlas::freefloat_policy_t>;
 
-// template class texture_atlas_entry_t<texture_atlas::grid_policy_t>;
-// template class texture_atlas_slot_t<texture_atlas::grid_policy_t>;
-// template class texture_atlas_t<texture_atlas::grid_policy_t>;
+template class texture_atlas_entry_t<texture_atlas::grid_policy_t>;
+template class texture_atlas_slot_t<texture_atlas::grid_policy_t>;
+template class texture_atlas_t<texture_atlas::grid_policy_t>;
 
 template class texture_atlas_entry_t<texture_atlas::multi_policy_t>;
 template class texture_atlas_slot_t<texture_atlas::multi_policy_t>;
