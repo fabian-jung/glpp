@@ -16,6 +16,7 @@ void for_each_allocation_policy(Functor f) {
 #include <iostream>
 
 TEST_CASE("texture_atlas_t construction and destruction", "[core][unit]") {
+    glpp::gl::context = glpp::gl::mock_context_t{};
     for_each_allocation_policy(
         [](auto policy){
             REQUIRE_NOTHROW(texture_atlas_t(std::move(policy)));   

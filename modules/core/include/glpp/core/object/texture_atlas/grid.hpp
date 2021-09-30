@@ -33,7 +33,7 @@ public:
 		m_cols(cols),
 		m_keys(rows*cols, false),
 		m_clamp_mode(clamp_mode),
-		m_storage_range{
+		m_storage{
 			storage_t::value_type{
 				width,
 				height,
@@ -86,8 +86,8 @@ public:
 	void update(const key_t key, const Image& image) {
 		// TODO rescale image
 		if(
-			image.width() != m_storage.width()/m_cols || 
-			image.height() != m_storage.height()/m_rows
+			image.width() != m_storage[0].width()/m_cols || 
+			image.height() != m_storage[0].height()/m_rows
 		) {
 			throw std::runtime_error("Assignemt of subtextures currently is only allowed if the size of the subtexture matches the size of the spot in the texture atlas.");
 		}
@@ -95,11 +95,11 @@ public:
 			throw std::runtime_error("Trying to update subtexture with key that is not allocated.");
 		}
 		const auto [col, row] = position(key);
-		const auto width = m_storage.width() / m_cols;
-		const auto height = m_storage.height() / m_rows;
+		const auto width = m_storage[0].width() / m_cols;
+		const auto height = m_storage[0].height() / m_rows;
 		const auto x = col * width;
 		const auto y = row * height;
-		m_storage.update(image, x, y, width, height);
+		m_storage[0].update(image, x, y, width, height);
 	}
 	
 	void free(const key_t key) {
@@ -110,7 +110,7 @@ public:
 	}
 
 	slot_storage_t slots() const {
-		return { m_storage.bind_to_texture_slot() };
+		return { m_storage[0].bind_to_texture_slot() };
 	}
 
 	std::string texture_id(const std::string_view name, const std::string_view key) const {
@@ -119,7 +119,7 @@ public:
 
 	std::string declaration(const std::string_view name) const {
 		auto clamp_function = [this](clamp_mode_t clamp_mode) -> std::string {
-			const glm::vec2 texel_offset(1.0f/static_cast<float>(m_storage.width()), 1.0f/static_cast<float>(m_storage.height()));
+			const glm::vec2 texel_offset(1.0f/static_cast<float>(m_storage[0].width()), 1.0f/static_cast<float>(m_storage[0].height()));
 			switch(clamp_mode) {
 				case clamp_mode_t::clamp_to_border:
 					return "uv+((uv-clamp(uv, 0, 1))*10000000000.0)";
@@ -178,8 +178,7 @@ private:
 
 	std::vector<bool> m_keys;
 	clamp_mode_t m_clamp_mode;
-	storage_t m_storage_range;
-	storage_t::value_type& m_storage = m_storage_range.front();
+	storage_t m_storage;
 };
 
 } // namespace
