@@ -32,6 +32,7 @@ public:
 		m_rows(rows),
 		m_cols(cols),
 		m_keys(rows*cols, false),
+		m_clamp_mode(clamp_mode),
 		m_storage_range{
 			storage_t::value_type{
 				width,
@@ -117,12 +118,37 @@ public:
 	}
 
 	std::string declaration(const std::string_view name) const {
-		return fmt::format("uniform sampler2D {}", name, size());
+		auto clamp_function = [this](clamp_mode_t clamp_mode) -> std::string {
+			const glm::vec2 texel_offset(1.0f/static_cast<float>(m_storage.width()), 1.0f/static_cast<float>(m_storage.height()));
+			switch(clamp_mode) {
+				case clamp_mode_t::clamp_to_border:
+					return "uv+((uv-clamp(uv, 0, 1))*10000000000.0)";
+				case clamp_mode_t::clamp_to_edge:
+					return fmt::format(
+						"vec2(clamp(uv.x, {}, {}), clamp(uv.y, {}, {}))",
+						texel_offset.x, 1.0f-texel_offset.x, texel_offset.y, 1.0f-texel_offset.y
+					);
+				case clamp_mode_t::mirrored_repeat:
+					return "abs(uv-round(uv/2)*2)";
+				case clamp_mode_t::repeat:
+					return "mod(uv, vec2(1.0))";
+			}
+			return "";
+		}(m_clamp_mode);
+		return fmt::format(
+			"uniform sampler2D {};\n"
+			"vec4 glpp_fetch_{}(in vec2 uv, in int index) {{\n"
+			"	vec2 uv_clamped = {};\n"
+			"	vec2 pos = vec2(mod(index, {}), index/{});\n"
+			"	vec2 uv_boxed=(uv_clamped+pos)/vec2({}, {});\n"
+			"	return texture({}, uv_boxed);\n"
+			"}}\n"
+		, name, name, clamp_function, m_cols, m_cols, m_cols, m_rows, name
+		);
 	}
 
 	std::string fetch(const std::string_view name, const std::string_view key, const std::string_view uv) const {
-
-		return fmt::format("texture({}, ({}+vec2(mod({},{}),{}/{}))/vec2({},{}))", name, uv, key, m_cols, key, m_cols, m_cols, m_rows);
+		return fmt::format("glpp_fetch_{}({}, {})", name, uv, key);
 	}
 
 	key_t first_free_key() const {
@@ -151,6 +177,7 @@ private:
 	std::uint32_t m_cols;
 
 	std::vector<bool> m_keys;
+	clamp_mode_t m_clamp_mode;
 	storage_t m_storage_range;
 	storage_t::value_type& m_storage = m_storage_range.front();
 };
