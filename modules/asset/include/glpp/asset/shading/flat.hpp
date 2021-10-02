@@ -168,5 +168,4 @@ void flat_t<AllocPolicy>::set_up(renderer_t& renderer, const core::object::textu
 
 extern template class flat_t<core::object::texture_atlas::multi_policy_t>;
 extern template class flat_t<core::object::texture_atlas::grid_policy_t>;
-extern template class flat_t<core::object::texture_atlas::freefloat_policy_t>;
 }

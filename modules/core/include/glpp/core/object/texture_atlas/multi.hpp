@@ -27,13 +27,7 @@ public:
 		const filter_mode_t filter = filter_mode_t::linear,
 		const mipmap_mode_t mipmap_mode = mipmap_mode_t::none,
 		const swizzle_mask_t swizzle_mask = {texture_channel_t::red, texture_channel_t::green, texture_channel_t::blue, texture_channel_t::alpha}
-	) :
-		m_format(format),
-		m_clamp_mode(clamp_mode),
-		m_filter(filter),
-		m_mipmap_mode(mipmap_mode),
-		m_swizzle_mask(swizzle_mask)
-	{}
+	);
 
 	multi_policy_t(const multi_policy_t& cpy) = delete;
 	multi_policy_t(multi_policy_t&& mov) noexcept = default;
@@ -41,90 +35,31 @@ public:
 	multi_policy_t& operator=(const multi_policy_t& cpy) = delete;
 	multi_policy_t& operator=(multi_policy_t&& mov) noexcept = default;
 	
-	bool contains(const key_t key) const {
-		return m_storage.contains(key);
-	}
+	bool contains(const key_t key) const;
 
-	auto size() const {
-		return m_storage.size();
-	}
+	size_t size() const;
 
-	auto max_size() const {
-		return texture_slot_t::max_texture_units();
-	}
+	size_t max_size() const;
 
 	template <class PixelFormat>
-	key_t alloc(const key_t key, const image_t<PixelFormat>& image) {
-		const auto [pos, success] = m_storage.insert({key, texture_t(image, m_format, m_clamp_mode, m_filter, m_mipmap_mode, m_swizzle_mask)});
-		if(!success) {
-			throw std::runtime_error("Trying to allocate subtexture with key that is already taken.");
-		}
-		return key;
-	}
+	key_t alloc(const key_t key, const image_t<PixelFormat>& image);
 
 	template <class Image>
-	void update(const key_t key, const Image& image) {
-		m_storage.at(key).update(image);
-	}
+	void update(const key_t key, const Image& image);
 	
-	void free(const key_t key) {
-		const auto erased = m_storage.erase(key);
-		if(erased == 0) {
-			throw std::runtime_error("Trying to free unallocated subtexture.");
-		}
-	}
+	void free(const key_t key);
 
-	slot_storage_t slots() const {
-		slot_storage_t result;
-		std::transform(
-			m_storage.begin(),
-			m_storage.end(),
-			std::back_inserter(result),
-			[](const auto& value) {
-				const auto& [key, tex] = value;
-				return tex.bind_to_texture_slot();
-			}
-		);
-		return result;
-	}
+	slot_storage_t slots() const;
 
-	std::string texture_id(const std::string_view name, const std::string_view key) const {
-		return fmt::format("{}[{}]", name, key);
-	}
+	std::string texture_id(const std::string_view name, const std::string_view key) const;
 
-	std::string declaration(const std::string_view name) const {
-		if(size() > 0) {
-			return fmt::format("uniform sampler2D {}[{}]", name, size());
-		} else {
-			return "";
-		}
-	}
+	std::string declaration(const std::string_view name) const;
 
-	std::string fetch(const std::string_view name, const std::string_view key, const std::string_view uv) const {
-		return fmt::format("texture({}, {})", texture_id(name, key), uv);
-	}
+	std::string fetch(const std::string_view name, const std::string_view key, const std::string_view uv) const;
 
-	key_t first_free_key() const {
-		key_t key = 0;
-		while(m_storage.count(key) > 0) {
-			++key;
-		}
-		return key;
-	}
+	key_t first_free_key() const;
 
-	key_storage_t keys() const {
-		key_storage_t result;
-		std::transform(
-			m_storage.begin(),
-			m_storage.end(),
-			std::back_inserter(result),
-			[](const auto& value){
-				const auto& [key, tex] = value;
-				return key;
-			}
-		);
-		return result;
-	}
+	key_storage_t keys() const;
 
 private:
 
@@ -136,5 +71,19 @@ private:
 
 	storage_t m_storage;
 };
+
+template <class PixelFormat>
+multi_policy_t::key_t multi_policy_t::alloc(const key_t key, const image_t<PixelFormat>& image) {
+    const auto [pos, success] = m_storage.insert({key, texture_t(image, m_format, m_clamp_mode, m_filter, m_mipmap_mode, m_swizzle_mask)});
+    if(!success) {
+        throw std::runtime_error("Trying to allocate subtexture with key that is already taken.");
+    }
+    return key;
+}
+
+template <class Image>
+void multi_policy_t::update(const key_t key, const Image& image) {
+    m_storage.at(key).update(image);
+}
 
 } // namespace name

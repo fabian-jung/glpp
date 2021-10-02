@@ -19,6 +19,8 @@ set(glpp-files
     ${CMAKE_CURRENT_LIST_DIR}/src/texture.cpp
     ${CMAKE_CURRENT_LIST_DIR}/src/texture_atlas.cpp
     ${CMAKE_CURRENT_LIST_DIR}/src/vertex_array.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/src/grid.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/src/multi.cpp
 )
 target_sources(core PRIVATE ${glpp-files})
 set_target_properties(core PROPERTIES PUBLIC_HEADER "${glpp-header}")
