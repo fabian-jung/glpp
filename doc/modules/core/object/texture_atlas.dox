@@ -53,7 +53,7 @@ texture_atlas_t is not copy assignable.
 
 /**
 @brief key hint type for allocation in specific places
-@typedef glpp::core::object::texture_atlas_t::key_hint_t
+@typedef glpp::core::object::texture_atlas_t::allocation_hint_t
 */
 
 /**
@@ -68,7 +68,7 @@ This is the constructor for texture_atlas_t. The arguments will be forwarded to 
 Usually no parameters should be necessary to create a texture_atlas_t. If the AllocationPolicy does
 require parameters it will be documented with the policy.
 
-@fn glpp::core::object::texture_atlas_t::texture_atlas_t(const Args... args);
+@fn glpp::core::object::texture_atlas_t::texture_atlas_t(Args&&... args);
 @param args [in] paramets that will be passed to the AllocationPolicy on construction
 */
 
@@ -192,11 +192,11 @@ This member function will insert a new entry into the texture atlas.
 @brief insert element into atlas
 
 This member function will insert a new entry into the texture atlas. Depending on the AllocationPolicy the
-key_hint parameter might or might not be ignored. Trying to allocate a key, that is already taken or invalid keys
+allocation_hint parameter might or might not be ignored. Trying to allocate a key, that is already taken or invalid keys
 will throw an exception.
 
-@fn glpp::core::object::texture_atlas_entry_t<AllocationPolicy> glpp::core::object::texture_atlas_t::insert(const key_hint_t key_hint);
-@param key_hint [in] key that shall be allocated
+@fn glpp::core::object::texture_atlas_entry_t<AllocationPolicy> glpp::core::object::texture_atlas_t::insert(const allocation_hint_t allocation_hint);
+@param allocation_hint [in] allocation hint
 @result texture_atlas_entry_t instance refering to the inserted entry
 */
 
@@ -215,11 +215,11 @@ on construction and copy over the pixel data from image.
 @brief insert element into atlas
 
 This member function will insert a new entry into the texture atlas. This overload is a combination of the
-key_hint overload and the image_t overload. 
+allocation_hint overload and the image_t overload. 
 
-@fn glpp::core::object::texture_atlas_entry_t<AllocationPolicy> glpp::core::object::texture_atlas_t::insert(const key_hint_t key, const image_t<PixelFormat>& image);
+@fn glpp::core::object::texture_atlas_entry_t<AllocationPolicy> glpp::core::object::texture_atlas_t::insert(const allocation_hint_t allocation_hint, const image_t<PixelFormat>& image);
 @param image [in] pixel data for the inserted texture
-@param key [in] key that shall be allocated
+@param allocation_hint [in] allocation hint
 @result texture_atlas_entry_t instance refering to the inserted entry
 */
 
