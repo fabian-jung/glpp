@@ -1,6 +1,5 @@
 #pragma once
 
-#include "texture_atlas/freefloat.hpp"
 #include "texture_atlas/grid.hpp"
 #include "texture_atlas/multi.hpp"
 
@@ -155,11 +154,6 @@ texture_atlas_entry_t<AllocationPolicy> texture_atlas_t<AllocationPolicy>::inser
 	const auto allocated_key = m_alloc.alloc(key, image);
 	return {m_alloc, allocated_key};
 }
-
-// using freefloat_atlas_t = texture_atlas_t<texture_atlas::freefloat_policy_t>;
-// extern template class texture_atlas_entry_t<texture_atlas::freefloat_policy_t>;
-// extern template class texture_atlas_slot_t<texture_atlas::freefloat_policy_t>;
-// extern template class texture_atlas_t<texture_atlas::freefloat_policy_t>;
 
 using grid_atlas_t = texture_atlas_t<texture_atlas::grid_policy_t>;
 extern template class texture_atlas_entry_t<texture_atlas::grid_policy_t>;
