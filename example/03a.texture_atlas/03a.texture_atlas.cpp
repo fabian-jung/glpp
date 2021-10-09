@@ -44,7 +44,7 @@ int main(__attribute__((unused)) int argc, __attribute__((unused)) char* argv[])
 	glpp::system::window_t window(800, 600, "texture", glpp::system::vsync_t::on);
 
 	// glpp::core::object::multi_atlas_t texture_atlas { glpp::core::object::image_format_t::rgb_8, glpp::core::object::clamp_mode_t::mirrored_repeat };
-	glpp::core::object::grid_atlas_t texture_atlas { 2, 2, 2048, 2048, glpp::core::object::image_format_t::rgb_8, glpp::core::object::clamp_mode_t::mirrored_repeat };
+	glpp::core::object::grid_atlas_t texture_atlas { 2, 2, 1024, 1024, glpp::core::object::image_format_t::rgb_8, glpp::core::object::clamp_mode_t::mirrored_repeat };
 
 	texture_atlas.insert(glpp::core::object::image_t<glm::vec3>("one.png"));
 	texture_atlas.insert(glpp::core::object::image_t<glm::vec3>("two.png"));

@@ -169,10 +169,6 @@ typename texture_atlas_slot_t<AllocationPolicy>::const_iterator_t texture_atlas_
     return m_storage.end();
 }
 
-// template class texture_atlas_entry_t<texture_atlas::freefloat_policy_t>;
-// template class texture_atlas_slot_t<texture_atlas::freefloat_policy_t>;
-// template class texture_atlas_t<texture_atlas::freefloat_policy_t>;
-
 template class texture_atlas_entry_t<texture_atlas::grid_policy_t>;
 template class texture_atlas_slot_t<texture_atlas::grid_policy_t>;
 template class texture_atlas_t<texture_atlas::grid_policy_t>;
