@@ -228,3 +228,95 @@ TEST_CASE("image conversion constructor", "[core][unit]") {
 
     REQUIRE((f_image_2 == f_image).epsilon(1.0f/256.0f));    
 }
+
+TEST_CASE("image<float> resize up", "[core][unit]") {
+    const glpp::core::object::image_t<float> f_image {
+        2, 2, 
+        {
+            1.0f, 0.0f,
+            0.5f, 0.25f
+        }
+    };
+
+    const auto f_resized = f_image.resize(4, 4);
+    const glpp::core::object::image_t<float> f_reference {
+        4, 4, 
+        {
+            1.0f, 1.0f, 0.0f, 0.0f,
+            1.0f, 1.0f, 0.0f, 0.0f,
+            0.5f, 0.5f, 0.25f,  0.25f,
+            0.5f, 0.5f, 0.25f,  0.25f
+        }
+    };
+    REQUIRE(f_resized == f_reference);
+}
+
+
+TEST_CASE("image<vec3> resize up", "[core][unit]") {
+    const glpp::core::object::image_t<glm::vec3> f_image {
+        2, 2, 
+        {
+            glm::vec3{1.0f}, glm::vec3{0.0f},
+            glm::vec3{0.5f}, glm::vec3{0.25f}
+        }
+    };
+
+    const auto f_resized = f_image.resize(4, 4);
+    const glpp::core::object::image_t<glm::vec3> f_reference {
+        4, 4, 
+        {
+            glm::vec3{1.0f}, glm::vec3{1.0f}, glm::vec3{0.0f}, glm::vec3{0.0f},
+            glm::vec3{1.0f}, glm::vec3{1.0f}, glm::vec3{0.0f}, glm::vec3{0.0f},
+            glm::vec3{0.5f}, glm::vec3{0.5f}, glm::vec3{0.25f},  glm::vec3{0.25f},
+            glm::vec3{0.5f}, glm::vec3{0.5f}, glm::vec3{0.25f},  glm::vec3{0.25f}
+        }
+    };
+    REQUIRE(f_resized == f_reference);
+}
+
+
+TEST_CASE("image<float> resize down", "[core][unit]") {
+    const glpp::core::object::image_t<float> f_image {
+        4, 4, 
+        {
+            1.0f, 1.0f, 0.0f, 0.0f,
+            1.0f, 1.0f, 0.0f, 0.0f,
+            0.5f, 0.5f, 0.25f, 0.25f,
+            0.5f, 0.5f, 0.25f, 0.25f
+        }
+    };
+
+    const glpp::core::object::image_t<float> f_reference {
+        2, 2, 
+        {
+            1.0f, 0.0f,
+            0.5f, 0.25f
+        }
+    };
+
+    const auto f_resized = f_image.resize(2, 2);
+    REQUIRE(f_resized == f_reference);
+}
+
+TEST_CASE("image<vec3> resize down", "[core][unit]") {
+    const glpp::core::object::image_t<glm::vec3> f_image {
+        4, 4, 
+        {
+            glm::vec3{1.0f}, glm::vec3{1.0f}, glm::vec3{0.0f}, glm::vec3{0.0f},
+            glm::vec3{1.0f}, glm::vec3{1.0f}, glm::vec3{0.0f}, glm::vec3{0.0f},
+            glm::vec3{0.5f}, glm::vec3{0.5f}, glm::vec3{0.25f},  glm::vec3{0.25f},
+            glm::vec3{0.5f}, glm::vec3{0.5f}, glm::vec3{0.25f},  glm::vec3{0.25f}
+        }
+    };
+
+    const glpp::core::object::image_t<glm::vec3> f_reference {
+        2, 2, 
+        {
+            glm::vec3{1.0f}, glm::vec3{0.0f},
+            glm::vec3{0.5f}, glm::vec3{0.25f}
+        }
+    };
+
+    const auto f_resized = f_image.resize(2, 2);
+    REQUIRE(f_resized == f_reference);
+}

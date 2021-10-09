@@ -106,6 +106,7 @@ enum class image_format_t : GLenum {
 };
 
 namespace detail {
+
 	class stbi_image_t {
 	public:
 		using value_type = unsigned char;
@@ -131,6 +132,7 @@ namespace detail {
 		int               m_channels;
 		value_type*       m_storage;
 	};
+
 }
 
 template <class T>
@@ -192,10 +194,12 @@ public:
 
 
 	void load(const char* filename);
+	constexpr void update(size_t x, size_t y, const image_t<T>& update);
+
 	void write(const char* filename) const;
 
 	constexpr size_t width() const noexcept;
-	constexpr size_t height() const noexcept;
+	constexpr size_t height() const noexcept;						
 	constexpr T* data() noexcept;
 	constexpr const T* data() const noexcept;
 	constexpr size_t size() const noexcept;
@@ -212,6 +216,8 @@ public:
 	constexpr int channels() const noexcept;
 	constexpr image_format_t format() const noexcept;
 	constexpr GLenum type() const noexcept;
+
+	image_t resize(size_t width, size_t height) const;
 
 private:
 
@@ -395,6 +401,15 @@ void image_t<T>::load(const char* filename)
 }
 
 template <class T>
+constexpr void image_t<T>::update(const size_t x, const size_t y, const image_t<T>& update) {
+	const auto cols = std::min(m_width-x, update.width());
+	const auto rows = std::min(m_height-x, update.height());
+	for(auto i = y; i < y+rows; ++i) {
+		std::copy_n(update.m_storage.begin()+i*update.m_width, cols, m_storage.begin()+i*m_width);
+	}
+}
+
+template <class T>
 void image_t<T>::write(const char* filename) const {
 	auto storage = detail::stbi_image_t(m_width, m_height, channels_impl());
 	using internal_type = typename attribute_properties<T>::value_type;
@@ -505,6 +520,31 @@ constexpr image_format_t image_t<T>::format() const noexcept {
 template <class T>
 constexpr GLenum image_t<T>::type() const noexcept {
 	return attribute_properties<value_type>::type;
+}
+
+template <class T>
+image_t<T> image_t<T>::resize(size_t width, size_t height) const {
+	image_t<T> result { width, height };
+	for(auto x = 0u; x < width; ++x) {
+		for(auto y = 0u; y < height; ++y) {
+			const auto j = static_cast<size_t>(
+				std::lerp(
+					0.0,
+					static_cast<double>(m_width),
+					static_cast<double>(x)/static_cast<double>(width)
+				)
+			);
+			const auto i = static_cast<size_t>(
+				std::lerp(
+					0.0,
+					static_cast<double>(m_height),
+					static_cast<double>(y)/static_cast<double>(height)
+				)
+			);
+			result.get(x,y) = get(j,i);
+		}
+	}
+	return result;
 }
 
 template <class T>
