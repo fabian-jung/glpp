@@ -11,7 +11,7 @@ using namespace glpp::core::object;
 template <class Functor>
 void for_each_allocation_policy(Functor f) {
     f(texture_atlas::multi_policy_t{});
-    f(texture_atlas::grid_policy_t{3, 3, 3, 3});
+    f(texture_atlas::grid_policy_t{3, 3, 2, 2});
 }
 #include <iostream>
 
@@ -105,6 +105,50 @@ TEST_CASE("texture_atlas_t fetch", "[core][unit]") {
     REQUIRE(entries[2].fetch("binding", "uv") == "texture(binding[2], uv)");
 }
 
+struct null_t {};
+template <class UniformDescription = null_t>
+class texture_atlas_renderer_t : public glpp::core::render::renderer_t<UniformDescription> {
+public:
+    template <class TextureAtlas>
+    texture_atlas_renderer_t(const TextureAtlas& ta) :
+        glpp::core::render::renderer_t<UniformDescription>{
+            shader_t(
+                shader_type_t::vertex,
+                R"(
+                    #version 450 core
+                    layout (location = 0) in vec3 pos;
+                    layout (location = 1) in vec2 uv;
+                    
+                    out vec2 tex;
+
+                    void main()
+                    {
+                        tex = uv;
+                        gl_Position = vec4(pos, 1.0);
+                    }
+                )"
+            ),
+            shader_t(
+                shader_type_t::fragment,
+                R"(
+                    #version 450 core
+                    in vec2 tex;
+                    out vec4 FragColor;
+                    uniform int tex_id;
+                    )" +
+                    ta.declaration("binding")+";"+                
+                    R"(
+                    void main()
+                    {
+                        FragColor = )" + ta.dynamic_fetch("binding", "tex_id", "tex") +";"+
+                R"(
+                    }
+                )"
+            )
+        }
+    {}
+};
+
 TEST_CASE("texture_atlas static selection render test", "[core][system][xorg]") {
     glpp::test::context_t<glpp::test::offscreen_driver_t> context { 2, 2 };
 
@@ -135,16 +179,22 @@ TEST_CASE("texture_atlas static selection render test", "[core][system][xorg]") 
         }
     };
 
-    texture_atlas_t<texture_atlas::multi_policy_t> texture_atlas;
-    texture_atlas_t<texture_atlas::multi_policy_t> texture_atlas_2;
-    const std::array entries {
-        texture_atlas.insert(references[0]),
-        texture_atlas.insert(references[1]),
-        texture_atlas_2.insert(references[2]),
-        texture_atlas_2.insert(references[3])
+    std::array texture_atlases {
+        texture_atlas_t<texture_atlas::multi_policy_t>{},
+        texture_atlas_t<texture_atlas::multi_policy_t>{}
     };
-    const auto slot = texture_atlas.bind_to_texture_slot();
-    const auto slot_2 = texture_atlas_2.bind_to_texture_slot();
+    
+    const std::array entries {
+        texture_atlases[0].insert(references[0]),
+        texture_atlases[0].insert(references[1]),
+        texture_atlases[1].insert(references[2]),
+        texture_atlases[1].insert(references[3])
+    };
+
+    const std::array slots {
+        texture_atlases[0].bind_to_texture_slot(),
+        texture_atlases[1].bind_to_texture_slot()
+    };
 
     struct vertex_description_t {
         glm::vec3 pos;
@@ -168,7 +218,7 @@ TEST_CASE("texture_atlas static selection render test", "[core][system][xorg]") 
 
             const view_t view { model };
 
-            renderer_t renderer{
+            glpp::core::render::renderer_t renderer {
                 shader_t(
                     shader_type_t::vertex,
                     R"(
@@ -191,27 +241,23 @@ TEST_CASE("texture_atlas static selection render test", "[core][system][xorg]") 
                         #version 450 core
                         in vec2 tex;
                         out vec4 FragColor;
-
                         )" +
-                        texture_atlas.declaration("binding")+";"+                
+                        texture_atlases[atlas].declaration("binding")+";"+                
                         R"(
                         void main()
                         {
-                            FragColor = )" + entry.fetch("binding", "tex") +";"+
+                            FragColor = )" + texture_atlases[atlas].fetch("binding", entry.key(), "tex") +";"+
                     R"(
                         }
                     )"
                 )
             };
 
-            if(atlas == 0) {
-                renderer.set_texture_atlas("binding", slot);
-            } else {
-                renderer.set_texture_atlas("binding", slot_2);
-            }
+            renderer.set_texture_atlas("binding", slots[atlas]);
             renderer.render(view);
 
             const auto rendered = context.swap_buffer();
+            std::cout << "entry = " << i << " atlas = " << atlas << std::endl;
             REQUIRE( (rendered == references[entry.key()]).epsilon(0.05f) );
         }
     }
@@ -245,82 +291,108 @@ TEST_CASE("texture_atlas dynamic selection render test", "[core][system][xorg]")
                 glm::vec3(0.5, 0.5, 0.0), glm::vec3(0.5, 0.5, 0.5)
             }
         }
-    };
+    };   
 
-    texture_atlas_t<texture_atlas::multi_policy_t> texture_atlas;
-    const std::array entries {
-        texture_atlas.insert(references[0]),
-        texture_atlas.insert(references[1]),
-        texture_atlas.insert(references[2]),
-        texture_atlas.insert(references[3])
-    };
-    const auto slot = texture_atlas.bind_to_texture_slot();
+    for_each_allocation_policy(
+        [&](auto policy){
+            texture_atlas_t texture_atlas(std::move(policy));
+            
+            const std::array entries {
+                texture_atlas.insert(references[0]),
+                texture_atlas.insert(references[1]),
+                texture_atlas.insert(references[2]),
+                texture_atlas.insert(references[3])
+            };
+            const auto slot = texture_atlas.bind_to_texture_slot();
 
-    struct vertex_description_t {
-        glm::vec3 pos;
-        glm::vec2 uv;
-    };
-
-    using namespace glpp::core::render;
-    
-    for(std::int32_t tex_id = 0u; tex_id < static_cast<std::int32_t>(entries.size()); ++tex_id) {
-        DYNAMIC_SECTION("Render subimage " << tex_id) {
-            const model_t<vertex_description_t> model {
-                {glm::vec3( -1, -1, 0 ), glm::vec2( 0, 0 )},
-                {glm::vec3(  1, -1, 0 ), glm::vec2( 1, 0 )},
-                {glm::vec3(  1,  1, 0 ), glm::vec2( 1, 1 )},
-                {glm::vec3( -1, -1, 0 ), glm::vec2( 0, 0 )},
-                {glm::vec3(  1,  1, 0 ), glm::vec2( 1, 1 )},
-                {glm::vec3( -1,  1, 0 ), glm::vec2( 0, 1 )}
+            struct vertex_description_t {
+                glm::vec3 pos;
+                glm::vec2 uv;
             };
 
-            const view_t view { model };
-            struct uniform_description_t {
-                std::int32_t tex_id;
-            };
-            renderer_t<uniform_description_t> renderer{
-                shader_t(
-                    shader_type_t::vertex,
-                    R"(
-                        #version 450 core
-                        layout (location = 0) in vec3 pos;
-                        layout (location = 1) in vec2 uv;
-                        
-                        out vec2 tex;
+            using namespace glpp::core::render;
+            
+            for(std::int32_t tex_id = 0u; tex_id < static_cast<std::int32_t>(entries.size()); ++tex_id) {
+                DYNAMIC_SECTION("Render subimage " << tex_id) {
+                    const model_t<vertex_description_t> model {
+                        {glm::vec3( -1, -1, 0 ), glm::vec2( 0, 0 )},
+                        {glm::vec3(  1, -1, 0 ), glm::vec2( 1, 0 )},
+                        {glm::vec3(  1,  1, 0 ), glm::vec2( 1, 1 )},
+                        {glm::vec3( -1, -1, 0 ), glm::vec2( 0, 0 )},
+                        {glm::vec3(  1,  1, 0 ), glm::vec2( 1, 1 )},
+                        {glm::vec3( -1,  1, 0 ), glm::vec2( 0, 1 )}
+                    };
 
-                        void main()
-                        {
-                            tex = uv;
-                            gl_Position = vec4(pos, 1.0);
-                        }
-                    )"
-                ),
-                shader_t(
-                    shader_type_t::fragment,
-                    R"(
-                        #version 450 core
-                        in vec2 tex;
-                        out vec4 FragColor;
-                        uniform int tex_id;
-                        )" +
-                        texture_atlas.declaration("binding")+";"+                
-                        R"(
-                        void main()
-                        {
-                            FragColor = )" + texture_atlas.dynamic_fetch("binding", "tex_id", "tex") +";"+
-                    R"(
-                        }
-                    )"
-                )
-            };
+                    const view_t view { model };
+                    struct uniform_description_t {
+                        std::int32_t tex_id;
+                    };
 
-            renderer.set_texture_atlas("binding", slot);
-            renderer.set_uniform_name(&uniform_description_t::tex_id, "tex_id");
-            renderer.set_uniform(&uniform_description_t::tex_id, tex_id);
-            renderer.render(view);
+                    texture_atlas_renderer_t<uniform_description_t> renderer(texture_atlas);
 
-            const auto rendered = context.swap_buffer();
-            REQUIRE( (rendered == references[tex_id]).epsilon(0.05f) );
+                    renderer.set_texture_atlas("binding", slot);
+                    renderer.set_uniform_name(&uniform_description_t::tex_id, "tex_id");
+                    renderer.set_uniform(&uniform_description_t::tex_id, tex_id);
+                    renderer.render(view);
+
+                    const auto rendered = context.swap_buffer();
+                    REQUIRE( (rendered == references[tex_id]).epsilon(0.05f) );
+                }
+            }
         }
-    }
+    );
+}
+
+TEST_CASE("texture_atlas clamping modes render test", "[core][system][xorg]") {
+    glpp::test::context_t<glpp::test::offscreen_driver_t> context { 2, 2 };
+
+    const image_t reference {
+        2, 2, {
+            glm::vec3(0.0, 0.0, 0.0), glm::vec3(0.0, 0.0, 1.0), 
+            glm::vec3(0.0, 1.0, 0.0), glm::vec3(0.0, 1.0, 1.0)
+        }
+    };
+
+    for_each_allocation_policy(
+        [&](auto policy){
+            texture_atlas_t texture_atlas(std::move(policy));
+            
+            const auto entry = texture_atlas.insert(reference);
+            const auto slot = texture_atlas.bind_to_texture_slot();
+
+            struct vertex_description_t {
+                glm::vec3 pos;
+                glm::vec2 uv;
+            };
+
+            using namespace glpp::core::render;
+            
+            DYNAMIC_SECTION("Render subimage 0") {
+                const model_t<vertex_description_t> model {
+                    {glm::vec3( -1, -1, 0 ), glm::vec2( 0, 0 )},
+                    {glm::vec3(  1, -1, 0 ), glm::vec2( 1, 0 )},
+                    {glm::vec3(  1,  1, 0 ), glm::vec2( 1, 1 )},
+                    {glm::vec3( -1, -1, 0 ), glm::vec2( 0, 0 )},
+                    {glm::vec3(  1,  1, 0 ), glm::vec2( 1, 1 )},
+                    {glm::vec3( -1,  1, 0 ), glm::vec2( 0, 1 )}
+                };
+
+                const view_t view { model };
+                using key_t = typename decltype(policy)::key_t;
+                struct uniform_description_t {
+                    key_t tex_id;
+                };
+                texture_atlas_renderer_t<uniform_description_t> renderer(texture_atlas);
+                
+
+                renderer.set_texture_atlas("binding", slot);
+                renderer.set_uniform_name(&uniform_description_t::tex_id, "tex_id");
+                renderer.set_uniform(&uniform_description_t::tex_id, entry.key());
+                renderer.render(view);
+
+                const auto rendered = context.swap_buffer();
+                REQUIRE( (rendered == reference).epsilon(0.05f) );
+            }
+        }
+    );
 }

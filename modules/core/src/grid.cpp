@@ -4,27 +4,30 @@
 namespace glpp::core::object::texture_atlas {
 
 grid_policy_t::grid_policy_t(
-    const std::uint32_t rows,
     const std::uint32_t cols,
-    const std::size_t width,
-    const std::size_t height,
+    const std::uint32_t rows,
+    const std::size_t sub_texture_width,
+    const std::size_t sub_texture_height,
     const image_format_t format,
     const clamp_mode_t clamp_mode,
-    const filter_mode_t filter,
+    const filter_mode_t filter_mode,
     const mipmap_mode_t mipmap_mode,
     const swizzle_mask_t swizzle_mask
 ) :
     m_rows(rows),
     m_cols(cols),
+    m_width(sub_texture_width),
+    m_height(sub_texture_width),
     m_keys(rows*cols, false),
     m_clamp_mode(clamp_mode),
+    m_filter_mode(filter_mode),
     m_storage{
         storage_t::value_type{
-            width,
-            height,
+            (sub_texture_width+padding())*cols,
+            (sub_texture_height+padding())*rows,
             format,
             clamp_mode,
-            filter,
+            filter_mode,
             mipmap_mode,
             swizzle_mask
         }
