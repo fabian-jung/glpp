@@ -7,6 +7,9 @@
 #include <chrono>
 #include <iostream>
 
+
+#warning
+#include <glm/gtc/random.hpp>
 struct scene_uniform_description_t{
 	float tex_id;
 };
@@ -43,13 +46,21 @@ int main(__attribute__((unused)) int argc, __attribute__((unused)) char* argv[])
 
 	glpp::system::window_t window(800, 600, "texture", glpp::system::vsync_t::on);
 
+	glpp::core::object::image_t<glm::vec3> random { 4, 4 };
+	std::generate(random.begin(), random.end(), [](){ return glm::linearRand(glm::vec3(0.0f), glm::vec3(1.0f)); });
 	// glpp::core::object::multi_atlas_t texture_atlas { glpp::core::object::image_format_t::rgb_8, glpp::core::object::clamp_mode_t::mirrored_repeat };
-	glpp::core::object::grid_atlas_t texture_atlas { 2, 2, 1024, 1024, glpp::core::object::image_format_t::rgb_8, glpp::core::object::clamp_mode_t::mirrored_repeat };
+	glpp::core::object::grid_atlas_t texture_atlas { 2, 2, 64, 64, glpp::core::object::image_format_t::rgb_8, glpp::core::object::clamp_mode_t::mirrored_repeat, glpp::core::object::filter_mode_t::nearest };
+	// glpp::core::object::grid_atlas_t texture_atlas { 2, 2, random.width(), random.height(), glpp::core::object::image_format_t::rgb_8, glpp::core::object::clamp_mode_t::repeat, glpp::core::object::filter_mode_t::nearest };
 
 	texture_atlas.insert(glpp::core::object::image_t<glm::vec3>("one.png"));
 	texture_atlas.insert(glpp::core::object::image_t<glm::vec3>("two.png"));
 	texture_atlas.insert(glpp::core::object::image_t<glm::vec3>("three.png"));
 	texture_atlas.insert(glpp::core::object::image_t<glm::vec3>("four.png"));
+
+	// texture_atlas.insert(random);
+	// texture_atlas.insert(random);
+	// texture_atlas.insert(random);
+	// texture_atlas.insert(random);
 
 
 	glpp::core::object::shader_factory_t fragment_shader_factory(std::ifstream("fragment.glsl"));
@@ -97,7 +108,7 @@ int main(__attribute__((unused)) int argc, __attribute__((unused)) char* argv[])
 	window.enter_main_loop([&]() {
 		const auto now = clock::now();
 		const std::chrono::duration<float> duration = now-begin;
-		const auto time = duration.count()*.2f;
+		const auto time = duration.count()*.1f;
 		renderer.set_uniform(&scene_uniform_description_t::tex_id, time);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		renderer.render(view);
