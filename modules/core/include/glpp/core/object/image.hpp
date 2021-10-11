@@ -403,9 +403,13 @@ void image_t<T>::load(const char* filename)
 template <class T>
 constexpr void image_t<T>::update(const size_t x, const size_t y, const image_t<T>& update) {
 	const auto cols = std::min(m_width-x, update.width());
-	const auto rows = std::min(m_height-x, update.height());
+	const auto rows = std::min(m_height-y, update.height());
 	for(auto i = y; i < y+rows; ++i) {
-		std::copy_n(update.m_storage.begin()+i*update.m_width, cols, m_storage.begin()+i*m_width);
+		std::copy_n(
+			update.m_storage.begin()+(i-y)*update.m_width,
+			cols,
+			m_storage.begin()+i*m_width+x
+		);
 	}
 }
 

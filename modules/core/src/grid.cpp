@@ -71,14 +71,15 @@ std::string grid_policy_t::texture_id(const std::string_view name, const std::st
 
 std::string grid_policy_t::declaration(const std::string_view name) const {
     auto clamp_function = [this](clamp_mode_t clamp_mode) -> std::string {
-        const glm::vec2 texel_offset(1.0f/static_cast<float>(m_storage[0].width()), 1.0f/static_cast<float>(m_storage[0].height()));
+        const glm::vec2 texel_offset = glm::vec2(1.0f)/glm::vec2(m_storage[0].width(), m_storage[0].height());
         switch(clamp_mode) {
             case clamp_mode_t::clamp_to_border:
                 return "uv+((uv-clamp(uv, 0, 1))*10000000000.0)";
             case clamp_mode_t::clamp_to_edge:
                 return fmt::format(
-                    "vec2(clamp(uv.x, {}, {}), clamp(uv.y, {}, {}))",
-                    texel_offset.x, 1.0f-texel_offset.x, texel_offset.y, 1.0f-texel_offset.y
+                    "clamp(uv, 0, 1)"
+                    // "vec2(clamp(uv.x, {}, {}), clamp(uv.y, {}, {}))",
+                    // texel_offset.x, 1.0f-texel_offset.x, texel_offset.y, 1.0f-texel_offset.y
                 );
             case clamp_mode_t::mirrored_repeat:
                 return "abs(uv-round(uv/2)*2)";
@@ -87,15 +88,21 @@ std::string grid_policy_t::declaration(const std::string_view name) const {
         }
         return "";
     }(m_clamp_mode);
+
+    const auto sub_texture_width = glm::vec2(m_width+2, m_height+2);
+    const auto border_scale = glm::vec2(m_width, m_height)/sub_texture_width;
+    const auto border_offset = glm::vec2(1.0f)/sub_texture_width;
+
     return fmt::format(
         "uniform sampler2D {};\n"
         "vec4 glpp_fetch_{}(in vec2 uv, in int index) {{\n"
         "	vec2 uv_clamped = {};\n"
+        "   vec2 uv_borderless = uv_clamped*vec2({}, {})+vec2({}, {});\n"
         "	vec2 pos = vec2(mod(index, {}), index/{});\n"
-        "	vec2 uv_boxed=(uv_clamped+pos)/vec2({}, {});\n"
+        "	vec2 uv_boxed=(uv_borderless+pos)/vec2({}, {});\n"
         "	return texture({}, uv_boxed);\n"
         "}}\n"
-    , name, name, clamp_function, m_cols, m_cols, m_cols, m_rows, name
+    , name, name, clamp_function, border_scale.x, border_scale.y, border_offset.x, border_offset.y, m_cols, m_cols, m_cols, m_rows, name
     );
 }
 

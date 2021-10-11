@@ -65,21 +65,23 @@ public:
 private:
 	
 	size_t padding() const {
-		return m_filter_mode == filter_mode_t::linear ? 2 : 0;
+		// return m_filter_mode == filter_mode_t::linear ? 2 : 0;
+		return 2;
 	}
 
 	template <class Image>
 	Image prepare(const Image& image) const {
 		auto resized = image.resize(m_width, m_height);
-		if(m_filter_mode == filter_mode_t::nearest) {
+		if(padding() == 2) {
 			Image padded { m_width+2, m_height+2};
 			padded.update(1,1,resized);
 			const auto bottom = m_height+1;
 			const auto right = m_width+1;
 			switch(m_clamp_mode) {
 				case clamp_mode_t::clamp_to_border:{
-					glm::vec4 color;
-					glGetTexParameterfv(m_storage[0].id(), GL_TEXTURE_BORDER_COLOR, &color[0]);
+					glm::vec4 color(0.0f);
+					// TODO
+					// glGetTexParameterfv(m_storage[0].id(), GL_TEXTURE_BORDER_COLOR, &color[0]);
 					for(auto x = 0u; x < m_width+2; ++x) {
 						padded.get(x,0) = color;
 						padded.get(x,bottom) = color;
@@ -94,7 +96,7 @@ private:
 				case clamp_mode_t::mirrored_repeat :
 					for(auto x = 0u; x < m_width+2; ++x) {
 						padded.get(x,0) = padded.get(x,1);
-						padded.get(x,bottom) = padded.get(x-1,bottom);
+						padded.get(x,bottom) = padded.get(x,bottom-1);
 					}
 					for(auto y = 1u; y < m_height+1; ++y) {
 						padded.get(0,y) = padded.get(1,y);
@@ -104,13 +106,15 @@ private:
 				case clamp_mode_t::repeat:
 					for(auto x = 0u; x < m_width+2; ++x) {
 						padded.get(x,0) = padded.get(x,bottom-1);
-						padded.get(x,bottom) = padded.get(x-1,1);
+						padded.get(x,bottom) = padded.get(x,1);
 					}
 					for(auto y = 1u; y < m_height+1; ++y) {
 						padded.get(0,y) = padded.get(right-1,y);
 						padded.get(right,y) = padded.get(1,y);
 					}
-				break;				
+				break;
+				default:
+					throw std::runtime_error("not implemented");				
 			}
 			return padded;
 		} else {
