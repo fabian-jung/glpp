@@ -320,3 +320,82 @@ TEST_CASE("image<vec3> resize down", "[core][unit]") {
     const auto f_resized = f_image.resize(2, 2);
     REQUIRE(f_resized == f_reference);
 }
+
+TEST_CASE("image<vec3> update subimage", "[core][unit]") {
+    
+    SECTION("Update nothing") {
+        const glpp::core::object::image_t<glm::vec3> reference { 4, 4, glm::vec3(0.0f) };
+        glpp::core::object::image_t<glm::vec3> image {4 ,4, glm::vec3(0.0f)};
+        const glpp::core::object::image_t<glm::vec3> subimage {0, 0, glm::vec3(1.0f)};
+        image.update(1,1,subimage);
+        REQUIRE(image == reference);
+    }
+
+    SECTION("Update out of image") {
+        const glpp::core::object::image_t<glm::vec3> reference2 { 4, 4, glm::vec3(0.0f) };
+        glpp::core::object::image_t<glm::vec3> image2 {4 ,4, glm::vec3(0.0f)};
+        const glpp::core::object::image_t<glm::vec3> subimage2 {4, 4, glm::vec3(1.0f)};
+        image2.update(5, 5, subimage2);
+        REQUIRE(image2 == reference2);
+    }
+
+    SECTION("Update middle") {
+        const glpp::core::object::image_t<glm::vec3> reference {
+            4, 4,
+            {
+                glm::vec3(0.0f), glm::vec3(0.0f), glm::vec3(0.0f), glm::vec3(0.0f), 
+                glm::vec3(0.0f), glm::vec3(1.0f), glm::vec3(1.0f), glm::vec3(0.0f), 
+                glm::vec3(0.0f), glm::vec3(1.0f), glm::vec3(1.0f), glm::vec3(0.0f), 
+                glm::vec3(0.0f), glm::vec3(0.0f), glm::vec3(0.0f), glm::vec3(0.0f), 
+            }
+        };
+
+        glpp::core::object::image_t<glm::vec3> image {4 ,4, glm::vec3(0.0f)};
+        const glpp::core::object::image_t<glm::vec3> subimage {2, 2, glm::vec3(1.0f)};
+        image.update(1,1,subimage);
+        REQUIRE(image == reference);
+    }
+
+    SECTION("Update whole") {
+        const glpp::core::object::image_t<glm::vec3> reference { 4, 4, glm::vec3(1.0f) };
+        glpp::core::object::image_t<glm::vec3> image {4 ,4, glm::vec3(0.0f)};
+        const glpp::core::object::image_t<glm::vec3> subimage {4, 4, glm::vec3(1.0f)};
+        image.update(0, 0, subimage);
+        REQUIRE(image == reference);
+    }
+    
+    SECTION("Update clip right") {
+        const glpp::core::object::image_t<float> reference { 
+            4, 4,
+            {
+                0, 0, 1, 1,
+                0, 0, 1, 1,
+                0, 0, 1, 1,
+                0, 0, 1, 1
+            }
+        };
+
+        glpp::core::object::image_t<float> image {4 ,4, 0.0f};
+        const glpp::core::object::image_t<float> subimage {4, 4, 1.0f};
+        image.update(2,0,subimage);
+        REQUIRE(image == reference);
+    }
+
+    SECTION("Update clip bottom") {
+        const glpp::core::object::image_t<float> reference { 
+            4, 4,
+            {
+                0, 0, 0, 0,
+                0, 0, 0, 0,
+                1, 1, 1, 1,
+                1, 1, 1, 1
+            }
+        };
+
+        glpp::core::object::image_t<float> image {4 ,4, 0.0f};
+        const glpp::core::object::image_t<float> subimage {4, 4, 1.0f};
+        image.update(0,2,subimage);
+        REQUIRE(image == reference);
+    }
+
+}

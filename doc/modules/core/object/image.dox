@@ -185,6 +185,21 @@ pixel data will be converted. To use this function it is required to link agains
 */
 
 /**
+@brief update subimage
+
+This function will overwrite a patch of the image. This patch starts at [x, y] and extends in positive x and 
+y direction. The width of the patch is smaller or equal [update.width(), update.height()]. If [x, y] is out
+side of the image, no pixels will be updated. If the patch would extend over the right or bottom border,
+the update image will be cropped to match the bounds of this image.
+
+@fn glpp::core::object::image_t glpp::core::object::image_t::update(size_t x, size_t y, const image_t<T>& update)
+@param x [in] x position of the patch that shall be updated 
+@param y [in] y position of the patch that shall be updated
+@param update [in] image with new pixel values
+@result reference to self to enable chaining 
+*/
+
+/**
 @brief write image to file
 
 This function will write the contents of this class to a file. To use this function it is required to link against glpp::image.
@@ -314,4 +329,15 @@ Returns the format description value of the used pixel format.
 
 Returns the OpenGL specifier for the base type of the pixel format.
 @fn GLenum glpp::core::object::image_t::type() const
+*/
+
+/**
+@brief resize image
+
+Returns a copy of the stored image resize to fit the resulution supplied by the paramets.
+
+@fn glpp::core::object::image_t glpp::core::object::image_t::resize(size_t width, size_t height) const
+@param width [in] width of the resulting image
+@param height [in] height of the resulting image
+@result newly allocated image with the dimensions [width, height]
 */
