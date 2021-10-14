@@ -194,7 +194,7 @@ public:
 
 
 	void load(const char* filename);
-	constexpr void update(size_t x, size_t y, const image_t<T>& update);
+	constexpr image_t& update(size_t x, size_t y, const image_t<T>& update) noexcept;
 
 	void write(const char* filename) const;
 
@@ -401,9 +401,9 @@ void image_t<T>::load(const char* filename)
 }
 
 template <class T>
-constexpr void image_t<T>::update(const size_t x, const size_t y, const image_t<T>& update) {
-	const auto cols = std::min(m_width-x, update.width());
-	const auto rows = std::min(m_height-y, update.height());
+constexpr image_t<T>& image_t<T>::update(const size_t x, const size_t y, const image_t<T>& update) noexcept {
+	const auto cols = std::min(x<=m_width  ? m_width-x : 0, update.width());
+	const auto rows = std::min(y<=m_height ? m_height-y : 0, update.height());
 	for(auto i = y; i < y+rows; ++i) {
 		std::copy_n(
 			update.m_storage.begin()+(i-y)*update.m_width,
@@ -411,6 +411,7 @@ constexpr void image_t<T>::update(const size_t x, const size_t y, const image_t<
 			m_storage.begin()+i*m_width+x
 		);
 	}
+	return *this;
 }
 
 template <class T>
