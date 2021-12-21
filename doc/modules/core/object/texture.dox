@@ -88,7 +88,7 @@ This constructor will create an OpenGL texture object with the given parameters 
 the pixel data in the given format. The provided format parameter must not be equal to image_format_t::preferred
 in this constructor. The swizzle mask can be used to change the color channels in the glsl sampler.
 
-@fn glpp::core::object::texture_t::texture_t(const size_t width, const size_t height, image_format_t format, const clamp_mode_t clamp_mode, const filter_mode_t filter, const mipmap_mode_t mipmap_mode, std::array<texture_channel_t, 4> swizzle_mask)
+@fn glpp::core::object::texture_t::texture_t(const size_t width, const size_t height, image_format_t format, const clamp_mode_t clamp_mode, const filter_mode_t filter, const mipmap_mode_t mipmap_mode, swizzle_mask_t swizzle_mask)
 @param width [in] width of texture in pixels
 @param height [in] height of texture in pixels
 @param format [in] pixel format representation. format must not be image_format_t::preferred.
@@ -107,7 +107,7 @@ width and height of the image_t object. The pixel data will be copied to gpu mem
 If the pixel format of the texture and the image_t do not match, the pixel data will be
 converted in the requested format. The swizzle mask can be used to change the color channels in the glsl sampler.
 
-@fn glpp::core::object::texture_t::texture_t(const image_t& image, image_format_t format, const clamp_mode_t clamp_mode, const filter_mode_t filter, const mipmap_mode_t mipmap_mode, std::array<texture_channel_t, 4> swizzle_mask)
+@fn glpp::core::object::texture_t::texture_t(const image_t& image, image_format_t format, const clamp_mode_t clamp_mode, const filter_mode_t filter, const mipmap_mode_t mipmap_mode, swizzle_mask_t swizzle_mask)
 @param image [in] image_t object to construct a texture from.
 @param format [in] pixel format representation. If image_format_t::preferred is selected the pixel format of image_t will be used.
 @param clamp_mode [in] clamp mode of texture
