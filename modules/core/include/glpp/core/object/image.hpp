@@ -143,7 +143,7 @@ public:
 	using const_iterator = typename std::vector<value_type>::const_iterator;
 
 	constexpr image_t() = default;
-	explicit constexpr image_t(const image_t& cpy) = default;
+	constexpr image_t(const image_t& cpy) = default;
 	constexpr image_t(image_t&& mov) noexcept = default;
 
 	template <class U>

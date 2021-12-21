@@ -63,16 +63,17 @@ public:
 	using key_t = typename AllocationPolicy::key_t;
 	using allocation_hint_t = typename AllocationPolicy::allocation_hint_t;
 	using key_storage_t = typename AllocationPolicy::key_storage_t;
+	using entry_t = texture_atlas_entry_t<AllocationPolicy>;
 
 	constexpr key_t to_key(allocation_hint_t key_hit) const;
 
-	texture_atlas_entry_t<AllocationPolicy> operator[](const key_t key);
+	entry_t operator[](const key_t key);
 
-	texture_atlas_entry_t<AllocationPolicy> at(const key_t key);
-	const texture_atlas_entry_t<AllocationPolicy> at(const key_t key) const;
+	entry_t at(const key_t key);
+	const entry_t at(const key_t key) const;
 	
-	texture_atlas_entry_t<AllocationPolicy> get(const key_t key);
-	const texture_atlas_entry_t<AllocationPolicy> get(const key_t key) const;
+	entry_t get(const key_t key);
+	const entry_t get(const key_t key) const;
 
 	bool contains(const key_t key) const;
 	bool empty() const;
@@ -80,21 +81,21 @@ public:
 	size_t max_size() const;
 	key_storage_t keys() const;
 
-	texture_atlas_entry_t<AllocationPolicy> insert();
-	texture_atlas_entry_t<AllocationPolicy> insert(const key_t key);
-	texture_atlas_entry_t<AllocationPolicy> insert(const allocation_hint_t allocation_hint);
+	entry_t insert();
+	entry_t insert(const key_t key);
+	entry_t insert(const allocation_hint_t allocation_hint);
 
 	template <class PixelFormat>
-	texture_atlas_entry_t<AllocationPolicy> insert(const image_t<PixelFormat>& image);
+	entry_t insert(const image_t<PixelFormat>& image);
 
 	template <class PixelFormat>
-	texture_atlas_entry_t<AllocationPolicy> insert(const key_t key, const image_t<PixelFormat>& image);
+	entry_t insert(const key_t key, const image_t<PixelFormat>& image);
 
 	template <class PixelFormat>
-	texture_atlas_entry_t<AllocationPolicy> insert(const allocation_hint_t allocation_hint, const image_t<PixelFormat>& image);
+	entry_t insert(const allocation_hint_t allocation_hint, const image_t<PixelFormat>& image);
 
 	void erase(const key_t key);
-	void erase(const texture_atlas_entry_t<AllocationPolicy> entry);
+	void erase(const entry_t entry);
 
 	std::string declaration(const std::string_view name) const;
 
