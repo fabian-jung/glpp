@@ -1,5 +1,6 @@
 #pragma once
 // feierabend
+#include <glm/fwd.hpp>
 #include <iterator>
 #include <map>
 #include <vector>
@@ -94,21 +95,21 @@ private:
 				}
 				case clamp_mode_t::clamp_to_edge:
 				case clamp_mode_t::mirrored_repeat :
-					for(auto x = 0u; x < m_width+2; ++x) {
+					for(auto x = 1u; x < m_width+1; ++x) {
 						padded.get(x,0) = padded.get(x,1);
 						padded.get(x,bottom) = padded.get(x,bottom-1);
 					}
-					for(auto y = 1u; y < m_height+1; ++y) {
+					for(auto y = 0u; y < m_height+2; ++y) {
 						padded.get(0,y) = padded.get(1,y);
 						padded.get(right,y) = padded.get(right-1,y);
 					}
 				break;
 				case clamp_mode_t::repeat:
-					for(auto x = 0u; x < m_width+2; ++x) {
+					for(auto x = 1u; x < m_width+1; ++x) {
 						padded.get(x,0) = padded.get(x,bottom-1);
 						padded.get(x,bottom) = padded.get(x,1);
 					}
-					for(auto y = 1u; y < m_height+1; ++y) {
+					for(auto y = 0u; y < m_height+2; ++y) {
 						padded.get(0,y) = padded.get(right-1,y);
 						padded.get(right,y) = padded.get(1,y);
 					}
