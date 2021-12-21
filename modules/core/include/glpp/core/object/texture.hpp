@@ -42,6 +42,8 @@ enum class texture_channel_t : GLenum {
 	one = GL_ONE
 };
 
+using swizzle_mask_t = std::array<texture_channel_t, 4>;
+
 class texture_t : public object_t<> {
 public:
 
@@ -58,7 +60,7 @@ public:
 		const clamp_mode_t clamp_mode = clamp_mode_t::repeat,
 		const filter_mode_t filter = filter_mode_t::linear,
 		const mipmap_mode_t mipmap_mode = mipmap_mode_t::none,
-		std::array<texture_channel_t, 4> swizzle_mask = {texture_channel_t::red, texture_channel_t::green, texture_channel_t::blue, texture_channel_t::alpha}
+		swizzle_mask_t swizzle_mask = {texture_channel_t::red, texture_channel_t::green, texture_channel_t::blue, texture_channel_t::alpha}
 	);
 
 	template <class T>
@@ -68,7 +70,7 @@ public:
 		const clamp_mode_t clamp_mode = clamp_mode_t::repeat,
 		const filter_mode_t filter = filter_mode_t::linear,
 		const mipmap_mode_t mipmap_mode = mipmap_mode_t::none,
-		std::array<texture_channel_t, 4> swizzle_mask = {texture_channel_t::red, texture_channel_t::green, texture_channel_t::blue, texture_channel_t::alpha}
+		swizzle_mask_t swizzle_mask = {texture_channel_t::red, texture_channel_t::green, texture_channel_t::blue, texture_channel_t::alpha}
 	);
 
 	texture_slot_t bind_to_texture_slot() const;
@@ -115,7 +117,6 @@ private:
 class texture_slot_t {
 public:
 
-	texture_slot_t();
 	texture_slot_t(const texture_t& texture);
 
 	texture_slot_t(texture_slot_t&& mov);
@@ -163,7 +164,7 @@ texture_t::texture_t(
 	const clamp_mode_t clamp_mode,
 	const filter_mode_t filter,
 	const mipmap_mode_t mipmap_mode,
-	std::array<texture_channel_t, 4> swizzle_mask
+	swizzle_mask_t swizzle_mask
 ) :
 	texture_t(image.width(), image.height(), detail::resolve_format(format, image), clamp_mode, filter, mipmap_mode, swizzle_mask)
 {
