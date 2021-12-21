@@ -6,10 +6,8 @@
 #include <unordered_map>
 #include <chrono>
 #include <iostream>
-
-
-#warning
 #include <glm/gtc/random.hpp>
+
 struct scene_uniform_description_t{
 	float tex_id;
 };
