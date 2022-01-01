@@ -17,11 +17,11 @@
   <meta content="An OpenGL Wrapper library for modern C++." property="og:description"/>
   <meta content="An OpenGL Wrapper library for modern C++." itemprop="description"/>
   <meta content="telephone=no" name="format-detection"/>
-  <meta content="Poxy v0.4.5" name="generator"/>
+  <meta content="Poxy v0.5.3" name="generator"/>
   <meta content="no-referrer-when-downgrade" name="referrer"/>
-  <link href="poxy-0.4.5.css" rel="stylesheet"/>
-  <link href="poxy-0.4.5-dark.css" rel="stylesheet"/>
-  <script src="poxy-0.4.5.js"></script>
+  <link href="poxy-0.5.3.css" rel="stylesheet"/>
+  <link href="poxy-0.5.3-dark.css" rel="stylesheet"/>
+  <script src="poxy-0.5.3.js"></script>
 </head>
 <body>
 <header><nav id="navigation">
@@ -111,7 +111,7 @@
             </dt>
             <dd>default constructor</dd>
             <dt>
-              <span class="m-doc-wrap-bumper"><a class="m-doc" href="#a0ddcb596435db431ec537c08e102db3a">image_t</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="classglpp_1_1core_1_1object_1_1image__t.html">image_<wbr/>t</a>&amp; cpy) <span class="m-label m-flat m-info">defaulted</span> <span class="m-label m-flat m-info">explicit</span>  <span class="m-label m-flat m-primary">constexpr</span></span>
+              <span class="m-doc-wrap-bumper"><a class="m-doc" href="#a0ddcb596435db431ec537c08e102db3a">image_t</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="classglpp_1_1core_1_1object_1_1image__t.html">image_<wbr/>t</a>&amp; cpy) <span class="m-label m-flat m-info">defaulted</span> <span class="m-label m-flat m-primary">constexpr</span></span>
             </dt>
             <dd>copy constructor</dd>
             <dt>
@@ -238,6 +238,11 @@
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ab3b4281c65e58512269913a737fe4bb6">operator=</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="classglpp_1_1core_1_1object_1_1image__t.html">image_<wbr/>t</a>&amp;&amp; mov) -&gt; <a class="m-doc" href="classglpp_1_1core_1_1object_1_1image__t.html">image_<wbr/>t</a>&amp; <span class="m-label m-flat m-info">defaulted</span> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>move assignment operator</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#a201b01f00d7990292fcaf12f269a5d94">resize</a>(</span><span class="m-doc-wrap"><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> width,
+              <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> height) const -&gt; <a class="m-doc" href="classglpp_1_1core_1_1object_1_1image__t.html">image_<wbr/>t</a></span>
+            </dt>
+            <dd>resize image</dd>
             <dt id="a5e4736322f71d5e08fb9ccb660178c4a">
               <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a5e4736322f71d5e08fb9ccb660178c4a">size</a>(</span><span class="m-doc-wrap">) const -&gt; <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
@@ -246,6 +251,12 @@
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#a3f59cdad996bcdf77bed03aa4fad43be">type</a>(</span><span class="m-doc-wrap">) const -&gt; GLenum <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>get base type</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#a9988213d1482bbb07e520d55059531db">update</a>(</span><span class="m-doc-wrap"><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> x,
+              <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> y,
+              const <a class="m-doc" href="classglpp_1_1core_1_1object_1_1image__t.html">image_<wbr/>t</a>&lt;T&gt;&amp; update) -&gt; <a class="m-doc" href="classglpp_1_1core_1_1object_1_1image__t.html">image_<wbr/>t</a>&amp; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>update subimage</dd>
             <dt id="a6f5e02de7d8fc7b0749a3d48bc069372">
               <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a6f5e02de7d8fc7b0749a3d48bc069372">width</a>(</span><span class="m-doc-wrap">) const -&gt; <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
@@ -273,7 +284,7 @@
               <div class="m-doc-template">
                 template&lt;class T&gt;
               </div>
-              <span class="m-doc-wrap-bumper"> glpp::<wbr/>core::<wbr/>object::<wbr/>image_t&lt;T&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a0ddcb596435db431ec537c08e102db3a">image_t</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="classglpp_1_1core_1_1object_1_1image__t.html">image_<wbr/>t</a>&amp; cpy) <span class="m-label m-info">explicit</span>  <span class="m-label m-info">defaulted</span> <span class="m-label m-primary">constexpr</span></span></span>
+              <span class="m-doc-wrap-bumper"> glpp::<wbr/>core::<wbr/>object::<wbr/>image_t&lt;T&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a0ddcb596435db431ec537c08e102db3a">image_t</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="classglpp_1_1core_1_1object_1_1image__t.html">image_<wbr/>t</a>&amp; cpy) <span class="m-label m-info">defaulted</span> <span class="m-label m-primary">constexpr</span></span></span>
             </h3>
             <p>copy constructor</p>
 <p>The <a class="m-doc" href="classglpp_1_1core_1_1object_1_1image__t.html">image_<wbr/>t</a> type is copy-constructible.</p>
@@ -744,6 +755,38 @@ template&lt;class Iterator, <a class="m-doc-external poxy-external" href="http:/
             <p>move assignment operator</p>
 <p>The <a class="m-doc" href="classglpp_1_1core_1_1object_1_1image__t.html">image_<wbr/>t</a> type is move-assignable. The <a class="m-doc" href="classglpp_1_1core_1_1object_1_1image__t.html">image_<wbr/>t</a> will be constructed with the contents of mov. The mov object is in an invalid state after the call of the move assignment operator.</p>
           </div></section>
+          <section class="m-doc-details" id="a201b01f00d7990292fcaf12f269a5d94"><div>
+            <h3>
+              <div class="m-doc-template">
+                template&lt;class T&gt;
+              </div>
+              <span class="m-doc-wrap-bumper"><a class="m-doc" href="classglpp_1_1core_1_1object_1_1image__t.html">image_<wbr/>t</a> glpp::<wbr/>core::<wbr/>object::<wbr/>image_t&lt;T&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a201b01f00d7990292fcaf12f269a5d94">resize</a>(</span><span class="m-doc-wrap"><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> width,
+              <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> height) const</span></span>
+            </h3>
+            <p>resize image</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">width</td>
+                  <td>[in] width of the resulting image</td>
+                </tr>
+                <tr>
+                  <td>height</td>
+                  <td>[in] height of the resulting image</td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <th>Returns</th>
+                  <td>newly allocated image with the dimensions [width, height]</td>
+                </tr>
+              </tfoot>
+            </table>
+<p>Returns a copy of the stored image resize to fit the resulution supplied by the paramets.</p>
+          </div></section>
           <section class="m-doc-details" id="a3f59cdad996bcdf77bed03aa4fad43be"><div>
             <h3>
               <div class="m-doc-template">
@@ -753,6 +796,43 @@ template&lt;class Iterator, <a class="m-doc-external poxy-external" href="http:/
             </h3>
             <p>get base type</p>
 <p>Returns the OpenGL specifier for the base type of the pixel format.</p>
+          </div></section>
+          <section class="m-doc-details" id="a9988213d1482bbb07e520d55059531db"><div>
+            <h3>
+              <div class="m-doc-template">
+                template&lt;class T&gt;
+              </div>
+              <span class="m-doc-wrap-bumper"><a class="m-doc" href="classglpp_1_1core_1_1object_1_1image__t.html">image_<wbr/>t</a>&amp; glpp::<wbr/>core::<wbr/>object::<wbr/>image_t&lt;T&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a9988213d1482bbb07e520d55059531db">update</a>(</span><span class="m-doc-wrap"><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> x,
+              <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> y,
+              const <a class="m-doc" href="classglpp_1_1core_1_1object_1_1image__t.html">image_<wbr/>t</a>&lt;T&gt;&amp; update) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+            </h3>
+            <p>update subimage</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">x</td>
+                  <td>[in] x position of the patch that shall be updated</td>
+                </tr>
+                <tr>
+                  <td>y</td>
+                  <td>[in] y position of the patch that shall be updated</td>
+                </tr>
+                <tr>
+                  <td>update</td>
+                  <td>[in] image with new pixel values</td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <th>Returns</th>
+                  <td>reference to self to enable chaining</td>
+                </tr>
+              </tfoot>
+            </table>
+<p>This function will overwrite a patch of the image. This patch starts at [x, y] and extends in positive x and y direction. The width of the patch is smaller or equal [update.width(), update.height()]. If [x, y] is out side of the image, no pixels will be updated. If the patch would extend over the right or bottom border, the update image will be cropped to match the bounds of this image.</p>
           </div></section>
           <section class="m-doc-details" id="ae4065f026c4c2faec9879d235b088064"><div>
             <h3>

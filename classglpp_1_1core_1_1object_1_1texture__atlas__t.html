@@ -17,11 +17,11 @@
   <meta content="An OpenGL Wrapper library for modern C++." property="og:description"/>
   <meta content="An OpenGL Wrapper library for modern C++." itemprop="description"/>
   <meta content="telephone=no" name="format-detection"/>
-  <meta content="Poxy v0.4.5" name="generator"/>
+  <meta content="Poxy v0.5.3" name="generator"/>
   <meta content="no-referrer-when-downgrade" name="referrer"/>
-  <link href="poxy-0.4.5.css" rel="stylesheet"/>
-  <link href="poxy-0.4.5-dark.css" rel="stylesheet"/>
-  <script src="poxy-0.4.5.js"></script>
+  <link href="poxy-0.5.3.css" rel="stylesheet"/>
+  <link href="poxy-0.5.3-dark.css" rel="stylesheet"/>
+  <script src="poxy-0.5.3.js"></script>
 </head>
 <body>
 <header><nav id="navigation">
@@ -78,8 +78,8 @@
         <section id="pub-types">
           <h2><a href="#pub-types">Public types</a></h2>
           <dl class="m-doc">
-            <dt id="a5e426a2b752cda58c9be966208457aff">
-              using <a class="m-doc-self" href="#a5e426a2b752cda58c9be966208457aff">key_hint_t</a> = typename AllocationPolicy::key_hint_t
+            <dt id="af890a79e660d4765789b180ec8aae225">
+              using <a class="m-doc-self" href="#af890a79e660d4765789b180ec8aae225">allocation_hint_t</a> = typename AllocationPolicy::allocation_hint_t
             </dt>
             <dd>key hint type for allocation in specific places</dd>
             <dt id="accf9e8d8b18b9bac9c6ed5b76cc4b65f">
@@ -97,7 +97,7 @@
           <dl class="m-doc">
             <dt>
               <div class="m-doc-template">template&lt;class... Args&gt;</div>
-              <span class="m-doc-wrap-bumper"><a class="m-doc" href="#aeb879f8a32186352728813f7496716ae">texture_atlas_t</a>(</span><span class="m-doc-wrap">const Args... args) <span class="m-label m-flat m-info">explicit</span> </span>
+              <span class="m-doc-wrap-bumper"><a class="m-doc" href="#a41e845568d8ce48917c8fbf223e69b56">texture_atlas_t</a>(</span><span class="m-doc-wrap">Args &amp;&amp; ... args) <span class="m-label m-flat m-info">explicit</span> </span>
             </dt>
             <dd>constructor</dd>
             <dt>
@@ -114,11 +114,11 @@
           <h2><a href="#pub-methods">Public functions</a></h2>
           <dl class="m-doc">
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#a8a65a2298d3160b66c881de675ebc2d9">at</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="classglpp_1_1core_1_1object_1_1texture__atlas__t.html#aa1bd9eab51c165d7a8c7c033428636a8">key_<wbr/>t</a> key) -&gt; <a class="m-doc" href="classglpp_1_1core_1_1object_1_1texture__atlas__entry__t.html">texture_<wbr/>atlas_<wbr/>entry_<wbr/>t</a>&lt;AllocationPolicy&gt;</span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#a8a65a2298d3160b66c881de675ebc2d9">at</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="classglpp_1_1core_1_1object_1_1texture__atlas__t.html#aa1bd9eab51c165d7a8c7c033428636a8">key_<wbr/>t</a> key) -&gt; <a class="m-doc" href="classglpp_1_1core_1_1object_1_1texture__atlas__entry__t.html">entry_<wbr/>t</a></span>
             </dt>
             <dd>bounds checked access to entries</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#a4f383eab982df73befc1845fc108bca0">at</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="classglpp_1_1core_1_1object_1_1texture__atlas__t.html#aa1bd9eab51c165d7a8c7c033428636a8">key_<wbr/>t</a> key) const -&gt; const <a class="m-doc" href="classglpp_1_1core_1_1object_1_1texture__atlas__entry__t.html">texture_<wbr/>atlas_<wbr/>entry_<wbr/>t</a>&lt;AllocationPolicy&gt;</span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#a4f383eab982df73befc1845fc108bca0">at</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="classglpp_1_1core_1_1object_1_1texture__atlas__t.html#aa1bd9eab51c165d7a8c7c033428636a8">key_<wbr/>t</a> key) const -&gt; const <a class="m-doc" href="classglpp_1_1core_1_1object_1_1texture__atlas__entry__t.html">entry_<wbr/>t</a></span>
             </dt>
             <dd>bounds checked access to entries</dd>
             <dt>
@@ -154,7 +154,7 @@
             </dt>
             <dd>erase entry from the texture atlas</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">void <a class="m-doc" href="#a92aa8eb003877caa98a858ac5e14f9e9">erase</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="classglpp_1_1core_1_1object_1_1texture__atlas__entry__t.html">texture_<wbr/>atlas_<wbr/>entry_<wbr/>t</a>&lt;AllocationPolicy&gt; entry)</span>
+              <span class="m-doc-wrap-bumper">void <a class="m-doc" href="#a9dbb62738ed6f442a415f298e9f2e1be">erase</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="classglpp_1_1core_1_1object_1_1texture__atlas__entry__t.html">entry_<wbr/>t</a> entry)</span>
             </dt>
             <dd>erase entry from the texture atlas</dd>
             <dt>
@@ -170,30 +170,30 @@
             </dt>
             <dd>return string to fetch a texel inside shader code</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#a7420f618cebef6c2e505224b7752fd3b">get</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="classglpp_1_1core_1_1object_1_1texture__atlas__t.html#aa1bd9eab51c165d7a8c7c033428636a8">key_<wbr/>t</a> key) -&gt; <a class="m-doc" href="classglpp_1_1core_1_1object_1_1texture__atlas__entry__t.html">texture_<wbr/>atlas_<wbr/>entry_<wbr/>t</a>&lt;AllocationPolicy&gt;</span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#a7420f618cebef6c2e505224b7752fd3b">get</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="classglpp_1_1core_1_1object_1_1texture__atlas__t.html#aa1bd9eab51c165d7a8c7c033428636a8">key_<wbr/>t</a> key) -&gt; <a class="m-doc" href="classglpp_1_1core_1_1object_1_1texture__atlas__entry__t.html">entry_<wbr/>t</a></span>
             </dt>
             <dd>access to entries</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#a4a83aca625c1cf5ec7cf1c3725d377d2">get</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="classglpp_1_1core_1_1object_1_1texture__atlas__t.html#aa1bd9eab51c165d7a8c7c033428636a8">key_<wbr/>t</a> key) const -&gt; const <a class="m-doc" href="classglpp_1_1core_1_1object_1_1texture__atlas__entry__t.html">texture_<wbr/>atlas_<wbr/>entry_<wbr/>t</a>&lt;AllocationPolicy&gt;</span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#a4a83aca625c1cf5ec7cf1c3725d377d2">get</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="classglpp_1_1core_1_1object_1_1texture__atlas__t.html#aa1bd9eab51c165d7a8c7c033428636a8">key_<wbr/>t</a> key) const -&gt; const <a class="m-doc" href="classglpp_1_1core_1_1object_1_1texture__atlas__entry__t.html">entry_<wbr/>t</a></span>
             </dt>
             <dd>access to entries</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#a98513faaae96d60a1413171d6c9a4f13">insert</a>(</span><span class="m-doc-wrap">) -&gt; <a class="m-doc" href="classglpp_1_1core_1_1object_1_1texture__atlas__entry__t.html">texture_<wbr/>atlas_<wbr/>entry_<wbr/>t</a>&lt;AllocationPolicy&gt;</span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#a98513faaae96d60a1413171d6c9a4f13">insert</a>(</span><span class="m-doc-wrap">) -&gt; <a class="m-doc" href="classglpp_1_1core_1_1object_1_1texture__atlas__entry__t.html">entry_<wbr/>t</a></span>
             </dt>
             <dd>insert element into atlas</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#a3b1d33cbfcbc820c9e0f8910b8be3599">insert</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="classglpp_1_1core_1_1object_1_1texture__atlas__t.html#a5e426a2b752cda58c9be966208457aff">key_<wbr/>hint_<wbr/>t</a> key_hint) -&gt; <a class="m-doc" href="classglpp_1_1core_1_1object_1_1texture__atlas__entry__t.html">texture_<wbr/>atlas_<wbr/>entry_<wbr/>t</a>&lt;AllocationPolicy&gt;</span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#a70546ce5a5b22a289246e67f6610264d">insert</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="classglpp_1_1core_1_1object_1_1texture__atlas__t.html#af890a79e660d4765789b180ec8aae225">allocation_<wbr/>hint_<wbr/>t</a> allocation_hint) -&gt; <a class="m-doc" href="classglpp_1_1core_1_1object_1_1texture__atlas__entry__t.html">entry_<wbr/>t</a></span>
             </dt>
             <dd>insert element into atlas</dd>
             <dt>
               <div class="m-doc-template">template&lt;class PixelFormat&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#a11614903c91eaa7e4ec347621b3b73aa">insert</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="classglpp_1_1core_1_1object_1_1image__t.html">image_<wbr/>t</a>&lt;PixelFormat&gt;&amp; image) -&gt; <a class="m-doc" href="classglpp_1_1core_1_1object_1_1texture__atlas__entry__t.html">texture_<wbr/>atlas_<wbr/>entry_<wbr/>t</a>&lt;AllocationPolicy&gt;</span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#aadd49c0897a7918be0300bbcd8032ed0">insert</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="classglpp_1_1core_1_1object_1_1image__t.html">image_<wbr/>t</a>&lt;PixelFormat&gt;&amp; image) -&gt; <a class="m-doc" href="classglpp_1_1core_1_1object_1_1texture__atlas__entry__t.html">entry_<wbr/>t</a></span>
             </dt>
             <dd>insert element into atlas</dd>
             <dt>
               <div class="m-doc-template">template&lt;class PixelFormat&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#a8fe0e368d468ee28a6a725e381af907b">insert</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="classglpp_1_1core_1_1object_1_1texture__atlas__t.html#a5e426a2b752cda58c9be966208457aff">key_<wbr/>hint_<wbr/>t</a> key,
-              const <a class="m-doc" href="classglpp_1_1core_1_1object_1_1image__t.html">image_<wbr/>t</a>&lt;PixelFormat&gt;&amp; image) -&gt; <a class="m-doc" href="classglpp_1_1core_1_1object_1_1texture__atlas__entry__t.html">texture_<wbr/>atlas_<wbr/>entry_<wbr/>t</a>&lt;AllocationPolicy&gt;</span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#a75f2e9aaf2df0ebd7043ae0847ddfb09">insert</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="classglpp_1_1core_1_1object_1_1texture__atlas__t.html#af890a79e660d4765789b180ec8aae225">allocation_<wbr/>hint_<wbr/>t</a> allocation_hint,
+              const <a class="m-doc" href="classglpp_1_1core_1_1object_1_1image__t.html">image_<wbr/>t</a>&lt;PixelFormat&gt;&amp; image) -&gt; <a class="m-doc" href="classglpp_1_1core_1_1object_1_1texture__atlas__entry__t.html">entry_<wbr/>t</a></span>
             </dt>
             <dd>insert element into atlas</dd>
             <dt>
@@ -213,7 +213,7 @@
             </dt>
             <dd>copy assignment operator</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#a031ae07e63186c8b66a1c8bac7c9fe2e">operator[]</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="classglpp_1_1core_1_1object_1_1texture__atlas__t.html#aa1bd9eab51c165d7a8c7c033428636a8">key_<wbr/>t</a> key) -&gt; <a class="m-doc" href="classglpp_1_1core_1_1object_1_1texture__atlas__entry__t.html">texture_<wbr/>atlas_<wbr/>entry_<wbr/>t</a>&lt;AllocationPolicy&gt;</span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#a031ae07e63186c8b66a1c8bac7c9fe2e">operator[]</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="classglpp_1_1core_1_1object_1_1texture__atlas__t.html#aa1bd9eab51c165d7a8c7c033428636a8">key_<wbr/>t</a> key) -&gt; <a class="m-doc" href="classglpp_1_1core_1_1object_1_1texture__atlas__entry__t.html">entry_<wbr/>t</a></span>
             </dt>
             <dd>random access operator</dd>
             <dt>
@@ -224,13 +224,13 @@
         </section>
         <section>
           <h2>Function documentation</h2>
-          <section class="m-doc-details" id="aeb879f8a32186352728813f7496716ae"><div>
+          <section class="m-doc-details" id="a41e845568d8ce48917c8fbf223e69b56"><div>
             <h3>
               <div class="m-doc-template">
                 template&lt;class AllocationPolicy&gt;<br/>
 template&lt;class... Args&gt;
               </div>
-              <span class="m-doc-wrap-bumper"> glpp::<wbr/>core::<wbr/>object::<wbr/>texture_atlas_t&lt;AllocationPolicy&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#aeb879f8a32186352728813f7496716ae">texture_atlas_t</a>(</span><span class="m-doc-wrap">const Args... args) <span class="m-label m-info">explicit</span> </span></span>
+              <span class="m-doc-wrap-bumper"> glpp::<wbr/>core::<wbr/>object::<wbr/>texture_atlas_t&lt;AllocationPolicy&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a41e845568d8ce48917c8fbf223e69b56">texture_atlas_t</a>(</span><span class="m-doc-wrap">Args &amp;&amp; ... args) <span class="m-label m-info">explicit</span> </span></span>
             </h3>
             <p>constructor</p>
             <table class="m-table m-fullwidth m-flat">
@@ -271,7 +271,7 @@ template&lt;class... Args&gt;
               <div class="m-doc-template">
                 template&lt;class AllocationPolicy&gt;
               </div>
-              <span class="m-doc-wrap-bumper"><a class="m-doc" href="classglpp_1_1core_1_1object_1_1texture__atlas__entry__t.html">texture_<wbr/>atlas_<wbr/>entry_<wbr/>t</a>&lt;AllocationPolicy&gt; glpp::<wbr/>core::<wbr/>object::<wbr/>texture_atlas_t&lt;AllocationPolicy&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a8a65a2298d3160b66c881de675ebc2d9">at</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="classglpp_1_1core_1_1object_1_1texture__atlas__t.html#aa1bd9eab51c165d7a8c7c033428636a8">key_<wbr/>t</a> key)</span></span>
+              <span class="m-doc-wrap-bumper"><a class="m-doc" href="classglpp_1_1core_1_1object_1_1texture__atlas__entry__t.html">entry_<wbr/>t</a> glpp::<wbr/>core::<wbr/>object::<wbr/>texture_atlas_t&lt;AllocationPolicy&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a8a65a2298d3160b66c881de675ebc2d9">at</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="classglpp_1_1core_1_1object_1_1texture__atlas__t.html#aa1bd9eab51c165d7a8c7c033428636a8">key_<wbr/>t</a> key)</span></span>
             </h3>
             <p>bounds checked access to entries</p>
             <table class="m-table m-fullwidth m-flat">
@@ -298,7 +298,7 @@ template&lt;class... Args&gt;
               <div class="m-doc-template">
                 template&lt;class AllocationPolicy&gt;
               </div>
-              <span class="m-doc-wrap-bumper">const <a class="m-doc" href="classglpp_1_1core_1_1object_1_1texture__atlas__entry__t.html">texture_<wbr/>atlas_<wbr/>entry_<wbr/>t</a>&lt;AllocationPolicy&gt; glpp::<wbr/>core::<wbr/>object::<wbr/>texture_atlas_t&lt;AllocationPolicy&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a4f383eab982df73befc1845fc108bca0">at</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="classglpp_1_1core_1_1object_1_1texture__atlas__t.html#aa1bd9eab51c165d7a8c7c033428636a8">key_<wbr/>t</a> key) const</span></span>
+              <span class="m-doc-wrap-bumper">const <a class="m-doc" href="classglpp_1_1core_1_1object_1_1texture__atlas__entry__t.html">entry_<wbr/>t</a> glpp::<wbr/>core::<wbr/>object::<wbr/>texture_atlas_t&lt;AllocationPolicy&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a4f383eab982df73befc1845fc108bca0">at</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="classglpp_1_1core_1_1object_1_1texture__atlas__t.html#aa1bd9eab51c165d7a8c7c033428636a8">key_<wbr/>t</a> key) const</span></span>
             </h3>
             <p>bounds checked access to entries</p>
             <table class="m-table m-fullwidth m-flat">
@@ -499,12 +499,12 @@ template&lt;class... Args&gt;
             </table>
 <p>Erase an element with a given key from the texture atlas. This function will throw an exception, if the key is not contained in the atlas. <a class="m-doc" href="classglpp_1_1core_1_1object_1_1texture__atlas__entry__t.html">texture_<wbr/>atlas_<wbr/>entry_<wbr/>t</a> refering to the key will be invalidated.</p>
           </div></section>
-          <section class="m-doc-details" id="a92aa8eb003877caa98a858ac5e14f9e9"><div>
+          <section class="m-doc-details" id="a9dbb62738ed6f442a415f298e9f2e1be"><div>
             <h3>
               <div class="m-doc-template">
                 template&lt;class AllocationPolicy&gt;
               </div>
-              <span class="m-doc-wrap-bumper">void glpp::<wbr/>core::<wbr/>object::<wbr/>texture_atlas_t&lt;AllocationPolicy&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a92aa8eb003877caa98a858ac5e14f9e9">erase</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="classglpp_1_1core_1_1object_1_1texture__atlas__entry__t.html">texture_<wbr/>atlas_<wbr/>entry_<wbr/>t</a>&lt;AllocationPolicy&gt; entry)</span></span>
+              <span class="m-doc-wrap-bumper">void glpp::<wbr/>core::<wbr/>object::<wbr/>texture_atlas_t&lt;AllocationPolicy&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a9dbb62738ed6f442a415f298e9f2e1be">erase</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="classglpp_1_1core_1_1object_1_1texture__atlas__entry__t.html">entry_<wbr/>t</a> entry)</span></span>
             </h3>
             <p>erase entry from the texture atlas</p>
             <table class="m-table m-fullwidth m-flat">
@@ -599,7 +599,7 @@ template&lt;class... Args&gt;
               <div class="m-doc-template">
                 template&lt;class AllocationPolicy&gt;
               </div>
-              <span class="m-doc-wrap-bumper"><a class="m-doc" href="classglpp_1_1core_1_1object_1_1texture__atlas__entry__t.html">texture_<wbr/>atlas_<wbr/>entry_<wbr/>t</a>&lt;AllocationPolicy&gt; glpp::<wbr/>core::<wbr/>object::<wbr/>texture_atlas_t&lt;AllocationPolicy&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a7420f618cebef6c2e505224b7752fd3b">get</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="classglpp_1_1core_1_1object_1_1texture__atlas__t.html#aa1bd9eab51c165d7a8c7c033428636a8">key_<wbr/>t</a> key)</span></span>
+              <span class="m-doc-wrap-bumper"><a class="m-doc" href="classglpp_1_1core_1_1object_1_1texture__atlas__entry__t.html">entry_<wbr/>t</a> glpp::<wbr/>core::<wbr/>object::<wbr/>texture_atlas_t&lt;AllocationPolicy&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a7420f618cebef6c2e505224b7752fd3b">get</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="classglpp_1_1core_1_1object_1_1texture__atlas__t.html#aa1bd9eab51c165d7a8c7c033428636a8">key_<wbr/>t</a> key)</span></span>
             </h3>
             <p>access to entries</p>
             <table class="m-table m-fullwidth m-flat">
@@ -626,7 +626,7 @@ template&lt;class... Args&gt;
               <div class="m-doc-template">
                 template&lt;class AllocationPolicy&gt;
               </div>
-              <span class="m-doc-wrap-bumper">const <a class="m-doc" href="classglpp_1_1core_1_1object_1_1texture__atlas__entry__t.html">texture_<wbr/>atlas_<wbr/>entry_<wbr/>t</a>&lt;AllocationPolicy&gt; glpp::<wbr/>core::<wbr/>object::<wbr/>texture_atlas_t&lt;AllocationPolicy&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a4a83aca625c1cf5ec7cf1c3725d377d2">get</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="classglpp_1_1core_1_1object_1_1texture__atlas__t.html#aa1bd9eab51c165d7a8c7c033428636a8">key_<wbr/>t</a> key) const</span></span>
+              <span class="m-doc-wrap-bumper">const <a class="m-doc" href="classglpp_1_1core_1_1object_1_1texture__atlas__entry__t.html">entry_<wbr/>t</a> glpp::<wbr/>core::<wbr/>object::<wbr/>texture_atlas_t&lt;AllocationPolicy&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a4a83aca625c1cf5ec7cf1c3725d377d2">get</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="classglpp_1_1core_1_1object_1_1texture__atlas__t.html#aa1bd9eab51c165d7a8c7c033428636a8">key_<wbr/>t</a> key) const</span></span>
             </h3>
             <p>access to entries</p>
             <table class="m-table m-fullwidth m-flat">
@@ -653,7 +653,7 @@ template&lt;class... Args&gt;
               <div class="m-doc-template">
                 template&lt;class AllocationPolicy&gt;
               </div>
-              <span class="m-doc-wrap-bumper"><a class="m-doc" href="classglpp_1_1core_1_1object_1_1texture__atlas__entry__t.html">texture_<wbr/>atlas_<wbr/>entry_<wbr/>t</a>&lt;AllocationPolicy&gt; glpp::<wbr/>core::<wbr/>object::<wbr/>texture_atlas_t&lt;AllocationPolicy&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a98513faaae96d60a1413171d6c9a4f13">insert</a>(</span><span class="m-doc-wrap">)</span></span>
+              <span class="m-doc-wrap-bumper"><a class="m-doc" href="classglpp_1_1core_1_1object_1_1texture__atlas__entry__t.html">entry_<wbr/>t</a> glpp::<wbr/>core::<wbr/>object::<wbr/>texture_atlas_t&lt;AllocationPolicy&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a98513faaae96d60a1413171d6c9a4f13">insert</a>(</span><span class="m-doc-wrap">)</span></span>
             </h3>
             <p>insert element into atlas</p>
             <table class="m-table m-fullwidth m-flat">
@@ -666,12 +666,12 @@ template&lt;class... Args&gt;
             </table>
 <p>This member function will insert a new entry into the texture atlas.</p>
           </div></section>
-          <section class="m-doc-details" id="a3b1d33cbfcbc820c9e0f8910b8be3599"><div>
+          <section class="m-doc-details" id="a70546ce5a5b22a289246e67f6610264d"><div>
             <h3>
               <div class="m-doc-template">
                 template&lt;class AllocationPolicy&gt;
               </div>
-              <span class="m-doc-wrap-bumper"><a class="m-doc" href="classglpp_1_1core_1_1object_1_1texture__atlas__entry__t.html">texture_<wbr/>atlas_<wbr/>entry_<wbr/>t</a>&lt;AllocationPolicy&gt; glpp::<wbr/>core::<wbr/>object::<wbr/>texture_atlas_t&lt;AllocationPolicy&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a3b1d33cbfcbc820c9e0f8910b8be3599">insert</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="classglpp_1_1core_1_1object_1_1texture__atlas__t.html#a5e426a2b752cda58c9be966208457aff">key_<wbr/>hint_<wbr/>t</a> key_hint)</span></span>
+              <span class="m-doc-wrap-bumper"><a class="m-doc" href="classglpp_1_1core_1_1object_1_1texture__atlas__entry__t.html">entry_<wbr/>t</a> glpp::<wbr/>core::<wbr/>object::<wbr/>texture_atlas_t&lt;AllocationPolicy&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a70546ce5a5b22a289246e67f6610264d">insert</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="classglpp_1_1core_1_1object_1_1texture__atlas__t.html#af890a79e660d4765789b180ec8aae225">allocation_<wbr/>hint_<wbr/>t</a> allocation_hint)</span></span>
             </h3>
             <p>insert element into atlas</p>
             <table class="m-table m-fullwidth m-flat">
@@ -680,8 +680,8 @@ template&lt;class... Args&gt;
               </thead>
               <tbody>
                 <tr>
-                  <td style="width: 1%">key_hint</td>
-                  <td>[in] key that shall be allocated</td>
+                  <td style="width: 1%">allocation_hint</td>
+                  <td>[in] allocation hint</td>
                 </tr>
               </tbody>
               <tfoot>
@@ -691,15 +691,15 @@ template&lt;class... Args&gt;
                 </tr>
               </tfoot>
             </table>
-<p>This member function will insert a new entry into the texture atlas. Depending on the AllocationPolicy the key_hint parameter might or might not be ignored. Trying to allocate a key, that is already taken or invalid keys will throw an exception.</p>
+<p>This member function will insert a new entry into the texture atlas. Depending on the AllocationPolicy the allocation_hint parameter might or might not be ignored. Trying to allocate a key, that is already taken or invalid keys will throw an exception.</p>
           </div></section>
-          <section class="m-doc-details" id="a11614903c91eaa7e4ec347621b3b73aa"><div>
+          <section class="m-doc-details" id="aadd49c0897a7918be0300bbcd8032ed0"><div>
             <h3>
               <div class="m-doc-template">
                 template&lt;class AllocationPolicy&gt;<br/>
 template&lt;class PixelFormat&gt;
               </div>
-              <span class="m-doc-wrap-bumper"><a class="m-doc" href="classglpp_1_1core_1_1object_1_1texture__atlas__entry__t.html">texture_<wbr/>atlas_<wbr/>entry_<wbr/>t</a>&lt;AllocationPolicy&gt; glpp::<wbr/>core::<wbr/>object::<wbr/>texture_atlas_t&lt;AllocationPolicy&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a11614903c91eaa7e4ec347621b3b73aa">insert</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="classglpp_1_1core_1_1object_1_1image__t.html">image_<wbr/>t</a>&lt;PixelFormat&gt;&amp; image)</span></span>
+              <span class="m-doc-wrap-bumper"><a class="m-doc" href="classglpp_1_1core_1_1object_1_1texture__atlas__entry__t.html">entry_<wbr/>t</a> glpp::<wbr/>core::<wbr/>object::<wbr/>texture_atlas_t&lt;AllocationPolicy&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#aadd49c0897a7918be0300bbcd8032ed0">insert</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="classglpp_1_1core_1_1object_1_1image__t.html">image_<wbr/>t</a>&lt;PixelFormat&gt;&amp; image)</span></span>
             </h3>
             <p>insert element into atlas</p>
             <table class="m-table m-fullwidth m-flat">
@@ -721,13 +721,13 @@ template&lt;class PixelFormat&gt;
             </table>
 <p>This member function will insert a new entry into the texture atlas. The entry will allocate a texture on construction and copy over the pixel data from image.</p>
           </div></section>
-          <section class="m-doc-details" id="a8fe0e368d468ee28a6a725e381af907b"><div>
+          <section class="m-doc-details" id="a75f2e9aaf2df0ebd7043ae0847ddfb09"><div>
             <h3>
               <div class="m-doc-template">
                 template&lt;class AllocationPolicy&gt;<br/>
 template&lt;class PixelFormat&gt;
               </div>
-              <span class="m-doc-wrap-bumper"><a class="m-doc" href="classglpp_1_1core_1_1object_1_1texture__atlas__entry__t.html">texture_<wbr/>atlas_<wbr/>entry_<wbr/>t</a>&lt;AllocationPolicy&gt; glpp::<wbr/>core::<wbr/>object::<wbr/>texture_atlas_t&lt;AllocationPolicy&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a8fe0e368d468ee28a6a725e381af907b">insert</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="classglpp_1_1core_1_1object_1_1texture__atlas__t.html#a5e426a2b752cda58c9be966208457aff">key_<wbr/>hint_<wbr/>t</a> key,
+              <span class="m-doc-wrap-bumper"><a class="m-doc" href="classglpp_1_1core_1_1object_1_1texture__atlas__entry__t.html">entry_<wbr/>t</a> glpp::<wbr/>core::<wbr/>object::<wbr/>texture_atlas_t&lt;AllocationPolicy&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a75f2e9aaf2df0ebd7043ae0847ddfb09">insert</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="classglpp_1_1core_1_1object_1_1texture__atlas__t.html#af890a79e660d4765789b180ec8aae225">allocation_<wbr/>hint_<wbr/>t</a> allocation_hint,
               const <a class="m-doc" href="classglpp_1_1core_1_1object_1_1image__t.html">image_<wbr/>t</a>&lt;PixelFormat&gt;&amp; image)</span></span>
             </h3>
             <p>insert element into atlas</p>
@@ -737,8 +737,8 @@ template&lt;class PixelFormat&gt;
               </thead>
               <tbody>
                 <tr>
-                  <td style="width: 1%">key</td>
-                  <td>[in] key that shall be allocated</td>
+                  <td style="width: 1%">allocation_hint</td>
+                  <td>[in] allocation hint</td>
                 </tr>
                 <tr>
                   <td>image</td>
@@ -752,7 +752,7 @@ template&lt;class PixelFormat&gt;
                 </tr>
               </tfoot>
             </table>
-<p>This member function will insert a new entry into the texture atlas. This overload is a combination of the key_hint overload and the <a class="m-doc" href="classglpp_1_1core_1_1object_1_1image__t.html">image_<wbr/>t</a> overload.</p>
+<p>This member function will insert a new entry into the texture atlas. This overload is a combination of the allocation_hint overload and the <a class="m-doc" href="classglpp_1_1core_1_1object_1_1image__t.html">image_<wbr/>t</a> overload.</p>
           </div></section>
           <section class="m-doc-details" id="a410f43cf301e95375edcb4f6c77b1aa2"><div>
             <h3>
@@ -815,7 +815,7 @@ template&lt;class PixelFormat&gt;
               <div class="m-doc-template">
                 template&lt;class AllocationPolicy&gt;
               </div>
-              <span class="m-doc-wrap-bumper"><a class="m-doc" href="classglpp_1_1core_1_1object_1_1texture__atlas__entry__t.html">texture_<wbr/>atlas_<wbr/>entry_<wbr/>t</a>&lt;AllocationPolicy&gt; glpp::<wbr/>core::<wbr/>object::<wbr/>texture_atlas_t&lt;AllocationPolicy&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a031ae07e63186c8b66a1c8bac7c9fe2e">operator[]</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="classglpp_1_1core_1_1object_1_1texture__atlas__t.html#aa1bd9eab51c165d7a8c7c033428636a8">key_<wbr/>t</a> key)</span></span>
+              <span class="m-doc-wrap-bumper"><a class="m-doc" href="classglpp_1_1core_1_1object_1_1texture__atlas__entry__t.html">entry_<wbr/>t</a> glpp::<wbr/>core::<wbr/>object::<wbr/>texture_atlas_t&lt;AllocationPolicy&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a031ae07e63186c8b66a1c8bac7c9fe2e">operator[]</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="classglpp_1_1core_1_1object_1_1texture__atlas__t.html#aa1bd9eab51c165d7a8c7c033428636a8">key_<wbr/>t</a> key)</span></span>
             </h3>
             <p>random access operator</p>
             <table class="m-table m-fullwidth m-flat">

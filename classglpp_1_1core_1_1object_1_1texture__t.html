@@ -17,11 +17,11 @@
   <meta content="An OpenGL Wrapper library for modern C++." property="og:description"/>
   <meta content="An OpenGL Wrapper library for modern C++." itemprop="description"/>
   <meta content="telephone=no" name="format-detection"/>
-  <meta content="Poxy v0.4.5" name="generator"/>
+  <meta content="Poxy v0.5.3" name="generator"/>
   <meta content="no-referrer-when-downgrade" name="referrer"/>
-  <link href="poxy-0.4.5.css" rel="stylesheet"/>
-  <link href="poxy-0.4.5-dark.css" rel="stylesheet"/>
-  <script src="poxy-0.4.5.js"></script>
+  <link href="poxy-0.5.3.css" rel="stylesheet"/>
+  <link href="poxy-0.5.3-dark.css" rel="stylesheet"/>
+  <script src="poxy-0.5.3.js"></script>
 </head>
 <body>
 <header><nav id="navigation">
@@ -85,23 +85,23 @@
             </dt>
             <dd>copy constructor</dd>
             <dt>
-              <span class="m-doc-wrap-bumper"><a class="m-doc" href="#a5c6fd138fff1a8ed52bf279700169633">texture_t</a>(</span><span class="m-doc-wrap">const <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> width,
+              <span class="m-doc-wrap-bumper"><a class="m-doc" href="#a85ae00b99221ac646f23a101a5c54e45">texture_t</a>(</span><span class="m-doc-wrap">const <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> width,
               const <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> height,
               <a class="m-doc" href="namespaceglpp_1_1core_1_1object.html#a8e02caa982a701d285f609043009cc12">image_<wbr/>format_<wbr/>t</a> format = image_format_t::rgb_8,
               const <a class="m-doc" href="namespaceglpp_1_1core_1_1object.html#aef5838b5fb1a06779f7893d1cc1297dc">clamp_<wbr/>mode_<wbr/>t</a> clamp_mode = clamp_mode_t::repeat,
               const <a class="m-doc" href="namespaceglpp_1_1core_1_1object.html#a3ec2ffd0911e54e6f3bd3ed1b4a8cf8a">filter_<wbr/>mode_<wbr/>t</a> filter = filter_mode_t::linear,
               const <a class="m-doc" href="namespaceglpp_1_1core_1_1object.html#afffc6d2ee500bde4e643529babb51bab">mipmap_<wbr/>mode_<wbr/>t</a> mipmap_mode = mipmap_mode_t::none,
-              <a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/container/array.html" target="_blank">std::<wbr/>array</a>&lt;<a class="m-doc" href="namespaceglpp_1_1core_1_1object.html#a1305db2c420c3b83172375e4c4bc508d">texture_<wbr/>channel_<wbr/>t</a>, 4&gt; swizzle_mask = {texture_channel_t::red, texture_channel_t::green, texture_channel_t::blue, texture_channel_t::alpha})</span>
+              <a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/container/array.html" target="_blank">swizzle_<wbr/>mask_<wbr/>t</a> swizzle_mask = {texture_channel_t::red, texture_channel_t::green, texture_channel_t::blue, texture_channel_t::alpha})</span>
             </dt>
             <dd>constuct empty texture with given parameters</dd>
             <dt>
               <div class="m-doc-template">template&lt;class T&gt;</div>
-              <span class="m-doc-wrap-bumper"><a class="m-doc" href="#ad2f4c2d6d088a9492115d7cb8e21f5c8">texture_t</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="classglpp_1_1core_1_1object_1_1image__t.html">image_<wbr/>t</a>&lt;T&gt;&amp; image,
+              <span class="m-doc-wrap-bumper"><a class="m-doc" href="#adf5edfdf05a010aabaf212eb7ce7a40a">texture_t</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="classglpp_1_1core_1_1object_1_1image__t.html">image_<wbr/>t</a>&lt;T&gt;&amp; image,
               <a class="m-doc" href="namespaceglpp_1_1core_1_1object.html#a8e02caa982a701d285f609043009cc12">image_<wbr/>format_<wbr/>t</a> format = image_format_t::preferred,
               const <a class="m-doc" href="namespaceglpp_1_1core_1_1object.html#aef5838b5fb1a06779f7893d1cc1297dc">clamp_<wbr/>mode_<wbr/>t</a> clamp_mode = clamp_mode_t::repeat,
               const <a class="m-doc" href="namespaceglpp_1_1core_1_1object.html#a3ec2ffd0911e54e6f3bd3ed1b4a8cf8a">filter_<wbr/>mode_<wbr/>t</a> filter = filter_mode_t::linear,
               const <a class="m-doc" href="namespaceglpp_1_1core_1_1object.html#afffc6d2ee500bde4e643529babb51bab">mipmap_<wbr/>mode_<wbr/>t</a> mipmap_mode = mipmap_mode_t::none,
-              <a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/container/array.html" target="_blank">std::<wbr/>array</a>&lt;<a class="m-doc" href="namespaceglpp_1_1core_1_1object.html#a1305db2c420c3b83172375e4c4bc508d">texture_<wbr/>channel_<wbr/>t</a>, 4&gt; swizzle_mask = {texture_channel_t::red, texture_channel_t::green, texture_channel_t::blue, texture_channel_t::alpha})</span>
+              <a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/container/array.html" target="_blank">swizzle_<wbr/>mask_<wbr/>t</a> swizzle_mask = {texture_channel_t::red, texture_channel_t::green, texture_channel_t::blue, texture_channel_t::alpha})</span>
             </dt>
             <dd>constuct texture with given parameters from a <a class="m-doc" href="classglpp_1_1core_1_1object_1_1image__t.html">image_<wbr/>t</a> object</dd>
           </dl>
@@ -177,15 +177,15 @@
             <p>copy constructor</p>
 <p><a class="m-doc" href="classglpp_1_1core_1_1object_1_1texture__t.html">texture_<wbr/>t</a> is not copy constructible.</p>
           </div></section>
-          <section class="m-doc-details" id="a5c6fd138fff1a8ed52bf279700169633"><div>
+          <section class="m-doc-details" id="a85ae00b99221ac646f23a101a5c54e45"><div>
             <h3>
-              <span class="m-doc-wrap-bumper"> glpp::<wbr/>core::<wbr/>object::<wbr/>texture_t::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a5c6fd138fff1a8ed52bf279700169633">texture_t</a>(</span><span class="m-doc-wrap">const <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> width,
+              <span class="m-doc-wrap-bumper"> glpp::<wbr/>core::<wbr/>object::<wbr/>texture_t::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a85ae00b99221ac646f23a101a5c54e45">texture_t</a>(</span><span class="m-doc-wrap">const <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> width,
               const <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> height,
               <a class="m-doc" href="namespaceglpp_1_1core_1_1object.html#a8e02caa982a701d285f609043009cc12">image_<wbr/>format_<wbr/>t</a> format = image_format_t::rgb_8,
               const <a class="m-doc" href="namespaceglpp_1_1core_1_1object.html#aef5838b5fb1a06779f7893d1cc1297dc">clamp_<wbr/>mode_<wbr/>t</a> clamp_mode = clamp_mode_t::repeat,
               const <a class="m-doc" href="namespaceglpp_1_1core_1_1object.html#a3ec2ffd0911e54e6f3bd3ed1b4a8cf8a">filter_<wbr/>mode_<wbr/>t</a> filter = filter_mode_t::linear,
               const <a class="m-doc" href="namespaceglpp_1_1core_1_1object.html#afffc6d2ee500bde4e643529babb51bab">mipmap_<wbr/>mode_<wbr/>t</a> mipmap_mode = mipmap_mode_t::none,
-              <a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/container/array.html" target="_blank">std::<wbr/>array</a>&lt;<a class="m-doc" href="namespaceglpp_1_1core_1_1object.html#a1305db2c420c3b83172375e4c4bc508d">texture_<wbr/>channel_<wbr/>t</a>, 4&gt; swizzle_mask = {texture_channel_t::red, texture_channel_t::green, texture_channel_t::blue, texture_channel_t::alpha})</span></span>
+              <a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/container/array.html" target="_blank">swizzle_<wbr/>mask_<wbr/>t</a> swizzle_mask = {texture_channel_t::red, texture_channel_t::green, texture_channel_t::blue, texture_channel_t::alpha})</span></span>
             </h3>
             <p>constuct empty texture with given parameters</p>
             <table class="m-table m-fullwidth m-flat">
@@ -225,17 +225,17 @@
             </table>
 <p>This constructor will create an OpenGL texture object with the given parameters and allocate memory for the pixel data in the given format. The provided format parameter must not be equal to image_format_t::preferred in this constructor. The swizzle mask can be used to change the color channels in the glsl sampler.</p>
           </div></section>
-          <section class="m-doc-details" id="ad2f4c2d6d088a9492115d7cb8e21f5c8"><div>
+          <section class="m-doc-details" id="adf5edfdf05a010aabaf212eb7ce7a40a"><div>
             <h3>
               <div class="m-doc-template">
                 template&lt;class T&gt;
               </div>
-              <span class="m-doc-wrap-bumper"> glpp::<wbr/>core::<wbr/>object::<wbr/>texture_t::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ad2f4c2d6d088a9492115d7cb8e21f5c8">texture_t</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="classglpp_1_1core_1_1object_1_1image__t.html">image_<wbr/>t</a>&lt;T&gt;&amp; image,
+              <span class="m-doc-wrap-bumper"> glpp::<wbr/>core::<wbr/>object::<wbr/>texture_t::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#adf5edfdf05a010aabaf212eb7ce7a40a">texture_t</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="classglpp_1_1core_1_1object_1_1image__t.html">image_<wbr/>t</a>&lt;T&gt;&amp; image,
               <a class="m-doc" href="namespaceglpp_1_1core_1_1object.html#a8e02caa982a701d285f609043009cc12">image_<wbr/>format_<wbr/>t</a> format = image_format_t::preferred,
               const <a class="m-doc" href="namespaceglpp_1_1core_1_1object.html#aef5838b5fb1a06779f7893d1cc1297dc">clamp_<wbr/>mode_<wbr/>t</a> clamp_mode = clamp_mode_t::repeat,
               const <a class="m-doc" href="namespaceglpp_1_1core_1_1object.html#a3ec2ffd0911e54e6f3bd3ed1b4a8cf8a">filter_<wbr/>mode_<wbr/>t</a> filter = filter_mode_t::linear,
               const <a class="m-doc" href="namespaceglpp_1_1core_1_1object.html#afffc6d2ee500bde4e643529babb51bab">mipmap_<wbr/>mode_<wbr/>t</a> mipmap_mode = mipmap_mode_t::none,
-              <a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/container/array.html" target="_blank">std::<wbr/>array</a>&lt;<a class="m-doc" href="namespaceglpp_1_1core_1_1object.html#a1305db2c420c3b83172375e4c4bc508d">texture_<wbr/>channel_<wbr/>t</a>, 4&gt; swizzle_mask = {texture_channel_t::red, texture_channel_t::green, texture_channel_t::blue, texture_channel_t::alpha})</span></span>
+              <a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/container/array.html" target="_blank">swizzle_<wbr/>mask_<wbr/>t</a> swizzle_mask = {texture_channel_t::red, texture_channel_t::green, texture_channel_t::blue, texture_channel_t::alpha})</span></span>
             </h3>
             <p>constuct texture with given parameters from a <a class="m-doc" href="classglpp_1_1core_1_1object_1_1image__t.html">image_<wbr/>t</a> object</p>
             <table class="m-table m-fullwidth m-flat">
