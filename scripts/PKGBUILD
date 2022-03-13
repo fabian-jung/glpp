@@ -13,7 +13,7 @@ optdepends=('blender')
 build() {
     cmake \
         -B build \
-        -S /glpp \
+        -S ../.. \
         -DCMAKE_BUILD_TYPE:STRING='RelWithDebInfo' \
         -DCMAKE_CXX_COMPILER=g++ \
         -DCMAKE_C_COMPILER=gcc
