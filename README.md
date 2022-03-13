@@ -15,7 +15,7 @@ This is a thin wrapper library for modern OpenGL (4.5) in C++. The main goal of 
 Glpp is no replacement for the OpenGL API nor does it saves you from learning the API or catch all possible ways of abusing the OpenGL API. It is a productivity framework to get you going faster and help you spend your time on building your application rather than handling all of the state on your own and loading textures, assets or type faces into your application.
 
 
-For a quick dive into the library you can check out the examples below or read the [documentation](https://fabian-jung.github.io/glpp).
+For a quick dive into the library you can check out the examples below or read the [documentation](https://fabian-jung.github.io/glpp/).
 
 [![The first triangle](doc/01.first_triangle.png)](example/01.first_triangle)  | [![Key and Mouse Actions](doc/02.input.png)](example/02.input)   | [![Loading Textures](doc/03.texture.png)](example/03.texture)
 :---:|:---:|:---:
@@ -28,7 +28,7 @@ For a quick dive into the library you can check out the examples below or read t
 - What platforms are supported?
     - Currently only Linux is regularly build and tested for. Specifically Ubuntu 20.04 and Arch Linux. Building on Windows should be possible, but is untested. Mac is currently not supported, because there is no OpenGL 4.5 support in MacOS.
 - Where can I find help?
-    - You can check out the [documentation](https://fabian-jung.github.io/glpp), [examples](https://github.com/fabian-jung/glpp/tree/master/example) or get into contact via the [forum](https://github.com/fabian-jung/glpp/discussions).
+    - You can check out the [documentation](https://fabian-jung.github.io/glpp/), [examples](https://github.com/fabian-jung/glpp/tree/master/example) or get into contact via the [forum](https://github.com/fabian-jung/glpp/discussions).
 - I found a bug, how can I get it fixed?
     - You can create a issue in the main project or create a fix yourself and create a PR. If you are unsure you can start a discussion [here](https://github.com/fabian-jung/glpp/discussions).
 - Where can I request a new feature?
