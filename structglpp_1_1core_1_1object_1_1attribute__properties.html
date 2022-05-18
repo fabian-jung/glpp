@@ -17,11 +17,11 @@
   <meta content="An OpenGL Wrapper library for modern C++." property="og:description"/>
   <meta content="An OpenGL Wrapper library for modern C++." itemprop="description"/>
   <meta content="telephone=no" name="format-detection"/>
-  <meta content="Poxy v0.5.3" name="generator"/>
+  <meta content="Poxy v0.5.6" name="generator"/>
   <meta content="no-referrer-when-downgrade" name="referrer"/>
-  <link href="poxy-0.5.3.css" rel="stylesheet"/>
-  <link href="poxy-0.5.3-dark.css" rel="stylesheet"/>
-  <script src="poxy-0.5.3.js"></script>
+  <link href="poxy-0.5.6.css" rel="stylesheet"/>
+  <link href="poxy-0.5.6-dark.css" rel="stylesheet"/>
+  <script src="poxy-0.5.6.js"></script>
 </head>
 <body>
 <header><nav id="navigation">
@@ -61,11 +61,11 @@
           <span class="m-breadcrumb"><a href="namespaceglpp.html">glpp</a>::<wbr/></span><span class="m-breadcrumb"><a href="namespaceglpp_1_1core.html">core</a>::<wbr/></span><span class="m-breadcrumb"><a href="namespaceglpp_1_1core_1_1object.html">object</a>::<wbr/></span>attribute_properties <span class="m-thin">class</span>
         </h1>
         <p>OpenGL type trait helper.</p>
-<p>The <a class="m-doc" href="structglpp_1_1core_1_1object_1_1attribute__properties.html">attribute_<wbr/>properties</a> type trait can be used to determine OpenGL related attributes of native types. Glpp ships the with overloads for the following types:</p><ul><li>scalar types<ul><li>GLfloat, float</li><li>GLdouble, double</li><li>GLint, <a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/types/integer.html" target="_blank">std::<wbr/>int32_t</a></li><li>GLuint, <a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/types/integer.html" target="_blank">std::<wbr/>uint32_t</a></li><li>GLshort, <a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/types/integer.html" target="_blank">std::<wbr/>int16_t</a></li><li>GLushort, <a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/types/integer.html" target="_blank">std::<wbr/>uint16_t</a></li><li>GLbyte, <a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/types/integer.html" target="_blank">std::<wbr/>int8_t</a></li><li>GLubyte, <a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/types/integer.html" target="_blank">std::<wbr/>uint8_t</a></li></ul></li><li>vector types with value_type matching a scalar type<ul><li>glm::tvec2</li><li>glm::tvec3</li><li>glm::tvec4</li></ul></li></ul><p>Glpp <a class="m-doc" href="structglpp_1_1core_1_1object_1_1attribute__properties.html">attribute_<wbr/>properties</a> can be extended for use with custom types, by providing an partial or full template specialisation of <a class="m-doc" href="structglpp_1_1core_1_1object_1_1attribute__properties.html">attribute_<wbr/>properties</a> implementing the following interface:</p><pre class="m-code"><span class="k">template</span> <span class="o">&lt;</span><span class="ut">T</span><span class="o">&gt;</span>
-<span class="k">struct</span> <span class="nc">attribute_properties</span> <span class="p">{</span>
-    <span class="k">typedef</span> <span class="ut">value_type</span><span class="p">;</span> <span class="c1">// equal to T for scalar types and base type for vector types</span>
-    <span class="k">static</span> <span class="k">constexpr</span> <span class="n">GLenum</span> <span class="n">type</span><span class="p">;</span> <span class="c1">// The GLenum value corresponding to value_type</span>
-    <span class="k">static</span> <span class="k">constexpr</span> <span class="ut"><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a></span> <span class="n">elements_per_vertex</span><span class="p">;</span> <span class="c1">// equal to 1 for scalar types or the number of vector elements</span>
+<p>The <a class="m-doc" href="structglpp_1_1core_1_1object_1_1attribute__properties.html">attribute_<wbr/>properties</a> type trait can be used to determine OpenGL related attributes of native types. Glpp ships the with overloads for the following types:</p><ul><li>scalar types<ul><li>GLfloat, float</li><li>GLdouble, double</li><li>GLint, <a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/types/integer.html" target="_blank">std::<wbr/>int32_t</a></li><li>GLuint, <a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/types/integer.html" target="_blank">std::<wbr/>uint32_t</a></li><li>GLshort, <a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/types/integer.html" target="_blank">std::<wbr/>int16_t</a></li><li>GLushort, <a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/types/integer.html" target="_blank">std::<wbr/>uint16_t</a></li><li>GLbyte, <a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/types/integer.html" target="_blank">std::<wbr/>int8_t</a></li><li>GLubyte, <a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/types/integer.html" target="_blank">std::<wbr/>uint8_t</a></li></ul></li><li>vector types with value_type matching a scalar type<ul><li>glm::tvec2</li><li>glm::tvec3</li><li>glm::tvec4</li></ul></li></ul><p>Glpp <a class="m-doc" href="structglpp_1_1core_1_1object_1_1attribute__properties.html">attribute_<wbr/>properties</a> can be extended for use with custom types, by providing an partial or full template specialisation of <a class="m-doc" href="structglpp_1_1core_1_1object_1_1attribute__properties.html">attribute_<wbr/>properties</a> implementing the following interface:</p><pre class="m-code"><span class="k">template</span><span class="w"> </span><span class="o">&lt;</span><span class="ut">T</span><span class="o">&gt;</span>
+<span class="k">struct</span><span class="w"> </span><span class="nc">attribute_properties</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">typedef</span><span class="w"> </span><span class="ut">value_type</span><span class="p">;</span><span class="w"> </span><span class="c1">// equal to T for scalar types and base type for vector types</span>
+<span class="w">    </span><span class="k">static</span><span class="w"> </span><span class="k">constexpr</span><span class="w"> </span><span class="n">GLenum</span><span class="w"> </span><span class="n">type</span><span class="p">;</span><span class="w"> </span><span class="c1">// The GLenum value corresponding to value_type</span>
+<span class="w">    </span><span class="k">static</span><span class="w"> </span><span class="k">constexpr</span><span class="w"> </span><span class="ut"><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a></span><span class="w"> </span><span class="n">elements_per_vertex</span><span class="p">;</span><span class="w"> </span><span class="c1">// equal to 1 for scalar types or the number of vector elements</span>
 <span class="p">};</span></pre>
       </div>
     </div>
@@ -105,8 +105,8 @@
     </div>
   </div>
 </div>
-<script src="search-v1.js"></script>
-<script async="async" src="searchdata-v1.js"></script>
+<script src="search-v2.js"></script>
+<script async="async" src="searchdata-v2.js"></script>
 <footer><nav>
   <div class="m-container">
     <div class="m-row">
