@@ -70,10 +70,11 @@ package() {
 		# --mount src="$(pwd)/package",target=/output,type=bind 
 		# ghcr.io/fabian-jung/glpp/build-arch package
 		echo "packaging on arch"
+		chmod a+rwx /glpp/scripts
+		chmod a+rwx /output
 		cd /glpp/scripts
-		chmod a+rwx /build
-		sudo -u nobody makepkg BUILDDIR=/build PKGDEST=/build SRCDEST=/build --clean -f
-		cp /build/*.pkg.tar.zst /output
+		sudo -u nobody makepkg --clean -f
+		cp *.pkg.tar.zst /output
 	elif [[ "$ID" == "debian" ]]; then
 		# docker run \
 		# --mount src="$(pwd)",target=/glpp,type=bind \
