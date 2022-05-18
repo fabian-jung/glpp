@@ -1,3 +1,4 @@
+if(${enable_asset})
 add_executable(12.asset_loading 12.asset_loading.cpp)
 target_link_libraries(12.asset_loading PRIVATE glpp::core glpp::system glpp::asset glpp::image)
 
@@ -29,3 +30,4 @@ endforeach()
 
 add_custom_target(12.asset_loading.fbx_target DEPENDS ${FBX_FILES})
 add_dependencies(12.asset_loading 12.asset_loading.fbx_target)
+endif()
