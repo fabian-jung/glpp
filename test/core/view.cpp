@@ -1,4 +1,4 @@
-#include <catch2/catch.hpp>
+#include <catch2/catch_all.hpp>
 #include <glpp/core/render/view.hpp>
 #include <glpp/gl/context.hpp>
 #include <cstring>

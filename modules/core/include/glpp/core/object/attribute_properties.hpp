@@ -7,7 +7,7 @@ namespace glpp::core::object {
 
 template <class T>
 struct attribute_properties;
-
+//!\cond
 template <>
 struct attribute_properties<GLfloat> {
 	using value_type = GLfloat;
@@ -84,5 +84,5 @@ struct attribute_properties<glm::tvec4<T>> {
 	static constexpr GLenum type = attribute_properties<T>::type;
 	static constexpr size_t elements_per_vertex = 4;
 };
-
+//!\endcond
 }

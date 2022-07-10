@@ -1,0 +1,37 @@
+## Textures
+
+Nearly all types of 2D textures are supported by glpp at the moment. Support for 1D and 3D textures, is planned but not yet implemented. Images can be loaded from files if the glpp::image is linked to the binary.
+
+The initialisation and use of textures happens in four steps. The first step is to load the image data into memory. The datatype to hold the pixeldata in memory is ```glpp::object::image_t``` and is templated with one type. This type encodes the layout of the pixeldata. Currently ```float```, ```double```, ```char```, ```int``` and the vector types of the glm library are supported. There are C++17 template deduction guides implemented for most constructors of ```image_t```.
+
+```C++
+glpp::object::image_t<glm::vec3> pixel_data("smiley.png");
+```
+
+The second step is the set up of the texture object on the GPU. This is done by the constructor of  ```glpp::object::texture_t```. ```texture_t``` takes a const-reference to a ```image_t``` and a couple of optional parameters to describe the layout on the GPU, behaviour of the filters and mipmaps.
+
+```C++
+glpp::object::texture_t texture_one(
+	pixel_data, // You may use a tempory image_t here to release the memory after the data has been loaded to the gpu
+	glpp::object::image_format_t::prefered, // this format will give you 8-bit resolution for each color channel.
+	glpp::object::clamp_mode_t::clamp_to_edge,
+	glpp::object::filter_mode_t::linear
+);
+```
+
+To be able to reuse textures for different shaders without reloading them for each frame, OpenGl exposes texture units/texture slots. The textures are bound to the texture units, which in turn can be bound to shader programms. If your device supports OpenGl 4.5, there are at least 80 of them available. The binding of a texture to a texture unit is represented by the ```texture_slot_t```. The binding happens by either calling the constructor ```texture_slot_t``` with the reference to the texture you want to bind. The more readable alternative is the call to ```texture_t::bind_to_texture_slot()```, which will return a ```texture_slot_t```. As long as the ```texture_slot_t``` object is in scope, the binding of the texture to the texture unit will persist. All texture units are managed by ```texture_slot_t``` under the assumtion, that there are no texture units bound without the call into ```texture_slot_t```.
+
+```C++
+auto texture_unit_one = texture_one.bind_to_texture_slot();
+```
+
+The final step is to tell the shader programm, which texture units it has to use to fill its samplers. This is done by ```shader_program_t::set_texture()```. If the ```renderer_t``` class is used, the ```set_texture()``` can be called on the renderer. After this step you can use the texture in your shader.
+
+```C++
+renderer.set_texture("texture_one" , texture_unit_one);
+```
+
+The final result of this example will look like this if projected to a quad:
+![screenshot of the rendered triangle from the example](doc/03.texture.png)
+
+Because bindeless state-access is used to set up the texture, newly created textures are not bound to any texture unit. Therefore you have to bind every ```texture_t``` to a texture unit and the shader in use. Ommiting one of the steps will cause undefined behaviour, which will crash the programm in the best case.

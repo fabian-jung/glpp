@@ -7,8 +7,9 @@ target_include_directories(core PUBLIC
 
 find_package(Boost REQUIRED)
 find_package(fmt REQUIRED)
+find_package(glm CONFIG REQUIRED)
 
-target_link_libraries(core PUBLIC fmt::fmt glpp::gl Boost::headers)
+target_link_libraries(core PUBLIC fmt::fmt glpp::gl Boost::headers glm::glm)
 
 set(glpp-files
     ${CMAKE_CURRENT_LIST_DIR}/src/camera.cpp

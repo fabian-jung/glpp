@@ -34,6 +34,6 @@ struct attribute_properties {
 };
 \ecpp
 
-
 @class glpp::core::object::attribute_properties
+@tparam T type that shall be introspected.
 */

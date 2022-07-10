@@ -1,0 +1,19 @@
+{
+    "name": "glpp",
+    "description": "This is a thin wrapper library for modern OpenGL (4.5) in C++. The main goal of this library is giving you a painless experience building your own OpenGL application and seamlessly integrate into the existing C++/STL ecosystem. It follows a fail fast principle meaning many of the pitfalls of the OpenGL API are either made impossible for you by added restrictions due to the strong typed nature of Glpp or help you identify problems via throwing exceptions. Glpp is no replacement for the OpenGL API nor does it saves you from learning the API or catch all possible ways of abusing the OpenGL API. It is a productivity framework to get you going faster and help you spend your time on building your application rather than handling all of the state on your own and loading textures, assets or type faces into your application.",
+    "homepage":"https://github.com/fabian-jung/glpp",
+    "version": "0.1",
+    "dependencies": [
+      "boost",
+      "boost-pfr",
+      "fmt",
+      "glm",
+      "glew",
+      "opengl",
+      "assimp",
+      "glfw3",
+      "freetype",
+      "catch2",
+      "opengl"
+    ]
+  }

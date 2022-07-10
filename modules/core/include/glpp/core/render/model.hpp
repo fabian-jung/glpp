@@ -2,6 +2,7 @@
 
 #include <array>
 #include <vector>
+#include <glpp/gl/types.hpp>
 #include <glm/glm.hpp>
 
 namespace glpp::core::render {
@@ -25,8 +26,13 @@ struct model_traits<model_t<Attribute_Description>> {
 	}
 };
 
+/*!\class   glpp::core::render::InstancedModel <>
+ * \brief       A type that satisfies instanced() property of model_traits<>.
+ */
+//!\cond concepts
 template<class T>
 concept InstancedModel = model_traits<T>::instanced();
+//!\endcond concepts
 
 template <class Attribute_Description, class Index = GLuint>
 struct indexed_model_t {
