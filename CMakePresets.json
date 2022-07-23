@@ -9,9 +9,16 @@
     {
       "name": "default",
       "displayName": "Default Config",
-      "description": "Default build using Ninja generator",
+      "description": "Build with system packages.",
       "generator": "Ninja",
-      "binaryDir": "${sourceDir}/build",
+      "binaryDir": "${sourceDir}/build"
+    },
+    {
+      "name": "vcpkg",
+      "displayName": "Vcpkg Config",
+      "description": "Fetch Dependencies via Vcpkg.",
+      "generator": "Ninja",
+      "binaryDir": "${sourceDir}/build-vcpkg",
       "toolchainFile": "${sourceDir}/vendor/vcpkg/scripts/buildsystems/vcpkg.cmake"
     }
   ],
@@ -19,6 +26,10 @@
     {
       "name": "all",
       "configurePreset": "default"
+    },
+    {
+      "name": "all-vcpkg",
+      "configurePreset": "vcpkg"
     }
   ],
   "testPresets": [
@@ -27,6 +38,11 @@
       "configurePreset": "default",
       "output": {"outputOnFailure": true},
       "execution": {"noTestsAction": "error", "stopOnFailure": true}
+    },
+    {
+      "name": "all-vcpkg",
+      "inherits":"all",
+      "configurePreset": "vcpkg"
     }
   ]
 }

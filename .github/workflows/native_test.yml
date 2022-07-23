@@ -37,6 +37,6 @@ jobs:
       uses: lukka/run-cmake@v10
       with:
         cmakeListsTxtPath: '${{ github.workspace }}/CMakeLists.txt'
-        configurePreset: 'default'
-        buildPreset: 'all'
-        testPreset: 'all'
+        configurePreset: 'vcpkg'
+        buildPreset: 'all-vcpkg'
+        testPreset: 'all-vcpkg'
