@@ -60,7 +60,7 @@ public:
 		const clamp_mode_t clamp_mode = clamp_mode_t::repeat,
 		const filter_mode_t filter = filter_mode_t::linear,
 		const mipmap_mode_t mipmap_mode = mipmap_mode_t::none,
-		swizzle_mask_t swizzle_mask = {texture_channel_t::red, texture_channel_t::green, texture_channel_t::blue, texture_channel_t::alpha}
+		swizzle_mask_t swizzle_mask = {{texture_channel_t::red, texture_channel_t::green, texture_channel_t::blue, texture_channel_t::alpha}}
 	);
 
 	template <class T>
@@ -192,8 +192,8 @@ void texture_t::update(
 	const T* pixels,
 	image_format_t format
 ) {
-	auto base_internal_format = [](GLenum format) {
-		switch(format) {
+	auto base_internal_format = [](GLenum base_format) {
+		switch(base_format) {
 			case GL_R8                 : return GL_RED;
 			case GL_R8_SNORM           : return GL_RED;
 			case GL_R16                : return GL_RED;
