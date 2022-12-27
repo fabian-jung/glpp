@@ -1,5 +1,8 @@
 #include "definitions.hpp"
 
+
+#pragma GCC diagnostic push
+#pragma clang diagnostic ignored "-Wextra-semi"
 std::vector<function_definition_t> gl_functions = [](){
     // The lambda function is used over a initializer list to speed up compile time
     std::vector<function_definition_t> result;
@@ -1053,3 +1056,5 @@ std::vector<function_definition_t> gl_functions = [](){
     result.emplace_back("void",std::vector<parameter_definition_t>{{"GLfloat factor"},{"GLfloat units"},{"GLfloat clamp"}},"glPolygonOffsetClamp");
     return result;
 }();
+
+#pragma GCC diagnostic pop

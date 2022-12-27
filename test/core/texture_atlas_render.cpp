@@ -3,7 +3,7 @@
 #include "glpp/gl/constants.hpp"
 #include "glpp/gl/functions.hpp"
 #include <algorithm>
-#include <catch2/catch.hpp>
+#include <catch2/catch_all.hpp>
 
 #include <glpp/core.hpp>
 #include <glpp/gl/context.hpp>

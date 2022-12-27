@@ -1,4 +1,4 @@
-#include <catch2/catch.hpp>
+#include <catch2/catch_all.hpp>
 #include <glpp/core/object/framebuffer.hpp>
 #include <glpp/gl/context.hpp>
 #include <glpp/testing/context.hpp>
