@@ -1,6 +1,3 @@
-find_package(glfw3 CONFIG REQUIRED)
-find_package(OpenGL REQUIRED COMPONENTS EGL)
-
 add_library(system STATIC)
 add_library(glpp::system ALIAS system)
 target_include_directories(system PUBLIC

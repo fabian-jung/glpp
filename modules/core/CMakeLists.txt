@@ -5,10 +5,6 @@ target_include_directories(core PUBLIC
     $<INSTALL_INTERFACE:include>
 )
 
-find_package(Boost REQUIRED)
-find_package(fmt REQUIRED)
-find_package(glm CONFIG REQUIRED)
-
 target_link_libraries(core PUBLIC fmt::fmt glpp::gl Boost::headers glm::glm)
 
 set(glpp-files

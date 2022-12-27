@@ -19,7 +19,6 @@ target_include_directories(asset PUBLIC
 )
 
 set(CMAKE_POLICY_DEFAULT_CMP0012 NEW)
-find_package(assimp REQUIRED NO_POLICY_SCOPE)
 unset(CMAKE_POLICY_DEFAULT_CMP0012)
 
 target_link_libraries(asset PUBLIC assimp::assimp glpp::core)

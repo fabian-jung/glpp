@@ -8,41 +8,26 @@
   "configurePresets": [
     {
       "name": "default",
-      "displayName": "Default Config",
-      "description": "Build with system packages.",
-      "generator": "Ninja",
-      "binaryDir": "${sourceDir}/build"
-    },
-    {
-      "name": "vcpkg",
-      "displayName": "Vcpkg Config",
+      "displayName": "default",
       "description": "Fetch Dependencies via Vcpkg.",
       "generator": "Ninja",
-      "binaryDir": "${sourceDir}/build-vcpkg",
+      "binaryDir": "${sourceDir}/build",
       "toolchainFile": "${sourceDir}/vendor/vcpkg/scripts/buildsystems/vcpkg.cmake"
     }
   ],
   "buildPresets": [
+    
     {
-      "name": "all",
+      "name": "default",
       "configurePreset": "default"
-    },
-    {
-      "name": "all-vcpkg",
-      "configurePreset": "vcpkg"
     }
   ],
   "testPresets": [
     {
-      "name": "all",
+      "name": "default",
       "configurePreset": "default",
       "output": {"outputOnFailure": true},
       "execution": {"noTestsAction": "error", "stopOnFailure": true}
-    },
-    {
-      "name": "all-vcpkg",
-      "inherits":"all",
-      "configurePreset": "vcpkg"
     }
   ]
 }

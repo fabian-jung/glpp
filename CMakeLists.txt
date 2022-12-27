@@ -8,11 +8,25 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_IMPLICIT_LINK_DIRECTORIES /usr/local/lib ${CMAKE_CXX_IMPLICIT_LINK_DIRECTORIES})
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
+option(glew_enabled "Load dynamic opengl functions with glew (experimental feature, untested)" OFF)
+
 find_program(CCACHE_FOUND ccache)
 if(CCACHE_FOUND)
     set_property(GLOBAL PROPERTY RULE_LAUNCH_COMPILE ccache)
     set_property(GLOBAL PROPERTY RULE_LAUNCH_LINK ccache)
 endif(CCACHE_FOUND)
+
+find_package(Boost REQUIRED)
+find_package(fmt REQUIRED)
+find_package(glm CONFIG REQUIRED)
+find_package(assimp REQUIRED NO_POLICY_SCOPE)
+find_package(OpenGL REQUIRED COMPONENTS OpenGL EGL)
+find_package(glfw3 CONFIG REQUIRED)
+find_package(Freetype REQUIRED)
+
+if(${glew_enabled})
+	find_package(GLEW REQUIRED)
+endif()
 
 option(enable_unit_test "Build with unit tests applications" ON)
 if(${enable_unit_test})
