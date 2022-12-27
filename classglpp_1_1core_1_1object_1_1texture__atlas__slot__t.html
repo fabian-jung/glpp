@@ -2,11 +2,12 @@
 <html lang="en"><head>
   <meta charset="utf-8"/>
   <title>glpp::core::object::texture_atlas_slot_t class | glpp An OpenGL Wrapper library for modern C++.</title>
-  <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,400i,600,600i%7CSource+Code+Pro:400,400i,600" rel="stylesheet"/>
-  <link href="m-dark+documentation.compiled.css" rel="stylesheet"/>
   <link href="favicon.svg" rel="icon" type="image/svg+xml"/>
   <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
   <meta content="#22272e" name="theme-color"/>
+  <link href="poxy/poxy.css" referrerpolicy="no-referrer" rel="stylesheet"/>
+  <script src="poxy/poxy.js"></script>
+  <script>initialize_theme("dark");</script>
   <meta content="glpp" name="twitter:title"/>
   <meta content="glpp" property="og:title"/>
   <meta content="glpp" itemprop="name"/>
@@ -17,17 +18,14 @@
   <meta content="An OpenGL Wrapper library for modern C++." property="og:description"/>
   <meta content="An OpenGL Wrapper library for modern C++." itemprop="description"/>
   <meta content="telephone=no" name="format-detection"/>
-  <meta content="Poxy v0.5.6" name="generator"/>
-  <meta content="no-referrer-when-downgrade" name="referrer"/>
-  <link href="poxy-0.5.6.css" rel="stylesheet"/>
-  <link href="poxy-0.5.6-dark.css" rel="stylesheet"/>
-  <script src="poxy-0.5.6.js"></script>
+  <meta content="Poxy v0.12.0" name="generator"/>
+  <meta content="strict-origin-when-cross-origin" name="referrer"/>
 </head>
-<body>
+<body class="poxy-has-toc">
 <header><nav id="navigation">
   <div class="m-container">
     <div class="m-row">
-      <a class="m-col-t-8 m-col-m-none m-left-m" href="index.html" id="m-navbar-brand"><img alt="" src="favicon-dark.svg"/>glpp <span class="m-thin">An OpenGL Wrapper library for modern C++.</span></a>
+      <a class="m-col-t-8 m-col-m-none m-left-m" href="index.html" id="m-navbar-brand"><svg class="poxy-injected-svg" height="42.640598mm" id="poxy-injected-svg-0" inkscape:export-filename="/Users/lenamuller/Desktop/glpp_whitebackground.png" inkscape:export-xdpi="802" inkscape:export-ydpi="802" inkscape:version="1.1 (c4e8f9ed74, 2021-05-24)" sodipodi:docname="favicon-dark.svg" version="1.1" viewBox="0 0 30.020535 42.640598" width="30.020535mm" xmlns="http://www.w3.org/2000/svg" xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" xmlns:svg="http://www.w3.org/2000/svg"><defs id="poxy-injected-svg-0-defs2"></defs><sodipodi:namedview bordercolor="#666666" borderlayer="false" borderopacity="1.0" height="210mm" id="poxy-injected-svg-0-base" inkscape:current-layer="layer1" inkscape:cx="-220.83474" inkscape:cy="-509.90493" inkscape:document-rotation="0" inkscape:document-units="mm" inkscape:pagecheckerboard="false" inkscape:pageopacity="1" inkscape:pageshadow="2" inkscape:showpageshadow="false" inkscape:snap-global="true" inkscape:snap-to-guides="true" inkscape:window-height="1447" inkscape:window-maximized="0" inkscape:window-width="2498" inkscape:window-x="942" inkscape:window-y="304" inkscape:zoom="0.4030163" pagecolor="#353535" showborder="true" showgrid="poxy-injected-svg-0-false" units="mm"><inkscape:grid id="poxy-injected-svg-0-grid844" originx="-41.298853" originy="-73.18964" type="xygrid"></inkscape:grid></sodipodi:namedview><metadata id="poxy-injected-svg-0-metadata5"><rdf:rdf><cc:work rdf:about=""><dc:format>image/svg+xml</dc:format><dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"></dc:type></cc:work></rdf:rdf></metadata><g id="poxy-injected-svg-0-layer1" inkscape:groupmode="layer" inkscape:label="Katze" style="display:inline" transform="translate(-41.298853,-73.18964)"><path d="m 261.70703,276.63281 c -7.51785,-0.43409 -19.22993,12.61908 -27.75391,23.70313 -17.86817,23.23465 -30.57241,33.39415 -44.4746,9.02734 -5.85725,-9.68553 -24.78153,-44.33655 -33.03711,-22.68164 -2.11638,28.51605 5.70691,79.05149 13.3789,106.5293 12.34188,30.12257 25.1876,47.83341 47.64453,44.07227 53.42954,-8.9485 53.41806,-97.68308 51.54297,-146.64648 -0.57467,-9.84981 -3.36286,-13.77653 -7.30078,-14.00391 z m -8.27148,18.36524 c 6.04699,-0.48329 8.50887,10.57079 8.51562,25.65234 -0.0791,24.87882 -7.19653,109.47535 -48.05664,108.28125 -40.86011,-1.1941 -47.38408,-80.54152 -48.8125,-123.20117 -0.63305,-18.90603 15.13744,16.96686 26.55078,22.98828 10.763,5.67832 20.86702,3.91472 28.96485,-1.69531 10.3989,-7.20416 16.72841,-16.24286 22.26367,-23.50977 4.3359,-5.69234 7.82559,-8.29595 10.57422,-8.51562 z" id="poxy-injected-svg-0-path847-7" sodipodi:nodetypes="sscccscssssssssss" style="fill:#ffffff;stroke-width:1.2898" transform="scale(0.26458333)"></path><path d="m 53.897824,96.1819 a 1.7751889,2.0611446 0 0 1 -1.724322,2.060298 1.7751889,2.0611446 0 0 1 -1.823141,-1.942225 1.7751889,2.0611446 0 0 1 1.61984,-2.171605 1.7751889,2.0611446 0 0 1 1.915972,1.817774 L 52.122635,96.1819 Z" id="poxy-injected-svg-0-path895" sodipodi:arc-type="slice" sodipodi:cx="52.122635" sodipodi:cy="96.1819" sodipodi:end="6.1685521" sodipodi:rx="1.7751889" sodipodi:ry="2.0611446" sodipodi:start="0" sodipodi:type="arc" style="fill:#1a1a1a;fill-opacity:0;stroke:#000000;stroke-width:1.11567;stroke-dashoffset:4.7622;stroke-opacity:0;paint-order:stroke fill markers"></path><path d="m 52.586585,97.880811 c -1.349182,3.313849 -4.754396,-2.92555 -1.151918,-2.73465 1.01857,0.0205 1.772021,1.4863 1.151918,2.73465 z" id="poxy-injected-svg-0-path847-7-7-8-9" sodipodi:nodetypes="ccc" style="fill:#ffffff;stroke-width:0.289629"></path><path d="m 59.579504,97.776531 c 1.349182,3.263779 4.426302,-3.02621 1.151918,-2.69334 -1.01857,0.0203 -1.772021,1.46385 -1.151918,2.69334 z" id="poxy-injected-svg-0-path847-7-7-8-9-4" sodipodi:nodetypes="ccc" style="fill:#ffffff;stroke-width:0.287434"></path></g></svg>glpp <span class="m-thin">An OpenGL Wrapper library for modern C++.</span></a>
       <div class="m-col-t-4 m-hide-m m-text-right m-nopadr">
         <a class="m-doc-search-icon" href="#search" onclick="return showSearch()" title="Search"><svg style="height: 0.9rem;" viewBox="0 0 16 16">
           <path d="m6 0c-3.31 0-6 2.69-6 6 0 3.31 2.69 6 6 6 1.49 0 2.85-0.541 3.89-1.44-0.0164 0.338 0.147 0.759 0.5 1.15l3.22 3.79c0.552 0.614 1.45 0.665 2 0.115 0.55-0.55 0.499-1.45-0.115-2l-3.79-3.22c-0.392-0.353-0.812-0.515-1.15-0.5 0.895-1.05 1.44-2.41 1.44-3.89 0-3.31-2.69-6-6-6zm0 1.56a4.44 4.44 0 0 1 4.44 4.44 4.44 4.44 0 0 1-4.44 4.44 4.44 4.44 0 0 1-4.44-4.44 4.44 4.44 0 0 1 4.44-4.44z" id="m-doc-search-icon-path"></path>
@@ -42,7 +40,8 @@
             <li><a href="annotated.html">Classes</a></li>
           </ol>
           <ol class="m-col-t-6 m-col-m-none" start="3">
-            <li><a class="github poxy-external" href="https://github.com/fabian-jung/glpp/" target="_blank">Github</a></li>
+            <li><a class="poxy-icon repo github poxy-external" href="https://github.com/fabian-jung/glpp" target="_blank" title="View on GitHub"><svg id="poxy-repo-icon" version="1.1" viewBox="0 0 50 50" xmlns="http://www.w3.org/2000/svg"><path d="M25,1.23a24.37,24.37,0,0,0-7.7,47.5C18.51,49,19,48.2,19,47.56s0-2.12,0-4.15c-6.78,1.47-8.21-3.27-8.21-3.27C9.61,37.33,8,36.58,8,36.58c-2.21-1.51.17-1.48.17-1.48a5.12,5.12,0,0,1,3.73,2.51c2.17,3.72,5.7,2.65,7.09,2a5.25,5.25,0,0,1,1.55-3.26c-5.41-.61-11.1-2.7-11.1-12A9.41,9.41,0,0,1,12,17.79a8.75,8.75,0,0,1,.24-6.45s2-.66,6.7,2.49a23.1,23.1,0,0,1,12.2,0c4.66-3.15,6.7-2.49,6.7-2.49A8.75,8.75,0,0,1,38,17.79a9.41,9.41,0,0,1,2.51,6.54c0,9.36-5.7,11.42-11.13,12a5.83,5.83,0,0,1,1.65,4.51c0,3.26,0,5.89,0,6.69,0,.65.44,1.41,1.68,1.17A24.38,24.38,0,0,0,25,1.23Z" fill="currentColor"></path></svg></a></li>
+            <li><a class="poxy-icon theme" href="javascript:void(null);" id="poxy-theme-switch" onclick="toggle_theme(); return false;" role="button" title="Toggle dark and light themes"><svg id="poxy-theme-switch-img" version="1.1" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg"><circle cx="185.6708" cy="183.8122" fill="currentColor" r="65.625"></circle><path d="M185.6708,87.5622a13.1256,13.1256,0,0,0,13.125-13.125V52.5622a13.125,13.125,0,1,0-26.25,0v21.875A13.1257,13.1257,0,0,0,185.6708,87.5622Z" fill="currentColor"></path><path d="M99.051,115.7519a13.1236,13.1236,0,1,0,18.56-18.56L102.1442,81.726a13.1236,13.1236,0,0,0-18.5595,18.56Z" fill="currentColor"></path><path d="M89.4208,183.8122a13.1257,13.1257,0,0,0-13.125-13.125H54.4208a13.125,13.125,0,0,0,0,26.25h21.875A13.1256,13.1256,0,0,0,89.4208,183.8122Z" fill="currentColor"></path><path d="M99.051,251.8725,83.5847,267.3431a13.1236,13.1236,0,1,0,18.56,18.56l15.4663-15.4706a13.1236,13.1236,0,1,0-18.5595-18.56Z" fill="currentColor"></path><path d="M185.6708,280.0622a13.1258,13.1258,0,0,0-13.125,13.125v21.875a13.125,13.125,0,0,0,26.25,0v-21.875A13.1257,13.1257,0,0,0,185.6708,280.0622Z" fill="currentColor"></path><path d="M272.2907,251.8725a13.1236,13.1236,0,1,0-18.56,18.56l15.4663,15.4706a13.1236,13.1236,0,1,0,18.56-18.56Z" fill="currentColor"></path><path d="M330.0458,183.8122a13.1257,13.1257,0,0,0-13.125-13.125h-21.875a13.125,13.125,0,0,0,0,26.25h21.875A13.1256,13.1256,0,0,0,330.0458,183.8122Z" fill="currentColor"></path><path d="M263.0109,119.5971a13.0824,13.0824,0,0,0,9.28-3.8452l15.4663-15.4663a13.1236,13.1236,0,1,0-18.56-18.56L253.7312,97.1923a13.125,13.125,0,0,0,9.28,22.4048Z" fill="currentColor"></path><path d="M456.9379,401.6714a63.97,63.97,0,0,1-14.9963,7.2055c-19.6448,6.5283-41.8787,2.9566-58.1439-9.8523a68.9311,68.9311,0,0,1-10.835-10.8339c-12.8088-16.2663-16.3806-38.5-9.8523-58.1471a63.8444,63.8444,0,0,1,7.2077-14.9931,8.8036,8.8036,0,0,0-10.1172-13.3034,87.5188,87.5188,0,1,0,110.0372,110.04A8.8,8.8,0,0,0,456.9379,401.6714Z" fill="currentColor"></path></svg></a></li>
             <li class="m-show-m"><a class="m-doc-search-icon" href="#search" onclick="return showSearch()" title="Search"><svg style="height: 0.9rem;" viewBox="0 0 16 16">
               <use href="#m-doc-search-icon-path"></use>
             </svg></a></li>
@@ -61,7 +60,7 @@
           <span class="m-breadcrumb"><a href="namespaceglpp.html">glpp</a>::<wbr/></span><span class="m-breadcrumb"><a href="namespaceglpp_1_1core.html">core</a>::<wbr/></span><span class="m-breadcrumb"><a href="namespaceglpp_1_1core_1_1object.html">object</a>::<wbr/></span>texture_atlas_slot_t <span class="m-thin">class</span>
         </h1>
         <p>helper class representing a binding of a <a class="m-doc" href="classglpp_1_1core_1_1object_1_1texture__atlas__t.html">texture_<wbr/>atlas_<wbr/>t</a> object to a texture unit</p>
-        <nav class="m-block m-default poxy-toc">
+        <nav class="m-block m-default poxy-toc" id="poxy-toc">
           <h3>Contents</h3>
           <ul>
             <li>
@@ -230,12 +229,12 @@
     <div class="m-row">
       <div class="m-col-l-10 m-push-l-1">
         
-    <a class="poxy-external" href="https://github.com/fabian-jung/glpp/" target="_blank">Github</a>
-     • <a class="poxy-external" href="https://github.com/fabian-jung/glpp/issues" target="_blank">Report an issue</a>
-     • <a class="poxy-external" href="https://github.com/fabian-jung/glpp/blob/master/LICENSE" target="_blank">License</a>
-     • <a download="" href="glpp.tagfile.xml" target="_blank" type="text/xml">Doxygen tagfile</a>
-    <br/><br/>
-    Site generated using <a class="poxy-external" href="https://github.com/marzer/poxy/" target="_blank">Poxy</a>
+<a class="poxy-external" href="https://github.com/fabian-jung/glpp" target="_blank">GitHub</a>
+• <a class="poxy-external" href="https://github.com/fabian-jung/glpp/issues" target="_blank">Report an issue</a>
+• <a class="poxy-external" href="https://github.com/fabian-jung/glpp/blob/master/LICENSE" target="_blank">License</a>
+• <a download="" href="glpp.tagfile.xml" target="_blank" type="text/xml">Doxygen tagfile</a>
+<br/><br/>
+Site generated using <a class="poxy-external" href="https://github.com/marzer/poxy/" target="_blank">Poxy</a>
 
       </div>
     </div>
