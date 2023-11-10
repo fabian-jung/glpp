@@ -29,7 +29,6 @@ add_custom_command(
         ${GLPP_GL_ROOT}
 )
 
-find_package(OpenGL REQUIRED COMPONENTS OpenGL)
 
 add_library(gl)
 add_library(glpp::gl ALIAS gl)
@@ -44,7 +43,6 @@ target_include_directories(gl PUBLIC
 target_compile_definitions(gl PUBLIC -DGLFW_INCLUDE_NONE)
 
 if(${glew_enabled})
-    find_package(GLEW REQUIRED)
     target_link_libraries(gl PUBLIC GLEW OpenGL::OpenGL)
     target_compile_definitions(gl PUBLIC -DWITH_GLEW)
 elseif()  

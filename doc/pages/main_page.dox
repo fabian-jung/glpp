@@ -3,14 +3,25 @@
 \mainpage glpp
 \tableofcontents
 
- \section mainpage-features Features
- - feature 1
- - feature 2
- - feature 3
+\section mainpage-features Features
+\subsection Composability
 
- \section mainpage-example Basic examples
 
- \subsection mainpage-example-first first example
+
+\subsection Core Functionality
+
+\subsection Texture Loading
+
+\subsection Context Creation
+
+\subsection Text Rendering
+
+\subsection Asset Loading
+
+
+\section mainpage-example Basic examples
+
+\subsection mainpage-example-first first example
 
 lorem ipsum
 
@@ -24,6 +35,7 @@ lorem ipsum
  }
 
  \ecpp
+ 
 
  \see
  	- glpp::core::object::buffer_t

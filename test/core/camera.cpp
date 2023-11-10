@@ -1,9 +1,11 @@
-#include <catch2/catch.hpp>
+#include <catch2/catch_all.hpp>
 
 #include <glm/gtx/string_cast.hpp>
 
 #include <glpp/core/render/camera.hpp>
 #include <iostream>
+
+using namespace Catch::Matchers;
 
 template <class T, auto N>
 std::ostream& operator<<(std::ostream& lhs, const glm::vec<N, T>& rhs) {
@@ -21,7 +23,7 @@ std::ostream& operator<<(std::ostream& lhs, const glm::vec<N, T>& rhs) {
 TEST_CASE("core::camera_t default construction has sane default values", "[core][unit]") {
 	const glpp::core::render::camera_t camera;
 
-	REQUIRE(camera.fov != Approx(0.0f));
+	REQUIRE(camera.fov != 0.0f);
 	REQUIRE(glm::length(camera.position) == 0.0f);
 	REQUIRE(camera.orientation == glm::quat(glm::vec3(0.0, 0.0, 0.0)));
 	REQUIRE(camera.fov > 30.0f);
@@ -29,8 +31,7 @@ TEST_CASE("core::camera_t default construction has sane default values", "[core]
 	REQUIRE(camera.near_plane >     0.05f);
 	REQUIRE(camera.far_plane  < 1500.0f);
 	REQUIRE(camera.far_plane  >    0.5f);
-	REQUIRE(camera.aspect_ratio != Approx(0.0f).margin(0.1f));
-
+	REQUIRE_THAT(camera.aspect_ratio, WithinAbs(1.0f, 0.1f));
 }
 
 TEST_CASE("Camera constructed with parameters", "[core][unit]") {
@@ -49,7 +50,6 @@ TEST_CASE("Camera constructed with parameters", "[core][unit]") {
 		far_plane,
 		aspect_ratio
 	);
-
 	REQUIRE(camera.position == position);
 	REQUIRE(camera.orientation == orientation);
 	REQUIRE(camera.fov == fov);
@@ -152,10 +152,10 @@ TEST_CASE("core::camera_t::mvp() sanity checks of the projection matrix", "[core
 		const auto camera_space_point = mvp*world_space_point;
 		const auto clip_space_point = camera_space_point*(1.0f/camera_space_point.w);
 
-		REQUIRE(clip_space_point.x ==  Approx(0.0f).margin(0.01f));
-		REQUIRE(clip_space_point.y ==  Approx(0.0f).margin(0.01f));
-		REQUIRE(clip_space_point.z ==  Approx(1.0f).margin(0.01f));
-		REQUIRE(clip_space_point.w ==  Approx(1.0f).margin(0.01f));
+		REQUIRE_THAT(clip_space_point.x, WithinAbs(0.0f, 0.01f));
+		REQUIRE_THAT(clip_space_point.y, WithinAbs(0.0f, 0.01f));
+		REQUIRE_THAT(clip_space_point.z, WithinAbs(1.0f, 0.01f));
+		REQUIRE_THAT(clip_space_point.w, WithinAbs(1.0f, 0.01f));
 	}
 
 	SECTION("Centerpoint on near_plane projected to back") {
@@ -163,10 +163,10 @@ TEST_CASE("core::camera_t::mvp() sanity checks of the projection matrix", "[core
 		const auto camera_space_point = mvp*world_space_point;
 		const auto clip_space_point = camera_space_point*(1.0f/camera_space_point.w);
 
-		REQUIRE(clip_space_point.x ==  Approx(0.0f).margin(0.01f));
-		REQUIRE(clip_space_point.y ==  Approx(0.0f).margin(0.01f));
-		REQUIRE(clip_space_point.z == Approx(-1.0f).margin(0.01f));
-		REQUIRE(clip_space_point.w ==  Approx(1.0f).margin(0.01f));
+		REQUIRE_THAT(clip_space_point.x, WithinAbs(0.0f, 0.01f));
+		REQUIRE_THAT(clip_space_point.y, WithinAbs(0.0f, 0.01f));
+		REQUIRE_THAT(clip_space_point.z, WithinAbs(-1.0f, 0.01f));
+		REQUIRE_THAT(clip_space_point.w, WithinAbs(1.0f, 0.01f));
 	}
 }
 
@@ -204,8 +204,8 @@ TEST_CASE("Construct camera with look_at vector. look_at should be projected to 
 				const auto mvp = camera.mvp();
 
 				const auto projected = mvp*glm::vec4(look_at, 1.0f);
-				REQUIRE(projected.x ==  Approx(0.0f).margin(0.01f));
-				REQUIRE(projected.y ==  Approx(0.0f).margin(0.01f));
+				REQUIRE_THAT(projected.x, WithinAbs(0.0f, 0.01f));
+				REQUIRE_THAT(projected.y, WithinAbs(0.0f, 0.01f));
 			}
 		}
 	}
@@ -216,6 +216,6 @@ TEST_CASE("Check mvp construction with a non uniform model_matrix") {
     const glpp::core::render::camera_t camera;
     const glm::vec4 position { 0.0f, 5.0f, 0.0f, 1.0f };
     const auto projected = camera.mvp(model_matrix)*position;
-    REQUIRE(projected.x == Approx(0.0f).margin(0.001f));
-    REQUIRE(projected.y == Approx(0.0f).margin(0.001f));
+    REQUIRE_THAT(projected.x, WithinAbs(0.0f, 0.001f));
+    REQUIRE_THAT(projected.y, WithinAbs(0.0f, 0.001f));
 }

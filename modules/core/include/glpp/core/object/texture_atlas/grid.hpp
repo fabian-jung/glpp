@@ -28,7 +28,7 @@ public:
 		const clamp_mode_t clamp_mode = clamp_mode_t::repeat,
 		const filter_mode_t filter = filter_mode_t::linear,
 		const mipmap_mode_t mipmap_mode = mipmap_mode_t::none,
-		const swizzle_mask_t swizzle_mask = {texture_channel_t::red, texture_channel_t::green, texture_channel_t::blue, texture_channel_t::alpha}
+		const swizzle_mask_t swizzle_mask = {{texture_channel_t::red, texture_channel_t::green, texture_channel_t::blue, texture_channel_t::alpha}}
 	);
 
 	grid_policy_t(const grid_policy_t& cpy) = delete;

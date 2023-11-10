@@ -1,5 +1,5 @@
 #include "glpp/core/object/vertex_array.hpp"
-
+#include <array>
 namespace glpp::core::object {
 
 vertex_array_t::vertex_array_t() :

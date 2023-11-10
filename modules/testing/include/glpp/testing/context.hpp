@@ -19,7 +19,7 @@ public:
         m_framebuffer.attach(m_texture, core::object::attachment_t::color);
         m_framebuffer.bind();
         glViewport(0, 0, width, height);
-    };
+    }
 
     context_t(const size_t width, const size_t height) :
         context_t(width, height, Driver{})

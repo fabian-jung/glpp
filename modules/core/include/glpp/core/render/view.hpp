@@ -30,9 +30,9 @@ enum class view_primitives_t : GLenum {
 template <class Model>
 struct view_base_t {
 	glpp::core::object::vertex_array_t m_vao;
-	void m_indicies() {};
+	void m_indicies() {}
 
-	explicit view_base_t(const Model&) noexcept {};
+	explicit view_base_t(const Model&) noexcept {}
 };
 
 template <InstancedModel Model>

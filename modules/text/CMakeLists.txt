@@ -1,5 +1,3 @@
-find_package(Freetype REQUIRED)
-
 add_library(text STATIC)
 add_library(glpp::text ALIAS text)
 target_include_directories(text PUBLIC

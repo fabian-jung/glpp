@@ -13,19 +13,13 @@ logo              = 'doc/images/favicon-dark.svg'
 favicon           = 'doc/images/favicon.svg'
 navbar            = [ 'namespaces', 'classes' ]
 theme             = 'dark'
-# extra_files     = [
-#    'images/banner_small.png',
-#    'images/badge-awesome.svg',
-#    'images/badge-TOML.svg',
-#    'images/badge-C++20.svg'
-#]
 generate_tagfile  = true
-
+#scripts           = []
 
 
 [warnings]
 enabled           = true
-treat_as_errors   = true
+# treat_as_errors = true
 undocumented      = true
 
 [sources]
@@ -33,7 +27,7 @@ paths             = [ 'doc/pages' ]
 recursive_paths   = [ 'modules', 'doc/modules' ]
 patterns          = [ '*.h', '*.hpp', '*.dox' ]
 # strip_paths       = [ '../include' ]
-
+extract_all = true
 
 
 [images]

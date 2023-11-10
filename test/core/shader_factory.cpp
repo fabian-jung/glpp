@@ -1,4 +1,4 @@
-#include <catch2/catch.hpp>
+#include <catch2/catch_all.hpp>
 #include <glpp/core/object/shader_factory.hpp>
 #include <filesystem>
 #include <glm/glm.hpp>

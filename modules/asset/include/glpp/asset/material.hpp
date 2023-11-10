@@ -3,6 +3,7 @@
 #include <assimp/material.h>
 #include <glm/glm.hpp>
 #include <string_view>
+#include <vector>
 
 namespace glpp::asset {
 enum class op_t {

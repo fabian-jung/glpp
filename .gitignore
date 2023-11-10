@@ -1,3 +1,5 @@
 CMakeCache.txt
 cmake.check_cache
 *tagfile.xml
+build/**
+build-vcpkg/**
