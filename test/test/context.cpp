@@ -1,4 +1,4 @@
-#include <catch2/catch.hpp>
+#include <catch2/catch_all.hpp>
 #include <glpp/testing/context.hpp>
 
 TEST_CASE("single test context construction and teardown","[test][unit][xorg]") {

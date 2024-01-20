@@ -1,8 +1,5 @@
-add_library(catch_main STATIC catch_main.cpp)
-target_link_libraries(catch_main PUBLIC Catch2::Catch2)
-
 add_library(testing)
-target_link_libraries(testing PUBLIC catch_main glpp::gl glpp::core glpp::system)
+target_link_libraries(testing PUBLIC Catch2::Catch2WithMain glpp::gl glpp::core glpp::system)
 add_library(glpp::testing ALIAS testing)
 
 set(glpp-test-files
