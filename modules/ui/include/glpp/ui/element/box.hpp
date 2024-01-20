@@ -50,10 +50,9 @@ struct box_t {
 
 		const bool dst_inside = is_inside(dst_mouse);
 		const bool src_inside = is_inside(src_mouse);
+		child.act(mouse_event_t::move, dst_mouse, src_mouse);
 		if(dst_inside) {
-			if(src_inside) {
-				child.act(mouse_event_t::move, dst_mouse, src_mouse);
-			} else {
+			if(!src_inside) {
 				child.act(mouse_event_t::enter, dst_mouse);
 			}
 		} else {
