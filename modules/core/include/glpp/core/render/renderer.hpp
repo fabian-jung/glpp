@@ -12,7 +12,8 @@ namespace detail {
 
 	template <class T, class Y>
 	constexpr ptrdiff_t get_offset(Y T::* ptr) {
-		return reinterpret_cast<char*>(&(reinterpret_cast<T*>(0)->*ptr))-reinterpret_cast<char*>(0);
+		constexpr void* random_location=nullptr;
+		return reinterpret_cast<char*>(&(reinterpret_cast<T*>(random_location)->*ptr))-reinterpret_cast<char*>(random_location);
 	}
 }
 

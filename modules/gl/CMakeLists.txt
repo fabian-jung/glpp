@@ -35,6 +35,10 @@ add_library(gl)
 add_library(glpp::gl ALIAS gl)
 target_compile_features(gl PUBLIC cxx_std_20)
 
+if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+target_compile_options(gl PRIVATE "-fno-var-tracking-assignments")
+endif()
+
 option(glew_enabled "Load dynamic opengl functions with glew (experimental feature, untested)" OFF)
 
 target_include_directories(gl PUBLIC

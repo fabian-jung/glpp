@@ -1,4 +1,5 @@
 #include "glpp/core/object/vertex_array.hpp"
+#include <array>
 
 namespace glpp::core::object {
 
