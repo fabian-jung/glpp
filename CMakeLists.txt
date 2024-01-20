@@ -51,7 +51,7 @@ add_custom_target(doc
 	DEPENDS doc_tagfile_link
 )
 
-install(TARGETS catch_main gl core system stb image testing text EXPORT glppConfig DESTINATION lib/glpp)
+install(TARGETS gl core system stb image testing text ui EXPORT glppConfig DESTINATION lib/glpp)
 if(${enable_asset})
 install(TARGETS asset EXPORT glppConfig DESTINATION lib/glpp)
 endif()
