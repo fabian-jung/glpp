@@ -9,6 +9,7 @@ find_dependency(Boost REQUIRED)
 find_dependency(Catch2 REQUIRED)
 find_dependency(fmt REQUIRED)
 find_dependency(assimp REQUIRED)
+find_dependency(Freetype REQUIRED)
 
 include(CTest NO_POLICY_SCOPE)
 include(Catch NO_POLICY_SCOPE)
