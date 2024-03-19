@@ -6,7 +6,7 @@ target_include_directories(text PUBLIC
 	$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
     $<INSTALL_INTERFACE:include>
 )
-target_link_libraries(text PUBLIC glpp::core Freetype::Freetype)
+target_link_libraries(text PUBLIC glpp::core glpp::image Freetype::Freetype)
 set(glpp-text-files
     ${CMAKE_CURRENT_LIST_DIR}/src/charset.cpp
     ${CMAKE_CURRENT_LIST_DIR}/src/font.cpp

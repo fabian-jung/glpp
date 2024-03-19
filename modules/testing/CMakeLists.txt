@@ -1,5 +1,5 @@
 add_library(testing)
-target_link_libraries(testing PUBLIC Catch2::Catch2WithMain glpp::gl glpp::core glpp::system)
+target_link_libraries(testing PUBLIC Catch2::Catch2WithMain glpp::gl glpp::core glpp::system glpp::image)
 add_library(glpp::testing ALIAS testing)
 
 set(glpp-test-files

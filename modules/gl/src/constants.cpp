@@ -1,6 +1,6 @@
 #include "definitions.hpp"
 
-constexpr auto make_constants() {
+auto make_constants() {
     std::vector<constant_definition_t> constants;
     constants.reserve(2000);
     constants.emplace_back(constant_definition_t{"GLbitfield","GL_DEPTH_BUFFER_BIT","0x00000100"});

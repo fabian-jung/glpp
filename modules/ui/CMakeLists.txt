@@ -4,7 +4,7 @@ target_include_directories(ui PUBLIC
 	$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
     $<INSTALL_INTERFACE:include>
 )
-target_link_libraries(ui PUBLIC glpp::core glpp::system glpp::text)
+target_link_libraries(ui PUBLIC glpp::core glpp::system glpp::image glpp::text)
 set(glpp-ui-files
     ${CMAKE_CURRENT_LIST_DIR}/src/frame.cpp
     ${CMAKE_CURRENT_LIST_DIR}/src/image.cpp
