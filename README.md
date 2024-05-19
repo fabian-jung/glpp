@@ -59,21 +59,15 @@ Glpp is build in a modular way, so you don't have to include all modules and dep
 
 # Building
 
-Building Glpp from source should be an easy process. Clone the repository to your local machine and enter the directory you cloned the sources into. Create a directory for your build and enter that directory too. After that you can run ```cmake ..``` to configure the build. After that you can build the whole library, tests and examples by running ```make```.
+The recommended way to build Glpp is using conan. Conan will download and build all necessary dependencies and bootstrap the cmake project for you. After that point the code can be rebuild with the generator (ninja/make) or cmake directly. Conan will also generate a CMakeUserPresets.json, that can be used by your IDE to build and debug targets.
 
 ```bash
-git clone https://github.com/fabian-jung/glpp.git
-cd glpp
-mkdir build
-cd build
-cmake ..
-make
-
-# If you want to execute the tests run this:
-make test
+    pip install conan 
+    conan profile detect
+    conan build . --build=missing -c tools.system.package_manager:mode=install
 ```
 
-If you do not want to build all modules, tests or examples, you can change the build in the configure stage by overwriting the following values:
+It is also possible to build Glpp without conan. In that case all dependencies have to be provided manually and the normal cmake configure / run steps are used. If some modules are not needed, they can be deactivated. This will also remove the dependency of that module from the project. These cmake cache variables can be used to deactivate modules:
 - enable_asset
 - enable_examples
 - enable_image

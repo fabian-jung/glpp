@@ -1,3 +1,7 @@
 CMakeCache.txt
 cmake.check_cache
 *tagfile.xml
+venv/*
+build/*
+conan_generators/*
+CMakeUserPresets.json

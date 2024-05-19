@@ -3,45 +3,68 @@ name: Native Test
 on:
   push:
     branches: [ release/* ]
-  # pull_request:
-  #   branches: [ master ]
-
-env:
-  # Customize the CMake build type here (Release, Debug, RelWithDebInfo, etc.)
-  BUILD_TYPE: Release
+  pull_request:
+    branches: [ master ]
 
 jobs:
   build:
-    # The CMake configure and build commands are platform agnostic and should work equally
-    # well on Windows or Mac.  You can convert this to a matrix build if you need
-    # cross-platform coverage.
-    # See: https://docs.github.com/en/free-pro-team@latest/actions/learn-github-actions/managing-complex-workflows#using-a-build-matrix
-    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        platform: 
+          -
+            os: ubuntu-22.04
+            cc: gcc
+            cxx: g++
+            ld: ld
+            version: 12
+            lib: libstdc++
+            std: gnu17
+          -
+            os: ubuntu-22.04
+            cc: clang
+            cxx: clang++
+            ld: ld.lld-15
+            version: 15
+            lib: libstdc++
+            std: 20
+          -
+            os: ubuntu-24.04
+            cc: gcc
+            cxx: g++
+            ld: ld
+            version: 14
+            lib: libstdc++
+            std: gnu20
+          - 
+            os: ubuntu-24.04
+            cc: clang
+            cxx: clang++
+            ld: ld.lld-17
+            version: 17
+            lib: libstdc++
+            std: 20
+        type: [Debug, Release]
+
+    env:
+      BUILD_TYPE:  ${{ matrix.type }}
+      CC: /usr/bin/${{ matrix.platform.cc }}-${{ matrix.platform.version }}
+      CXX: /usr/bin/${{ matrix.platform.cxx }}-${{ matrix.platform.version }}
+      LD: /usr/bin/${{ matrix.platform.ld }}
+    
+    runs-on: ${{ matrix.platform.os }}
 
     steps:
     - uses: actions/checkout@v2
-    
+
     - name: Install dependencies
       run: |
-        sudo apt-get update -y && apt-get upgrade -y && apt-get dist-upgrade -y
-        sudo apt-get install -y libxml2-utils apt-utils gcc xvfb libglapi-mesa libglfw3-dev libglew-dev libglm-dev libassimp-dev libfreetype-dev pkgconf cmake make blender
-        
-    - name: build catch2
+        sudo apt-get install -y xvfb blender python3-numpy
+        sudo pipx install conan 
+
+    - name: Conan Build
       run: |
-        git clone https://github.com/catchorg/Catch2.git
-        cd Catch2
-        git checkout v3.5.3
-        cmake -Bbuild -H. -DBUILD_TESTING=OFF
-        sudo cmake --build build/ --target install
-
-    - name: Configure CMake
-      # Configure CMake in a 'build' subdirectory. `CMAKE_BUILD_TYPE` is only required if you are using a single-configuration generator such as make.
-      # See https://cmake.org/cmake/help/latest/variable/CMAKE_BUILD_TYPE.html?highlight=cmake_build_type
-      run: cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
-
-    - name: Build
-      # Build your program with the given configuration
-      run: cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}}
+        conan profile detect
+        conan build . --build=missing -c tools.system.package_manager:mode=install -c tools.system.package_manager:sudo=True -s:a compiler=${{ matrix.platform.cc }} -s:a build_type=${{ matrix.type }} -s:a compiler.version=${{ matrix.platform.version }} -s:a compiler.libcxx=${{ matrix.platform.lib }} -s:a compiler.cppstd=${{ matrix.platform.std }}
 
     - name: Test
       working-directory: ${{github.workspace}}/build
