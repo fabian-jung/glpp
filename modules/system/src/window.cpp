@@ -1,59 +1,57 @@
 #include "glpp/system/window.hpp"
 
-#include <exception>
-#include <functional>
-#include <bitset>
-#include <iostream>
 #include <string_view>
-#include <sstream>
 #include <glpp/gl/context.hpp>
+#include <GLFW/glfw3.h>
+#include <fmt/format.h>
+
 namespace glpp::system {
 
 void error_handler(GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length, const GLchar* message, const void* userParam)
 {
 	auto window = reinterpret_cast<const window_t*>(userParam);
-	std::stringstream msg;
-	msg << "\n";
 
-	switch (source)
-	{
-		case GL_DEBUG_SOURCE_API:             msg << "Source: API"; break;
-		case GL_DEBUG_SOURCE_WINDOW_SYSTEM:   msg << "Source: Window System"; break;
-		case GL_DEBUG_SOURCE_SHADER_COMPILER: msg << "Source: Shader Compiler"; break;
-		case GL_DEBUG_SOURCE_THIRD_PARTY:     msg << "Source: Third Party"; break;
-		case GL_DEBUG_SOURCE_APPLICATION:     msg << "Source: Application"; break;
-		case GL_DEBUG_SOURCE_OTHER:           msg << "Source: Other"; break;
-	}
-	msg << "\n";
+	auto source_to_str = [](GLenum source) {
+		switch (source)
+		{
+			case GL_DEBUG_SOURCE_API:             return "Source: API";
+			case GL_DEBUG_SOURCE_WINDOW_SYSTEM:   return "Source: Window System";
+			case GL_DEBUG_SOURCE_SHADER_COMPILER: return "Source: Shader Compiler";
+			case GL_DEBUG_SOURCE_THIRD_PARTY:     return "Source: Third Party";
+			case GL_DEBUG_SOURCE_APPLICATION:     return "Source: Application";
+			case GL_DEBUG_SOURCE_OTHER:           return "Source: Other";
+		}
+		return "Source: Unknown";
+	};
 
+	auto type_to_string = [](GLenum type) {
+		switch (type)
+		{
+			case GL_DEBUG_TYPE_ERROR:               return "Type: Error";
+			case GL_DEBUG_TYPE_DEPRECATED_BEHAVIOR: return "Type: Deprecated Behaviour";
+			case GL_DEBUG_TYPE_UNDEFINED_BEHAVIOR:  return "Type: Undefined Behaviour";
+			case GL_DEBUG_TYPE_PORTABILITY:         return "Type: Portability";
+			case GL_DEBUG_TYPE_PERFORMANCE:         return "Type: Performance";
+			case GL_DEBUG_TYPE_MARKER:              return "Type: Marker";
+			case GL_DEBUG_TYPE_PUSH_GROUP:          return "Type: Push Group";
+			case GL_DEBUG_TYPE_POP_GROUP:           return "Type: Pop Group";
+			case GL_DEBUG_TYPE_OTHER:               return "Type: Other";
+		}
+		return "Type: Unknown";
+	};
 
-	switch (type)
-	{
-		case GL_DEBUG_TYPE_ERROR:               msg << "Type: Error"; break;
-		case GL_DEBUG_TYPE_DEPRECATED_BEHAVIOR: msg << "Type: Deprecated Behaviour"; break;
-		case GL_DEBUG_TYPE_UNDEFINED_BEHAVIOR:  msg << "Type: Undefined Behaviour"; break;
-		case GL_DEBUG_TYPE_PORTABILITY:         msg << "Type: Portability"; break;
-		case GL_DEBUG_TYPE_PERFORMANCE:         msg << "Type: Performance"; break;
-		case GL_DEBUG_TYPE_MARKER:              msg << "Type: Marker"; break;
-		case GL_DEBUG_TYPE_PUSH_GROUP:          msg << "Type: Push Group"; break;
-		case GL_DEBUG_TYPE_POP_GROUP:           msg << "Type: Pop Group"; break;
-		case GL_DEBUG_TYPE_OTHER:               msg << "Type: Other"; break;
-	}
-	msg << "\n";
+	auto severity_to_string = [](GLenum severity) {
+		switch (severity)
+		{
+			case GL_DEBUG_SEVERITY_HIGH:         return "Severity: high";
+			case GL_DEBUG_SEVERITY_MEDIUM:       return "Severity: medium";
+			case GL_DEBUG_SEVERITY_LOW:          return "Severity: low";
+			case GL_DEBUG_SEVERITY_NOTIFICATION: return "Severity: notification";
+		}
+		return "Severity: Unknown";
+	};
 
-	switch (severity)
-	{
-		case GL_DEBUG_SEVERITY_HIGH:         msg << "Severity: high"; break;
-		case GL_DEBUG_SEVERITY_MEDIUM:       msg << "Severity: medium"; break;
-		case GL_DEBUG_SEVERITY_LOW:          msg << "Severity: low"; break;
-		case GL_DEBUG_SEVERITY_NOTIFICATION: msg << "Severity: notification"; break;
-	}
-	msg << "\n";
-
-	msg << "Debug message (" << id << ") from window " << window->get_name() <<  ": " <<  std::string_view(message, length) << "\n";
-
-
-	throw std::runtime_error(msg.str());
+	throw std::runtime_error(fmt::format("Debug message ({}) from window {}: {} {} {} {}\n", id, window->get_name(), source_to_str(source), type_to_string(type), severity_to_string(severity), std::string_view(message, length)));
 }
 
 window_t::window_t(unsigned int width, unsigned int height, const std::string& name, vsync_t vsyncOn, fullscreen_t fullScreen) :
@@ -78,14 +76,15 @@ window_t::window_t(unsigned int width, unsigned int height, const std::string& n
 	GLint glMinor = 0;
 	glGetIntegerv(GL_MAJOR_VERSION, &glMajor);
 	glGetIntegerv(GL_MINOR_VERSION, &glMinor);
-	std::cout << "GL " << glMajor << "." << glMinor << " context created." << std::endl;
+	fmt::print("GL {0}.{1} context created.\n", glMajor, glMinor);
 
 	m_version = opengl_version_t(glMajor,glMinor);
 
 	const GLubyte* renderer = glGetString (GL_RENDERER); // get renderer string
 	const GLubyte* version = glGetString (GL_VERSION); // version as a string
-	std::cout << "Renderer: " << renderer << std::endl;
-	std::cout << "OpenGL version supported " << version << std::endl;
+
+	fmt::print("Renderer: {}\n", reinterpret_cast<const char*>(renderer));
+	fmt::print("OpenGL version supported {}\n", reinterpret_cast<const char*>(version));
 
 	// Set up Gl Stuff
 #ifndef NDEBUG
@@ -151,6 +150,10 @@ struct glfw_context_t {
 	bool init_successful = glfwInit();
 };
 
+void glfw_error_callback(int error, const char* description) {
+	fmt::print(stderr, "ERROR: GLFW returned error code {0:#x}\n{1}\n", error, description);
+}
+
 GLFWwindow* window_t::init_window(fullscreen_t fullScreen, vsync_t vsync) {
 	// start GL context and OS window using the GLFW helper library
 	static glfw_context_t glfw_context;
@@ -158,7 +161,7 @@ GLFWwindow* window_t::init_window(fullscreen_t fullScreen, vsync_t vsync) {
 		throw std::runtime_error("Could not initialise GLFW");
 	}
 
-	glfwSetErrorCallback(&input_handler_t::glfw_error_callback);
+	glfwSetErrorCallback(glfw_error_callback);
 
 	//glfwWindowHint (GLFW_CLIENT_API, GLFW_OPENGL_API);
 	//glfwWindowHint (GLFW_CONTEXT_CREATION_API, GLFW_NATIVE_CONTEXT_API);
@@ -194,7 +197,13 @@ GLFWwindow* window_t::init_window(fullscreen_t fullScreen, vsync_t vsync) {
 void window_t::set_cursor_mode(cursor_mode_t mode)
 {
 	cursor_mode = mode;
-	glfwSetInputMode(m_window, GLFW_CURSOR, static_cast<int>(mode));
+	constexpr std::array modes {
+		GLFW_CURSOR_NORMAL,
+		GLFW_CURSOR_HIDDEN,
+		GLFW_CURSOR_DISABLED
+	};
+	const auto glfwMode = modes[static_cast<int>(mode)];
+	glfwSetInputMode(m_window, GLFW_CURSOR, glfwMode);
 }
 
 const std::string& window_t::get_name() const {

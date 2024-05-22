@@ -3,10 +3,10 @@
 #include <string>
 
 #include <glpp/gl.hpp>
-#include <GLFW/glfw3.h>
-#include <map>
 #include <glm/glm.hpp>
 #include "input.hpp"
+
+class GLFWwindow;
 
 namespace glpp::system {
 
@@ -23,9 +23,9 @@ enum struct fullscreen_t : int {
 };
 
 enum struct cursor_mode_t : int {
-	normal = GLFW_CURSOR_NORMAL,
-	hidden = GLFW_CURSOR_DISABLED,
-	captured = GLFW_CURSOR_DISABLED
+	normal,
+	hidden,
+	captured
 };
 
 enum struct input_mode_t {
@@ -45,10 +45,10 @@ public:
 	);
 
 	window_t(window_t&& mov);
-	window_t(const window_t& mov) = delete;
+	window_t(const window_t& cpy) = delete;
 
 	window_t& operator=(window_t&& mov);
-	window_t& operator=(const window_t& mov) = delete;
+	window_t& operator=(const window_t& cpy) = delete;
 
 	~window_t();
 
@@ -77,6 +77,7 @@ public:
 	void swap_buffer();
 
 	template <class FN>
+
 	void enter_main_loop(FN fn) {
 		while(!should_close()) {
 			poll_events();
@@ -99,6 +100,8 @@ public:
 	void poll_events();
 
 private:
+	friend input_handler_t;
+	friend void glfw_resize_window_callback(GLFWwindow* window, int width, int height);
 
 	GLFWwindow* init_window(fullscreen_t fullscreen, vsync_t vsyncOn);
 
@@ -107,7 +110,6 @@ private:
 	std::string m_name;
 	GLFWwindow* m_window;
 	input_mode_t m_input_mode = input_mode_t::contigious;
-	friend class input_handler_t;
 	cursor_mode_t cursor_mode;
 	input_handler_t m_input_handler;
 };
