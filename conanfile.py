@@ -3,11 +3,22 @@ import os
 from conan import ConanFile
 from conan.tools.cmake import CMake, CMakeToolchain, CMakeDeps
 
-class GlppConan(ConanFile):
+class GlppRecipe(ConanFile):
     # Binary configuration
     name = "glpp"
     version = "0.1"
+
+    license = "MIT"
+    author = "Fabian Jung <git@fabian-jung.net>"
+    url = "https://github.com/fabian-jung/glpp"
+    description = "OpenGL C++ Wrapper"
+    topics = ("OpenGL", "wrapper", "c++", "rendering", "graphics")
+
     settings = "os", "compiler", "build_type", "arch"
+    options = {"shared": [True, False], "fPIC": [True, False]}
+    default_options = {"shared": True, "fPIC": True}
+
+    exports_sources = "CMakeLists.txt", "CPackLists.txt", "example/*", "glppConfig.cmake", "modules/*", "test/*"
 
     def requirements(self):
         self.requires("opengl/system")
@@ -45,3 +56,6 @@ class GlppConan(ConanFile):
     def package(self):
         cmake = CMake(self)
         cmake.install()
+
+    def package_info(self):
+        self.cpp_info.libs = ["glpp"]
