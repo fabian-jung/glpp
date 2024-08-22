@@ -1,19 +1,7 @@
-
-// #include <assimp/Importer.hpp>
-// #include <assimp/scene.h>
-// #include <assimp/postprocess.h>
-// #include <assimp/Logger.hpp>
-
-// #include <glpp/core.hpp>
-#include <fstream>
-
 #include <glpp/system.hpp>
 #include <glpp/asset.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glpp/core.hpp>
-
-#include <iostream>
-#include <memory>
 
 int main(int, char*[]) {
 
