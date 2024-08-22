@@ -31,7 +31,7 @@ add_custom_command(
 
 find_package(OpenGL REQUIRED COMPONENTS OpenGL)
 
-add_library(gl)
+add_library(gl STATIC)
 add_library(glpp::gl ALIAS gl)
 target_compile_features(gl PUBLIC cxx_std_20)
 

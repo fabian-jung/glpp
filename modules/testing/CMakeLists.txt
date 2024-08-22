@@ -1,4 +1,4 @@
-add_library(testing)
+add_library(testing STATIC)
 target_link_libraries(testing PUBLIC Catch2::Catch2WithMain glpp::gl glpp::core glpp::system glpp::image)
 add_library(glpp::testing ALIAS testing)
 
